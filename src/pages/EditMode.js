@@ -4,13 +4,13 @@ import {
   EditWrapper,
   ToolBar,
   AllWidgets,
-  ToggleButton,
+  BasicButton,
 } from "../components";
 
 function EditMode(props) {
   return (
     <PageWrapper>
-      <ToggleButton label='Save' onClick={() => window.location.assign("/")} />
+      <BasicButton label='Save' onClick={() => window.location.assign("/")} />
       <EditWrapper>
         <ToolBar />
         <AllWidgets />

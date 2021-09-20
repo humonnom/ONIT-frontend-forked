@@ -3,14 +3,14 @@ import {
   NormalWrapper,
   AllWidgets,
   PageWrapper,
-  ToggleButton,
+  BasicButton,
 } from "../components";
 
 function NormalMode(props) {
   return (
     <PageWrapper>
 		<NormalWrapper>
-      <ToggleButton
+      <BasicButton
         label='Edit'
         onClick={() => window.location.assign("/edit")}
       />
