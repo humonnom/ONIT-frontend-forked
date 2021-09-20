@@ -1,8 +1,8 @@
 import React from "react";
 import Cookies from "js-cookie";
-import { YoutubeVideo, Image } from "../widgets";
+import { YoutubeVideo, Image } from "..";
 
-function Widgets(props) {
+function AllWidgets(props) {
   const video = <YoutubeVideo embedId={Cookies.get("video")} />;
   const image = <Image src={Cookies.get("image")} />;
   return (<div>
@@ -11,4 +11,4 @@ function Widgets(props) {
   </div>);
 }
 
-export default Widgets;
+export default AllWidgets;

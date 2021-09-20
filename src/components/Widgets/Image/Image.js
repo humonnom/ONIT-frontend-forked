@@ -1,5 +1,5 @@
 import React from "react";
-import { WidgetWrapper } from "../../components";
+import { WidgetWrapper } from "../..";
 
 function Image (props) {
   // const autoplay = props.autoplay || 'autoplay=1';

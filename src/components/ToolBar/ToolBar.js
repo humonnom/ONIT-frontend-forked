@@ -1,5 +1,5 @@
 import React from "react";
-import { AddWidgetButton, ToolBarWrapper, ToolBarGroup, ToolBarPartition } from "..";
+import { ToolBarButton, ToolBarWrapper, ToolBarGroup, ToolBarPartition } from "..";
 // import { AddVideo, AddImage } from "../../widgets";
 
 function ToolBar(props) {
@@ -12,7 +12,7 @@ function ToolBar(props) {
     //(AddVideo or AddImage)
   }
 
-  const add_widget_button_list = [
+  const new_widget_button_list = [
     { label: "그림", emoji: "🖼", type: "image", onClick: () => AddWidgetAction({label: 'image'}) },
     { label: "영상", emoji: "📼", type: "video", onClick: () => AddWidgetAction({label: 'video'}) },
     { label: "투두리스트", emoji: "✍️", type: "todo", onClick: () => AddWidgetAction({label: 'todo'}) },
@@ -21,8 +21,8 @@ function ToolBar(props) {
     { label: "시계", emoji: "⏰", type: "todo", onClick: () => AddWidgetAction({label: 'clock'}) },
     { label: "방명록", emoji: "🙋‍♀️", type: "todo", onClick: () => AddWidgetAction({label: 'guest book'}) },
   ];
-  const AddWidgetButtons = add_widget_button_list.map(function (tool) {
-    return <AddWidgetButton  onClick={tool.onClick}
+  const NewWidgetButtons = new_widget_button_list.map(function (tool) {
+    return <ToolBarButton  action={tool.onClick}
 	emoji={tool.emoji}
 	type={tool.type}
 	label={tool.label}
@@ -34,7 +34,7 @@ function ToolBar(props) {
     { label: "휴지통", emoji: "🗑", type: "trash", onClick: () => alert("휴지통 액션") },
   ];
   const EssentialButtons = essential_button_list.map(function (tool) {
-    return <AddWidgetButton  onClick={tool.onClick}
+    return <ToolBarButton  action={tool.onClick}
 	emoji={tool.emoji}
 	type={tool.type}
 	label={tool.label}
@@ -48,7 +48,7 @@ function ToolBar(props) {
       </ToolBarGroup>
 	  <ToolBarPartition />
       <ToolBarGroup>
-        {AddWidgetButtons}
+        {NewWidgetButtons}
       </ToolBarGroup>
     </ToolBarWrapper>
   );

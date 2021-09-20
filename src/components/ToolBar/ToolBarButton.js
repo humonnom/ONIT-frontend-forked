@@ -1,10 +1,10 @@
 import React from 'react';
 import { css } from '@emotion/css';
 
-function AddWidgetButton(props) {
+function ToolBarButton(props) {
 	return (
 		<div
-			onClick={props.onClick}
+			onClick={props.action}
 			className={css`
 				margin: 5px;
 				display: flex;
@@ -32,4 +32,4 @@ function AddWidgetButton(props) {
 	);
 }
 
-export default AddWidgetButton;
+export default ToolBarButton;

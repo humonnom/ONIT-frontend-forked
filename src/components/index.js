@@ -5,12 +5,14 @@ import ToolBar from "./ToolBar/ToolBar";
 import ToolBarGroup from "./ToolBar/ToolBarGroup";
 import ToggleButton from "./Button/ToggleButton";
 import ToolBarPartition from "./ToolBar/ToolBarPartition";
-import Widgets from "./Widgets";
+import AllWidgets from "./Widgets/AllWidgets";
 import EditWrapper from "./Wrapper/EditWrapper";
 import NormalWrapper from "./Wrapper/NormalWrapper";
-import AddWidgetButton from "./Button/AddWidgetButton";
-import EditMode from "./Mode/EditMode";
-import NormalMode from "./Mode/NormalMode";
+import ToolBarButton from "./ToolBar/ToolBarButton";
+import YoutubeVideo from "./Widgets/Video/YoutubeVideo"
+import AddVideo from "./Widgets/Video/AddVideo"
+import AddImage from "./Widgets/Image/AddImage"
+import Image from "./Widgets/Image/Image"
 
 export {
 	PageWrapper,
@@ -20,10 +22,12 @@ export {
 	ToolBarPartition,
 	ToolBar,
 	ToggleButton,
-	Widgets,
+	AllWidgets,
 	EditWrapper,
 	NormalWrapper,
-	AddWidgetButton,
-	NormalMode,
-	EditMode
+	ToolBarButton,
+	YoutubeVideo,
+	AddVideo,
+	AddImage,
+	Image
 };
