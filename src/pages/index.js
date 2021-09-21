@@ -1,6 +1,4 @@
-import EditMode from "./EditMode";
-import NormalMode from "./NormalMode";
-export {
-	EditMode,
-	NormalMode
-};
+import EditMode from './EditMode';
+import NormalMode from './NormalMode';
+
+export { EditMode, NormalMode };
