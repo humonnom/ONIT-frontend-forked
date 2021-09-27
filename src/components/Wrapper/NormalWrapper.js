@@ -4,7 +4,7 @@ import { css } from '@emotion/css';
 const NormalWrapper = ({ children }) => (
   <div
     className={css`
-      max-width: 100%;
+      width: 100vw;
       margin-left: auto;
       margin-right: auto;
     `}
