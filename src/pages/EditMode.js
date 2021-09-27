@@ -3,7 +3,7 @@ import {
   PageWrapper,
   EditWrapper,
   ToolBar,
-  AllWidgets,
+  EditAllWidgets,
   BasicButton,
 } from '../components';
 
@@ -13,7 +13,7 @@ function EditMode(props) {
       <BasicButton label='Save' onClick={() => window.location.assign('/')} />
       <EditWrapper>
         <ToolBar />
-        <AllWidgets />
+        <EditAllWidgets />
       </EditWrapper>
     </PageWrapper>
   );
