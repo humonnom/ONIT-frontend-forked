@@ -48,6 +48,11 @@
 		"import/no-name-as-default-member": "off",
 		"import/no-name-as-default": "off",
 		"camelcase": "off",
-		"object-curly-newline": "off"
+		"object-curly-newline": "off",
+		"react/static-property-placement" : "off",
+		"object-shorthand" : "off",
+		"react/sort-comp" : "off",
+		"prefer-arrow-callback" : "off",
+		"react/jsx-props-no-spreading" : "off"
 	}
 }

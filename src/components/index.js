@@ -10,6 +10,7 @@ import ToolBarButton from './ToolBar/ToolBarButton';
 import BasicButton from './Button/BasicButton';
 
 import AllWidgets from './Widgets/AllWidgets';
+import EditAllWidgets from './Widgets/EditAllWidgets';
 import YoutubeVideo from './Widgets/Video/YoutubeVideo';
 import AddVideo from './Widgets/Video/AddVideo';
 import AddImage from './Widgets/Image/AddImage';
@@ -27,6 +28,7 @@ export {
   ToolBar,
   BasicButton,
   AllWidgets,
+  EditAllWidgets,
   EditWrapper,
   NormalWrapper,
   ToolBarButton,
