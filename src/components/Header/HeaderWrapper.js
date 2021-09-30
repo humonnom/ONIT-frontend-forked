@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/css';
 
-const ToolBarWrapper = ({ children }) => (
+const headerWrapper = ({ children }) => (
   <div
     className={css`
       position: absolute;
@@ -10,7 +10,7 @@ const ToolBarWrapper = ({ children }) => (
       width: 100vw;
       background-color: white;
       flex-direction: row;
-      justify-content: start;
+      justify-content: space-around;
       align-items: center;
       border-radius: 3px;
       border: 1px lightgrey solid;
@@ -21,4 +21,4 @@ const ToolBarWrapper = ({ children }) => (
   </div>
 );
 
-export default ToolBarWrapper;
+export default headerWrapper;

@@ -4,6 +4,7 @@ import {
   ToolBarWrapper,
   ToolBarGroup,
   ToolBarPartition,
+  BasicButton,
 } from '..';
 // import { AddVideo, AddImage } from "../../widgets";
 
@@ -99,6 +100,10 @@ function ToolBar(props) {
       <ToolBarGroup>{EssentialButtons}</ToolBarGroup>
       <ToolBarPartition />
       <ToolBarGroup>{NewWidgetButtons}</ToolBarGroup>
+      <ToolBarPartition />
+      <ToolBarGroup>
+        <BasicButton label='Save' onClick={() => window.location.assign('/')} />
+      </ToolBarGroup>
     </ToolBarWrapper>
   );
 }
