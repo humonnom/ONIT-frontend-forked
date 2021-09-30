@@ -7,6 +7,9 @@ import ToolBarGroup from './ToolBar/ToolBarGroup';
 import ToolBarPartition from './ToolBar/ToolBarPartition';
 import ToolBarButton from './ToolBar/ToolBarButton';
 
+import Header from './Header/Header';
+import HeaderWrapper from './Header/HeaderWrapper';
+
 import BasicButton from './Button/BasicButton';
 
 import AllWidgets from './Widgets/AllWidgets';
@@ -22,6 +25,8 @@ import NormalWrapper from './Wrapper/NormalWrapper';
 export {
   PageWrapper,
   WidgetWrapper,
+  Header,
+  HeaderWrapper,
   ToolBarWrapper,
   ToolBarGroup,
   ToolBarPartition,
