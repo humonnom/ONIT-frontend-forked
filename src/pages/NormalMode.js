@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  NormalWrapper,
-  AllWidgets,
-  PageWrapper,
-  BasicButton,
-} from '../components';
+import { NormalWrapper, AllWidgets, PageWrapper, Header } from '../components';
 
 function NormalMode(props) {
   return (
     <PageWrapper>
       <NormalWrapper>
-        <BasicButton
-          label='Edit'
-          onClick={() => window.location.assign('/edit')}
-        />
+        <Header />
         <AllWidgets />
       </NormalWrapper>
     </PageWrapper>
