@@ -4,31 +4,17 @@ import { css } from '@emotion/css';
 import { YoutubeVideo, Image } from '..';
 import GridLayout from '../GridLayout/GridLayout';
 
-const layout_info = [
-  {
-    i: '0',
-    x: 1,
-    y: 1,
-    w: 2,
-    h: 2,
-    type: 'image',
-    source: 'url',
-  },
-  { i: '1', x: 2, y: 4, w: 4, h: 2 },
-  { i: '2', x: 10, y: 4, w: 4, h: 4 },
-];
-
 function EditAllWidgets(props) {
   const video = <YoutubeVideo embedId={Cookies.get('video')} />;
   const image = <Image src={Cookies.get('image')} />;
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative' }} {...props}>
       <GridLayout
         onLayoutChange={(layout) => {
           console.log(layout);
         }}
-        mylayout={layout_info}
+        mylayout={props.layoutInfo}
         className={css`
           margin: 0 auto;
           width: 100%;
