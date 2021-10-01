@@ -1,4 +1,4 @@
-import EditMode from './EditMode';
-import NormalMode from './NormalMode';
+import EditModePage from './EditModePage';
+import NormalModePage from './NormalModePage';
 
-export { EditMode, NormalMode };
+export { EditModePage, NormalModePage };
