@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PageWrapper } from './components';
-import { NormalMode, EditMode } from './pages';
+import { NormalModePage, EditModePage } from './pages';
 
 function App() {
   return (
@@ -9,10 +9,13 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/'>
-            <NormalMode />
+            <NormalModePage />
           </Route>
           <Route exact path='/edit'>
-            <EditMode />
+            <EditModePage />
+          </Route>
+          <Route path='/'>
+            <div>error</div>
           </Route>
         </Switch>
       </Router>
