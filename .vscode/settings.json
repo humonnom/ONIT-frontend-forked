@@ -7,7 +7,6 @@
     "prettier.jsxSingleQuote": true,
     "git.ignoreMissingGitWarning": true,
     "explorer.confirmDragAndDrop": false,
-    "window.zoomLevel": 0,
     "explorer.confirmDelete": false,
     "workbench.colorTheme": "Material Theme Darker High Contrast",
     "go.useLanguageServer": true,
