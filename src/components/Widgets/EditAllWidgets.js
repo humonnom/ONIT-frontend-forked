@@ -1,15 +1,10 @@
 import React from 'react';
-import Cookies from 'js-cookie';
 import { css } from '@emotion/css';
-import { YoutubeVideo, Image } from '..';
 import GridLayout from '../GridLayout/GridLayout';
 
 function EditAllWidgets(props) {
-  const video = <YoutubeVideo embedId={Cookies.get('video')} />;
-  const image = <Image src={Cookies.get('image')} />;
-
   return (
-    <div style={{ position: 'relative' }} {...props}>
+    <div style={{ position: 'relative' }}>
       <GridLayout
         onLayoutChange={(layout) => {
           console.log(layout);
