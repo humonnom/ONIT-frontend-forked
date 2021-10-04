@@ -1,27 +1,14 @@
-import React from 'react';
-import Cookies from 'js-cookie';
+import React, { useState } from 'react';
 import { css } from '@emotion/css';
-import { YoutubeVideo, Image } from '..';
 import GridLayout from '../GridLayout/GridLayout';
 
-const layout_info = [
-  {
-    i: '0',
-    x: 1,
-    y: 1,
-    w: 2,
-    h: 3,
-    type: 'image',
-    source: 'url',
-  },
-  { i: '1', x: 2, y: 4, w: 2, h: 3 },
-  { i: '2', x: 10, y: 4, w: 2, h: 4 },
-];
+function makeBlockStatic(layoutInfos) {
+  return layoutInfos.map((info) => ({ ...info, static: true }));
+}
 
 function AllWidgets(props) {
-  const video = <YoutubeVideo embedId={Cookies.get('video')} />;
-  const image = <Image src={Cookies.get('image')} />;
-  const staticLayout = layout_info.map((info) => ({ ...info, static: true }));
+  const staticLayout = makeBlockStatic(props.layoutInfo);
+
   return (
     <div style={{ position: 'relative' }}>
       <GridLayout

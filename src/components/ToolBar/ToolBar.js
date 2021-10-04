@@ -13,53 +13,62 @@ function ToolBar(props) {
   //   const [showAddImage, setShowAddImage] = useState(false);
   // setShowAddVideo((show) => !show)
 
-  function AddWidgetAction({ label }) {
-    alert(`${label} 위젯 추가 팝업`);
-    // (AddVideo or AddImage)
-  }
-
   const new_widget_button_list = [
     {
       label: '그림',
       emoji: '🖼',
       type: 'image',
-      onClick: () => AddWidgetAction({ label: 'image' }),
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'image' });
+      },
     },
     {
       label: '영상',
       emoji: '📼',
       type: 'video',
-      onClick: () => AddWidgetAction({ label: 'video' }),
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'video' });
+      },
     },
     {
       label: '투두리스트',
       emoji: '✍️',
       type: 'todo',
-      onClick: () => AddWidgetAction({ label: 'todo' }),
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'todo' });
+      },
     },
     {
       label: '달력',
       emoji: '📆',
-      type: 'todo',
-      onClick: () => AddWidgetAction({ label: 'calendar' }),
+      type: 'calendar',
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'calendar' });
+      },
     },
     {
       label: '텍스트',
       emoji: 'T',
-      type: 'todo',
-      onClick: () => AddWidgetAction({ label: 'text' }),
+      type: 'text',
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'text' });
+      },
     },
     {
       label: '시계',
       emoji: '⏰',
-      type: 'todo',
-      onClick: () => AddWidgetAction({ label: 'clock' }),
+      type: 'clock',
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'clock' });
+      },
     },
     {
       label: '방명록',
       emoji: '🙋‍♀️',
       type: 'todo',
-      onClick: () => AddWidgetAction({ label: 'guest book' }),
+      onClick: () => {
+        props.setIsPop({ on: 1, type: 'guest book' });
+      },
     },
   ];
 

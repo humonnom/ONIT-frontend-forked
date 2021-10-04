@@ -14,38 +14,46 @@ function EditMode(props) {
       y: 1,
       w: 2,
       h: 2,
-      type: 'image',
-      source: 'url',
+      type: 'txt',
+      source: '블록을 추가하세요!',
     },
-    { i: '1', x: 2, y: 4, w: 4, h: 2 },
-    { i: '2', x: 10, y: 4, w: 4, h: 4 },
   ]);
+  const [isPop, setIsPop] = useState({
+    on: 0,
+    type: 'none',
+  });
 
   return (
     <PageWrapper>
       <EditWrapper>
-        <ToolBar />
+        <ToolBar setIsPop={setIsPop} />
         <EditAllWidgets
-          draggable
           onDragOver={(event) => {
             console.log('onDragOver');
             // console.log(event);
           }}
           layoutInfo={layoutInfo}
+          isPop={isPop}
         />
 
-        <Dialog
-          onDragEnd={(event) => {
-            console.log('onDragEnd');
-            // console.log(event);
+        {isPop.on === 1 && (
+          <Dialog
+            onDragEnd={(event) => {
+              console.log('onDragEnd');
+              // console.log(event);
 
-            // TODO: Calculate coordinates using screen coordinates
-            setLayoutInfo([
-              ...layoutInfo,
-              { i: layoutInfo.length, x: 12, y: 6, w: 4, h: 4 },
-            ]);
-          }}
-        />
+              // TODO: Calculate coordinates using screen coordinates
+              setLayoutInfo([
+                ...layoutInfo,
+                { i: layoutInfo.length, x: 12, y: 6, w: 4, h: 4 },
+              ]);
+              setIsPop({
+                on: 0,
+                type: 'none',
+              });
+            }}
+          />
+        )}
       </EditWrapper>
     </PageWrapper>
   );
@@ -104,14 +112,6 @@ function Widget(props) {
       {...props}
     >
       Widget
-      <button
-        type='button'
-        onClick={(event) => {
-          alert('hello');
-        }}
-      >
-        button
-      </button>
     </div>
   );
 }
