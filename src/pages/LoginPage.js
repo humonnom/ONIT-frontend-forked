@@ -1,12 +1,13 @@
 import React from 'react';
 import { KAKAO_AUTH_URL } from '../utils/constantValue';
+
+// require('dotenv').config();
 // import { PageWrapper } from '../components/Wrapper/PageWrapper';
 
 function LoginPage(props) {
   const kakaoLoginHandler = () => {
     window.location.assign(KAKAO_AUTH_URL);
   };
-
   return (
     <div>
       <div>

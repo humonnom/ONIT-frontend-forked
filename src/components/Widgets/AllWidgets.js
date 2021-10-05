@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/css';
+import { useSelector } from 'react-redux';
 import GridLayout from '../GridLayout/GridLayout';
 
 function makeBlockStatic(layoutInfos) {
   return layoutInfos.map((info) => ({ ...info, static: true }));
 }
 
-function AllWidgets(props) {
-  const staticLayout = makeBlockStatic(props.layoutInfo);
+function AllWidgets() {
+  const { widget } = useSelector((state) => ({
+    widget: state.info.widget,
+  }));
+  const layoutInfo = [widget];
+  console.log(layoutInfo[0]);
+  const staticLayout = makeBlockStatic(layoutInfo);
 
   return (
     <div style={{ position: 'relative' }}>
