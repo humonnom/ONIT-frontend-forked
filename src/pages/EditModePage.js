@@ -1,28 +1,62 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   PageWrapper,
   EditWrapper,
   ToolBar,
   EditAllWidgets,
 } from '../components';
+import { createReplacementWidgetAction } from '../redux/slice';
 
 function EditMode(props) {
-  const [layoutInfo, setLayoutInfo] = useState([
-    {
-      i: '0',
-      x: 1,
-      y: 1,
-      w: 2,
-      h: 2,
-      type: 'txt',
-      source: '블록을 추가하세요!',
-    },
-  ]);
+  // redux test
+  const dispatch = useDispatch();
+  const { widget } = useSelector((state) => ({
+    widget: state.info.widget,
+  }));
+  const layoutInfo = [widget];
+
+  // const updateSize = (newW, newH) => {
+  //   dispatch(
+  //     createReplacementWidgetAction({
+  //       ...widget,
+  //       w: newW,
+  //       h: newH,
+  //     })
+  //   );
+  // };
+  const updatePos = (newX, newY) => {
+    dispatch(
+      createReplacementWidgetAction({
+        ...widget,
+        y: newY,
+        x: newX,
+      })
+    );
+  };
+  const handlePosUpdate = ({ i, x, y, w, h }) => {
+    console.log('change');
+    updatePos(x, y);
+    console.log(x);
+    console.log(y);
+    console.log(widget.x);
+    console.log(widget.y);
+  };
+  // const [layoutInfo, setLayoutInfo] = useState([
+  //   {
+  //     i: '0',
+  //     x: 1,
+  //     y: 1,
+  //     w: 2,
+  //     h: 2,
+  //     type: 'txt',
+  //     source: '블록을 추가하세요!',
+  //   },
+  // ]);
   const [isPop, setIsPop] = useState({
     on: 0,
     type: 'none',
   });
-
   return (
     <PageWrapper>
       <EditWrapper>
@@ -32,7 +66,7 @@ function EditMode(props) {
             console.log('onDragOver');
             // console.log(event);
           }}
-          layoutInfo={layoutInfo}
+          // layoutInfo={layoutInfo}
           isPop={isPop}
         />
 
@@ -43,10 +77,13 @@ function EditMode(props) {
               // console.log(event);
 
               // TODO: Calculate coordinates using screen coordinates
-              setLayoutInfo([
-                ...layoutInfo,
-                { i: layoutInfo.length, x: 12, y: 6, w: 4, h: 4 },
-              ]);
+              handlePosUpdate({
+                i: layoutInfo.length,
+                x: 12,
+                y: 6,
+                w: 4,
+                h: 4,
+              });
               setIsPop({
                 on: 0,
                 type: 'none',
