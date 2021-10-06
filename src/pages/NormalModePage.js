@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NormalWrapper, AllWidgets, PageWrapper, Header } from '../components';
 
+// 여기
 function NormalMode(props) {
   // const [layoutInfo, setLayoutInfo] = useState([
   //   {
