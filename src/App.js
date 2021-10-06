@@ -9,6 +9,7 @@ import {
   Main,
 } from './pages';
 
+// 여기
 // require('dotenv').config();
 
 function App() {
