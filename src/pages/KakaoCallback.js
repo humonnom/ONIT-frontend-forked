@@ -1,12 +1,15 @@
 import React from 'react';
-import { SERVER_URI } from '../utils/constantValue';
+import kakaoLogin from '../api/kakaoLogin';
+import { ENDPOINT } from '../utils/constantValue';
+
+// require('dotenv').config();
 
 function KakaoCallback(props) {
   let code = '';
 
   async function getResult() {
     // 수정 필요(주소)
-    const fetchedData = await fetch(`${SERVER_URI}/login/kakao`, {
+    const fetchedData = await fetch(`${ENDPOINT}/login/kakao`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -42,16 +45,11 @@ function KakaoCallback(props) {
 
   try {
     code = new URL(window.location.href).searchParams.get('code');
-    if (code !== '') {
-      console.log(code);
-      console.log('get code success');
-      getResult();
-    } else {
-      console.log('get code failure');
-      window.location.assign('/');
-    }
+    getResult();
+    // kakaoLogin(code);
   } catch (error) {
     console.log(error);
+    window.location.assign('/');
   }
 
   return (

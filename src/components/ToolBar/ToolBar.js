@@ -111,7 +111,10 @@ function ToolBar(props) {
       <ToolBarGroup>{NewWidgetButtons}</ToolBarGroup>
       <ToolBarPartition />
       <ToolBarGroup>
-        <BasicButton label='Save' onClick={() => window.location.assign('/')} />
+        <BasicButton
+          label='Save'
+          onClick={() => window.location.assign('/normal')}
+        />
       </ToolBarGroup>
     </ToolBarWrapper>
   );
