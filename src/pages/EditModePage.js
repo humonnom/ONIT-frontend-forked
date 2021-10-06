@@ -8,6 +8,7 @@ import {
 } from '../components';
 import { createReplacementWidgetAction } from '../redux/slice';
 
+// 여기
 function EditMode(props) {
   // redux test
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function EditMode(props) {
       })
     );
   };
-  const handlePosUpdate = ({ i, x, y, w, h }) => {
+  const handlePosUpdate = ([{ i, x, y, w, h }]) => {
     console.log('change');
     updatePos(x, y);
     console.log(x);
@@ -77,13 +78,15 @@ function EditMode(props) {
               // console.log(event);
 
               // TODO: Calculate coordinates using screen coordinates
-              handlePosUpdate({
-                i: layoutInfo.length,
-                x: 12,
-                y: 6,
-                w: 4,
-                h: 4,
-              });
+              handlePosUpdate([
+                {
+                  i: layoutInfo.length,
+                  x: 12,
+                  y: 6,
+                  w: 4,
+                  h: 4,
+                },
+              ]);
               setIsPop({
                 on: 0,
                 type: 'none',
