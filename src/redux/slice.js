@@ -1,13 +1,14 @@
 // 1. 일단 슬라이스를 만든다.
 // restart ts server
 
+// 여기
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'info',
   initialState: {
     widget: {
-      i: 'test',
+      i: 'i',
       x: 0,
       y: 0,
       w: 2,
@@ -37,5 +38,3 @@ export const store = configureStore({
     info: infoReducer,
   },
 });
-
-// 😇rename symbol 쓰기^^😇

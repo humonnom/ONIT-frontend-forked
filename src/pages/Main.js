@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 // import getAccessToken from '../api/getAccessToken';
 import { ENDPOINT, REFRESH_TOKEN } from '../utils/constantValue';
 
+// 여기
 function Main(props) {
   const { widget } = useSelector((state) => ({
     widget: state.info.widget,
