@@ -9,6 +9,7 @@
 		"react"
 	],
 	"extends": [
+		"prettier",
 		"eslint:recommended",
 		"plugin:prettier/recommended",
 		"airbnb"
@@ -53,6 +54,11 @@
 		"object-shorthand" : "off",
 		"react/sort-comp" : "off",
 		"prefer-arrow-callback" : "off",
-		"react/jsx-props-no-spreading" : "off"
+		"react/jsx-props-no-spreading" : "off",
+		"no-console" : "off",
+		"func-names" : "off",
+		"no-param-reassign": "off",
+		"operator-linebreak": "off",
+		"comma-dangle": "off"
 	}
 }
