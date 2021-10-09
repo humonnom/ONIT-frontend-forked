@@ -8,6 +8,7 @@ import {
   KakaoCallback,
   Main,
 } from './pages';
+import ReduxTest from './ReduxTest';
 
 // 여기
 // require('dotenv').config();
@@ -23,15 +24,9 @@ function App() {
           <Route exact path='/callback/kakao'>
             <KakaoCallback />
           </Route>
-          {/* <Route exact path='/redux'>
-            <div>
-              <h3>{reduxTestString}</h3>
-              <input type='input' onChange={}/>
-              <button type='button' onClick={handleClick}>
-                save
-              </button>
-            </div>
-          </Route> */}
+          <Route exact path='/redux'>
+            <ReduxTest />
+          </Route>
           <Route exact path='/login'>
             <LoginPage />
           </Route>
