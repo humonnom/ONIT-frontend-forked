@@ -11,9 +11,10 @@ const widget1 = {
   y: 3,
   w: 3,
   h: 4,
-  type: 'photo',
+  type: 'image',
   data: {
-    url: 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FtOcFD%2FbtqQ7UbH7rb%2FfLOIKxZ6cKDbxfAkGpQErK%2Fimg.png',
+    contents:
+      'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FtOcFD%2FbtqQ7UbH7rb%2FfLOIKxZ6cKDbxfAkGpQErK%2Fimg.png',
   },
 };
 

@@ -5,23 +5,17 @@ import {
   EditWrapper,
   ToolBar,
   EditAllWidgets,
+  AddImage,
 } from '../components';
 import getWidgetsInfo from '../api/getWidgetsInfo';
 import { createReplacementWidgetsAction } from '../redux/slice';
 
 function EditMode(props) {
   const dispatch = useDispatch();
-  const { widgets } = useSelector((state) => ({
+  const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
-
-  const updatePos = () => {
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-      })
-    );
-  };
   const handlePosUpdate = ([{ i, x, y, w, h }]) => {
     console.log('change');
   };
@@ -46,10 +40,12 @@ function EditMode(props) {
     on: 0,
     type: 'none',
   });
+  // console.log(newWidgets);
   return (
     <PageWrapper>
       <EditWrapper>
         <ToolBar setIsPop={setIsPop} />
+        {modal.imgInputWindow && <AddImage />}
         <EditAllWidgets
           onDragOver={(event) => {
             console.log('onDragOver');
