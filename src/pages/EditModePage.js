@@ -1,73 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   PageWrapper,
   EditWrapper,
   ToolBar,
   EditAllWidgets,
+  AddImage,
 } from '../components';
-import { createReplacementWidgetAction } from '../redux/slice';
+import getWidgetsInfo from '../api/getWidgetsInfo';
+import { createReplacementWidgetsAction } from '../redux/slice';
 
-// 여기
 function EditMode(props) {
-  // redux test
   const dispatch = useDispatch();
-  const { widget } = useSelector((state) => ({
-    widget: state.info.widget,
+  const { widgets, modal } = useSelector((state) => ({
+    widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
-  const layoutInfo = [widget];
-
-  // const updateSize = (newW, newH) => {
-  //   dispatch(
-  //     createReplacementWidgetAction({
-  //       ...widget,
-  //       w: newW,
-  //       h: newH,
-  //     })
-  //   );
-  // };
-  const updatePos = (newX, newY) => {
-    dispatch(
-      createReplacementWidgetAction({
-        ...widget,
-        y: newY,
-        x: newX,
-      })
-    );
-  };
   const handlePosUpdate = ([{ i, x, y, w, h }]) => {
     console.log('change');
-    updatePos(x, y);
-    console.log(x);
-    console.log(y);
-    console.log(widget.x);
-    console.log(widget.y);
   };
-  // const [layoutInfo, setLayoutInfo] = useState([
-  //   {
-  //     i: '0',
-  //     x: 1,
-  //     y: 1,
-  //     w: 2,
-  //     h: 2,
-  //     type: 'txt',
-  //     source: '블록을 추가하세요!',
-  //   },
-  // ]);
+
+  useEffect(() => {
+    const setWidgetState = async () => {
+      // update from server
+      const widgetsInfo = await getWidgetsInfo();
+      // console.log(widgetsInfo);
+      dispatch(
+        createReplacementWidgetsAction({
+          count: widgetsInfo.data.count,
+          list: widgetsInfo.data.list,
+        })
+      );
+    };
+    setWidgetState();
+  }, []);
+
+  const layoutInfo = widgets.list;
   const [isPop, setIsPop] = useState({
     on: 0,
     type: 'none',
   });
+  // console.log(newWidgets);
   return (
     <PageWrapper>
       <EditWrapper>
         <ToolBar setIsPop={setIsPop} />
+        {modal.imgInputWindow && <AddImage />}
         <EditAllWidgets
           onDragOver={(event) => {
             console.log('onDragOver');
-            // console.log(event);
           }}
-          // layoutInfo={layoutInfo}
           isPop={isPop}
         />
 
@@ -75,8 +57,6 @@ function EditMode(props) {
           <Dialog
             onDragEnd={(event) => {
               console.log('onDragEnd');
-              // console.log(event);
-
               // TODO: Calculate coordinates using screen coordinates
               handlePosUpdate([
                 {

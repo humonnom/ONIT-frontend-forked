@@ -8,10 +8,6 @@ import {
   KakaoCallback,
   Main,
 } from './pages';
-import ReduxTest from './ReduxTest';
-
-// 여기
-// require('dotenv').config();
 
 function App() {
   return (
@@ -23,9 +19,6 @@ function App() {
           </Route>
           <Route exact path='/callback/kakao'>
             <KakaoCallback />
-          </Route>
-          <Route exact path='/redux'>
-            <ReduxTest />
           </Route>
           <Route exact path='/login'>
             <LoginPage />

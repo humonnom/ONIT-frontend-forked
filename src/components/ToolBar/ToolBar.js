@@ -1,17 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ToolBarButton,
-  ToolBarWrapper,
+  HeaderWrapper,
   ToolBarGroup,
   ToolBarPartition,
   BasicButton,
 } from '..';
-// import { AddVideo, AddImage } from "../../widgets";
+import postWidgetsInfo from '../../api/postWidgetInfo';
+import {
+  createReplacementModalAction,
+  createReplacementWidgetsAction,
+} from '../../redux/slice';
 
-function ToolBar(props) {
-  //   const [showAddVideo, setShowAddVideo] = useState(false);
-  //   const [showAddImage, setShowAddImage] = useState(false);
-  // setShowAddVideo((show) => !show)
+function ToolBar({ setIsPop }) {
+  const dispatch = useDispatch();
+  const { widgets, modal } = useSelector((state) => ({
+    widgets: state.info.widgets,
+    modal: state.info.modal,
+  }));
+  // const updateWidgets = (newWidget) => {
+  //   console.log(widgets);
+  //   dispatch(
+  //     createReplacementWidgetsAction({
+  //       ...widgets,
+  //       count: widgets.count + 1,
+  //       list: [...widgets.list, newWidget],
+  //     })
+  //   );
+  // };
+
+  // function createNewImageWidget() {
+  //   const widget1 = {
+  //     i: 4,
+  //     x: 2,
+  //     y: 3,
+  //     w: 3,
+  //     h: 4,
+  //     type: 'image',
+  //     data: {
+  //       contents:
+  //         'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FtOcFD%2FbtqQ7UbH7rb%2FfLOIKxZ6cKDbxfAkGpQErK%2Fimg.png',
+  //     },
+  //   };
+  //   return widget1;
+  // }
 
   const new_widget_button_list = [
     {
@@ -19,7 +52,15 @@ function ToolBar(props) {
       emoji: '🖼',
       type: 'image',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'image' });
+        // setIsPop({ on: 1, type: 'image' });
+        dispatch(
+          createReplacementModalAction({
+            ...modal,
+            imgInputWindow: true,
+          })
+        );
+        // const newWidget = createNewImageWidget();
+        // updateWidgets(newWidget);
       },
     },
     {
@@ -27,7 +68,7 @@ function ToolBar(props) {
       emoji: '📼',
       type: 'video',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'video' });
+        setIsPop({ on: 1, type: 'video' });
       },
     },
     {
@@ -35,7 +76,7 @@ function ToolBar(props) {
       emoji: '✍️',
       type: 'todo',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'todo' });
+        setIsPop({ on: 1, type: 'todo' });
       },
     },
     {
@@ -43,7 +84,7 @@ function ToolBar(props) {
       emoji: '📆',
       type: 'calendar',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'calendar' });
+        setIsPop({ on: 1, type: 'calendar' });
       },
     },
     {
@@ -51,7 +92,7 @@ function ToolBar(props) {
       emoji: 'T',
       type: 'text',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'text' });
+        setIsPop({ on: 1, type: 'text' });
       },
     },
     {
@@ -59,7 +100,7 @@ function ToolBar(props) {
       emoji: '⏰',
       type: 'clock',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'clock' });
+        setIsPop({ on: 1, type: 'clock' });
       },
     },
     {
@@ -67,7 +108,7 @@ function ToolBar(props) {
       emoji: '🙋‍♀️',
       type: 'todo',
       onClick: () => {
-        props.setIsPop({ on: 1, type: 'guest book' });
+        setIsPop({ on: 1, type: 'guest book' });
       },
     },
   ];
@@ -105,7 +146,7 @@ function ToolBar(props) {
   ));
 
   return (
-    <ToolBarWrapper>
+    <HeaderWrapper>
       <ToolBarGroup>{EssentialButtons}</ToolBarGroup>
       <ToolBarPartition />
       <ToolBarGroup>{NewWidgetButtons}</ToolBarGroup>
@@ -113,10 +154,13 @@ function ToolBar(props) {
       <ToolBarGroup>
         <BasicButton
           label='Save'
-          onClick={() => window.location.assign('/normal')}
+          onClick={() => {
+            postWidgetsInfo(widgets);
+            window.location.assign('/normal');
+          }}
         />
       </ToolBarGroup>
-    </ToolBarWrapper>
+    </HeaderWrapper>
   );
 }
 
