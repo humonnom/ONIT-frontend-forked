@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/css';
+import { COLOR_GREY, HEADER_HEIGHT } from '../../utils/style';
 
 const headerWrapper = ({ children }) => (
   <div
@@ -8,13 +9,13 @@ const headerWrapper = ({ children }) => (
       top: 0;
       display: flex;
       width: 100vw;
-      background-color: white;
+      height: ${HEADER_HEIGHT};
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
       border-radius: 3px;
-      border: 1px lightgrey solid;
-      margin: auto;
+      border: 1px ${COLOR_GREY} solid;
+      padding: 0;
     `}
   >
     {children}

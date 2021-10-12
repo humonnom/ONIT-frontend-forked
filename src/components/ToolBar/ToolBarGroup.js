@@ -6,7 +6,7 @@ const ToolBarGroup = ({ children }) => (
     className={css`
       display: flex;
       max-width: 100%;
-      margin: auto;
+      margin: 0;
     `}
   >
     {children}

@@ -8,18 +8,19 @@ function makeBlockStatic(layoutInfos) {
 }
 
 function AllWidgets() {
-  const { widget } = useSelector((state) => ({
-    widget: state.info.widget,
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
   }));
-  const layoutInfo = [widget];
-  console.log(layoutInfo[0]);
+  const layoutInfo = widgets.list;
+  console.log(layoutInfo);
   const staticLayout = makeBlockStatic(layoutInfo);
+  console.log(staticLayout);
 
   return (
     <div style={{ position: 'relative' }}>
       <GridLayout
         onLayoutChange={(layout) => {
-          console.log(layout);
+          // console.log(staticLayout);
         }}
         mylayout={staticLayout}
         className={css`

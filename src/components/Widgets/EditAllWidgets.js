@@ -1,41 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/css';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from '../GridLayout/GridLayout';
-import { createReplacementWidgetAction } from '../../redux/slice';
+import { createReplacementWidgetsAction } from '../../redux/slice';
 
 function EditAllWidgets(props) {
   const dispatch = useDispatch();
-  const { widget } = useSelector((state) => ({
-    widget: state.info.widget,
-  }));
-  const layoutInfo = [widget];
 
-  const updatePos = (newX, newY) => {
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const layoutInfo = widgets.list;
+
+  const updatePos = () => {
     dispatch(
-      createReplacementWidgetAction({
-        ...widget,
-        y: newY,
-        x: newX,
+      createReplacementWidgetsAction({
+        ...widgets,
       })
     );
   };
-  const handlePosUpdate = ({ i, x, y, w, h }) => {
-    console.log('change');
-    updatePos(x, y);
-    console.log(x);
-    console.log(y);
-    console.log(widget.x);
-    console.log(widget.y);
-  };
+  // const handlePosUpdate = ({ i, x, y, w, h }) => {
+  //   console.log('change');
+  //   updatePos(x, y);
+  //   console.log(x);
+  //   console.log(y);
+  //   console.log(widget.x);
+  //   console.log(widget.y);
+  // };
   return (
     <div style={{ position: 'relative' }}>
       <GridLayout
         onLayoutChange={(layout) => {
-          console.log(layout);
-          console.log(layout[0]);
-          // props.updatePos(3, 3);
-          handlePosUpdate(layout[0]);
+          // console.log(layout);
         }}
         mylayout={layoutInfo}
         className={css`
