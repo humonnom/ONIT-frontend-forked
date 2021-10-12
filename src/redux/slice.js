@@ -4,7 +4,7 @@ const slice = createSlice({
   name: 'info',
   initialState: {
     widget: {
-      i: 'i',
+      i: 0,
       x: 0,
       y: 0,
       w: 2,
@@ -12,17 +12,10 @@ const slice = createSlice({
       type: '',
       source: '',
     },
-    widgets: [
-      {
-        i: 'i',
-        x: 0,
-        y: 0,
-        w: 0,
-        h: 0,
-        type: '',
-        data: {},
-      },
-    ],
+    widgets: {
+      count: 0,
+      list: [{}],
+    },
   },
   reducers: {
     replacementWidget(state, action) {

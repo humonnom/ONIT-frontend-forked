@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { NormalWrapper, AllWidgets, PageWrapper, Header } from '../components';
+import getWidgetsInfo from '../api/getWidgetsInfo';
+import { createReplacementWidgetsAction } from '../redux/slice';
 
-// 여기
 function NormalMode(props) {
-  // const [layoutInfo, setLayoutInfo] = useState([
-  //   {
-  //     i: '0',
-  //     x: 1,
-  //     y: 1,
-  //     w: 2,
-  //     h: 2,
-  //     type: 'txt',
-  //     source: '블록을 추가하세요!',
-  //   },
-  // ]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const setWidgetState = async () => {
+      // update from server
+      const widgetsInfo = await getWidgetsInfo();
+      console.log(widgetsInfo);
+      dispatch(
+        createReplacementWidgetsAction({
+          count: widgetsInfo.data.count,
+          list: widgetsInfo.data.list,
+        })
+      );
+    };
+    setWidgetState();
+  }, []);
 
   return (
     <PageWrapper>

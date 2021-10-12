@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   ToolBarButton,
   ToolBarWrapper,
@@ -6,13 +7,17 @@ import {
   ToolBarPartition,
   BasicButton,
 } from '..';
+import postWidgetsInfo from '../../api/postWidgetInfo';
+
 // import { AddVideo, AddImage } from "../../widgets";
 
 function ToolBar(props) {
   //   const [showAddVideo, setShowAddVideo] = useState(false);
   //   const [showAddImage, setShowAddImage] = useState(false);
   // setShowAddVideo((show) => !show)
-
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
   const new_widget_button_list = [
     {
       label: '그림',
@@ -113,7 +118,10 @@ function ToolBar(props) {
       <ToolBarGroup>
         <BasicButton
           label='Save'
-          onClick={() => window.location.assign('/normal')}
+          onClick={() => {
+            postWidgetsInfo(widgets);
+            window.location.assign('/normal');
+          }}
         />
       </ToolBarGroup>
     </ToolBarWrapper>
