@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   ToolBarButton,
-  ToolBarWrapper,
+  HeaderWrapper,
   ToolBarGroup,
   ToolBarPartition,
   BasicButton,
@@ -110,7 +110,7 @@ function ToolBar(props) {
   ));
 
   return (
-    <ToolBarWrapper>
+    <HeaderWrapper>
       <ToolBarGroup>{EssentialButtons}</ToolBarGroup>
       <ToolBarPartition />
       <ToolBarGroup>{NewWidgetButtons}</ToolBarGroup>
@@ -124,7 +124,7 @@ function ToolBar(props) {
           }}
         />
       </ToolBarGroup>
-    </ToolBarWrapper>
+    </HeaderWrapper>
   );
 }
 
