@@ -61,6 +61,7 @@
 		"no-param-reassign": "off",
 		"operator-linebreak": "off",
 		"comma-dangle": "off",
-		"no-named-as-default": "off"
+		"no-named-as-default": "off",
+		"import/prefer-default-export": "off"
 	}
 }
