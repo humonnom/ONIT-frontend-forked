@@ -6,6 +6,10 @@ const slice = createSlice({
     modal: {
       imgInputWindow: false,
     },
+    widgets: {
+      count: 0,
+      list: [{}],
+    },
     widget: {
       i: 0,
       x: 0,
@@ -14,10 +18,6 @@ const slice = createSlice({
       h: 2,
       type: '',
       source: '',
-    },
-    widgets: {
-      count: 0,
-      list: [{}],
     },
   },
   reducers: {
