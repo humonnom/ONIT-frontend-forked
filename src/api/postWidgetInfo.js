@@ -1,6 +1,6 @@
 import apiUtil from './apiUtil';
 
-async function getWidgetsInfo(widgets) {
+async function postWidgetInfo(widgets) {
   // const params = new URLSearchParams();
   // return apiUtil('GET', 'widgets', params);
 
@@ -11,4 +11,4 @@ async function getWidgetsInfo(widgets) {
   localStorage.setItem('widgets', JSON.stringify(data));
 }
 
-export default getWidgetsInfo;
+export default postWidgetInfo;
