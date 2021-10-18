@@ -5,6 +5,7 @@ import GridLayout from '../GridLayout/GridLayout';
 import { createReplacementWidgetsAction } from '../../redux/slice';
 
 function EditAllWidgets(props) {
+  /*
   const dispatch = useDispatch();
 
   const { widgets } = useSelector((state) => ({
@@ -19,6 +20,8 @@ function EditAllWidgets(props) {
       })
     );
   };
+  */
+
   // const handlePosUpdate = ({ i, x, y, w, h }) => {
   //   console.log('change');
   //   updatePos(x, y);
@@ -27,6 +30,24 @@ function EditAllWidgets(props) {
   //   console.log(widget.x);
   //   console.log(widget.y);
   // };
+
+  const layoutInfo = [
+    {
+      i: 0,
+      x: 0,
+      y: 0,
+      w: 2,
+      h: 2,
+    },
+    {
+      i: 1,
+      x: 1,
+      y: 3,
+      w: 2,
+      h: 2,
+    },
+  ];
+
   return (
     <div style={{ position: 'relative' }}>
       <GridLayout
