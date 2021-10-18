@@ -7,7 +7,7 @@ import {
   ToolBarPartition,
   BasicButton,
 } from '..';
-import postWidgetsInfo from '../../api/postWidgetInfo';
+import postWidgetsInfo from '../../api/postWidgetsInfo';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
