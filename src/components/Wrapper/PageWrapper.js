@@ -12,7 +12,7 @@ const PageWrapper = ({ children }) => (
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding-top: 50px;
+      padding-top: 30px;
     `}
   >
     {children}

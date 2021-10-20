@@ -11,8 +11,8 @@ import HeaderWrapper from './Header/HeaderWrapper';
 
 import BasicButton from './Button/BasicButton';
 
-import AllWidgets from './Widgets/AllWidgets';
-import EditAllWidgets from './Widgets/EditAllWidgets';
+import NormalModeGrid from './Widgets/NormalModeGrid';
+import EditModeGrid from './Widgets/EditModeGrid';
 import YoutubeVideo from './Widgets/Video/YoutubeVideo';
 import AddVideo from './Widgets/Video/AddVideo';
 import AddImage from './Widgets/Image/AddImage';
@@ -30,8 +30,8 @@ export {
   ToolBarPartition,
   ToolBar,
   BasicButton,
-  AllWidgets,
-  EditAllWidgets,
+  NormalModeGrid,
+  EditModeGrid,
   EditWrapper,
   NormalWrapper,
   ToolBarButton,
