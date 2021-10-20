@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
 } from '../../../redux/slice';
 
 function AddImage(props) {
-  const dispatch = useDispatch();
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
@@ -24,7 +23,7 @@ function AddImage(props) {
   };
   function createNewImageWidget() {
     const widget1 = {
-      i: 4,
+      i: '4',
       x: 2,
       y: 3,
       w: 3,

@@ -8,10 +8,22 @@ const slice = createSlice({
     },
     widgets: {
       count: 0,
-      list: [{}],
+      list: [
+        {
+          i: '0',
+          x: 0,
+          y: 0,
+          w: 2,
+          h: 2,
+          widget_code: '',
+          widget_action: 0,
+          widget_type: 0,
+          widget_data: {},
+        },
+      ],
     },
     widget: {
-      i: 0,
+      i: '0',
       x: 0,
       y: 0,
       w: 2,

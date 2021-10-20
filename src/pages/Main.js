@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 // import getAccessToken from '../api/getAccessToken';
 import { ENDPOINT, REFRESH_TOKEN } from '../utils/constantValue';
+import RenderLoginPage from './RenderLoginPage';
 
 // 여기
 function Main(props) {
@@ -38,9 +39,10 @@ function Main(props) {
       <button type='button' onClick={() => window.location.assign('/normal')}>
         my homepage
       </button>
-      <button type='button' onClick={() => window.location.assign('/login')}>
+      {/* <button type='button' onClick={() => window.location.assign('/login')}>
         login
-      </button>
+      </button> */}
+      <RenderLoginPage />
       <button type='button' onClick={renewAccessToken}>
         토큰 재발급
       </button>
