@@ -7,7 +7,7 @@ import {
   ToolBarPartition,
   BasicButton,
 } from '..';
-import postWidgetsInfo from '../../api/postWidgetInfo';
+import postWidgetsInfo from '../../api/postWidgetsInfo';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
@@ -19,32 +19,6 @@ function ToolBar({ setIsPop }) {
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
-  // const updateWidgets = (newWidget) => {
-  //   console.log(widgets);
-  //   dispatch(
-  //     createReplacementWidgetsAction({
-  //       ...widgets,
-  //       count: widgets.count + 1,
-  //       list: [...widgets.list, newWidget],
-  //     })
-  //   );
-  // };
-
-  // function createNewImageWidget() {
-  //   const widget1 = {
-  //     i: 4,
-  //     x: 2,
-  //     y: 3,
-  //     w: 3,
-  //     h: 4,
-  //     type: 'image',
-  //     data: {
-  //       contents:
-  //         'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FtOcFD%2FbtqQ7UbH7rb%2FfLOIKxZ6cKDbxfAkGpQErK%2Fimg.png',
-  //     },
-  //   };
-  //   return widget1;
-  // }
 
   const new_widget_button_list = [
     {
