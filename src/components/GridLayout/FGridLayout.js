@@ -22,20 +22,6 @@ function FGridLayout(props) {
     console.log('this.is.itemInfo');
     console.log(itemInfo);
   }
-  
-  function generateDOM() {
-
-    return _.map(props.mylayout, function ({ i }) {
-      return (
-        <div
-          key={i}
-          style={{ backgroundColor: 'lightgray', borderRadius: '20px' }}
-        >
-          <center className='text'>{i}</center>
-        </div>
-      );
-    });
-  }
 
   return (
     <div>
