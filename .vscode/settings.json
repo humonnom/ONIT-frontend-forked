@@ -8,7 +8,7 @@
     "git.ignoreMissingGitWarning": true,
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
-    "workbench.colorTheme": "Framer Syntax",
+    "workbench.colorTheme": "Default Dark+",
     "go.useLanguageServer": true,
     "terminal.integrated.fontSize": 13,
     "terminal.integrated.minimumContrastRatio": 7,

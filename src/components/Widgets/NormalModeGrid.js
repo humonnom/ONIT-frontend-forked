@@ -1,17 +1,17 @@
+// @ts-check
+
 import React, { useEffect, useState, useMemo } from 'react';
 import { css } from '@emotion/css';
 import { useSelector } from 'react-redux';
 import GridLayout from '../GridLayout/GridLayout';
 import getWidgetsInfo from '../../api/getWidgetsInfo';
-import { MakeWidgetBox } from './MakeWidgetBox';
+import { WidgetElement } from './WidgetElement';
 
 function makeBlockStatic(layoutInfos) {
   return layoutInfos.map((info) => ({ ...info, static: true }));
 }
 
 function NormalModeGrid() {
-  const [open, setOpen] = useState(0);
-
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
@@ -22,8 +22,6 @@ function NormalModeGrid() {
 
   const Test = useMemo(() => {
     console.log('----------render---------');
-    setOpen(1);
-    console.log(`open[in useMemo] : ${open}`);
     return (
       <GridLayout
         onLayoutChange={(layout) => {
@@ -36,28 +34,20 @@ function NormalModeGrid() {
           width: 100%;
         `}
       >
-        {layoutInfo.map(function (element) {
-          return (
-            <div
-              key={Number(element.i)}
-              style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
-            >
-              <center className='text'>
-                <MakeWidgetBox element={element} />
-              </center>
-            </div>
-          );
-        })}
+        {staticLayout.map((element) => (
+          <div
+            key={Number(element.i)}
+            style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+          >
+            <WidgetElement element={element} />
+          </div>
+        ))}
       </GridLayout>
     );
-  }, [layoutInfo]);
+  }, [staticLayout]);
 
-  if (staticLayout.i !== undefined) setOpen(1);
-  return (
-    <div style={{ position: 'relative' }}>
-      {open === 1 ? <div>{Test}</div> : <div>test is undifined</div>}
-    </div>
-  );
+  // if (staticLayout.i !== undefined) setOpen(1);
+  return <div style={{ position: 'relative' }}>{Test}</div>;
 }
 
 export default NormalModeGrid;
