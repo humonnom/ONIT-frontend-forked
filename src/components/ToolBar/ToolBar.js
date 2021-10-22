@@ -89,6 +89,7 @@ function ToolBar({ setIsPop }) {
 
   const NewWidgetButtons = new_widget_button_list.map((tool) => (
     <ToolBarButton
+      key={tool.label}
       action={tool.onClick}
       emoji={tool.emoji}
       type={tool.type}

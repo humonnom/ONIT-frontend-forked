@@ -1,7 +1,7 @@
 import React from 'react';
 import ImageBox from './Image/ImageBox';
 
-export function MakeWidgetBox({ element }) {
+export function WidgetElement({ element }) {
   //   function classifyBox(curInfo) {
   //     if (curInfo.i === '3') return ImageBox;
   //     return (
@@ -25,7 +25,7 @@ export function MakeWidgetBox({ element }) {
   const layout = element;
   return (
     <div
-      key={Number(layout.i)}
+      key={parseInt(layout.i, 10)}
       style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
     >
       <center className='text'>type: {layout.widget_type}</center>

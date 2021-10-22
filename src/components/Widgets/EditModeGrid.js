@@ -2,16 +2,22 @@ import React, { useState, useMemo } from 'react';
 import { css } from '@emotion/css';
 import { useSelector } from 'react-redux';
 import GridLayout from '../GridLayout/GridLayout';
-import { createReplacementWidgetsAction } from '../../redux/slice';
-import { MakeWidgetBox } from './MakeWidgetBox';
+import {
+  createReplacementWidgetsAction,
+  useAppSelector,
+} from '../../redux/slice';
+import { WidgetElement } from './WidgetElement';
 
 function EditModeGrid(props) {
   const [open, setOpen] = useState(0);
   const [savedInfo, setSavedInfo] = useState();
 
-  const { widgets } = useSelector((state) => ({
+  const { widgets } = useAppSelector((state) => ({
     widgets: state.info.widgets,
   }));
+
+  console.log(widgets);
+
   const layoutInfo = widgets.list;
 
   const Test = useMemo(() => {
@@ -42,9 +48,7 @@ function EditModeGrid(props) {
               key={element.i}
               style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
             >
-              <center className='text'>
-                <MakeWidgetBox element={element} />
-              </center>
+              <WidgetElement element={element} />
             </div>
           );
         })}
