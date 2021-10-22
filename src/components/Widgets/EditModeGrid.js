@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { css } from '@emotion/css';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import GridLayout from '../GridLayout/GridLayout';
 import {
   createReplacementWidgetsAction,
@@ -10,7 +10,8 @@ import { WidgetElement } from './WidgetElement';
 
 function EditModeGrid(props) {
   const [open, setOpen] = useState(0);
-  const [savedInfo, setSavedInfo] = useState();
+
+  const dispatch = useDispatch();
 
   const { widgets } = useAppSelector((state) => ({
     widgets: state.info.widgets,
@@ -20,16 +21,32 @@ function EditModeGrid(props) {
 
   const layoutInfo = widgets.list;
 
+  function getNewWidetsList(origin, infos) {
+    return origin.map(function (widget) {
+      const newWidget = JSON.parse(JSON.stringify(widget));
+      const info = infos.find((element) => element.i === widget.i);
+      newWidget.x = info.x;
+      newWidget.y = info.y;
+      newWidget.w = info.w;
+      newWidget.h = info.h;
+      return newWidget;
+    });
+  }
+
   const Test = useMemo(() => {
-    console.log('----------render---------');
     setOpen(1);
-    console.log(`open[in useMemo] : ${open}`);
     return (
       <GridLayout
         onLayoutChange={(layout) => {
           console.log('changed!');
-          setSavedInfo(layout);
-          console.log(layout);
+          const newWidgetsList = getNewWidetsList(widgets.list, layout);
+          dispatch(
+            createReplacementWidgetsAction({
+              ...widgets,
+              list: newWidgetsList,
+            })
+          );
+          console.log(widgets);
         }}
         mylayout={layoutInfo}
         className={css`
