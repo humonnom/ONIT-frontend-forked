@@ -2,13 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { PageWrapper } from './components';
-import {
-  NormalModePage,
-  EditModePage,
-  LoginPage,
-  KakaoCallback,
-  Main,
-} from './pages';
+import { NormalModePage, EditModePage, Main } from './pages';
 import getWidgetsInfo from './api/getWidgetsInfo';
 import { createReplacementWidgetsAction } from './redux/slice';
 import HandleKakaoLogin from './components/login/HandleKakaoLogin';
@@ -26,8 +20,8 @@ function App() {
       console.log(info);
       dispatch(
         createReplacementWidgetsAction({
-          count: info.count,
-          list: info.list,
+          count: 0,
+          list: info,
         })
       );
     };

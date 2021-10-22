@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 
 const slice = createSlice({
   name: 'info',
@@ -58,3 +59,15 @@ export const store = configureStore({
     info: infoReducer,
   },
 });
+
+// 이 특별한 주석의 이름은 JSDoc 임.
+
+/**
+ * @typedef {Object} RootState
+ * @property {any} widgets
+ * @property {any} widget
+ * @property {any} modal
+ */
+
+/** @type {import('react-redux').TypedUseSelectorHook<ReturnType<(typeof store)["getState"]>>} */
+export const useAppSelector = useSelector;
