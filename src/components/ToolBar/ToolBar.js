@@ -8,10 +8,7 @@ import {
   BasicButton,
 } from '..';
 import postWidgetsInfo from '../../api/postWidgetsInfo';
-import {
-  createReplacementModalAction,
-  createReplacementWidgetsAction,
-} from '../../redux/slice';
+import { createReplacementModalAction } from '../../redux/slice';
 
 function ToolBar({ setIsPop }) {
   const dispatch = useDispatch();
@@ -22,22 +19,21 @@ function ToolBar({ setIsPop }) {
 
   const new_widget_button_list = [
     {
+      key: 0,
       label: '그림',
       emoji: '🖼',
       type: 'image',
       onClick: () => {
-        // setIsPop({ on: 1, type: 'image' });
         dispatch(
           createReplacementModalAction({
             ...modal,
             imgInputWindow: true,
           })
         );
-        // const newWidget = createNewImageWidget();
-        // updateWidgets(newWidget);
       },
     },
     {
+      key: 1,
       label: '영상',
       emoji: '📼',
       type: 'video',
@@ -46,6 +42,7 @@ function ToolBar({ setIsPop }) {
       },
     },
     {
+      key: 2,
       label: '투두리스트',
       emoji: '✍️',
       type: 'todo',
@@ -54,6 +51,7 @@ function ToolBar({ setIsPop }) {
       },
     },
     {
+      key: 3,
       label: '달력',
       emoji: '📆',
       type: 'calendar',
@@ -62,6 +60,7 @@ function ToolBar({ setIsPop }) {
       },
     },
     {
+      key: 4,
       label: '텍스트',
       emoji: 'T',
       type: 'text',
@@ -70,6 +69,7 @@ function ToolBar({ setIsPop }) {
       },
     },
     {
+      key: 5,
       label: '시계',
       emoji: '⏰',
       type: 'clock',
@@ -78,6 +78,7 @@ function ToolBar({ setIsPop }) {
       },
     },
     {
+      key: 6,
       label: '방명록',
       emoji: '🙋‍♀️',
       type: 'todo',
@@ -89,7 +90,7 @@ function ToolBar({ setIsPop }) {
 
   const NewWidgetButtons = new_widget_button_list.map((tool) => (
     <ToolBarButton
-      key={tool.label}
+      key={tool.key}
       action={tool.onClick}
       emoji={tool.emoji}
       type={tool.type}
@@ -99,12 +100,14 @@ function ToolBar({ setIsPop }) {
 
   const essential_button_list = [
     {
+      key: 0,
       label: '미리보기',
       emoji: '🕶',
       type: 'preview',
       onClick: () => alert('미리보기 액션'),
     },
     {
+      key: 1,
       label: '휴지통',
       emoji: '🗑',
       type: 'trash',
@@ -113,6 +116,7 @@ function ToolBar({ setIsPop }) {
   ];
   const EssentialButtons = essential_button_list.map((tool) => (
     <ToolBarButton
+      key={tool.key}
       action={tool.onClick}
       emoji={tool.emoji}
       type={tool.type}

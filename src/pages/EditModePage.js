@@ -1,14 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import {
-  PageWrapper,
-  EditWrapper,
-  ToolBar,
-  EditModeGrid,
-  AddImage,
-} from '../components';
-import getWidgetsInfo from '../api/getWidgetsInfo';
-import { createReplacementWidgetsAction } from '../redux/slice';
+import React from 'react';
+import { PageWrapper, EditWrapper, ToolBar, EditModeGrid } from '../components';
 
 function EditMode(props) {
   return (
