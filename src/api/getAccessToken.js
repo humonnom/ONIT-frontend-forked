@@ -1,9 +1,7 @@
-import { ENDPOINT, REFRESH_TOKEN } from '../utils/constantValue';
-
-// require('dotenv').config();
+import { REFRESH_TOKEN } from '../utils/constantValue';
 
 async function getAccessToken() {
-  const res = await fetch(`${ENDPOINT}/token/refresh`, {
+  const res = await fetch(`${REACT_APP_SERVER_DOMAIN}/token/refresh`, {
     method: 'GET',
     headers: {
       refresh_token: `Bearer ${REFRESH_TOKEN}`,
