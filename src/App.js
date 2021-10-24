@@ -17,7 +17,9 @@ function App() {
     const setWidgetState = async () => {
       // update from server
       const info = await getWidgetsInfo();
+      console.log(`info :`);
       console.log(info);
+
       dispatch(
         createReplacementWidgetsAction({
           count: 0,

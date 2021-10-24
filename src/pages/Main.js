@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Signin from '../components/Signin';
 import getAccessToken from '../api/getAccessToken';
 import RenderLoginPage from './RenderLoginPage';
 
@@ -14,7 +15,7 @@ function Main(props) {
       <button type='button' onClick={() => window.location.assign('/normal')}>
         my homepage
       </button>
-      <RenderLoginPage />
+      <Signin />
       <button type='button' onClick={getAccessToken}>
         토큰 재발급
       </button>
