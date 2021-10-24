@@ -1,5 +1,4 @@
-import { ACCESS_TOKEN, ENDPOINT } from '../utils/constantValue';
-
+import { ACCESS_TOKEN } from '../utils/constantValue';
 /**
  *
  * @param {string} method
@@ -7,7 +6,7 @@ import { ACCESS_TOKEN, ENDPOINT } from '../utils/constantValue';
  * @param {URLSearchParams} params
  */
 async function apiUtil(method, route, params) {
-  const res = await fetch(`${ENDPOINT}/${route}?${params}`, {
+  const res = await fetch(`${REACT_APP_SERVER_DOMAIN}/${route}?${params}`, {
     method: method,
     headers: {
       Authorization: `Bearer ${ACCESS_TOKEN}`,
