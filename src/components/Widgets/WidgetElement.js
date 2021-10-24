@@ -2,25 +2,19 @@ import React from 'react';
 import ImageBox from './Image/ImageBox';
 
 export function WidgetElement({ element }) {
-  //   function classifyBox(curInfo) {
-  //     if (curInfo.i === '3') return ImageBox;
-  //     return (
-  //       <div
-  //         key={curInfo.i}
-  //         style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
-  //       >
-  //         <center className='text'>{curInfo.i}</center>
-  //       </div>
-  //     );
-  //   }
-
-  //   function generateDOM(layouts) {
-  //     return layouts.map((layout) => {
-  //       console.log('hihi');
-  //       console.log(layout);
-  //       return classifyBox(layout);
-  //     });
-  //   }
+  function classifyBox(curInfo) {
+    if (curInfo.widget_type === 0) return <ImageBox element={element} />;
+    else {
+      return (
+        <div
+          key={curInfo.i}
+          style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+        >
+          <center className='text'>{curInfo.i}</center>
+        </div>
+      );
+    }
+  }
 
   const layout = element;
   return (
@@ -28,7 +22,7 @@ export function WidgetElement({ element }) {
       key={parseInt(layout.i, 10)}
       style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
     >
-      <center className='text'>type: {layout.widget_type}</center>
+      {classifyBox(layout)}
     </div>
   );
 }

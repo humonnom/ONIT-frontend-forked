@@ -134,8 +134,9 @@ function ToolBar({ setIsPop }) {
         <BasicButton
           label='Save'
           onClick={() => {
+            console.log('do post :');
+            console.log(widgets.list[1].i);
             postWidgetsInfo(widgets);
-            window.location.assign('/normal');
           }}
         />
       </ToolBarGroup>
