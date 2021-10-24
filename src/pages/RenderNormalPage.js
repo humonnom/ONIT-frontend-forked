@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 function RenderNormalPage({ match }) {
   console.log('RenderNormalPage page');
-  const { userId } = match.params.userId;
   const accessToken = localStorage.getItem('access_token');
+  const user_seq = localStorage.getItem('user_seq');
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/normal`;
+  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/normal`;
   const fetchTokens = async () => {
     try {
       setError(null);
@@ -56,9 +56,10 @@ function RenderNormalPage({ match }) {
   if (!data) {
     return null;
   }
+  // TODO: data 받아온 후 redux에 넣고, grid 그리기 위한 데이터로 사용하기
   return (
     <div>
-      <Link to={`/user/${userId}/edit`}>
+      <Link to='/edit'>
         <button type='button'>edit</button>
       </Link>
     </div>

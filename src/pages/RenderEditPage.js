@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 function RenderEditPage({ match }) {
   console.log('RenderEditPage page');
-  const { userId } = match.params.userId;
   const accessToken = localStorage.getItem('access_token');
+  const user_seq = localStorage.getItem('user_seq');
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/edit`;
+  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/edit`;
   const fetchTokens = async () => {
     try {
       setError(null);
@@ -56,7 +56,15 @@ function RenderEditPage({ match }) {
   if (!data) {
     return null;
   }
-  return <div />;
+  // TODO: data 받아온 후 redux에 넣고, grid 그리기 위한 데이터로 사용하기
+  // TODO: data가 수정되면 redux 갱신하기
+  return (
+    <div>
+      <Link to='/save'>
+        <button type='button'>save</button>
+      </Link>
+    </div>
+  );
 }
 
 export default RenderEditPage;

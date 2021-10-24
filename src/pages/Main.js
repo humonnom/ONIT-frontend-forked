@@ -36,19 +36,9 @@ function Main(props) {
   }
   return (
     <div>
-      <button type='button' onClick={() => window.location.assign('/normal')}>
-        my homepage
-      </button>
-      {/* <button type='button' onClick={() => window.location.assign('/login')}>
-        login
-      </button> */}
       <RenderLoginPage />
-      <button type='button' onClick={renewAccessToken}>
-        토큰 재발급
-      </button>
     </div>
   );
 }
 
 export default Main;
-// <button type='button' onClick={getAccessToken}>

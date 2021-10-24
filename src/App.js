@@ -9,6 +9,7 @@ import HandleKakaoLogin from './components/login/HandleKakaoLogin';
 import RenewAccessToken from './components/RenewAccessToken';
 import RenderNormalPage from './pages/RenderNormalPage';
 import RenderEditPage from './pages/RenderEditPage';
+import SaveEditPageData from './pages/SaveEditPageData';
 
 function App() {
   const dispatch = useDispatch();
@@ -41,18 +42,9 @@ function App() {
             path='/auth/token/refresh'
             component={RenewAccessToken}
           />
-          <Route
-            exact
-            path='/user/:userId/normal'
-            component={RenderNormalPage}
-          />
-          <Route exact path='/user/:userId/edit' component={RenderEditPage} />
-          <Route exact path='/normal'>
-            <NormalModePage />
-          </Route>
-          <Route exact path='/edit'>
-            <EditModePage />
-          </Route>
+          <Route exact path='/normal' component={RenderNormalPage} />
+          <Route exact path='/edit' component={RenderEditPage} />
+          <Route exact path='/save' component={SaveEditPageData} />
           <Route path='/'>
             <div>error</div>
           </Route>
