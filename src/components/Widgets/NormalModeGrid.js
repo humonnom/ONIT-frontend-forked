@@ -4,7 +4,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { css } from '@emotion/css';
 import { useSelector } from 'react-redux';
 import GridLayout from '../GridLayout/GridLayout';
-import getWidgetsInfo from '../../api/getWidgetsInfo';
 import { WidgetElement } from './WidgetElement';
 
 function makeBlockStatic(layoutInfos) {
