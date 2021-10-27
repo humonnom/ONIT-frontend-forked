@@ -1,11 +1,23 @@
 import React from 'react';
-import { PageWrapper, EditWrapper, ToolBar, EditModeGrid } from '../components';
+import { useSelector } from 'react-redux';
+import {
+  PageWrapper,
+  EditWrapper,
+  ToolBar,
+  EditModeGrid,
+  AddImage,
+} from '../components';
 
 function EditMode(props) {
+  const { modal } = useSelector((state) => ({
+    modal: state.info.modal,
+  }));
+
   return (
     <PageWrapper>
       <EditWrapper>
         <ToolBar />
+        {modal.imgInputWindow && <AddImage />}
         <EditModeGrid />
       </EditWrapper>
     </PageWrapper>

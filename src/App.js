@@ -12,6 +12,7 @@ import HandleKakaoLogin from './components/login/HandleKakaoLogin';
 import RenewAccessToken from './components/RenewAccessToken';
 import RenderNormalPage from './pages/RenderNormalPage';
 import RenderEditPage from './pages/RenderEditPage';
+import { convertForRedux, convertForServer } from './utils/convert';
 
 function App() {
   const dispatch = useDispatch();
@@ -20,18 +21,19 @@ function App() {
     const setWidgetState = async () => {
       // update from server
       const info = await getWidgetsInfo();
-      console.log(`info :`);
-      console.log(info);
 
+      // const convertedForServer = convertForServer(info);
+      // console.log(`convert for server :`);
+      // console.log(convertedForServer);
+
+      const convertedForRedux = await convertForRedux(info);
+      console.log(`convert for redux :`);
+      console.log(convertedForRedux);
       dispatch(
         createReplacementWidgetsAction({
           count: info.length,
-          list: info,
+          list: convertedForRedux,
         })
-        // createReplacementNewWidgetsAction({
-        //   count: 0,
-        //   list: info,
-        // })
       );
     };
     setWidgetState();
