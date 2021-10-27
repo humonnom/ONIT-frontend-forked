@@ -49,11 +49,14 @@ function EditModeGrid(props) {
     setOpen(1);
     return (
       <GridLayout
-        onResizeStop={(rayout, newItem) => {
+        // onDragStart={() => {
+        //   console.log('start');
+        // }}
+        onResizeStop={(rayout, oldItem, newItem) => {
           // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
         }}
-        onDragStop={(rayout, newItem) => {
+        onDragStop={(rayout, oldItem, newItem) => {
           // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
         }}
