@@ -21,42 +21,21 @@ function EditModeGrid(props) {
 
   const layoutInfo = widgets.list;
 
-  // function getNewWidetsList(origin, infos) {
-  //   return origin.map(function (widget) {
-  //     const newWidget = JSON.parse(JSON.stringify(widget));
-  //     const info = infos.find((element) => element.i === widget.i);
-  //     newWidget.x = info.x;
-  //     newWidget.y = info.y;
-  //     newWidget.w = info.w;
-  //     newWidget.h = info.h;
-  //     return newWidget;
-  //   });
-  // }
-
-  // front server
-  // i     widget_code
-  // ""    만들어주는데
-  // i
-  // 임시로 하나 쓰다가
-  // 상태가 create인것은 sever로 넘길때 빈문자열로 보내거나
-  // 해야겠네요
-
+  // useEffect(() => {
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
-    console.log('widgets');
-    console.log(widgets);
-    console.log('items');
+    console.log(newItem);
+    const found = items.find((element) => element.i === newItem.i);
     console.log(items);
-    const foundIndex = items.findIndex((element) => element.i === newItem.i);
-    console.log(foundIndex);
-    console.log(items[foundIndex]);
-    items[foundIndex].x = newItem.x;
-    items[foundIndex].y = newItem.y;
-    items[foundIndex].w = newItem.w;
-    items[foundIndex].h = newItem.h;
+    console.log(found);
+    console.log(newItem);
+    found.x = newItem.x;
+    found.y = newItem.y;
+    found.w = newItem.w;
+    found.h = newItem.h;
     // 생성된 위젯일 경우 action을 edit로 바꾸지 않음
-    if (items[foundIndex].widget_action === ACTION_NONE) {
-      items[foundIndex].widget_action = ACTION_EDIT;
+    if (found.widget_action === ACTION_NONE) {
+      found.widget_action = ACTION_EDIT;
     }
     dispatch(
       createReplacementWidgetsAction({
@@ -65,37 +44,20 @@ function EditModeGrid(props) {
       })
     );
   }
-
+  // }, [dispatch]);
   const gridForm = useMemo(() => {
     setOpen(1);
     return (
       <GridLayout
-        // onLayoutChange={(layout) => {
-        //   console.log(`------beforeChanged-------`);
-        //   console.log(widgets);
-        //   const newWidgetsList = getNewWidetsList(widgets.list, layout);
-        //   dispatch(
-        //     createReplacementWidgetsAction({
-        //       ...widgets,
-        //       list: newWidgetsList,
-        //     })
-        //   );
-        //   console.log('changed!');
-        //   console.log(layout);
+        // onDragStart={() => {
+        //   console.log('start');
         // }}
-        onDragStart={() => {
-          console.log('드래그스타트');
-        }}
-        onResizeStop={(layout, oldItem, newItem) => {
-          console.log('드래그정보입니다------');
-          console.log(oldItem);
-          console.log(newItem);
+        onResizeStop={(rayout, oldItem, newItem) => {
+          // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
         }}
-        onDragStop={(layout, oldItem, newItem) => {
-          console.log('드래그정보입니다------');
-          console.log(oldItem);
-          console.log(newItem);
+        onDragStop={(rayout, oldItem, newItem) => {
+          // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
         }}
         mylayout={layoutInfo}
@@ -104,7 +66,7 @@ function EditModeGrid(props) {
         {layoutInfo.map(function (element) {
           return (
             <div
-              key={element.i}
+              key={Number(element.i)}
               style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
             >
               <WidgetElement element={element} />
