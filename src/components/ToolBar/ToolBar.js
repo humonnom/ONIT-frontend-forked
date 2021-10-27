@@ -135,8 +135,8 @@ function ToolBar({ setIsPop }) {
           label='Save'
           onClick={() => {
             console.log('do post :');
-            console.log(widgets.list[1].i);
-            postWidgetsInfo(widgets);
+            console.log(widgets.list[1].x);
+            // postWidgetsInfo(widgets);
           }}
         />
       </ToolBarGroup>
