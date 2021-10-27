@@ -11,8 +11,8 @@ import HeaderWrapper from './Header/HeaderWrapper';
 
 import BasicButton from './Button/BasicButton';
 
-import NormalModeGrid from './Widgets/NormalModeGrid';
-import EditModeGrid from './Widgets/EditModeGrid';
+import NormalModeGrid from './GridLayout/NormalModeGrid';
+import EditModeGrid from './GridLayout/EditModeGrid';
 import YoutubeVideo from './Widgets/Video/YoutubeVideo';
 import AddVideo from './Widgets/Video/AddVideo';
 import AddImage from './Widgets/Image/AddImage';

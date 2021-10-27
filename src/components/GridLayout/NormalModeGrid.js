@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { css } from '@emotion/css';
 import { useSelector } from 'react-redux';
-import GridLayout from '../GridLayout/GridLayout';
-import { WidgetElement } from './WidgetElement';
+import GridLayout from './GridLayout';
+import { WidgetElement } from '../Widgets/WidgetElement';
 
 function makeBlockStatic(layoutInfos) {
   return layoutInfos.map((info) => ({ ...info, static: true }));
@@ -45,7 +45,6 @@ function NormalModeGrid() {
     );
   }, [staticLayout]);
 
-  // if (staticLayout.i !== undefined) setOpen(1);
   return <div style={{ position: 'relative' }}>{Test}</div>;
 }
 

@@ -4,6 +4,7 @@ import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
 } from '../../../redux/slice';
+import { ACTION_CREATE } from '../../../utils/constantValue';
 
 function AddImage(props) {
   const { widgets, modal } = useSelector((state) => ({
@@ -23,7 +24,7 @@ function AddImage(props) {
   };
   function createNewImageWidget() {
     const widget1 = {
-      i: '4',
+      i: `tmpwid${widgets.count}`,
       x: 2,
       y: 3,
       w: 3,
@@ -32,6 +33,7 @@ function AddImage(props) {
       data: {
         contents: `${url}`,
       },
+      widget_action: ACTION_CREATE,
     };
     return widget1;
   }
