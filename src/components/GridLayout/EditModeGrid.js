@@ -21,26 +21,6 @@ function EditModeGrid(props) {
 
   const layoutInfo = widgets.list;
 
-  // function getNewWidetsList(origin, infos) {
-  //   return origin.map(function (widget) {
-  //     const newWidget = JSON.parse(JSON.stringify(widget));
-  //     const info = infos.find((element) => element.i === widget.i);
-  //     newWidget.x = info.x;
-  //     newWidget.y = info.y;
-  //     newWidget.w = info.w;
-  //     newWidget.h = info.h;
-  //     return newWidget;
-  //   });
-  // }
-
-  // front server
-  // i     widget_code
-  // ""    만들어주는데
-  // i
-  // 임시로 하나 쓰다가
-  // 상태가 create인것은 sever로 넘길때 빈문자열로 보내거나
-  // 해야겠네요
-
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
     console.log('widgets');
@@ -70,19 +50,6 @@ function EditModeGrid(props) {
     setOpen(1);
     return (
       <GridLayout
-        // onLayoutChange={(layout) => {
-        //   console.log(`------beforeChanged-------`);
-        //   console.log(widgets);
-        //   const newWidgetsList = getNewWidetsList(widgets.list, layout);
-        //   dispatch(
-        //     createReplacementWidgetsAction({
-        //       ...widgets,
-        //       list: newWidgetsList,
-        //     })
-        //   );
-        //   console.log('changed!');
-        //   console.log(layout);
-        // }}
         onDragStart={() => {
           console.log('드래그스타트');
         }}
