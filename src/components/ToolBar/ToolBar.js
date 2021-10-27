@@ -8,13 +8,14 @@ import {
   BasicButton,
 } from '..';
 import postWidgetsInfo from '../../api/postWidgetsInfo';
-import { createReplacementModalAction } from '../../redux/slice';
+import { createReplacementWidgetsAction } from '../../redux/slice';
+import AddNewWidget from '../Widgets/AddNewWidget';
 
 function ToolBar({ setIsPop }) {
   const dispatch = useDispatch();
-  const { widgets, modal } = useSelector((state) => ({
+
+  const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
-    modal: state.info.modal,
   }));
 
   const new_widget_button_list = [
@@ -24,10 +25,10 @@ function ToolBar({ setIsPop }) {
       emoji: '🖼',
       type: 'image',
       onClick: () => {
+        const newWidgets = AddNewWidget(widgets, 0, 1000, '"하이": 하이');
         dispatch(
-          createReplacementModalAction({
-            ...modal,
-            imgInputWindow: true,
+          createReplacementWidgetsAction({
+            ...newWidgets,
           })
         );
       },
@@ -135,7 +136,6 @@ function ToolBar({ setIsPop }) {
           label='Save'
           onClick={() => {
             console.log('do post :');
-            console.log(widgets.list[1].x);
             // postWidgetsInfo(widgets);
           }}
         />
