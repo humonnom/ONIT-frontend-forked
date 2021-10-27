@@ -23,10 +23,6 @@ function NormalModeGrid() {
     console.log('----------render---------');
     return (
       <GridLayout
-        onLayoutChange={(layout) => {
-          console.log('normalnoed changed!');
-          console.log(layout);
-        }}
         mylayout={staticLayout}
         className={css`
           margin: 0 auto;
