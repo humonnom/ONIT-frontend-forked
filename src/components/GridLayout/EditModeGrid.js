@@ -21,9 +21,14 @@ function EditModeGrid(props) {
 
   const layoutInfo = widgets.list;
 
+  // useEffect(() => {
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
+    console.log(newItem);
     const found = items.find((element) => element.i === newItem.i);
+    console.log(items);
+    console.log(found);
+    console.log(newItem);
     found.x = newItem.x;
     found.y = newItem.y;
     found.w = newItem.w;
@@ -39,16 +44,16 @@ function EditModeGrid(props) {
       })
     );
   }
-
+  // }, [dispatch]);
   const gridForm = useMemo(() => {
     setOpen(1);
     return (
       <GridLayout
-        onResizeStop={(newItem) => {
+        onResizeStop={(rayout, newItem) => {
           // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
         }}
-        onDragStop={(newItem) => {
+        onDragStop={(rayout, newItem) => {
           // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
         }}
