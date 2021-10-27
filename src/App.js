@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 import { PageWrapper } from './components';
 import { NormalModePage, EditModePage, Main } from './pages';
 import getWidgetsInfo from './api/getWidgetsInfo';
-import { createReplacementWidgetsAction } from './redux/slice';
+import {
+  createReplacementWidgetsAction,
+  // createReplacementNewWidgetsAction,
+} from './redux/slice';
 import HandleKakaoLogin from './components/login/HandleKakaoLogin';
 import RenewAccessToken from './components/RenewAccessToken';
 import RenderNormalPage from './pages/RenderNormalPage';
@@ -22,9 +25,13 @@ function App() {
 
       dispatch(
         createReplacementWidgetsAction({
-          count: 0,
+          count: info.length,
           list: info,
         })
+        // createReplacementNewWidgetsAction({
+        //   count: 0,
+        //   list: info,
+        // })
       );
     };
     setWidgetState();

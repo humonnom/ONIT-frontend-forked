@@ -11,6 +11,9 @@ export function WidgetElement({ element }) {
           style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
         >
           <center className='text'>{curInfo.i}</center>
+          <center>
+            {curInfo.x}, {curInfo.y}
+          </center>
         </div>
       );
     }
@@ -20,7 +23,12 @@ export function WidgetElement({ element }) {
   return (
     <div
       key={parseInt(layout.i, 10)}
-      style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+      style={{
+        backgroundColor: 'lightgray',
+        borderRadius: '10px',
+        width: '100%',
+        height: '100%',
+      }}
     >
       {classifyBox(layout)}
     </div>
