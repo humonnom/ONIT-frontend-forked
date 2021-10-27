@@ -11,7 +11,8 @@ export default function GridLayout(props) {
       layout={props.mylayout}
       className='layout'
       cols={16}
-      rowHeight={79.5}
+      rowHeight={80}
+      margin={[11, 10]}
       compactType={null}
       preventCollision
       {...props}

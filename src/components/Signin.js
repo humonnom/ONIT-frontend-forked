@@ -4,6 +4,7 @@ import RenderLoginPage from '../pages/RenderLoginPage';
 function Signin() {
   const background = {
     display: 'flex',
+    textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
