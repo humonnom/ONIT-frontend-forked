@@ -19,7 +19,6 @@ function ToolBar({ setIsPop }) {
 
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
-    modal: state.info.modal,
   }));
 
   const new_widget_button_list = [
@@ -29,10 +28,10 @@ function ToolBar({ setIsPop }) {
       emoji: '🖼',
       type: 'image',
       onClick: () => {
+        const newWidgets = AddNewWidget(widgets, 0, 1000, '"하이": 하이');
         dispatch(
-          createReplacementModalAction({
-            ...modal,
-            imgInputWindow: true,
+          createReplacementWidgetsAction({
+            ...newWidgets,
           })
         );
       },

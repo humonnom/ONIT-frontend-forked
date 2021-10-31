@@ -21,7 +21,6 @@ function EditModeGrid(props) {
 
   const layoutInfo = widgets.list;
 
-  // useEffect(() => {
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
     console.log(newItem);
