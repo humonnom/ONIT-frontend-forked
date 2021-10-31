@@ -1,5 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
+import { DELETED_OFF } from '../utils/constantValue';
 
 const slice = createSlice({
   name: 'info',
@@ -11,7 +11,7 @@ const slice = createSlice({
       count: 0,
       list: [
         {
-          i: '0',
+          i: '',
           x: 0,
           y: 0,
           w: 2,
@@ -19,6 +19,8 @@ const slice = createSlice({
           widget_action: 0,
           widget_type: 0,
           widget_data: {},
+          widget_code: '',
+          widget_deleted: DELETED_OFF,
         },
       ],
     },

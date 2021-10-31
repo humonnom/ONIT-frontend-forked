@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
 } from '../../../redux/slice';
-import { ACTION_CREATE } from '../../../utils/constantValue';
+import {
+  ACTION_CREATE,
+  DELETED_OFF,
+  TYPE_IMAGE,
+} from '../../../utils/constantValue';
 
 function AddImage(props) {
   const { widgets, modal } = useSelector((state) => ({
@@ -12,6 +16,7 @@ function AddImage(props) {
     modal: state.info.modal,
   }));
   const [url, setUrl] = useState('');
+  const dispatch = useDispatch();
   const updateWidgets = (newWidget) => {
     console.log(widgets);
     dispatch(
@@ -24,16 +29,17 @@ function AddImage(props) {
   };
   function createNewImageWidget() {
     const widget1 = {
-      i: `tmpwid${widgets.count}`,
-      x: 2,
-      y: 3,
+      i: widgets.count.toString(),
+      x: 6,
+      y: 6,
       w: 3,
-      h: 4,
-      type: 'image',
-      data: {
-        contents: `${url}`,
-      },
+      h: 3,
       widget_action: ACTION_CREATE,
+      widget_type: TYPE_IMAGE,
+      widget_data: {
+        url: `${url}`,
+      },
+      widget_deleted: DELETED_OFF,
     };
     return widget1;
   }

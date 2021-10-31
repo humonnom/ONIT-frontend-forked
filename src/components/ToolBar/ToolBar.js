@@ -8,13 +8,16 @@ import {
   BasicButton,
 } from '..';
 import postWidgetsInfo from '../../api/postWidgetsInfo';
-import { createReplacementWidgetsAction } from '../../redux/slice';
+import {
+  createReplacementModalAction,
+  createReplacementWidgetsAction,
+} from '../../redux/slice';
 import AddNewWidget from '../Widgets/AddNewWidget';
 
 function ToolBar({ setIsPop }) {
   const dispatch = useDispatch();
 
-  const { widgets } = useSelector((state) => ({
+  const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
 
