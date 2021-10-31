@@ -4,34 +4,27 @@ import { useDispatch } from 'react-redux';
 import { PageWrapper } from './components';
 import { NormalModePage, EditModePage, Main } from './pages';
 import getWidgetsInfo from './api/getWidgetsInfo';
-import {
-  createReplacementWidgetsAction,
-  // createReplacementNewWidgetsAction,
-} from './redux/slice';
+import { createReplacementWidgetsAction } from './redux/slice';
 import HandleKakaoLogin from './components/login/HandleKakaoLogin';
 import RenewAccessToken from './components/RenewAccessToken';
 import RenderNormalPage from './pages/RenderNormalPage';
 import RenderEditPage from './pages/RenderEditPage';
+import { convertForRedux } from './utils/convert';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const setWidgetState = async () => {
-      // update from server
       const info = await getWidgetsInfo();
-      console.log(`info :`);
-      console.log(info);
-
+      const convertedForRedux = await convertForRedux(info);
+      console.log(`convert for redux :`);
+      console.log(convertedForRedux);
       dispatch(
         createReplacementWidgetsAction({
           count: info.length,
-          list: info,
+          list: convertedForRedux,
         })
-        // createReplacementNewWidgetsAction({
-        //   count: 0,
-        //   list: info,
-        // })
       );
     };
     setWidgetState();

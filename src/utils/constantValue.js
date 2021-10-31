@@ -4,3 +4,6 @@ export const ACTION_NONE = 0;
 export const ACTION_CREATE = 1;
 export const ACTION_EDIT = 2;
 export const ACTION_DELETE = 3;
+export const DELETED_ON = 1;
+export const DELETED_OFF = 2;
+export const TYPE_IMAGE = 1;
