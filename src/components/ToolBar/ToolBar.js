@@ -19,6 +19,7 @@ function ToolBar({ setIsPop }) {
 
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
 
   const new_widget_button_list = [
@@ -30,8 +31,9 @@ function ToolBar({ setIsPop }) {
       onClick: () => {
         const newWidgets = AddNewWidget(widgets, 0, 1000, '"하이": 하이');
         dispatch(
-          createReplacementWidgetsAction({
-            ...newWidgets,
+          createReplacementModalAction({
+            ...modal,
+            imgInputWindow: true,
           })
         );
       },
@@ -140,6 +142,7 @@ function ToolBar({ setIsPop }) {
           onClick={() => {
             console.log('do post :');
             // postWidgetsInfo(widgets);
+            // window.location.assign('/normal')
           }}
         />
       </ToolBarGroup>

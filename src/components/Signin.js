@@ -88,12 +88,21 @@ function Signin() {
           <br />
           <h5>
             Dont Have an Account?
-            <button type='button'>Sign up</button>
+            <button type='button' style={buttonImgStyle}>
+              Sign up
+            </button>
           </h5>
         </div>
       </div>
     </div>
   );
 }
+
+const buttonImgStyle = {
+  padding: '0 10px',
+  margin: '0',
+  border: '0',
+  backgroundColor: 'white',
+};
 
 export default Signin;
