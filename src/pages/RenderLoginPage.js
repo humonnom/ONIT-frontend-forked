@@ -8,11 +8,22 @@ function RenderLoginPage() {
 
   return (
     <div>
-      <button type='button' onClick={signInWithKakao}>
-        카카오 로그인
+      <button type='button' style={buttonImgStyle} onClick={signInWithKakao}>
+        <img
+          src='//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg'
+          width='250'
+          alt=''
+        />
       </button>
     </div>
   );
 }
+
+const buttonImgStyle = {
+  padding: '0',
+  margin: '0',
+  border: '0',
+  backgroundColor: 'white',
+};
 
 export default RenderLoginPage;

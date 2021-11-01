@@ -43,14 +43,10 @@ function EditModeGrid(props) {
       })
     );
   }
-  // }, [dispatch]);
   const gridForm = useMemo(() => {
     setOpen(1);
     return (
       <GridLayout
-        // onDragStart={() => {
-        //   console.log('start');
-        // }}
         onResizeStop={(rayout, oldItem, newItem) => {
           // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
           renewWidgetsList(newItem);
