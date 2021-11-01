@@ -11,7 +11,7 @@ function HandleKakaoLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/login/kakao`;
+  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/auth/login/kakao`;
   const fetchTokens = async () => {
     try {
       setError(null);
