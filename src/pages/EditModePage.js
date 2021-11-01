@@ -7,6 +7,7 @@ import {
   EditModeGrid,
   AddImage,
 } from '../components';
+import PopWidgets from '../components/Widgets/PopWidgets';
 
 function EditMode(props) {
   const { modal } = useSelector((state) => ({
@@ -17,7 +18,7 @@ function EditMode(props) {
     <PageWrapper>
       <EditWrapper>
         <ToolBar />
-        {modal.imgInputWindow && <AddImage />}
+        {modal.imgInputWindow && <PopWidgets />}
         <EditModeGrid />
       </EditWrapper>
     </PageWrapper>
