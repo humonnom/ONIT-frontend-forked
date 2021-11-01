@@ -16,7 +16,7 @@ const slice = createSlice({
           y: 0,
           w: 2,
           h: 2,
-          widget_action: 0,
+          widget_action: '',
           widget_type: 0,
           widget_data: {},
           widget_code: '',
