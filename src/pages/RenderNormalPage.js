@@ -11,7 +11,7 @@ function RenderNormalPage({ match }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/normal`;
+  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/normal`;
   const fetchTokens = async () => {
     try {
       setError(null);

@@ -3,14 +3,14 @@ import axios from 'axios';
 
 function RenderEditPage({ match }) {
   console.log('SaveEditPageData page');
-  const userId = match.params.userId;
+  const { userId } = match.params;
   const accessToken = localStorage.getItem('access_token');
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/edit`;
+  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/edit`;
   const fetchTokens = async () => {
     try {
       setError(null);
@@ -55,7 +55,7 @@ function RenderEditPage({ match }) {
   if (!data) {
     return null;
   }
-  return <div></div>;
+  return <div />;
 }
 
 export default RenderEditPage;

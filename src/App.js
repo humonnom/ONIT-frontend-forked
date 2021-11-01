@@ -14,6 +14,7 @@ import { convertForRedux } from './utils/convert';
 function App() {
   const dispatch = useDispatch();
 
+  // TODO: 로그인 안되었을때 데이터 처리(로그인, 데이터 받아오는 것 순서)
   useEffect(() => {
     const setWidgetState = async () => {
       const info = await getWidgetsInfo();

@@ -9,7 +9,7 @@ function RenewAccessToken() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/token/refresh`;
+  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/auth/token/refresh`;
   const fetchTokens = async () => {
     try {
       setError(null);
