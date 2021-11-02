@@ -28,7 +28,7 @@ function AddImage(props) {
     );
   };
   function createNewImageWidget() {
-    const widget1 = {
+    const newWidget = {
       i: widgets.count.toString(),
       x: 6,
       y: 6,
@@ -41,7 +41,7 @@ function AddImage(props) {
       },
       widget_deleted: DELETED_OFF,
     };
-    return widget1;
+    return newWidget;
   }
   const handleChange = ({ target: { value } }) => {
     console.log(value);

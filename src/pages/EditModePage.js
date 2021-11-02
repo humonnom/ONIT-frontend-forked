@@ -18,7 +18,7 @@ function EditMode(props) {
     <PageWrapper>
       <EditWrapper>
         <ToolBar />
-        {modal.imgInputWindow && <PopWidgets />}
+        {modal.popUpWindow && <PopWidgets />}
         <EditModeGrid />
       </EditWrapper>
     </PageWrapper>

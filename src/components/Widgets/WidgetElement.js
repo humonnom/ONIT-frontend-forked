@@ -3,6 +3,7 @@ import { TYPE_IMAGE } from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
 
 export function WidgetElement({ element }) {
+  // console.log('=======WidgetElement comp');
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} />;

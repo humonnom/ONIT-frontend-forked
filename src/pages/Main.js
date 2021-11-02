@@ -12,13 +12,15 @@ function Main(props) {
 
   return (
     <div>
-      <button type='button' onClick={() => window.location.assign('/normal')}>
+      {/* <button type='button' onClick={() => window.location.assign('/normal')}>
         my homepage
+      </button> */}
+      {/* <Signin /> */}
+
+      <button type='button' onClick={() => window.location.assign('/save')}>
+        save
       </button>
-      <Signin />
-      <button type='button' onClick={getAccessToken}>
-        토큰 재발급
-      </button>
+      <RenderLoginPage />
     </div>
   );
 }
