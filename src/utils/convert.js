@@ -1,4 +1,4 @@
-import { ACTION_CREATE } from './constantValue';
+import { ACTION_CREATE, ACTION_NONE, TYPE_IMAGE } from './constantValue';
 
 function changeKey(obj, oldKey, newKey) {
   obj[newKey] = obj[oldKey];
@@ -22,6 +22,12 @@ export function convertForServer(infos) {
     if (info.widget_action === ACTION_CREATE) {
       info.widget_code = '';
     }
+    if (info.widget_action === ACTION_NONE) {
+      deleteKey(info, 'widget_action');
+    }
+    // 서버랑 맞추고 나서 지울 부분
+    info.widget_data = info.widget_data.url;
+    //
     return info;
   });
   return converted;
@@ -32,7 +38,13 @@ function createIdKey(obj, index) {
   obj.i = index.toString();
   return obj;
 }
-
+// TODO: server랑 widget_data 구조 맞추기 -> 나중에 수정하기
+//      - frontend: widget_data.url
+//      - backend: widget_data
+//      - widget_type 누락됨
+// {
+//   widget_data: "http://!~~"
+// }
 export function convertForRedux(infos) {
   const converted = JSON.parse(JSON.stringify(infos));
   converted.map(function (info, index) {
@@ -41,6 +53,12 @@ export function convertForRedux(infos) {
     changeKey(info, 'width', 'w');
     changeKey(info, 'height', 'h');
     createIdKey(info, index);
+    info.widget_action = ACTION_NONE;
+    // 서버랑 맞추고 나서 지울 부분
+    const tmp_data_url = { url: info.widget_data };
+    info.widget_data = tmp_data_url;
+    info.widget_type = TYPE_IMAGE;
+    //
     console.log(typeof info.i);
     return info;
   });

@@ -6,6 +6,7 @@ const slice = createSlice({
   initialState: {
     modal: {
       imgInputWindow: false,
+      popUpWindow: false,
     },
     widgets: {
       count: 0,
@@ -20,7 +21,6 @@ const slice = createSlice({
           widget_type: 0,
           widget_data: {},
           widget_code: '',
-          widget_deleted: DELETED_OFF,
         },
       ],
     },

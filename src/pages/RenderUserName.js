@@ -6,8 +6,8 @@ import { EditModePage } from '.';
 import { convertForRedux, convertForServer } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
 
-function RenderEditPage({ match }) {
-  console.log('RenderEditPage page');
+function RenderUserName() {
+  console.log('RenderUserName page');
   const accessToken = localStorage.getItem('access_token');
   const user_seq = localStorage.getItem('user_seq');
 
@@ -16,7 +16,7 @@ function RenderEditPage({ match }) {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/edit`;
+  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/${user_seq}/4`;
   const fetchTokens = async () => {
     try {
       setError(null);
@@ -33,27 +33,11 @@ function RenderEditPage({ match }) {
         setData(response.data.code);
       } else {
         console.log('response data:', response.data);
-        setWidgetState(response.data);
       }
     } catch (err) {
       setError(err);
     }
     setLoading(false);
-  };
-  // TODO: data 받아온 후 redux에 넣고, grid 그리기 위한 데이터로 사용하기
-  const setWidgetState = async (widget_data) => {
-    setData(widget_data);
-    // console.log('==========data');
-    console.log(widget_data);
-    const convertedForRedux = await convertForRedux(widget_data);
-    // console.log(`convert for redux :`);
-    // console.log(convertedForRedux);
-    dispatch(
-      createReplacementWidgetsAction({
-        count: convertedForRedux.length,
-        list: convertedForRedux,
-      })
-    );
   };
 
   useEffect(() => {
@@ -77,14 +61,7 @@ function RenderEditPage({ match }) {
     return null;
   }
 
-  return (
-    <div>
-      {/* <Link to='/save'>
-        <button type='button'>save</button>
-      </Link> */}
-      <EditModePage />
-    </div>
-  );
+  return <div>get name</div>;
 }
 
-export default RenderEditPage;
+export default RenderUserName;

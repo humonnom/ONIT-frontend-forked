@@ -48,7 +48,7 @@ function HandleKakaoLogin() {
   localStorage.setItem('access_token', tokens.access_token);
   localStorage.setItem('refresh_token', tokens.refresh_token);
   localStorage.setItem('user_seq', userInfo.user_seq);
-  window.location.assign(`/user/${userInfo.user_seq}/normal`);
+  window.location.assign(`/normal`);
 }
 
 export default HandleKakaoLogin;
