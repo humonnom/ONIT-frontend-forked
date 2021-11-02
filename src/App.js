@@ -1,35 +1,36 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { PageWrapper } from './components';
 import { NormalModePage, EditModePage, Main } from './pages';
-import getWidgetsInfo from './api/getWidgetsInfo';
-import { createReplacementWidgetsAction } from './redux/slice';
+// import getWidgetsInfo from './api/getWidgetsInfo';
+// import { createReplacementWidgetsAction } from './redux/slice';
 import HandleKakaoLogin from './components/login/HandleKakaoLogin';
 import RenewAccessToken from './components/RenewAccessToken';
 import RenderNormalPage from './pages/RenderNormalPage';
 import RenderEditPage from './pages/RenderEditPage';
-import { convertForRedux } from './utils/convert';
+import SaveEditPageData from './pages/SaveEditPageData';
+// import { convertForRedux } from './utils/convert';
+import RenderUserName from './pages/RenderUserName';
 
 function App() {
-  const dispatch = useDispatch();
-
+  // const dispatch = useDispatch();
   // TODO: 로그인 안되었을때 데이터 처리(로그인, 데이터 받아오는 것 순서)
-  useEffect(() => {
-    const setWidgetState = async () => {
-      const info = await getWidgetsInfo();
-      const convertedForRedux = await convertForRedux(info);
-      console.log(`convert for redux :`);
-      console.log(convertedForRedux);
-      dispatch(
-        createReplacementWidgetsAction({
-          count: info.length,
-          list: convertedForRedux,
-        })
-      );
-    };
-    setWidgetState();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const setWidgetState = async () => {
+  //     const info = await getWidgetsInfo();
+  //     const convertedForRedux = await convertForRedux(info);
+  //     console.log(`convert for redux :`);
+  //     console.log(convertedForRedux);
+  //     dispatch(
+  //       createReplacementWidgetsAction({
+  //         count: info.length,
+  //         list: convertedForRedux,
+  //       })
+  //     );
+  //   };
+  //   setWidgetState();
+  // }, [dispatch]);
 
   return (
     <PageWrapper>
@@ -44,7 +45,7 @@ function App() {
             path='/auth/token/refresh'
             component={RenewAccessToken}
           />
-          <Route
+          {/* <Route
             exact
             path='/user/:userId/normal'
             component={RenderNormalPage}
@@ -55,7 +56,11 @@ function App() {
           </Route>
           <Route exact path='/edit'>
             <EditModePage />
-          </Route>
+          </Route> */}
+          <Route exact path='/normal' component={RenderNormalPage} />
+          <Route exact path='/edit' component={RenderEditPage} />
+          <Route exact path='/save' component={SaveEditPageData} />
+          <Route exact path='/getname' component={RenderUserName} />
           <Route path='/'>
             <div>error</div>
           </Route>
