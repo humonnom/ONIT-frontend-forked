@@ -9,8 +9,6 @@ import getWidgetsInfo from '../api/getWidgetsInfo';
 import { createReplacementWidgetsAction } from '../redux/slice';
 
 function NormalMode(props) {
-  // get data
-
   return (
     <PageWrapper>
       <NormalWrapper>

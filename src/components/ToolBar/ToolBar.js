@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   ToolBarButton,
   HeaderWrapper,
@@ -8,15 +9,16 @@ import {
   BasicButton,
 } from '..';
 import postWidgetsInfo from '../../api/postWidgetsInfo';
+import SaveEditPageData from '../../pages/SaveEditPageData';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
 } from '../../redux/slice';
-import AddNewWidget from '../Widgets/AddNewWidget';
+import { convertForServer } from '../../utils/convert';
 
 function ToolBar({ setIsPop }) {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
@@ -29,13 +31,13 @@ function ToolBar({ setIsPop }) {
       emoji: '🖼',
       type: 'image',
       onClick: () => {
-        const newWidgets = AddNewWidget(widgets, 0, 1000, '"하이": 하이');
         dispatch(
           createReplacementModalAction({
             ...modal,
-            imgInputWindow: true,
+            popUpWindow: true,
           })
         );
+        console.log('add image');
       },
     },
     {
@@ -141,8 +143,12 @@ function ToolBar({ setIsPop }) {
           label='Save'
           onClick={() => {
             console.log('do post :');
-            // postWidgetsInfo(widgets);
-            // window.location.assign('/normal')
+            const postData = convertForServer(widgets.list);
+            console.log(postData);
+            history.push({
+              pathname: '/save',
+              state: { postData },
+            });
           }}
         />
       </ToolBarGroup>
