@@ -34,12 +34,10 @@ function ToolBar({ setIsPop }) {
       })
     );
   };
-  function getNewWidgetList(targetItemCode) {
+  function getNewWidgetList(targetItemIndex) {
     const newList = JSON.parse(JSON.stringify(widgets.list));
     // console.log(targetItemCode);
-    const found = newList.find(
-      (element) => element.widget_code === targetItemCode
-    );
+    const found = newList.find((element) => element.i === targetItemIndex);
     found.widget_action = 'D';
     // console.log(found);
     // TODO: 만들자마자 삭제한 위젯도 widget_action 'D'로 보내면 되는지 확인
@@ -146,7 +144,7 @@ function ToolBar({ setIsPop }) {
         // 2. 해당 위젯객체의 widget_action이 'D'로 업데이트된 새로운 리스트 반환.
         // 3. 새로 반환된 리스트를 이용해 dispatch하여 리덕스 업데이트
         // 4. 위젯을 화면에 뿌릴때 widget_action이 'D'인 객체는 화면에 뿌리지 않도록 한다.
-        const newWidgetList = getNewWidgetList('WIDIM0003000003');
+        const newWidgetList = getNewWidgetList('3');
 
         console.log(newWidgetList);
         updateWidgets(newWidgetList);
