@@ -24,6 +24,28 @@ function ToolBar({ setIsPop }) {
     modal: state.info.modal,
   }));
 
+  // dispatch
+  const updateWidgets = (newWidgetList) => {
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        // count: widgets.count,
+        list: newWidgetList,
+      })
+    );
+  };
+  function getNewWidgetList(targetItemCode) {
+    const newList = JSON.parse(JSON.stringify(widgets.list));
+    // console.log(targetItemCode);
+    const found = newList.find(
+      (element) => element.widget_code === targetItemCode
+    );
+    found.widget_action = 'D';
+    // console.log(found);
+    // TODO: 만들자마자 삭제한 위젯도 widget_action 'D'로 보내면 되는지 확인
+    return newList;
+  }
+
   const new_widget_button_list = [
     {
       key: 0,
@@ -119,7 +141,16 @@ function ToolBar({ setIsPop }) {
       label: '휴지통',
       emoji: '🗑',
       type: 'trash',
-      onClick: () => alert('휴지통 액션'),
+      onClick: () => {
+        // 1. getNewWidgetList에 클릭된 위젝 객체의 widget_code를 인자로 넣는다.
+        // 2. 해당 위젯객체의 widget_action이 'D'로 업데이트된 새로운 리스트 반환.
+        // 3. 새로 반환된 리스트를 이용해 dispatch하여 리덕스 업데이트
+        // 4. 위젯을 화면에 뿌릴때 widget_action이 'D'인 객체는 화면에 뿌리지 않도록 한다.
+        const newWidgetList = getNewWidgetList('WIDIM0003000003');
+
+        console.log(newWidgetList);
+        updateWidgets(newWidgetList);
+      },
     },
   ];
   const EssentialButtons = essential_button_list.map((tool) => (

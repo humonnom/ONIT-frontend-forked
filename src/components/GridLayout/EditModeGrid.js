@@ -33,7 +33,7 @@ function EditModeGrid(props) {
     found.w = newItem.w;
     found.h = newItem.h;
     // 생성된 위젯일 경우 action을 edit로 바꾸지 않음
-    if (found.widget_action === ACTION_NONE) {
+    if (found.widget_action === ACTION_NONE || found.widget_code !== '') {
       found.widget_action = ACTION_EDIT;
     }
     dispatch(
@@ -49,11 +49,11 @@ function EditModeGrid(props) {
       <div style={gridStyle}>
         <GridLayout
           onResizeStop={(rayout, oldItem, newItem) => {
-            // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
+            console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
             renewWidgetsList(newItem);
           }}
           onDragStop={(rayout, oldItem, newItem) => {
-            // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
+            console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
             renewWidgetsList(newItem);
           }}
           mylayout={layoutInfo}
