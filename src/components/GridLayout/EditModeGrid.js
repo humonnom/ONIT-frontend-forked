@@ -46,29 +46,30 @@ function EditModeGrid(props) {
   const gridForm = useMemo(() => {
     setOpen(1);
     return (
-      <GridLayout
-        onResizeStop={(rayout, oldItem, newItem) => {
-          // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
-          renewWidgetsList(newItem);
-        }}
-        onDragStop={(rayout, oldItem, newItem) => {
-          // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
-          renewWidgetsList(newItem);
-        }}
-        mylayout={layoutInfo}
-        style={gridStyle}
-      >
-        {layoutInfo.map(function (element) {
-          return (
-            <div
-              key={Number(element.i)}
-              style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
-            >
-              <WidgetElement element={element} />
-            </div>
-          );
-        })}
-      </GridLayout>
+      <div style={gridStyle}>
+        <GridLayout
+          onResizeStop={(rayout, oldItem, newItem) => {
+            // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
+            renewWidgetsList(newItem);
+          }}
+          onDragStop={(rayout, oldItem, newItem) => {
+            // console.log("리덕스에 위젯 리스트 업데이트[EditModeGrid]");
+            renewWidgetsList(newItem);
+          }}
+          mylayout={layoutInfo}
+        >
+          {layoutInfo.map(function (element) {
+            return (
+              <div
+                key={Number(element.i)}
+                style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+              >
+                <WidgetElement element={element} />
+              </div>
+            );
+          })}
+        </GridLayout>
+      </div>
     );
   }, [layoutInfo]);
 
@@ -86,8 +87,9 @@ const height = 80;
 const margin = 10;
 const cols = 16;
 const gridStyle = {
-  margin: '0 auto',
+  margin: '0',
   width: '100%',
+  height: '100vh',
   backgroundSize: `calc((100% - ${
     margin * (cols + 1)
   }px) / ${cols} + ${margin}px) ${height + margin}px`,
