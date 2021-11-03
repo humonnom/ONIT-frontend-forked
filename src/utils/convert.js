@@ -54,11 +54,13 @@ export function convertForRedux(infos) {
     changeKey(info, 'height', 'h');
     createIdKey(info, index);
     info.widget_action = ACTION_NONE;
-    // 서버랑 맞추고 나서 지울 부분
+    // TODO: 서버랑 맞추고 나서 지울 부분
     const tmp_data_url = { url: info.widget_data };
     info.widget_data = tmp_data_url;
     info.widget_type = TYPE_IMAGE;
-    //
+    //--------------------------------
+    // TODO: widget_code 오타 (widet_code로 옴)
+    changeKey(info, 'widet_code', 'widget_code');
     console.log(typeof info.i);
     return info;
   });
