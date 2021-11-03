@@ -39,7 +39,6 @@ function AddImage(props) {
       widget_data: {
         url: `${url}`,
       },
-      widget_deleted: DELETED_OFF,
     };
     return newWidget;
   }
