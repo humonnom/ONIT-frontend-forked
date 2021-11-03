@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import _ from 'lodash';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import './Grid.css';
@@ -17,7 +17,9 @@ import { setNewWigetInfo } from '../Widgets/newWidgetUtils';
 const ReactGridLayout = WidthProvider(RGL);
 
 export default function GridLayout(props) {
+  const gridLayoutDiv = useRef(16);
   const dispatch = useDispatch();
+
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
@@ -52,6 +54,7 @@ export default function GridLayout(props) {
     <ReactGridLayout
       layout={props.mylayout}
       className='layout'
+      autoSize='off'
       cols={16}
       rowHeight={80}
       margin={[11, 10]}
