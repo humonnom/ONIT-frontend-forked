@@ -10,7 +10,7 @@ function deleteKey(obj, targetKey) {
   delete obj[targetKey];
   return obj;
 }
-
+// 프론트에서 수정한 데이터를 다시 서버용으로 바꿔줌
 export function convertForServer(infos) {
   const converted = JSON.parse(JSON.stringify(infos));
   converted.map(function (info, index) {
@@ -45,6 +45,7 @@ function createIdKey(obj, index) {
 // {
 //   widget_data: "http://!~~"
 // }
+// 서버에서 받아온 데이터를 프론트에서 쓸 수 있게 수정해줌
 export function convertForRedux(infos) {
   const converted = JSON.parse(JSON.stringify(infos));
   converted.map(function (info, index) {
