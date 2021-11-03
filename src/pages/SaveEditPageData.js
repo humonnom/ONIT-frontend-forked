@@ -24,7 +24,7 @@ function SaveEditPageData() {
   // 서버에 보내는 데이터 예시(juepark)
   // const postData = [
   //   {
-  //     widet_code: 'WIDIM0003000006',
+  //     widet_code: 'WIDIM0003000003',
   //     widget_action: 'D',
   //     widget_data:
   //       'https://66.media.tumblr.com/1e0c9be57e909606d6f59762f3304dcd/a9aee79202d3f26a-c3/s540x810/1525138136c36be879f3a822617955a9bc662ac8.png',
@@ -82,7 +82,7 @@ function SaveEditPageData() {
   // window.location.assign('/');
   // return <div />;
 
-  // window.location.assign('/normal');
+  window.location.assign('/normal');
   return <div> save page </div>;
 }
 
