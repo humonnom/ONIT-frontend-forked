@@ -10,6 +10,14 @@ import {
   ACTION_EDIT,
 } from '../../utils/constantValue';
 
+// 받아온 위젯 정보에서 D인것 제거
+// idx가 0이면 layoutInfos 그대로 리턴
+function sortWidgetInfoCanSee(layoutInfos) {
+  const idx = layoutInfos.findIndex((item) => item.widget_action !== 'D');
+  if (idx !== 0) return layoutInfos.splice(idx, 1);
+  return layoutInfos;
+}
+
 function EditModeGrid(props) {
   const [open, setOpen] = useState(0);
 
@@ -19,7 +27,7 @@ function EditModeGrid(props) {
     widgets: state.info.widgets,
   }));
 
-  const layoutInfo = widgets.list;
+  const layoutInfo = sortWidgetInfoCanSee(widgets.list);
 
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
@@ -64,7 +72,7 @@ function EditModeGrid(props) {
                 key={Number(element.i)}
                 style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
               >
-                <WidgetElement element={element} />
+                <WidgetElement element={element} mode='edit' />
               </div>
             );
           })}
@@ -83,17 +91,16 @@ function EditModeGrid(props) {
 export default EditModeGrid;
 
 // about grid style
-const height = 80;
 const margin = 10;
 const cols = 16;
 const gridStyle = {
-  margin: '0',
+  margin: '10',
   width: '100%',
-  height: '100vh',
-  backgroundSize: `calc((100% - ${
-    margin * (cols + 1)
-  }px) / ${cols} + ${margin}px) ${height + margin}px`,
-  backgroundPosition: `${margin / 2}px ${margin / 2}px`,
-  backgroundImage: `linear-gradient(to right, #eee 1px, transparent 1px),
-  linear-gradient(to bottom, #eee 1px, transparent 1px)`,
+  height: '100%',
+  backgroundSize: `calc((100% - ${margin}px) / ${cols}) calc((100vw - ${margin}px) / ${cols})`,
+  backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,
+  backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
+  linear-gradient(to bottom, #eee 2px, transparent 2px)`,
 };
+
+// grid공식 calc((100% - ${margin}px) / ${cols})

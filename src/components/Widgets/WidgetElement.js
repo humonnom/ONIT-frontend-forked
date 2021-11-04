@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TYPE_IMAGE } from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
 
-export function WidgetElement({ element }) {
-  // console.log('=======WidgetElement comp');
+export function WidgetElement({ element, mode }) {
+  const [hover, setHover] = useState(false);
+  const layout = element;
+
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} />;
@@ -22,7 +25,6 @@ export function WidgetElement({ element }) {
     }
   }
 
-  const layout = element;
   return (
     <div
       key={parseInt(layout.i, 10)}
@@ -31,8 +33,36 @@ export function WidgetElement({ element }) {
         borderRadius: '10px',
         width: '100%',
         height: '100%',
+        position: 'relative',
+      }}
+      onMouseEnter={() => {
+        setHover(true);
+      }}
+      onMouseLeave={() => {
+        setHover(false);
       }}
     >
+      {mode === 'edit' && hover && (
+        <>
+          <button
+            type='button'
+            style={{ position: 'absolute', top: '5px', right: '35px' }}
+          >
+            E
+          </button>
+          <button
+            type='button'
+            style={{ position: 'absolute', top: '5px', right: '5px' }}
+            onClick={() => {
+              // 여기에 기능을 넣어주시면 되는데
+              // n이 잘 나오는데 왜 값을 바꾸려하면 터질까요?
+              console.log(layout.widget_action);
+            }}
+          >
+            X
+          </button>
+        </>
+      )}
       {classifyBox(layout)}
     </div>
   );

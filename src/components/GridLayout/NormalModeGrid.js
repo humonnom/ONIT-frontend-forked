@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
 import { WidgetElement } from '../Widgets/WidgetElement';
 
-function makeBlockStatic(layoutInfos) {
+function makeGridItemStatic(layoutInfos) {
   return layoutInfos.map((info) => ({ ...info, static: true }));
 }
 
@@ -15,11 +15,11 @@ function NormalModeGrid() {
     widgets: state.info.widgets,
   }));
   const layoutInfo = widgets.list;
-  const staticLayout = makeBlockStatic(layoutInfo);
+  const staticLayout = makeGridItemStatic(layoutInfo);
   console.log('static 넣어줌');
   console.log(staticLayout);
 
-  const Test = useMemo(() => {
+  const isGrid = useMemo(() => {
     console.log('----------render---------');
     return (
       <GridLayout
@@ -34,14 +34,14 @@ function NormalModeGrid() {
             key={Number(element.i)}
             style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
           >
-            <WidgetElement element={element} />
+            <WidgetElement element={element} mode='normal' />
           </div>
         ))}
       </GridLayout>
     );
   }, [staticLayout]);
 
-  return <div style={{ position: 'relative' }}>{Test}</div>;
+  return <div style={{ position: 'relative' }}>{isGrid}</div>;
 }
 
 export default NormalModeGrid;

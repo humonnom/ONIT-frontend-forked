@@ -13,12 +13,14 @@ import {
   TYPE_IMAGE,
 } from '../../utils/constantValue';
 import { setNewWigetInfo } from '../Widgets/newWidgetUtils';
+import UseWindowSize from './UseWindowSize';
 
 const ReactGridLayout = WidthProvider(RGL);
 
 export default function GridLayout(props) {
-  const gridLayoutDiv = useRef(16);
   const dispatch = useDispatch();
+  // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
+  const rowHeight = (UseWindowSize().width - 170) / 16;
 
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
@@ -58,8 +60,8 @@ export default function GridLayout(props) {
       layout={props.mylayout}
       className='layout'
       cols={16}
-      rowHeight={80}
-      margin={[11, 10]}
+      rowHeight={rowHeight}
+      margin={[10, 10]}
       compactType={null}
       preventCollision
       onDrop={onDrop}
