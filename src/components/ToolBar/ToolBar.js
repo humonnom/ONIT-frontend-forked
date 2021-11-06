@@ -144,7 +144,7 @@ function ToolBar({ setIsPop }) {
         // 2. 해당 위젯객체의 widget_action이 'D'로 업데이트된 새로운 리스트 반환.
         // 3. 새로 반환된 리스트를 이용해 dispatch하여 리덕스 업데이트
         // 4. 위젯을 화면에 뿌릴때 widget_action이 'D'인 객체는 화면에 뿌리지 않도록 한다.
-        const newWidgetList = getNewWidgetList('3');
+        const newWidgetList = getNewWidgetList('0');
 
         console.log(newWidgetList);
         updateWidgets(newWidgetList);

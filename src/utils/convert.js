@@ -60,8 +60,6 @@ export function convertForRedux(infos) {
     info.widget_data = tmp_data_url;
     info.widget_type = TYPE_IMAGE;
     //--------------------------------
-    // TODO: widget_code 오타 (widet_code로 옴)
-    changeKey(info, 'widet_code', 'widget_code');
     console.log(typeof info.i);
     return info;
   });

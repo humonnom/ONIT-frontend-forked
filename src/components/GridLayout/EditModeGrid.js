@@ -10,14 +10,6 @@ import {
   ACTION_EDIT,
 } from '../../utils/constantValue';
 
-// 받아온 위젯 정보에서 D인것 제거
-// idx가 0이면 layoutInfos 그대로 리턴
-function sortWidgetInfoCanSee(layoutInfos) {
-  const idx = layoutInfos.findIndex((item) => item.widget_action !== 'D');
-  if (idx !== 0) return layoutInfos.splice(idx, 1);
-  return layoutInfos;
-}
-
 function EditModeGrid(props) {
   const [open, setOpen] = useState(0);
 
@@ -26,8 +18,24 @@ function EditModeGrid(props) {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
+  // 위젯 배열에서, 삭제상태(widget_action === 'D')인 위젯을 제외하고 새로운 배열 생성
+  // 그림을 그리기 위한 임시 객체 배열, 원본을 수정하면 안됨
+  // idx가 -1이면 action이 'D'인 요소를 찾지 못한것이므로 아무 처리하지 않음
+  const getVisibleWidgetsList = (oldList) => {
+    const newList = oldList.filter(function (element) {
+      return element.widget_action !== 'D';
+    });
+    // console.log(newList);
+    return newList;
+  };
+  // TODO: 오늘 할일 2
+  // const layoutInfo =
+  // console.log(getVisibleWidgetsList(widgets.list));
 
-  const layoutInfo = sortWidgetInfoCanSee(widgets.list);
+  // 태호킴 이 부분을 봐주세요.
+  // const layoutInfo = getVisibleWidgetsList(widgets.list);
+  // console.log(getVisibleWidgetsList(widgets.list));
+  const layoutInfo = widgets.list;
 
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
@@ -56,11 +64,11 @@ function EditModeGrid(props) {
     return (
       <div style={gridStyle}>
         <GridLayout
-          onResizeStop={(rayout, oldItem, newItem) => {
+          onResizeStop={(layout, oldItem, newItem) => {
             console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
             renewWidgetsList(newItem);
           }}
-          onDragStop={(rayout, oldItem, newItem) => {
+          onDragStop={(layout, oldItem, newItem) => {
             console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
             renewWidgetsList(newItem);
           }}
