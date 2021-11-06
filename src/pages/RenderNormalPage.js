@@ -16,8 +16,11 @@ function RenderNormalPage({ match }) {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/normal`;
-  const fetchTokens = async () => {
+  const getUserDataFromServer = async () => {
+    console.log('getUserData');
+  };
+  const getWidgetsDataFromServer = async () => {
+    const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/normal`;
     try {
       setError(null);
       setData(null);
@@ -58,7 +61,8 @@ function RenderNormalPage({ match }) {
   };
 
   useEffect(() => {
-    fetchTokens();
+    getWidgetsDataFromServer();
+    getUserDataFromServer();
   }, []);
 
   if (loading) {

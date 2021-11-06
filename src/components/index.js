@@ -15,7 +15,7 @@ import NormalModeGrid from './GridLayout/NormalModeGrid';
 import EditModeGrid from './GridLayout/EditModeGrid';
 import YoutubeVideo from './Widgets/Video/YoutubeVideo';
 import AddVideo from './Widgets/Video/AddVideo';
-import AddImage from './Widgets/Image/AddImage';
+import AddImage from './Widgets/Image/EditImage';
 import Image from './Widgets/Image/Image';
 
 import EditWrapper from './Wrapper/EditWrapper';

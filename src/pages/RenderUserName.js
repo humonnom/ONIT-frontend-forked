@@ -16,7 +16,7 @@ function RenderUserName() {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/${user_seq}/4`;
+  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/${user_seq}`;
   const fetchTokens = async () => {
     try {
       setError(null);
