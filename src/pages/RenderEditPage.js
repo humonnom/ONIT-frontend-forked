@@ -16,8 +16,8 @@ function RenderEditPage({ match }) {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/edit`;
-  const fetchTokens = async () => {
+  const getWidgetsDataFromServer = async () => {
+    const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/edit`;
     try {
       setError(null);
       setData(null);
@@ -57,7 +57,7 @@ function RenderEditPage({ match }) {
   };
 
   useEffect(() => {
-    fetchTokens();
+    getWidgetsDataFromServer();
   }, []);
 
   if (loading) {
