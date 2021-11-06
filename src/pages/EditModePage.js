@@ -5,7 +5,7 @@ import {
   EditWrapper,
   ToolBar,
   EditModeGrid,
-  AddImage,
+  EditImage,
 } from '../components';
 import PopWidgets from '../components/Widgets/PopWidgets';
 
@@ -17,7 +17,7 @@ function EditMode(props) {
   return (
     <PageWrapper>
       <EditWrapper>
-        {modal.imgInputWindow && <AddImage />}
+        {modal.imgInputWindow && <EditImage />}
         <ToolBar />
         {modal.popUpWindow && <PopWidgets />}
         <EditModeGrid />
