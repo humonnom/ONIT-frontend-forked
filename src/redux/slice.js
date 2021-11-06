@@ -4,6 +4,9 @@ import { DELETED_OFF } from '../utils/constantValue';
 const slice = createSlice({
   name: 'info',
   initialState: {
+    user: {
+      name: '',
+    },
     modal: {
       imgInputWindow: false,
       imgChangeTargetId: -1,
@@ -27,8 +30,8 @@ const slice = createSlice({
     },
   },
   reducers: {
-    replacementWidget(state, action) {
-      state.widget = action.payload;
+    replacementUser(state, action) {
+      state.user = action.payload;
     },
     replacementWidgets(state, action) {
       state.widgets = action.payload;
@@ -42,10 +45,9 @@ const slice = createSlice({
 export const infoReducer = slice.reducer;
 
 export const {
-  replacementWidget: createReplacementWidgetAction,
   replacementWidgets: createReplacementWidgetsAction,
-  replacementNewWidgets: createReplacementTmpWidgetsAction,
   replacementModal: createReplacementModalAction,
+  replacementUser: createReplacementUserAction,
 } = slice.actions;
 
 export const store = configureStore({
@@ -59,9 +61,8 @@ export const store = configureStore({
 // /**
 //  * @typedef {Object} RootState
 //  * @property {any} widgets
-//  * @property {any} new_widgets
-//  * @property {any} widget
 //  * @property {any} modal
+//  * @property {any} user
 //  */
 
 // /** @type {import('react-redux').TypedUseSelectorHook<ReturnType<(typeof store)["getState"]>>} */
