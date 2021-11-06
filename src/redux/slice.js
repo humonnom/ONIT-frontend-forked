@@ -6,6 +6,7 @@ const slice = createSlice({
   initialState: {
     modal: {
       imgInputWindow: false,
+      imgChangeTargetId: -1,
       popUpWindow: false,
     },
     widgets: {

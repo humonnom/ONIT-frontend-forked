@@ -12,8 +12,8 @@ function SaveEditPageData() {
   const [error, setError] = useState(null);
   const location = useLocation();
   const { postData } = location.state;
-  console.log(`=> 서버로 보내지는 데이터`);
-  console.log(postData);
+  // console.log(`=> 서버로 보내지는 데이터`);
+  // console.log(postData);
   // TODO: 변경되어야 할 데이터를 obj 형태로 postData에 넣어주세요(yekim)
   // 1. grid 관련 컴포넌트 내부의 redux에서 데이터 변경하기
   // 2. redux 데이터 불러오기
@@ -24,15 +24,8 @@ function SaveEditPageData() {
   // 서버에 보내는 데이터 예시(juepark)
   // const postData = [
   //   {
-  //     widet_code: 'WIDIM0003000003',
+  //     widget_code: 'WIDIM0003000003',
   //     widget_action: 'D',
-  //     widget_data:
-  //       'https://66.media.tumblr.com/1e0c9be57e909606d6f59762f3304dcd/a9aee79202d3f26a-c3/s540x810/1525138136c36be879f3a822617955a9bc662ac8.png',
-  //     widget_type: 1,
-  //     pos_y: 7,
-  //     pos_x: 10,
-  //     width: 3,
-  //     height: 2,
   //   },
   // ];
   const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/save`;
@@ -41,6 +34,9 @@ function SaveEditPageData() {
       setError(null);
       setData(null);
       setLoading(true);
+      console.log(`=> 서버로 보내지는 데이터`);
+
+      console.log(postData);
       const response = await axios.post(endPoint, postData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
