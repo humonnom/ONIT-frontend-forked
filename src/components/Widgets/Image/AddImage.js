@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { css } from '@emotion/css';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
 } from '../../../redux/slice';
+
 import {
   ACTION_CREATE,
   DELETED_OFF,
@@ -17,30 +19,38 @@ function AddImage(props) {
   }));
   const [url, setUrl] = useState('');
   const dispatch = useDispatch();
-  const updateWidgets = (newWidget) => {
-    console.log(widgets);
+  const closeEditWindow = () => {
     dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
+      createReplacementModalAction({
+        ...modal,
+        imgInputWindow: false,
+        imgChangeTargetId: -1,
       })
     );
   };
-  function createNewImageWidget() {
-    const newWidget = {
-      i: widgets.count.toString(),
-      x: 6,
-      y: 6,
-      w: 3,
-      h: 3,
-      widget_action: ACTION_CREATE,
-      widget_type: TYPE_IMAGE,
-      widget_data: {
-        url: `${url}`,
-      },
-    };
-    return newWidget;
+  const updateWidgets = (newList) => {
+    console.log(newList);
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        list: newList,
+      })
+    );
+  };
+  function editWidgetInfo(oldList) {
+    const newList = JSON.parse(JSON.stringify(oldList));
+    const found = newList.find(
+      (element) => element.i === modal.imgChangeTargetId
+    );
+    console.log('edit target :');
+    console.log(found);
+    if (found.widget_type === TYPE_IMAGE) {
+      const src = { url: `${url}` };
+      found.widget_data = src;
+    }
+    console.log('new list');
+    console.log(newList);
+    return newList;
   }
   const handleChange = ({ target: { value } }) => {
     console.log(value);
@@ -49,15 +59,9 @@ function AddImage(props) {
 
   const handleSubmit = (event) => {
     // TODO: url valid 한지 체크해야함
-    const newWidget = createNewImageWidget();
-    updateWidgets(newWidget);
-
-    dispatch(
-      createReplacementModalAction({
-        ...modal,
-        imgInputWindow: false,
-      })
-    );
+    const newList = editWidgetInfo(widgets.list);
+    updateWidgets(newList);
+    closeEditWindow();
   };
 
   const handleKeyDown = (event) => {
@@ -67,7 +71,12 @@ function AddImage(props) {
   };
 
   return (
-    <>
+    <div
+      className={css`
+        display: absolute;
+        top: -20;
+      `}
+    >
       <input
         type='url'
         name='url'
@@ -76,9 +85,9 @@ function AddImage(props) {
         onKeyDown={handleKeyDown}
       />
       <button onClick={handleSubmit} type='button'>
-        위젯으로 만들기
+        수정완료
       </button>
-    </>
+    </div>
   );
 }
 
