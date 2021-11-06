@@ -1,11 +1,64 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { TYPE_IMAGE } from '../../utils/constantValue';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createReplacementModalAction,
+  createReplacementWidgetsAction,
+} from '../../redux/slice';
+import {
+  ACTION_CREATE,
+  ACTION_DELETE,
+  TYPE_IMAGE,
+} from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
 
 export function WidgetElement({ element, mode }) {
   const [hover, setHover] = useState(false);
   const layout = element;
+  const { widgets, modal } = useSelector((state) => ({
+    widgets: state.info.widgets,
+    modal: state.info.modal,
+  }));
+  const dispatch = useDispatch();
+
+  // dispatch
+  const openEditWindow = (id) => {
+    dispatch(
+      createReplacementModalAction({
+        ...modal,
+        imgInputWindow: true,
+        imgChangeTargetId: id,
+      })
+    );
+  };
+  const closeEditWindow = () => {
+    dispatch(
+      createReplacementModalAction({
+        ...modal,
+        imgInputWindow: false,
+      })
+    );
+  };
+  const updateWidgets = (newWidgetList) => {
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        list: newWidgetList,
+      })
+    );
+  };
+  function getNewWidgetList(targetItemIndex, newAction) {
+    const newList = JSON.parse(JSON.stringify(widgets.list));
+    // console.log(targetItemCode);
+    const found = newList.find((widget) => widget.i === targetItemIndex);
+    if (found.widget_action === ACTION_CREATE && newAction === ACTION_DELETE) {
+      found.widget_action = newAction;
+    } else if (found.widget_action !== ACTION_CREATE) {
+      found.widget_action = newAction;
+    }
+    // console.log(found);
+    // TODO: 만들자마자 삭제한 위젯도 widget_action 'D'로 보내면 되는지 확인
+    return newList;
+  }
 
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_IMAGE) {
@@ -46,20 +99,28 @@ export function WidgetElement({ element, mode }) {
         <>
           <button
             type='button'
-            style={{ position: 'absolute', top: '5px', right: '35px' }}
+            style={{ position: 'absolute', top: '5px', left: '3px' }}
+            onClick={() => {
+              console.log(layout.i);
+              openEditWindow(layout.i);
+              const newWidgetList = getNewWidgetList(layout.i, 'E');
+              console.log(newWidgetList);
+              updateWidgets(newWidgetList);
+            }}
           >
-            E
+            ⚙︎
           </button>
           <button
             type='button'
-            style={{ position: 'absolute', top: '5px', right: '5px' }}
+            style={{ position: 'absolute', top: '5px', right: '3px' }}
             onClick={() => {
-              // 여기에 기능을 넣어주시면 되는데
-              // n이 잘 나오는데 왜 값을 바꾸려하면 터질까요?
-              console.log(layout.widget_action);
+              console.log(layout.i);
+              const newWidgetList = getNewWidgetList(layout.i, 'D');
+              console.log(newWidgetList);
+              updateWidgets(newWidgetList);
             }}
           >
-            X
+            x
           </button>
         </>
       )}
