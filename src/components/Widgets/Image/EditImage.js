@@ -6,13 +6,9 @@ import {
   createReplacementWidgetsAction,
 } from '../../../redux/slice';
 
-import {
-  ACTION_CREATE,
-  DELETED_OFF,
-  TYPE_IMAGE,
-} from '../../../utils/constantValue';
+import { TYPE_IMAGE } from '../../../utils/constantValue';
 
-function AddImage(props) {
+function EditImage(props) {
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
@@ -74,7 +70,6 @@ function AddImage(props) {
     <div
       className={css`
         display: absolute;
-        top: -20;
       `}
     >
       <input
@@ -91,4 +86,4 @@ function AddImage(props) {
   );
 }
 
-export default AddImage;
+export default EditImage;

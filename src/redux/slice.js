@@ -1,5 +1,4 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { DELETED_OFF } from '../utils/constantValue';
 
 const slice = createSlice({
   name: 'info',
