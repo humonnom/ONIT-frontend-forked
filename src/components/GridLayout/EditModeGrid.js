@@ -5,6 +5,7 @@ import GridLayout from './GridLayout';
 import { createReplacementWidgetsAction } from '../../redux/slice';
 import { WidgetElement } from '../Widgets/WidgetElement';
 import { ACTION_NONE, ACTION_EDIT } from '../../utils/constantValue';
+import { HEADER_HEIGHT, REAL_HEADER_HEIGHT } from '../../utils/style';
 
 function EditModeGrid(props) {
   const dispatch = useDispatch();
@@ -51,32 +52,36 @@ function EditModeGrid(props) {
       })
     );
   }
+
   const gridForm = useMemo(
     () => (
-      <div style={gridStyle}>
-        <GridLayout
-          onResizeStop={(layout, oldItem, newItem) => {
-            console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
-            renewWidgetsList(newItem);
-          }}
-          onDragStop={(layout, oldItem, newItem) => {
-            console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
-            renewWidgetsList(newItem);
-          }}
-          mylayout={layoutInfo}
-        >
-          {layoutInfo.map(function (element) {
-            return (
-              <div
-                key={Number(element.i)}
-                style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
-              >
-                <WidgetElement element={element} mode='edit' />
-              </div>
-            );
-          })}
-        </GridLayout>
-      </div>
+      <GridLayout
+        style={
+          // 여기에 조건을 넣으세요 ?
+          gridStyle
+          // : {}
+        }
+        onResizeStop={(layout, oldItem, newItem) => {
+          console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
+          renewWidgetsList(newItem);
+        }}
+        onDragStop={(layout, oldItem, newItem) => {
+          console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
+          renewWidgetsList(newItem);
+        }}
+        mylayout={layoutInfo}
+      >
+        {layoutInfo.map(function (element) {
+          return (
+            <div
+              key={Number(element.i)}
+              style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+            >
+              <WidgetElement element={element} mode='edit' />
+            </div>
+          );
+        })}
+      </GridLayout>
     ),
     [layoutInfo]
   );
@@ -92,7 +97,7 @@ const cols = 16;
 const gridStyle = {
   margin: '10',
   width: '100%',
-  minHeight: '100vh',
+  minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
   backgroundSize: `calc((100% - ${margin}px) / ${cols}) calc((100vw - ${margin}px) / ${cols})`,
   backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,
   backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
