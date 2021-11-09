@@ -5,8 +5,10 @@ import { COLOR_GREY, HEADER_HEIGHT } from '../../utils/style';
 const headerWrapper = ({ children }) => (
   <div
     className={css`
-      position: absolute;
       top: 0;
+      z-index: 999;
+      background-color: white;
+      position: sticky;
       display: flex;
       width: 100vw;
       height: ${HEADER_HEIGHT};
