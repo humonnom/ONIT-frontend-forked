@@ -51,12 +51,23 @@ function ToolBar({ setIsPop }) {
       emoji: '🖼',
       type: 'image',
       onClick: () => {
-        dispatch(
-          createReplacementModalAction({
-            ...modal,
-            popUpWindow: true,
-          })
-        );
+        if (modal.popUpWindow === true) {
+          dispatch(
+            createReplacementModalAction({
+              ...modal,
+              popUpWindow: false,
+            })
+          );
+        } else {
+          console.log('이미지가 클릭되엇습니다');
+          dispatch(
+            createReplacementModalAction({
+              ...modal,
+              popUpWindow: true,
+              popUpWindowType: 'image',
+            })
+          );
+        }
         console.log('add image');
       },
     },
