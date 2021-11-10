@@ -23,7 +23,7 @@ function ToolBar({ setIsPop }) {
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
-
+  const user_seq = localStorage.getItem('user_seq');
   // dispatch
   const updateWidgets = (newWidgetList) => {
     dispatch(
@@ -186,7 +186,7 @@ function ToolBar({ setIsPop }) {
             const postData = convertForServer(widgets.list);
             console.log(postData);
             history.push({
-              pathname: '/save',
+              pathname: `/${user_seq}/save`,
               state: { postData },
             });
           }}
