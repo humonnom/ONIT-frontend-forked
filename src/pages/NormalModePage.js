@@ -8,11 +8,12 @@ import {
 import getWidgetsInfo from '../api/getWidgetsInfo';
 import { createReplacementWidgetsAction } from '../redux/slice';
 
-function NormalMode(props) {
+function NormalMode({ userMatch }) {
+  // console.log(userMatch);
   return (
     <PageWrapper>
       <NormalWrapper>
-        <Header />
+        <Header userMatch={userMatch} />
         <NormalModeGrid />
       </NormalWrapper>
     </PageWrapper>
