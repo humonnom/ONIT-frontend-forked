@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { ACTION_NONE } from '../utils/constantValue';
 
 const slice = createSlice({
   name: 'info',
@@ -10,6 +11,7 @@ const slice = createSlice({
       imgInputWindow: false,
       imgChangeTargetId: -1,
       popUpWindow: false,
+      popUpWindowType: 'default',
     },
     widgets: {
       count: 0,

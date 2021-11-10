@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createReplacementModalAction } from '../../redux/slice';
-import { REAL_HEADER_HEIGHT } from '../../utils/style';
-import EditImage from './Image/EditImage';
-import NewImage from './Image/NewImage';
+import { createReplacementModalAction } from '../../../redux/slice';
+import { REAL_HEADER_HEIGHT } from '../../../utils/style';
+import PopTypeComponent from './PopTypeComponent';
 
 function PopWidgets(props) {
   const dispatch = useDispatch();
@@ -33,15 +32,10 @@ function PopWidgets(props) {
   };
 
   return (
-    <div>
-      {isDrag === 'off' ? (
-        <div style={backGroundPopStyle}>
-          <div style={widgetBoxPopStyle} />
-        </div>
-      ) : (
-        <></>
-      )}
-      <NewImage getOnDragStart={getOnDragStart} getOnDragEnd={getOnDragEnd} />
+    <div style={backGroundPopStyle}>
+      <div style={widgetBoxPopStyle}>
+        <PopTypeComponent />
+      </div>
     </div>
   );
 }

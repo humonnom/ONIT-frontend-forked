@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { PageWrapper, EditWrapper, ToolBar, EditModeGrid } from '../components';
-import EditImage from '../components/Widgets/Image/EditImage';
-import PopWidgets from '../components/Widgets/PopWidgets';
+import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 
 function EditMode(props) {
   const { modal } = useSelector((state) => ({

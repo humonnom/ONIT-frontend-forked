@@ -70,6 +70,8 @@ function EditImage(props) {
     <div
       className={css`
         display: absolute;
+        top: 47%;
+        left: 46%;
       `}
     >
       <input
