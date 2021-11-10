@@ -59,10 +59,12 @@ function ToolBar({ setIsPop }) {
             })
           );
         } else {
+          console.log('이미지가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
               popUpWindow: true,
+              popUpWindowType: 'image',
             })
           );
         }
