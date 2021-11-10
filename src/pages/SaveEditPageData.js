@@ -67,7 +67,7 @@ function SaveEditPageData() {
   }
   // access_token 만료의 경우
   if (data === 419) {
-    window.location.assign('/auth/token/refresh');
+    window.location.assign(`/${user_seq}/auth/token/refresh`);
     return <div> 토큰이 만료되었습니다. </div>;
   } else if (data === 401) {
     return <div> 로그인을 다시 하세요. </div>;
@@ -78,7 +78,7 @@ function SaveEditPageData() {
   // window.location.assign('/');
   // return <div />;
 
-  window.location.assign('/normal');
+  window.location.assign(`/${user_seq}/normal`);
   return <div> save page </div>;
 }
 

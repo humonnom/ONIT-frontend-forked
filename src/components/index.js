@@ -21,6 +21,9 @@ import Image from './Widgets/Image/Image';
 import EditWrapper from './Wrapper/EditWrapper';
 import NormalWrapper from './Wrapper/NormalWrapper';
 
+import RenewAccessToken from './RenewAccessToken';
+import HandleKakaoLogin from './login/HandleKakaoLogin';
+
 export {
   PageWrapper,
   WidgetWrapper,
@@ -39,4 +42,6 @@ export {
   AddVideo,
   EditImage,
   Image,
+  RenewAccessToken,
+  HandleKakaoLogin,
 };

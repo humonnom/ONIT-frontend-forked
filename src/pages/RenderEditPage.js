@@ -56,8 +56,14 @@ function RenderEditPage({ match }) {
     );
   };
 
+  function checkIsPageOwner() {
+    // TODO: 접근권한 체크
+    console.log('페이지 주인과 접근하려는 유저가 같은지 확인해야합니다.');
+  }
+
   useEffect(() => {
     getWidgetsDataFromServer();
+    checkIsPageOwner();
   }, []);
 
   if (loading) {
@@ -68,7 +74,7 @@ function RenderEditPage({ match }) {
   }
   // access_token 만료의 경우
   if (data === 419) {
-    window.location.assign('/auth/token/refresh');
+    window.location.assign(`${user_seq}/auth/token/refresh`);
     return <div> 토큰이 만료되었습니다. </div>;
   } else if (data === 401) {
     return <div> 로그인을 다시 하세요. </div>;

@@ -5,22 +5,31 @@ import { useDispatch } from 'react-redux';
 import { NormalModePage } from '.';
 import { convertForRedux } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
+import { getPageUser } from '../utils/parsing';
 
 function RenderNormalPage({ match }) {
-  // console.log('RenderNormalPage page');
+  const [userMatch, setUserMatch] = useState(false);
+  console.log('RenderNormalPage page');
   const accessToken = localStorage.getItem('access_token');
   const user_seq = localStorage.getItem('user_seq');
+  const page_user_seq = getPageUser();
+
+  useEffect(() => {
+    if (user_seq === page_user_seq) {
+      setUserMatch(true);
+    }
+  }, []);
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const dispatch = useDispatch();
   const getUserDataFromServer = async () => {
     console.log('getUserData');
   };
   const getWidgetsDataFromServer = async () => {
-    const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/normal`;
+    console.log('getWidgetsData');
+    const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${page_user_seq}/normal`;
     try {
       setError(null);
       setData(null);
@@ -73,7 +82,7 @@ function RenderNormalPage({ match }) {
   }
   // access_token 만료의 경우
   if (data === 419) {
-    window.location.assign('/auth/token/refresh');
+    window.location.assign(`/${user_seq}/auth/token/refresh`);
     return <div> 토큰이 만료되었습니다. </div>;
   } else if (data === 401) {
     return <div> 로그인을 다시 하세요. </div>;
@@ -87,9 +96,28 @@ function RenderNormalPage({ match }) {
       {/* <Link to='/edit'>
         <button type='button'>edit</button>
       </Link> */}
-      <NormalModePage />
+      <NormalModePage userMatch={userMatch} />
     </div>
   );
 }
 
 export default RenderNormalPage;
+
+// 리팩토링 시에 참고할 코드. 지우지 말아주세요.
+// const dispatch = useDispatch();
+// TODO: 로그인 안되었을때 데이터 처리(로그인, 데이터 받아오는 것 순서)
+// useEffect(() => {
+//   const setWidgetState = async () => {
+//     const info = await getWidgetsInfo();
+//     const convertedForRedux = await convertForRedux(info);
+//     console.log(`convert for redux :`);
+//     console.log(convertedForRedux);
+//     dispatch(
+//       createReplacementWidgetsAction({
+//         count: info.length,
+//         list: convertedForRedux,
+//       })
+//     );
+//   };
+//   setWidgetState();
+// }, [dispatch]);
