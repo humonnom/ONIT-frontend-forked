@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { NormalModePage } from '.';
 import { convertForRedux } from '../utils/convert';
-import { createReplacementWidgetsAction } from '../redux/slice';
+import {
+  createReplacementUserAction,
+  createReplacementWidgetsAction,
+} from '../redux/slice';
 import { getPageUser } from '../utils/parsing';
 
 function RenderNormalPage({ match }) {
   const [userMatch, setUserMatch] = useState(false);
+  const [pageUserName, setPageUserName] = useState('unkown');
+  const { id } = match.params;
   console.log('RenderNormalPage page');
   const accessToken = localStorage.getItem('access_token');
   const user_seq = localStorage.getItem('user_seq');
   const page_user_seq = getPageUser();
+  // console.log('==========id=========');
+  // console.log(id);
 
   useEffect(() => {
     if (user_seq === page_user_seq) {
@@ -45,7 +51,9 @@ function RenderNormalPage({ match }) {
         setData(response.data.code);
       } else {
         console.log('response data:', response.data);
-        setWidgetState(response.data);
+        setWidgetState(response.data.widget_list);
+        setPageUserName(response.data.user_name);
+        console.log(`user name setting ${pageUserName}`);
       }
     } catch (err) {
       setError(err);
@@ -68,6 +76,17 @@ function RenderNormalPage({ match }) {
       })
     );
   };
+
+  // setUserName(response.data.user_name);
+
+  // const setUsername = async (name) => {
+  //   dispatch(
+  //     createReplacementUserAction({
+  //       ...user,
+  //       name: name,
+  //     })
+  //   );
+  // };
 
   useEffect(() => {
     getWidgetsDataFromServer();
@@ -93,10 +112,11 @@ function RenderNormalPage({ match }) {
 
   return (
     <div>
-      {/* <Link to='/edit'>
-        <button type='button'>edit</button>
-      </Link> */}
-      <NormalModePage userMatch={userMatch} />
+      <NormalModePage
+        userMatch={userMatch}
+        pageUserId={id}
+        pageUserName={pageUserName}
+      />
     </div>
   );
 }

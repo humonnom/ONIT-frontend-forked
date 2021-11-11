@@ -11,23 +11,10 @@ function SaveEditPageData() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const location = useLocation();
+  if (!location.state) {
+    window.location.assign('/');
+  }
   const { postData } = location.state;
-  // console.log(`=> 서버로 보내지는 데이터`);
-  // console.log(postData);
-  // TODO: 변경되어야 할 데이터를 obj 형태로 postData에 넣어주세요(yekim)
-  // 1. grid 관련 컴포넌트 내부의 redux에서 데이터 변경하기
-  // 2. redux 데이터 불러오기
-  // 3. redux 데이터를 database 형태로 맞춰서 post 요청하기
-  // widget_action이 'C'이면 widget_code를 생략합니다.
-  // widget_action이 'E'/'D'이면, widget_code를 같이 써줍니다.
-
-  // 서버에 보내는 데이터 예시(juepark)
-  // const postData = [
-  //   {
-  //     widget_code: 'WIDIM0003000003',
-  //     widget_action: 'D',
-  //   },
-  // ];
   const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/save`;
   const fetchTokens = async () => {
     try {
@@ -75,8 +62,6 @@ function SaveEditPageData() {
   if (!data) {
     return null;
   }
-  // window.location.assign('/');
-  // return <div />;
 
   window.location.assign(`/${user_seq}/normal`);
   return <div> save page </div>;

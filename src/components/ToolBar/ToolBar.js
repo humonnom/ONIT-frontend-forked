@@ -77,7 +77,24 @@ function ToolBar({ setIsPop }) {
       emoji: '📼',
       type: 'video',
       onClick: () => {
-        setIsPop({ on: 1, type: 'video' });
+        // setIsPop({ on: 1, type: 'video' });
+        if (modal.popUpWindow === true) {
+          dispatch(
+            createReplacementModalAction({
+              ...modal,
+              popUpWindow: false,
+            })
+          );
+        } else {
+          console.log('비디오가 클릭되엇습니다');
+          dispatch(
+            createReplacementModalAction({
+              ...modal,
+              popUpWindow: true,
+              popUpWindowType: 'video',
+            })
+          );
+        }
       },
     },
     {

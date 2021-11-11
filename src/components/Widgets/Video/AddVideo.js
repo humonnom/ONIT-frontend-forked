@@ -11,13 +11,13 @@ function AddVideo(props) {
   const handleSubmit = (event) => {
     try {
       const urlObj = new URL(url);
+      const new_widget = urlObj.searchParams.get('v');
       // let widget_list = Cookies.get('widget');
       // const new_widget = {
       //   type: 'video',
       //   id: urlObj.searchParams.get("v"),
       //   size: 'm'
       // };
-      const new_widget = urlObj.searchParams.get('v');
       // Cookies.set('widget', widget_list.concat(new_widget));
       Cookies.set('video', new_widget);
       props.setShow(false);

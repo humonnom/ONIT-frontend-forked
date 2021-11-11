@@ -1,13 +1,23 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+// import { useDispatch } from 'react-redux';
 
 function HandleKakaoLogin() {
+  // const dispatch = useDispatch();
   console.log('HandleKakaoLogin page');
   const code = new URL(window.location.href).searchParams.get('code');
-  const user_seq = localStorage.getItem('user_seq');
   console.log(`code: ${code}`);
 
   const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/auth/login/kakao`;
+  // function updateUserId(id) {
+  //   dispatch(
+  //     createReplacementUserAction({
+  //       ...user,
+  //       id: id,
+  //     })
+  //   );
+  // }
+
   const fetchTokens = async () => {
     try {
       const response = await axios.get(endPoint, {
@@ -20,9 +30,12 @@ function HandleKakaoLogin() {
       localStorage.setItem('access_token', result.data.tokens.access_token);
       localStorage.setItem('refresh_token', result.data.tokens.refresh_token);
       localStorage.setItem('user_seq', result.data.user_info.user_seq);
+      // updateUserId(result.data.user_info.user_seq);
+      const user_seq = localStorage.getItem('user_seq');
+
       window.location.assign(`/${user_seq}/normal`);
     } catch (err) {
-      window.location.assign(`/${user_seq}`);
+      window.location.assign('/');
     }
   };
 
