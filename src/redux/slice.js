@@ -5,7 +5,8 @@ const slice = createSlice({
   name: 'info',
   initialState: {
     user: {
-      name: '',
+      name: '박주은',
+      id: -1,
     },
     modal: {
       imgInputWindow: false,
