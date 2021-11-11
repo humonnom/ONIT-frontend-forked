@@ -5,19 +5,29 @@ import { useDispatch } from 'react-redux';
 import { EditModePage } from '.';
 import { convertForRedux, convertForServer } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
+import { getPageUser } from '../utils/parsing';
 
 function RenderEditPage({ match }) {
   console.log('RenderEditPage page');
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem('access_token');
   const user_seq = localStorage.getItem('user_seq');
-
+  const [userMatch, setUserMatch] = useState(false);
+  const { id } = match.params;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const page_user_seq = getPageUser();
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user_seq === page_user_seq) {
+      setUserMatch(true);
+      console.log(page_user_seq);
+    }
+  }, []);
+
   const getWidgetsDataFromServer = async () => {
-    const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/edit`;
+    const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${page_user_seq}/edit`;
     try {
       setError(null);
       setData(null);
@@ -27,13 +37,19 @@ function RenderEditPage({ match }) {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log('======== render edit page error code =======');
+      console.log(response.data.code);
       if (response.data.code === 419) {
         setData(response.data.code);
       } else if (response.data.code === 401) {
         setData(response.data.code);
+      } else if (response.data.code === 601) {
+        console.log('hello world');
+        // TODO: 뒤로가기로 바꾸기
+        window.location.assign('/');
       } else {
         console.log('response data:', response.data);
-        setWidgetState(response.data);
+        setWidgetState(response.data.widget_list);
       }
     } catch (err) {
       setError(err);
@@ -74,7 +90,7 @@ function RenderEditPage({ match }) {
   }
   // access_token 만료의 경우
   if (data === 419) {
-    window.location.assign(`${user_seq}/auth/token/refresh`);
+    window.location.assign(`/${user_seq}/auth/token/refresh`);
     return <div> 토큰이 만료되었습니다. </div>;
   } else if (data === 401) {
     return <div> 로그인을 다시 하세요. </div>;
@@ -85,9 +101,6 @@ function RenderEditPage({ match }) {
 
   return (
     <div>
-      {/* <Link to='/save'>
-        <button type='button'>save</button>
-      </Link> */}
       <EditModePage />
     </div>
   );

@@ -21,7 +21,7 @@ function MainPage(props) {
           window.location.assign(`/3/normal`);
         }}
       >
-        juepark 페이지
+        3번 유저의 페이지
       </button>
       <button
         type='button'
@@ -29,7 +29,7 @@ function MainPage(props) {
           window.location.assign(`/4/normal`);
         }}
       >
-        heom 페이지
+        4번 유저의 페이지
       </button>
     </div>
   );
