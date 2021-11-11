@@ -61,7 +61,8 @@ function RenewAccessToken() {
   localStorage.setItem('access_token', tokens.access_token);
   localStorage.setItem('refresh_token', tokens.refresh_token);
   localStorage.setItem('user_seq', userInfo.user_seq);
-  window.location.assign(`/${userInfo.user_seq}/normal`);
+  const user_seq = localStorage.getItem('user_seq');
+  window.location.assign(`/${user_seq}/normal`);
 }
 
 export default RenewAccessToken;

@@ -8,8 +8,10 @@ import {
   ACTION_CREATE,
   ACTION_DELETE,
   TYPE_IMAGE,
+  TYPE_VIDEO,
 } from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
+import VideoBox from './Video/VideoBox';
 
 export function WidgetElement({ element, mode }) {
   const [hover, setHover] = useState(false);
@@ -63,6 +65,8 @@ export function WidgetElement({ element, mode }) {
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} />;
+    } else if (curInfo.widget_type === TYPE_VIDEO) {
+      return <VideoBox element={element} />;
     } else {
       return (
         <div

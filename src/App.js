@@ -1,4 +1,5 @@
 import React from 'react';
+// import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PageWrapper, HandleKakaoLogin, RenewAccessToken } from './components';
 import {
@@ -11,8 +12,6 @@ import {
 } from './pages';
 
 function App() {
-  const id = localStorage.getItem('user_seq');
-
   return (
     <PageWrapper>
       <Router>
