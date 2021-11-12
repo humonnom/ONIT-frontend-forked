@@ -29,7 +29,7 @@ function PopVideo(props) {
       widget_action: ACTION_CREATE,
       widget_code: '',
       widget_type: TYPE_VIDEO,
-      widget_data: { url: `${url}` },
+      widget_data: { thumbnail: `${url}` },
       i: `${widgets.count + 1}`,
       x: 1,
       y: 1,

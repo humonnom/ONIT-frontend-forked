@@ -41,7 +41,7 @@ function EditImage(props) {
     console.log('edit target :');
     console.log(found);
     if (found.widget_type === TYPE_IMAGE) {
-      const src = { url: `${url}` };
+      const src = { thumbnail: `${url}` };
       found.widget_data = src;
     }
     console.log('new list');

@@ -29,7 +29,10 @@ function PopImage(props) {
       widget_action: ACTION_CREATE,
       widget_code: '',
       widget_type: TYPE_IMAGE,
-      widget_data: { url: `${url}` },
+      widget_data: {
+        thumbnail: `${url}`,
+        // url: 'https://humonnom.tistory.com/',
+      },
       i: `${widgets.count + 1}`,
       x: 1,
       y: 1,

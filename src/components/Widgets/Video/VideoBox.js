@@ -11,7 +11,7 @@ export default function VideoBox({ element }) {
   console.log('비디오 박스');
   const defaultImg =
     'https://www.thewindowsclub.com/wp-content/uploads/2018/06/Broken-image-icon-in-Chrome.gif';
-  const videoCode = getVideoCode(element.widget_data.url) || '';
+  const videoCode = getVideoCode(element.widget_data.thumbnail) || '';
 
   console.log(videoCode);
   return (
