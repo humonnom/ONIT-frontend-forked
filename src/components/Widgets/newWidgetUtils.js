@@ -20,7 +20,8 @@ export function setNewWigetInfo(newWidgetInfo, size, count) {
     widget_code: '',
     widget_type: TYPE_IMAGE,
     widget_data: {
-      url: 'https://66.media.tumblr.com/debc80cdb270210bd22560d1433c6862/b023e573433c23b1-76/s540x810/e0126b01467d0ee0c7324b2b9fa0d2699f76ad14.png',
+      thumbnail:
+        'https://66.media.tumblr.com/debc80cdb270210bd22560d1433c6862/b023e573433c23b1-76/s540x810/e0126b01467d0ee0c7324b2b9fa0d2699f76ad14.png',
     },
     i: count.toString(),
     x: newWidgetInfo.x,
