@@ -11,7 +11,7 @@ const PopTypeComponent = () => {
     modal: state.info.modal,
   }));
 
-  // 드래스 끝날 시 팝업 삭제와 setDrag 원상복구
+  // 팝업 삭제 함수
   // 모든 컴포넌트에 넣어줘야함
   const endPop = () => {
     dispatch(

@@ -13,6 +13,7 @@ export default function VideoBox({ element }) {
     'https://www.thewindowsclub.com/wp-content/uploads/2018/06/Broken-image-icon-in-Chrome.gif';
   const videoCode = getVideoCode(element.widget_data.thumbnail) || '';
 
+  console.log('이거 비디오 코드임');
   console.log(videoCode);
   return (
     <>
@@ -30,4 +31,5 @@ const imgStyle = {
   height: '100%',
   objectFit: 'cover',
   borderRadius: '10px',
+  background: '#000',
 };

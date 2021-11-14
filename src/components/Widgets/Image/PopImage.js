@@ -4,25 +4,16 @@ import { css, jsx } from '@emotion/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
-import {
-  ACTION_CREATE,
-  ACTION_NONE,
-  TYPE_IMAGE,
-} from '../../../utils/constantValue';
+import { ACTION_CREATE, TYPE_IMAGE } from '../../../utils/constantValue';
 
 function PopImage(props) {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
 
-  const [clickedType, setClickedType] = useState('default');
+  const [thumbnail, setThumbnail] = useState('');
   const [url, setUrl] = useState('');
   const dispatch = useDispatch();
-
-  // 위젯 업데이트
-  function updateWidgets(newList) {
-    console.log(newList);
-  }
 
   function makeNewWidget() {
     const newWidget = {
@@ -30,8 +21,8 @@ function PopImage(props) {
       widget_code: '',
       widget_type: TYPE_IMAGE,
       widget_data: {
-        thumbnail: `${url}`,
-        // url: 'https://humonnom.tistory.com/',
+        thumbnail: `${thumbnail}`,
+        url: `${url}`,
       },
       i: `${widgets.count + 1}`,
       x: 1,
@@ -54,151 +45,64 @@ function PopImage(props) {
     makeNewWidget();
   };
 
-  const handleChange = ({ target: { value } }) => {
+  const handleUrlChange = ({ target: { value } }) => {
     console.log(value);
     setUrl(value);
   };
+
+  const handleThumbChange = ({ target: { value } }) => {
+    console.log(value);
+    setThumbnail(value);
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleSubmit();
     }
   };
 
-  function generateFirstDom() {
-    return (
-      <>
-        <button
-          type='button'
-          style={imgStyle}
-          onClick={() => {
-            setClickedType('justImage');
-          }}
-        >
-          그냥 이미지
-        </button>
-        <button
-          type='button'
-          style={aImgStyle}
-          onClick={() => {
-            setClickedType('aTagImage');
-          }}
-        >
-          클릭 가능 이미지
-        </button>
-      </>
-    );
-  }
-
-  function generateSecondDom() {
-    if (clickedType === 'justImage') {
-      return (
-        <>
-          <input
-            type='url'
-            name='url'
-            value={url}
-            css={[urlInputStyle, oneUrlInputMargin]}
-            placeholder='그림의 url을 입력하세요'
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button
-            type='button'
-            css={[commonButtonStyle, cancelButtonStyle]}
-            onClick={() => {
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            취소
-          </button>
-          <button
-            type='button'
-            css={[commonButtonStyle, confirmButtonStyle]}
-            onClick={() => {
-              handleSubmit();
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            확인
-          </button>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <input
-            type='url'
-            name='url'
-            value={url}
-            css={[urlInputStyle, twoUrl1InputMargin]}
-            placeholder='그림의 url을 입력하세요'
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <input
-            type='url'
-            name='url'
-            value={url}
-            css={[urlInputStyle, twoUrl2InputMargin]}
-            placeholder='클릭시 이동할 링크의 url을 입력하세요'
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button
-            type='button'
-            css={[commonButtonStyle, cancelButtonStyle]}
-            onClick={() => {
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            취소
-          </button>
-          <button
-            type='button'
-            css={[commonButtonStyle, confirmButtonStyle]}
-            onClick={() => {
-              handleSubmit();
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            확인
-          </button>
-        </>
-      );
-    }
-  }
-
   return (
     <>
-      {clickedType === 'default' ? (
-        <>{generateFirstDom()}</>
-      ) : (
-        <>{generateSecondDom()}</>
-      )}
+      <input
+        type='thumbnail'
+        name='thumbnail'
+        value={thumbnail}
+        css={[urlInputStyle, twoUrl1InputMargin]}
+        placeholder='그림의 url을 입력하세요'
+        onChange={handleThumbChange}
+        onKeyDown={handleKeyDown}
+      />
+      <input
+        type='url'
+        name='url'
+        value={url}
+        css={[urlInputStyle, twoUrl2InputMargin]}
+        placeholder='클릭시 이동할 링크의 url을 입력하세요'
+        onChange={handleUrlChange}
+        onKeyDown={handleKeyDown}
+      />
+      <button
+        type='button'
+        css={[commonButtonStyle, cancelButtonStyle]}
+        onClick={() => {
+          props.endPop();
+        }}
+      >
+        취소
+      </button>
+      <button
+        type='button'
+        css={[commonButtonStyle, confirmButtonStyle]}
+        onClick={() => {
+          handleSubmit();
+          props.endPop();
+        }}
+      >
+        확인
+      </button>
     </>
   );
 }
-const aImgStyle = {
-  display: 'inlineBlock',
-  textAlign: 'center',
-  margin: '12.5% 10%',
-  padding: '0',
-  width: '30%',
-  height: '50%',
-};
-
-const imgStyle = {
-  display: 'inlineBlock',
-  textAlign: 'center',
-  margin: '12.5% 10%',
-  padding: '0',
-  width: '30%',
-  height: '50%',
-};
 
 const urlInputStyle = css`
   display: block;
@@ -207,10 +111,6 @@ const urlInputStyle = css`
   height: 40px;
   border: none;
   border-bottom: 3px solid black;
-`;
-
-const oneUrlInputMargin = css`
-  margin: 95px 5% 40px 5%;
 `;
 
 const twoUrl1InputMargin = css`
