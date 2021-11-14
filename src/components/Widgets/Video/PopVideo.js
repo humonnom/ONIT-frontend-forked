@@ -15,14 +15,8 @@ function PopVideo(props) {
     widgets: state.info.widgets,
   }));
 
-  const [clickedType, setClickedType] = useState('default');
   const [url, setUrl] = useState('');
   const dispatch = useDispatch();
-
-  // 위젯 업데이트
-  function updateWidgets(newList) {
-    console.log(newList);
-  }
 
   function makeNewWidget() {
     const newWidget = {
@@ -61,112 +55,36 @@ function PopVideo(props) {
     }
   };
 
-  function generateFirstDom() {
-    return (
-      <>
-        <button
-          type='button'
-          style={imgStyle}
-          onClick={() => {
-            setClickedType('youtube');
-          }}
-        >
-          그냥 이미지
-        </button>
-        <button
-          type='button'
-          style={aImgStyle}
-          onClick={() => {
-            setClickedType('vimeo');
-          }}
-        >
-          클릭 가능 이미지
-        </button>
-      </>
-    );
-  }
-
-  function generateSecondDom() {
-    if (clickedType === 'youtube') {
-      return (
-        <>
-          <input
-            type='url'
-            name='url'
-            value={url}
-            css={[urlInputStyle, oneUrlInputMargin]}
-            placeholder='유튜브의 url을 입력하세요'
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button
-            type='button'
-            css={[commonButtonStyle, cancelButtonStyle]}
-            onClick={() => {
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            취소
-          </button>
-          <button
-            type='button'
-            css={[commonButtonStyle, confirmButtonStyle]}
-            onClick={() => {
-              handleSubmit();
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            확인
-          </button>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <input
-            type='url'
-            name='url'
-            value={url}
-            css={[urlInputStyle, twoUrl1InputMargin]}
-            placeholder='비메오의 url을 입력하세요'
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button
-            type='button'
-            css={[commonButtonStyle, cancelButtonStyle]}
-            onClick={() => {
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            취소
-          </button>
-          <button
-            type='button'
-            css={[commonButtonStyle, confirmButtonStyle]}
-            onClick={() => {
-              handleSubmit();
-              props.endPop();
-              setClickedType('default');
-            }}
-          >
-            확인
-          </button>
-        </>
-      );
-    }
-  }
-
   return (
     <>
-      {clickedType === 'default' ? (
-        <>{generateFirstDom()}</>
-      ) : (
-        <>{generateSecondDom()}</>
-      )}
+      <input
+        type='url'
+        name='url'
+        value={url}
+        css={[urlInputStyle, twoUrl1InputMargin]}
+        placeholder='비메오의 url을 입력하세요'
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
+      <button
+        type='button'
+        css={[commonButtonStyle, cancelButtonStyle]}
+        onClick={() => {
+          props.endPop();
+        }}
+      >
+        취소
+      </button>
+      <button
+        type='button'
+        css={[commonButtonStyle, confirmButtonStyle]}
+        onClick={() => {
+          handleSubmit();
+          props.endPop();
+        }}
+      >
+        확인
+      </button>
     </>
   );
 }

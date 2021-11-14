@@ -20,7 +20,7 @@ export default function ImageBox({ element }) {
 
   return (
     <>
-      {hasLink && (
+      {hasLink === true ? (
         <a
           href={element.widget_data.url}
           target='_blank'
@@ -34,8 +34,9 @@ export default function ImageBox({ element }) {
         >
           <img src={img_src} alt='profile' style={imgStyle} />
         </a>
+      ) : (
+        <img src={img_src} alt='profile' style={imgStyle} />
       )}
-      {!hasLink && <img src={img_src} alt='profile' style={imgStyle} />}
     </>
   );
 }
