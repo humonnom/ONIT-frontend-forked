@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32.086" height="32.086" viewBox="0 0 32.086 32.086">
+  <g id="follow_btn" transform="translate(0.043 0.043)">
+    <g id="vuesax_bold_user-cirlce-add" data-name="vuesax/bold/user-cirlce-add" transform="translate(-678 -184)">
+      <g id="user-cirlce-add">
+        <path id="Vector" d="M0,0H24V24H0Z" transform="translate(684 188)" fill="none" opacity="0"/>
+      </g>
+    </g>
+    <g id="그룹_5764" data-name="그룹 5764" transform="translate(-594 -508)">
+      <g id="그룹_5681" data-name="그룹 5681" transform="translate(594 508)">
+        <circle id="타원_12" data-name="타원 12" cx="16" cy="16" r="16" transform="translate(0)" fill="none"/>
+        <circle id="타원_13" data-name="타원 13" cx="15.543" cy="15.543" r="15.543" transform="translate(0.457 0.457)" fill="none" stroke="#e7e7ec" stroke-width="1"/>
+      </g>
+      <g id="vuesax_bold_user" data-name="vuesax/bold/user" transform="translate(491.326 327.419)">
+        <g id="user" transform="translate(108 188)">
+          <path id="Vector-2" data-name="Vector" d="M0,0H17.254V17.254H0Z" fill="none" opacity="0"/>
+          <path id="Vector-3" data-name="Vector" d="M7.189,3.595A3.595,3.595,0,1,1,3.595,0,3.595,3.595,0,0,1,7.189,3.595Z" transform="translate(5.032 1.014)" fill="#fff"/>
+          <path id="Vector-4" data-name="Vector" d="M7.645,0C3.432,0,0,2.826,0,6.308a.416.416,0,0,0,.421.421H14.87a.416.416,0,0,0,.421-.421C15.29,2.826,11.859,0,7.645,0Z" transform="translate(0.981 9.512)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="그룹_5682" data-name="그룹 5682" transform="translate(-88.92 328.827)">
+        <line id="선_345" data-name="선 345" x2="6" transform="translate(702.5 193.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+        <line id="선_346" data-name="선 346" x2="6" transform="translate(705.5 190.5) rotate(90)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

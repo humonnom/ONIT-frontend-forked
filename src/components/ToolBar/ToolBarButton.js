@@ -1,41 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/css';
-import { COLOR_GREY, BUTTON_HEIGHT, BUTTON_WIDTH } from '../../utils/style';
 
 function ToolBarButton(props) {
+  const [isHover, setIsHover] = useState(false);
+
   return (
     <div
       className={css`
-        margin: 0px 5px;
-        ${'' /* background-color: red; */}
+        margin: 0px 20px;
+        width: 32px;
         display: flex;
         flex-direction: column;
         align-items: center;
       `}
+      onMouseEnter={() => {
+        setIsHover(true);
+      }}
+      onMouseLeave={() => {
+        setIsHover(false);
+      }}
     >
-      <button
-        onClick={props.action}
-        className={css`
-          background-color: ${COLOR_GREY};
-          border-radius: 4px;
-          border: none;
-          height: ${BUTTON_HEIGHT};
-          width: ${BUTTON_WIDTH};
-          line-height: center;
-        `}
-        type='button'
-      >
-        {props.emoji}
-      </button>
-      <p
-        className={css`
-          font-size: x-small;
-          ${'' /* background-color: blue; */}
-          margin: 0px;
-        `}
-      >
-        {props.label}
-      </p>
+      {isHover ? (
+        <>
+          <button
+            onClick={props.action}
+            className={css`
+              border: none;
+              line-height: center;
+              background-color: #fff;
+            `}
+            type='button'
+          >
+            <img
+              alt='img'
+              className={css`
+                height: 26px;
+              `}
+              src={props.selected}
+            />
+          </button>
+          <p
+            className={css`
+              font-size: x-small;
+              color: #ef6408;
+              margin: 0px;
+            `}
+          >
+            {props.label}
+          </p>
+        </>
+      ) : (
+        <button
+          onClick={props.action}
+          className={css`
+            border: none;
+            background-color: #fff;
+          `}
+          type='button'
+        >
+          <img
+            alt='img'
+            className={css`
+              height: 26px;
+            `}
+            src={props.emoji}
+          />
+        </button>
+      )}
     </div>
   );
 }

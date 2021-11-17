@@ -56,11 +56,7 @@ function EditModeGrid(props) {
   const gridForm = useMemo(
     () => (
       <GridLayout
-        style={
-          // 여기에 조건을 넣으세요 ?
-          gridStyle
-          // : {}
-        }
+        style={gridStyle}
         onResizeStop={(layout, oldItem, newItem) => {
           console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
           renewWidgetsList(newItem);
@@ -95,8 +91,11 @@ export default EditModeGrid;
 const margin = 10;
 const cols = 16;
 const gridStyle = {
+  position: 'relative',
+  top: '-5px',
   margin: '10',
   width: '100%',
+  minWidth: '1124px',
   minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
   backgroundSize: `calc((100% - ${margin}px) / ${cols}) calc((100vw - ${margin}px) / ${cols})`,
   backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,

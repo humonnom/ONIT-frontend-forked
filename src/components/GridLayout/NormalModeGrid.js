@@ -25,6 +25,8 @@ function NormalModeGrid() {
       <GridLayout
         mylayout={staticLayout}
         className={css`
+          position: relative;
+          top: -6px;
           margin: 0 auto;
           width: 100%;
         `}
@@ -32,7 +34,7 @@ function NormalModeGrid() {
         {staticLayout.map((element) => (
           <div
             key={Number(element.i)}
-            style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+            style={{ backgroundColor: 'white', borderRadius: '10px' }}
           >
             <WidgetElement element={element} mode='normal' />
           </div>

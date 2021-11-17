@@ -64,9 +64,9 @@ export function WidgetElement({ element, mode }) {
 
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_IMAGE) {
-      return <ImageBox element={element} />;
+      return <ImageBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_VIDEO) {
-      return <VideoBox element={element} />;
+      return <VideoBox element={element} mode={mode} />;
     } else {
       return (
         <div
@@ -100,10 +100,27 @@ export function WidgetElement({ element, mode }) {
       }}
     >
       {mode === 'edit' && hover && (
-        <>
+        <div
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            borderRadius: '10px',
+            opacity: '0.2',
+            backgroundColor: '#000',
+          }}
+        >
           <button
             type='button'
-            style={{ position: 'absolute', top: '5px', left: '3px' }}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              border: 'none',
+            }}
             onClick={() => {
               console.log(layout.i);
               openEditWindow(layout.i);
@@ -116,7 +133,15 @@ export function WidgetElement({ element, mode }) {
           </button>
           <button
             type='button'
-            style={{ position: 'absolute', top: '5px', right: '3px' }}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '52px',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              border: 'none',
+            }}
             onClick={() => {
               console.log(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'D');
@@ -126,7 +151,7 @@ export function WidgetElement({ element, mode }) {
           >
             x
           </button>
-        </>
+        </div>
       )}
       {classifyBox(layout)}
     </div>

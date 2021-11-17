@@ -64,23 +64,17 @@ function PopImage(props) {
   return (
     <>
       <input
-        type='thumbnail'
-        name='thumbnail'
-        value={thumbnail}
-        css={[urlInputStyle, twoUrl1InputMargin]}
-        placeholder='그림의 url을 입력하세요'
-        onChange={handleThumbChange}
-        onKeyDown={handleKeyDown}
-      />
-      <input
         type='url'
         name='url'
         value={url}
-        css={[urlInputStyle, twoUrl2InputMargin]}
-        placeholder='클릭시 이동할 링크의 url을 입력하세요'
+        css={[urlInputStyle]}
+        placeholder='링크를 입력해주세요'
         onChange={handleUrlChange}
         onKeyDown={handleKeyDown}
       />
+      {/* <div>
+        <button type='button'>ㅅ</button>
+      </div> */}
       <button
         type='button'
         css={[commonButtonStyle, cancelButtonStyle]}
@@ -106,39 +100,41 @@ function PopImage(props) {
 
 const urlInputStyle = css`
   display: block;
-  text-align: center;
-  width: 90%;
-  height: 40px;
-  border: none;
-  border-bottom: 3px solid black;
-`;
-
-const twoUrl1InputMargin = css`
-  margin: 60px 5% 10px 5%;
-`;
-
-const twoUrl2InputMargin = css`
-  margin: 5px 5% 40px 5%;
+  width: 440px;
+  height: 24px;
+  border: solid 1px #707070;
+  margin: 28px auto 32px auto;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 12px 20px;
 `;
 
 const commonButtonStyle = css`
   display: inline-block;
-  height: 30px;
-  width: 100px;
+  height: 48px;
+  width: 160px;
+  border-radius: 24px;
   border: none;
-  background-color: white;
+  font-size: 20px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #bbb;
+  background-color: #fff;
   padding: 0px;
   &:hover {
-    background-color: #189ab4;
+    background-color: #ef6408;
+    color: #fff;
   }
+  transition: 0.2s;
 `;
-
 const confirmButtonStyle = css`
-  margin: 0 150px 0 0;
+  margin: 0 0 0 10px;
 `;
 
 const cancelButtonStyle = css`
-  margin: 0 0 0 150px;
+  margin: 0 0 0 190px;
 `;
 
 export default PopImage;

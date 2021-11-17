@@ -1,8 +1,9 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/css';
-import { useSelector } from 'react-redux';
-import { BasicButton, HeaderWrapper } from '..';
+import { css, jsx } from '@emotion/react';
+import { HeaderWrapper } from '..';
 import { getPageUser } from '../../utils/parsing';
+import { logo } from '../../asset';
 
 function Header({ userMatch, pageUserId, pageUserName }) {
   // const { user } = useSelector((state) => ({
@@ -17,52 +18,80 @@ function Header({ userMatch, pageUserId, pageUserName }) {
 
   return (
     <HeaderWrapper>
-      <a href='/main'>
-        <div
-          className={css`
-            margin: 10px;
-            size: x-small;
-          `}
-        >
-          onit
+      <div css={[flex, flexBtw]}>
+        <a href='/main' css={marginLeft36}>
+          <img alt='img' src={logo} css={height26} />
+        </a>
+        <div>
+          {userMatch && (
+            <button
+              type='button'
+              css={[commonButtonStyle, confirmButtonWidth]}
+              onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+            >
+              페이지 수정
+            </button>
+          )}
         </div>
-      </a>
-      <div
-        className={css`
-          color: grey;
-          margin: 10px;
-        `}
-      >
-        <h3>{pageUserName}의 블로그</h3>
       </div>
-      <div
-        className={css`
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <div
-          className={css`
-            display: flex;
-            flex-direction: column;
-            font-size: 10px;
-            margin-right: 30px;
-          `}
-        >
-          <p>팔로워 | 100</p>
-          <p>팔로잉 | 100</p>
-        </div>
-        {userMatch && (
-          <BasicButton
-            label='Edit'
-            onClick={() => window.location.assign(`/${pageUserId}/edit`)}
-          />
-        )}
+      <div css={[abosulteCenter, flex]}>
+        <h3 css={[fontColor]}>{pageUserName}님의 온잇</h3>
       </div>
     </HeaderWrapper>
   );
 }
+const height26 = css`
+  height: 26px;
+`;
+
+const fontColor = css`
+  color: #424242;
+`;
+
+const marginLeft36 = css`
+  margin-left: 36px;
+`;
+
+const flex = css`
+  display: flex;
+  height: 100%;
+`;
+
+const flexBtw = css`
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const abosulteCenter = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const confirmButtonWidth = css`
+  width: 99px;
+  margin-right: 36px;
+`;
+
+const commonButtonStyle = css`
+  display: inline-block;
+  text-align: center;
+  height: 26px;
+  border-radius: 8px;
+  border: none;
+  font-size: 12px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #22222;
+  background-color: #eee;
+  padding: 0px;
+  &:hover {
+    background-color: #ef6408;
+    color: #fff;
+  }
+`;
 
 export default Header;

@@ -8,15 +8,12 @@ const headerWrapper = ({ children }) => (
       top: 0;
       z-index: 999;
       background-color: white;
-      position: sticky;
-      display: flex;
+      minwidth: 1124px;
       width: 100vw;
       height: ${HEADER_HEIGHT};
       flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-      border-radius: 3px;
-      border: 1px ${COLOR_GREY} solid;
+      position: sticky;
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
       padding: 0;
     `}
   >
