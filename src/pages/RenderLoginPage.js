@@ -1,29 +1,72 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
+import { css, jsx } from '@emotion/react';
+import SigninRight from './SigninRight';
+import LeftOnit from '../assets/LeftOnit.png';
 
 function RenderLoginPage() {
-  const signInWithKakao = () => {
-    const endPoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
-    window.location.assign(endPoint);
-  };
-
   return (
-    <div>
-      <button type='button' style={buttonImgStyle} onClick={signInWithKakao}>
-        <img
-          src='//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg'
-          width='250'
-          alt=''
-        />
-      </button>
+    <div
+      css={css`
+        width: 100%;
+      `}
+    >
+      <div
+        css={css`
+          display: flex;
+          padding: 32px;
+          // background-color: yellow;
+          font-size: 24px;
+          height: 93vh;
+          box-sizing: border-box;
+        `}
+      >
+        <div
+          css={css`
+            display: inline-flex;
+            padding: 32px;
+            // background-color: blue;
+            font-size: 24px;
+            margin: 0 100;
+            text-align: center;
+            width: 50%;
+          `}
+        >
+          <img
+            css={css`
+              height: 70%;
+              display: block;
+              margin: auto;
+            `}
+            src={LeftOnit}
+          />
+        </div>
+
+        <div
+          css={css`
+            padding-left: 8%;
+            display: flex;
+            align-items: center;
+            // justify-content: center;
+            font-size: 24px;
+            width: 50%;
+          `}
+        >
+          <SigninRight />
+        </div>
+      </div>
+      <div
+        css={css`
+          background-color: grey;
+          font-size: 24px;
+          background-color: #eee;
+          height: 7vh;
+          box-sizing: border-box;
+        `}
+      >
+        Onit
+      </div>
     </div>
   );
 }
-
-const buttonImgStyle = {
-  padding: '0',
-  margin: '0',
-  border: '0',
-  backgroundColor: 'white',
-};
-
 export default RenderLoginPage;
