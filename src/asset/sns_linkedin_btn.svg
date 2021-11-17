@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32.086" height="32.086" viewBox="0 0 32.086 32.086">
+  <g id="sns_linkedin_btn" transform="translate(0.043 0.043)">
+    <g id="그룹_5763" data-name="그룹 5763">
+      <circle id="타원_12" data-name="타원 12" cx="16" cy="16" r="16" transform="translate(0)" fill="none"/>
+      <circle id="타원_13" data-name="타원 13" cx="15.543" cy="15.543" r="15.543" transform="translate(0.457 0.457)" fill="none" stroke="#e7e7ec" stroke-width="1"/>
+    </g>
+    <path id="패스_3655" data-name="패스 3655" d="M163.5,29.452V21.977h-2.325v7.475Zm-1.175-8.475a1.366,1.366,0,0,0,1.35-1.375,1.338,1.338,0,0,0-2.675,0A1.361,1.361,0,0,0,162.325,20.977Zm9.85,8.475h.025v-4.1c0-2-.45-3.55-2.8-3.55a2.492,2.492,0,0,0-2.2,1.2h-.025V21.977H164.95v7.475h2.325v-3.7c0-.975.176-1.9,1.375-1.9s1.225,1.1,1.225,1.975v3.625Z" transform="translate(-150.6 -8.424)" fill="#fff"/>
+  </g>
+</svg>

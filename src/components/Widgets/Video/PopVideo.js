@@ -61,8 +61,8 @@ function PopVideo(props) {
         type='url'
         name='url'
         value={url}
-        css={[urlInputStyle, twoUrl1InputMargin]}
-        placeholder='비메오의 url을 입력하세요'
+        css={[urlInputStyle]}
+        placeholder='링크를 입력해주세요'
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
@@ -88,63 +88,43 @@ function PopVideo(props) {
     </>
   );
 }
-const aImgStyle = {
-  display: 'inlineBlock',
-  textAlign: 'center',
-  margin: '12.5% 10%',
-  padding: '0',
-  width: '30%',
-  height: '50%',
-};
-
-const imgStyle = {
-  display: 'inlineBlock',
-  textAlign: 'center',
-  margin: '12.5% 10%',
-  padding: '0',
-  width: '30%',
-  height: '50%',
-};
 
 const urlInputStyle = css`
   display: block;
-  text-align: center;
-  width: 90%;
-  height: 40px;
-  border: none;
-  border-bottom: 3px solid black;
-`;
-
-const oneUrlInputMargin = css`
-  margin: 95px 5% 40px 5%;
-`;
-
-const twoUrl1InputMargin = css`
-  margin: 60px 5% 10px 5%;
-`;
-
-const twoUrl2InputMargin = css`
-  margin: 5px 5% 40px 5%;
+  width: 440px;
+  height: 24px;
+  border: solid 1px #707070;
+  margin: 28px auto 32px auto;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 12px 20px;
 `;
 
 const commonButtonStyle = css`
   display: inline-block;
-  height: 30px;
-  width: 100px;
+  height: 48px;
+  width: 160px;
+  border-radius: 24px;
   border: none;
-  background-color: white;
+  font-size: 20px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  color: #bbb;
+  background-color: #fff;
   padding: 0px;
   &:hover {
-    background-color: #189ab4;
+    background-color: #ef6408;
+    color: #fff;
   }
 `;
-
 const confirmButtonStyle = css`
-  margin: 0 150px 0 0;
+  margin: 0 0 0 10px;
 `;
 
 const cancelButtonStyle = css`
-  margin: 0 0 0 150px;
+  margin: 0 0 0 190px;
 `;
 
 export default PopVideo;

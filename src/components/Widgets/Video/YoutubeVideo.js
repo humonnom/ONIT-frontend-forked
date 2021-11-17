@@ -8,12 +8,14 @@ function YoutubeVideo({ embedId }) {
   }
   const reset_style = 'modestbranding=1&controls=0&showinfo=0&rel=0';
   // const loop = props.loop || 'loop=0';
-  const loop = 'loop=1'; // 루프 돌지 않음
+  const loop = 'loop=0';
+  // const loop = 'loop=1'; // 루프 돌지 않음
   // const autoplay = props.autoplay || 'autoplay=1';
+  // const autoplay = 'autoplay=1';
   // const autoplay = props.autoplay || 'autoplay=0';
-  const autoplay = 'autoplay=1&mute=0';
+  const autoplay = 'autoplay=1';
   const mute = 'mute=0';
-  const options = `?${reset_style}&${autoplay}&${loop}`;
+  const options = `?${reset_style}&${autoplay}&${mute}&${loop}`;
   // 사이즈 조절
   let width = '640';
   let height = '320';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 
-export default function ImageBox({ element }) {
+export default function ImageBox({ element, mode }) {
   console.log('이미지 박스');
   const [hasLink, setHasLink] = useState(false);
   // TODO: 서버랑 맞추고 삭제할 부분
@@ -20,13 +20,12 @@ export default function ImageBox({ element }) {
 
   return (
     <>
-      {hasLink === true ? (
+      {hasLink === true && mode === 'normal' ? (
         <a
           href={element.widget_data.url}
           target='_blank'
           rel='noreferrer'
           className={css`
-            background-color: red;
             display: inline-block;
             width: 100%;
             height: 100%;

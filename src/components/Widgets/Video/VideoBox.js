@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { YoutubeVideo } from '../..';
 
-export default function VideoBox({ element }) {
+export default function VideoBox({ element, mode }) {
   function getVideoCode(url) {
     const urlObj = new URL(url);
     const code = urlObj.searchParams.get('v');
@@ -9,18 +9,18 @@ export default function VideoBox({ element }) {
   }
 
   console.log('비디오 박스');
-  const defaultImg =
-    'https://www.thewindowsclub.com/wp-content/uploads/2018/06/Broken-image-icon-in-Chrome.gif';
   const videoCode = getVideoCode(element.widget_data.thumbnail) || '';
+  const thumbnail = `https://img.youtube.com/vi/${videoCode}/mqdefault.jpg`;
 
   console.log('이거 비디오 코드임');
   console.log(videoCode);
   return (
     <>
-      {videoCode === '' && (
-        <img src={defaultImg} alt='profile' style={imgStyle} />
+      {mode === 'normal' && videoCode !== '' ? (
+        videoCode !== '' && <YoutubeVideo embedId={videoCode} />
+      ) : (
+        <img src={thumbnail} alt='profile' style={imgStyle} />
       )}
-      {videoCode !== '' && <YoutubeVideo embedId={videoCode} />}
     </>
   );
 }
