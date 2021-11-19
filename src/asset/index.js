@@ -14,6 +14,8 @@ import clock_selected from './clock_selected.svg';
 import text_selected from './text_selected.svg';
 import todolist_selected from './todolist_selected.svg';
 import pin_selected from './pin_selected.svg';
+import mypage from './mypage.svg';
+import search from './search.svg';
 
 export {
   arrow_left,
@@ -32,4 +34,6 @@ export {
   todolist_selected,
   pin,
   pin_selected,
+  mypage,
+  search,
 };
