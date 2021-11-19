@@ -1,55 +1,79 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { css, jsx } from '@emotion/react';
 import { HeaderWrapper } from '..';
 import { getPageUser } from '../../utils/parsing';
-import { logo } from '../../asset';
+import { logo, mypage, search } from '../../asset';
 
-function Header({ userMatch, pageUserId, pageUserName }) {
-  // const { user } = useSelector((state) => ({
-  //   user: state.info.user,
-  // }));
-  const user_seq = localStorage.getItem('user_seq');
-  const page_user_seq = getPageUser();
-  console.log('=====header=====');
-  console.log(pageUserId);
-  // TODO: user가 localStorage를 조작할 수 있으므로 확인할 방법이 필요함.
-  // 해결책: editpage 렌더할때 확인한다.
-
-  return (
-    <HeaderWrapper>
-      <div css={[flex, flexBtw]}>
-        <a href='/main' css={marginLeft36}>
-          <img alt='img' src={logo} css={height26} />
-        </a>
-        <div>
-          {userMatch && (
-            <button
-              type='button'
-              css={[commonButtonStyle, confirmButtonWidth]}
-              onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+function Header({ userMatch, pageUserId, pageUserName, pageType }) {
+  if (pageType === 'main') {
+    const user_seq = localStorage.getItem('user_seq');
+    const myPageUrl = `/${user_seq}/normal`;
+    return (
+      <HeaderWrapper>
+        <div css={[flex, flexBtw]}>
+          <a href='/main' css={marginLeft36}>
+            <img alt='img' src={logo} css={height26} />
+          </a>
+          <div>
+            <a
+              href='#'
+              onClick={() => window.location.assign(`/${user_seq}/normal`)}
+              css={marginRight36}
             >
-              페이지 수정
-            </button>
-          )}
+              <img alt='img' src={mypage} css={height26} />
+            </a>
+          </div>
         </div>
-      </div>
-      <div css={[abosulteCenter, flex]}>
-        <h3 css={[fontColor]}>{pageUserName}님의 온잇</h3>
-      </div>
-    </HeaderWrapper>
-  );
+        <div css={[abosulteCenter, flex, searchBox]}>
+          <div>
+            <img alt='img' src={search} css={searchLogo} />
+          </div>
+          <span css={searchText}>Search</span>
+        </div>
+      </HeaderWrapper>
+    );
+  } else {
+    const user_seq = localStorage.getItem('user_seq');
+    const page_user_seq = getPageUser();
+    return (
+      <HeaderWrapper>
+        <div css={[flex, flexBtw]}>
+          <a href='/main' css={marginLeft36}>
+            <img alt='img' src={logo} css={height26} />
+          </a>
+          <div>
+            {userMatch && (
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth]}
+                onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+              >
+                페이지 수정
+              </button>
+            )}
+          </div>
+        </div>
+        <div css={[abosulteCenter, flex]}>
+          <h3 css={[fontColorBlack]}>{pageUserName}님의 온잇</h3>
+        </div>
+      </HeaderWrapper>
+    );
+  }
 }
 const height26 = css`
   height: 26px;
 `;
 
-const fontColor = css`
+const fontColorBlack = css`
   color: #424242;
 `;
 
 const marginLeft36 = css`
   margin-left: 36px;
+`;
+const marginRight36 = css`
+  margin-right: 36px;
 `;
 
 const flex = css`
@@ -92,6 +116,29 @@ const commonButtonStyle = css`
     background-color: #ef6408;
     color: #fff;
   }
+`;
+
+const searchLogo = css`
+  width: 13px;
+  height: 13px;
+  margin-left: 14px;
+`;
+
+const searchBox = css`
+  display: flex;
+  width: 450px;
+  height: 30px;
+  align-items: center;
+  border-radius: 17px;
+  background-color: #fff9f6;
+`;
+
+const searchText = css`
+  margin: 0 0 0 12px;
+  font-family: NotoSansCJKKR;
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
 `;
 
 export default Header;

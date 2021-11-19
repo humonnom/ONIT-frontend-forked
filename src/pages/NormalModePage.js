@@ -19,6 +19,7 @@ function NormalMode({ userMatch, pageUserId, pageUserName }) {
           userMatch={userMatch}
           pageUserId={pageUserId}
           pageUserName={pageUserName}
+          pageType='normal'
         />
         <NormalModeGrid />
       </NormalWrapper>
