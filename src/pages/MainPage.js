@@ -1,4 +1,5 @@
 import React from 'react';
+import { logout } from '../utils/logout';
 
 function MainPage(props) {
   const user_seq = localStorage.getItem('user_seq');
@@ -30,6 +31,14 @@ function MainPage(props) {
         }}
       >
         4번 유저의 페이지
+      </button>
+      <button
+        type='button'
+        onClick={() => {
+          logout();
+        }}
+      >
+        로그아웃
       </button>
     </div>
   );
