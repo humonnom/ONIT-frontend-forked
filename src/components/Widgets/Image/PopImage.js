@@ -64,17 +64,14 @@ function PopImage(props) {
   return (
     <>
       <input
-        type='url'
-        name='url'
-        value={url}
+        type='thumbnail'
+        name='thumbnail'
+        value={thumbnail}
         css={[urlInputStyle]}
         placeholder='링크를 입력해주세요'
-        onChange={handleUrlChange}
+        onChange={handleThumbChange}
         onKeyDown={handleKeyDown}
       />
-      {/* <div>
-        <button type='button'>ㅅ</button>
-      </div> */}
       <button
         type='button'
         css={[commonButtonStyle, cancelButtonStyle]}
