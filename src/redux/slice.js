@@ -5,7 +5,7 @@ const slice = createSlice({
   name: 'info',
   initialState: {
     user: {
-      name: '박주은',
+      name: '',
       id: -1,
     },
     modal: {
@@ -16,19 +16,7 @@ const slice = createSlice({
     },
     widgets: {
       count: 0,
-      list: [
-        {
-          i: '',
-          x: 0,
-          y: 0,
-          w: 2,
-          h: 2,
-          widget_action: '',
-          widget_type: 0,
-          widget_data: {},
-          widget_code: '',
-        },
-      ],
+      list: [],
     },
   },
   reducers: {

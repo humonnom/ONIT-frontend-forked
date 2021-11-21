@@ -5,6 +5,7 @@ import ToolBar from './ToolBar/ToolBar';
 import ToolBarButton from './ToolBar/ToolBarButton';
 
 import Header from './Header/Header';
+import Footer from './Footer';
 import HeaderWrapper from './Header/HeaderWrapper';
 
 import NormalModeGrid from './GridLayout/NormalModeGrid';
@@ -37,4 +38,5 @@ export {
   Image,
   RenewAccessToken,
   HandleKakaoLogin,
+  Footer,
 };

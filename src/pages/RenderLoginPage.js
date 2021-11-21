@@ -3,6 +3,7 @@ import React from 'react';
 import { css, jsx } from '@emotion/react';
 import SigninRight from './SigninRight';
 import LeftOnit from '../assets/LeftOnit.png';
+import { Footer } from '../components';
 
 function RenderLoginPage() {
   return (
@@ -55,17 +56,8 @@ function RenderLoginPage() {
           <SigninRight />
         </div>
       </div>
-      <div
-        css={css`
-          background-color: grey;
-          font-size: 24px;
-          background-color: #eee;
-          height: 7vh;
-          box-sizing: border-box;
-        `}
-      >
-        Onit
-      </div>
+
+      <Footer />
     </div>
   );
 }
