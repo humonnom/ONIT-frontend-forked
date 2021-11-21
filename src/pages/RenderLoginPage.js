@@ -16,7 +16,6 @@ function RenderLoginPage() {
         css={css`
           display: flex;
           padding: 32px;
-          // background-color: yellow;
           font-size: 24px;
           height: 93vh;
           box-sizing: border-box;
@@ -26,7 +25,6 @@ function RenderLoginPage() {
           css={css`
             display: inline-flex;
             padding: 32px;
-            // background-color: blue;
             font-size: 24px;
             margin: 0 100;
             text-align: center;
@@ -48,7 +46,6 @@ function RenderLoginPage() {
             padding-left: 8%;
             display: flex;
             align-items: center;
-            // justify-content: center;
             font-size: 24px;
             width: 50%;
           `}

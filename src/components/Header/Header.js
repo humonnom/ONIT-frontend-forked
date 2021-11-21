@@ -4,6 +4,7 @@ import { css, jsx } from '@emotion/react';
 import { HeaderWrapper } from '..';
 import { getPageUser } from '../../utils/parsing';
 import { logo, mypage, search } from '../../asset';
+import { logout } from '../../utils/logout';
 
 function Header({ userMatch, pageUserId, pageUserName, pageType }) {
   if (pageType === 'main') {
@@ -15,7 +16,16 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
           <a href='/main' css={marginLeft36}>
             <img alt='img' src={logo} css={height26} />
           </a>
-          <div>
+          <div css={rightCloumn}>
+            <button
+              type='button'
+              css={[commonButtonStyle, confirmButtonWidth]}
+              onClick={() => logout()}
+            >
+              로그아웃
+            </button>
+            <div />
+
             <a
               href='#'
               onClick={() => window.location.assign(`/${user_seq}/normal`)}
@@ -139,6 +149,11 @@ const searchText = css`
   font-size: 14px;
   font-weight: 500;
   color: #888;
+`;
+
+const rightCloumn = css`
+  display: flex;
+  flex-direction: row;
 `;
 
 export default Header;

@@ -17,13 +17,14 @@ function HandleKakaoLogin() {
   //     })
   //   );
   // }
-
   const fetchTokens = async () => {
     try {
+      const headers = { 'Authorization-Code': code };
+      if (process.env.NODE_ENV === 'development') {
+        headers['X-localhost'] = true;
+      }
       const response = await axios.get(endPoint, {
-        headers: {
-          'Authorization-Code': code,
-        },
+        headers,
       });
       const result = await response.data;
       console.log(result);
@@ -32,8 +33,9 @@ function HandleKakaoLogin() {
       localStorage.setItem('user_seq', result.data.user_info.user_seq);
       // updateUserId(result.data.user_info.user_seq);
       const user_seq = localStorage.getItem('user_seq');
-
-      window.location.assign(`/${user_seq}/normal`);
+      window.location.assign(
+        `${process.env.REACT_APP_CLIENT_DOMAIN}/${user_seq}/normal`
+      );
     } catch (err) {
       window.location.assign('/');
     }

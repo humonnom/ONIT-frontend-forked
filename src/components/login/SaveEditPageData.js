@@ -51,6 +51,7 @@ function RenderEditPage({ match }) {
     window.location.assign(`${user_seq}/auth/token/refresh`);
     return <div> 토큰이 만료되었습니다. </div>;
   } else if (data === 401) {
+    window.location.assign(`${user_seq}/auth/token/refresh`);
     return <div> 로그인을 다시 하세요. </div>;
   }
   if (!data) {
