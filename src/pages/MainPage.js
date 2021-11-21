@@ -41,7 +41,6 @@ function ProfileCard({ href, svg, hoverSvg }) {
 }
 
 function MainPage() {
-  const userSeqList = [3, 4];
   return (
     <PageWrapper>
       <NormalWrapper>
