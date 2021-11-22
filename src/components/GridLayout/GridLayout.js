@@ -14,38 +14,15 @@ import {
 } from '../../utils/constantValue';
 import { setNewWigetInfo } from '../Widgets/newWidgetUtils';
 import UseWindowSize from './UseWindowSize';
+import { logo_gray } from '../../asset';
 
 const ReactGridLayout = WidthProvider(RGL);
 
 export default function GridLayout(props) {
-  const dispatch = useDispatch();
   // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
   const rowHeight = (UseWindowSize().width - 170) / 16;
-
-  const { widgets, modal } = useSelector((state) => ({
-    widgets: state.info.widgets,
-    modal: state.info.modal,
-  }));
-
-  const updateWidgets = (newWidget) => {
-    // modal별로 slice에 키워드 만들어서 사용
-    // 기존: imgInputWindow(input modal과 키워드 중복 사용)
-    // 변경: popUpWindow
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
-      })
-    );
-    dispatch(
-      createReplacementModalAction({
-        ...modal,
-        popUpWindow: false,
-      })
-    );
-  };
-
+  console.log(props.mylayout);
+  console.log(props.children);
   return (
     <ReactGridLayout
       layout={props.mylayout}
@@ -57,7 +34,19 @@ export default function GridLayout(props) {
       preventCollision
       {...props}
     >
-      {props.children}
+      {props.children ? (
+        props.children
+      ) : (
+        <div key='-1'>
+          <img alt='img' src={logo_gray} />
+          {console.log('나 왔쪄염 뿌우')}
+        </div>
+      )}
     </ReactGridLayout>
   );
 }
+
+// 얘 안먹음 ㅠㅠ
+GridLayout.defaultProps = {
+  mylayout: [{ x: 0, y: 0, w: 2, h: 2, i: '-1' }],
+};
