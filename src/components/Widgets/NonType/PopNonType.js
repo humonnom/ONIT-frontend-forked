@@ -10,63 +10,18 @@ import {
   TYPE_VIDEO,
 } from '../../../utils/constantValue';
 
-function PopVideo(props) {
-  const { widgets } = useSelector((state) => ({
-    widgets: state.info.widgets,
-  }));
-
-  const [url, setUrl] = useState('');
-  const dispatch = useDispatch();
-
-  function makeNewWidget() {
-    const newWidget = {
-      widget_action: ACTION_CREATE,
-      widget_code: '',
-      widget_type: TYPE_VIDEO,
-      widget_data: { thumbnail: `${url}` },
-      i: `${widgets.count + 1}`,
-      x: 1,
-      y: 1,
-      w: 2,
-      h: 2,
-    };
-
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
-      })
-    );
-  }
-
-  const handleSubmit = (event) => {
-    // TODO: url valid 한지 체크해야함
-    makeNewWidget();
-  };
-
-  const handleChange = ({ target: { value } }) => {
-    console.log(value);
-    setUrl(value);
-  };
+function PopNonType(props) {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleSubmit();
       props.endPop();
     }
   };
 
   return (
     <>
-      <input
-        type='url'
-        name='url'
-        value={url}
-        css={[urlInputStyle]}
-        placeholder='링크를 입력해주세요'
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
+      <div css={[urlInputStyle]} onKeyDown={handleKeyDown}>
+        개발중인 위젯입니다
+      </div>
       <button
         type='button'
         css={[commonButtonStyle, cancelButtonStyle]}
@@ -94,7 +49,8 @@ const urlInputStyle = css`
   display: block;
   width: 440px;
   height: 24px;
-  border: solid 1px #707070;
+  line-height: 24px;
+  text-align: center;
   margin: 28px auto 32px auto;
   border-radius: 8px;
   background-color: #fff;
@@ -128,4 +84,4 @@ const cancelButtonStyle = css`
   margin: 0 0 0 190px;
 `;
 
-export default PopVideo;
+export default PopNonType;

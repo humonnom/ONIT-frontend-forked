@@ -27,8 +27,8 @@ function PopImage(props) {
       i: `${widgets.count + 1}`,
       x: 1,
       y: 1,
-      w: 1,
-      h: 1,
+      w: 2,
+      h: 2,
     };
 
     dispatch(
@@ -43,6 +43,7 @@ function PopImage(props) {
   const handleSubmit = (event) => {
     // TODO: url valid 한지 체크해야함
     makeNewWidget();
+    props.endPop();
   };
 
   const handleUrlChange = ({ target: { value } }) => {

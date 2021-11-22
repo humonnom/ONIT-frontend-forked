@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css, jsx } from '@emotion/react';
-import { bi_grey as BiGrey } from '../asset';
+import { logo_gray } from '../asset';
 
 function Footer(props) {
   return (
@@ -26,7 +26,7 @@ function Footer(props) {
             height: 24px; //수정
             margin-left: 160px;
           `}
-          src={BiGrey}
+          src={logo_gray}
         />
       </div>
       <div

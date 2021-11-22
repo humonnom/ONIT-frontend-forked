@@ -16,7 +16,7 @@ import todolist_selected from './todolist_selected.svg';
 import pin_selected from './pin_selected.svg';
 import mypage from './mypage.svg';
 import search from './search.svg';
-import bi_grey from './bi_grey.svg';
+import logo_gray from './bi_grey.svg';
 
 export {
   arrow_left,
@@ -37,5 +37,5 @@ export {
   pin_selected,
   mypage,
   search,
-  bi_grey,
+  logo_gray,
 };
