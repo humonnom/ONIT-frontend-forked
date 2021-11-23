@@ -9,6 +9,7 @@ import {
   ACTION_NONE,
   TYPE_VIDEO,
 } from '../../../utils/constantValue';
+import { popButtonsWrapper } from '../../../styles/popWindowStyle';
 
 function PopNonType(props) {
   const handleKeyDown = (event) => {
@@ -22,24 +23,26 @@ function PopNonType(props) {
       <div css={[urlInputStyle]} onKeyDown={handleKeyDown}>
         개발중인 위젯입니다
       </div>
-      <button
-        type='button'
-        css={[commonButtonStyle, cancelButtonStyle]}
-        onClick={() => {
-          props.endPop();
-        }}
-      >
-        취소
-      </button>
-      <button
-        type='button'
-        css={[commonButtonStyle, confirmButtonStyle]}
-        onClick={() => {
-          props.endPop();
-        }}
-      >
-        확인
-      </button>
+      <div css={popButtonsWrapper}>
+        <button
+          type='button'
+          css={[commonButtonStyle, cancelButtonStyle]}
+          onClick={() => {
+            props.endPop();
+          }}
+        >
+          취소
+        </button>
+        <button
+          type='button'
+          css={[commonButtonStyle, confirmButtonStyle]}
+          onClick={() => {
+            props.endPop();
+          }}
+        >
+          확인
+        </button>
+      </div>
     </>
   );
 }
