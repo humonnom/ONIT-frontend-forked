@@ -163,7 +163,7 @@ function ToolBar({ setIsPop }) {
     },
     {
       key: 4,
-      label: '투두리스트',
+      label: '투두',
       emoji: todolist,
       selected: todolist_selected,
       type: 'todo',
