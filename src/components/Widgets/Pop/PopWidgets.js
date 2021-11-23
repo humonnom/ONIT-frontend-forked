@@ -30,19 +30,7 @@ function PopWidgets(props) {
   };
 
   return (
-    <div
-      style={backGroundPopStyle}
-      onClick={() => {
-        endPop();
-      }}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') {
-          console.log(
-            'div에 onclick 쓰려면 키 이벤트도 등록해야한다고 해서 했는데 빈 함수로 두면 또 린트가 잡으니까 이렇게 콘솔로 채움'
-          );
-        }
-      }}
-    >
+    <div style={backGroundPopStyle}>
       <div style={widgetBoxPopStyle}>
         {moragogiuyahalkkayo(modal) !== '' ? (
           <div style={nameBoxStyle}>{moragogiuyahalkkayo(modal)} 업로드</div>

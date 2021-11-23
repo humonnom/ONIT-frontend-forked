@@ -35,7 +35,6 @@ function PopNonType(props) {
         type='button'
         css={[commonButtonStyle, confirmButtonStyle]}
         onClick={() => {
-          handleSubmit();
           props.endPop();
         }}
       >
