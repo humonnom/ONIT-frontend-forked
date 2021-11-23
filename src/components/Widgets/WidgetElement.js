@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { close_btn, setting_btn } from '../../asset';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
@@ -100,26 +101,54 @@ export function WidgetElement({ element, mode }) {
       }}
     >
       {mode === 'edit' && hover && (
-        <div
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            borderRadius: '10px',
-            opacity: '0.2',
-            backgroundColor: '#000',
-          }}
-        >
+        <>
+          <div
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              borderRadius: '10px',
+              opacity: '0.2',
+              backgroundColor: '#000',
+            }}
+          />
+          <button
+            type='button'
+            style={{
+              appearance: 'none',
+              position: 'absolute',
+              top: '10px',
+              right: '42px',
+              width: '25px',
+              height: '25px',
+              borderRadius: '50%',
+              border: 'none',
+              backgroundColor: 'white',
+            }}
+            onClick={() => {
+              console.log(layout.i);
+              const newWidgetList = getNewWidgetList(layout.i, 'D');
+              console.log(newWidgetList);
+              updateWidgets(newWidgetList);
+            }}
+          >
+            <img
+              alt='img'
+              style={{ width: '100%', height: '100%' }}
+              src={close_btn}
+            />
+          </button>
           <button
             type='button'
             style={{
               position: 'absolute',
               top: '10px',
               right: '10px',
-              width: '32px',
-              height: '32px',
+              width: '25px',
+              height: '25px',
               borderRadius: '50%',
               border: 'none',
+              backgroundColor: 'white',
             }}
             onClick={() => {
               console.log(layout.i);
@@ -129,29 +158,13 @@ export function WidgetElement({ element, mode }) {
               updateWidgets(newWidgetList);
             }}
           >
-            ⚙︎
+            <img
+              alt='img'
+              style={{ width: '100%', height: '100%' }}
+              src={setting_btn}
+            />
           </button>
-          <button
-            type='button'
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '52px',
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              border: 'none',
-            }}
-            onClick={() => {
-              console.log(layout.i);
-              const newWidgetList = getNewWidgetList(layout.i, 'D');
-              console.log(newWidgetList);
-              updateWidgets(newWidgetList);
-            }}
-          >
-            x
-          </button>
-        </div>
+        </>
       )}
       {classifyBox(layout)}
     </div>

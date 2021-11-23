@@ -21,6 +21,7 @@ const ReactGridLayout = WidthProvider(RGL);
 export default function GridLayout(props) {
   // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
   const rowHeight = (UseWindowSize().width - 170) / 16;
+
   console.log(props.mylayout);
   console.log(props.children);
   return (
@@ -34,19 +35,7 @@ export default function GridLayout(props) {
       preventCollision
       {...props}
     >
-      {props.children ? (
-        props.children
-      ) : (
-        <div key='-1'>
-          <img alt='img' src={logo_gray} />
-          {console.log('나 왔쪄염 뿌우')}
-        </div>
-      )}
+      {props.children}
     </ReactGridLayout>
   );
 }
-
-// 얘 안먹음 ㅠㅠ
-GridLayout.defaultProps = {
-  mylayout: [{ x: 0, y: 0, w: 2, h: 2, i: '-1' }],
-};

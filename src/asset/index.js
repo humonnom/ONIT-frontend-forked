@@ -17,6 +17,10 @@ import pin_selected from './pin_selected.svg';
 import mypage from './mypage.svg';
 import search from './search.svg';
 import logo_gray from './bi_grey.svg';
+import setting from './setting.svg';
+import setting_btn from './setting_btn.svg';
+import close from './close.svg';
+import close_btn from './close_btn.svg';
 
 export {
   arrow_left,
@@ -38,4 +42,8 @@ export {
   mypage,
   search,
   logo_gray,
+  setting,
+  setting_btn,
+  close,
+  close_btn,
 };
