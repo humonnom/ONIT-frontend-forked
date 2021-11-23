@@ -9,6 +9,7 @@ import {
   ACTION_NONE,
   TYPE_VIDEO,
 } from '../../../utils/constantValue';
+import { popButtonsWrapper } from '../../../styles/popWindowStyle';
 
 function PopVideo(props) {
   const { widgets } = useSelector((state) => ({
@@ -67,25 +68,25 @@ function PopVideo(props) {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <button
-        type='button'
-        css={[commonButtonStyle, cancelButtonStyle]}
-        onClick={() => {
-          props.endPop();
-        }}
-      >
-        취소
-      </button>
-      <button
-        type='button'
-        css={[commonButtonStyle, confirmButtonStyle]}
-        onClick={() => {
-          handleSubmit();
-          props.endPop();
-        }}
-      >
-        확인
-      </button>
+      <div css={popButtonsWrapper}>
+        <button
+          type='button'
+          onClick={() => {
+            props.endPop();
+          }}
+        >
+          취소
+        </button>
+        <button
+          type='button'
+          onClick={() => {
+            handleSubmit();
+            props.endPop();
+          }}
+        >
+          확인
+        </button>
+      </div>
     </>
   );
 }
@@ -99,33 +100,6 @@ const urlInputStyle = css`
   border-radius: 8px;
   background-color: #fff;
   padding: 12px 20px;
-`;
-
-const commonButtonStyle = css`
-  display: inline-block;
-  height: 48px;
-  width: 160px;
-  border-radius: 24px;
-  border: none;
-  font-size: 20px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.9;
-  letter-spacing: normal;
-  color: #bbb;
-  background-color: #fff;
-  padding: 0px;
-  &:hover {
-    background-color: #ef6408;
-    color: #fff;
-  }
-`;
-const confirmButtonStyle = css`
-  margin: 0 0 0 10px;
-`;
-
-const cancelButtonStyle = css`
-  margin: 0 0 0 190px;
 `;
 
 export default PopVideo;

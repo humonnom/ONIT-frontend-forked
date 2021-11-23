@@ -1,6 +1,9 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RenderLoginPage from '../pages/RenderLoginPage';
+import { loadingMessageStyle } from '../styles/loadingStyle';
 
 function RenewAccessToken() {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -40,10 +43,10 @@ function RenewAccessToken() {
   }, []);
 
   if (loading) {
-    return <div>토큰 갱신중..</div>;
+    return <div css={loadingMessageStyle}>... 토큰 갱신중 ...</div>;
   }
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <div css={loadingMessageStyle}> 에러가 발생했습니다. </div>;
   }
   if (!tokens) {
     return null;
@@ -52,7 +55,7 @@ function RenewAccessToken() {
   if (tokens === 401) {
     return (
       <>
-        <div> 로그인을 다시 하세요.</div>
+        <div css={loadingMessageStyle}> 로그인을 다시 하세요.</div>
         <RenderLoginPage />
       </>
     );

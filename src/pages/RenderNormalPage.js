@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
+import { css } from '@emotion/react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { NormalModePage } from '.';
@@ -8,6 +10,7 @@ import {
   createReplacementWidgetsAction,
 } from '../redux/slice';
 import { getPageUser } from '../utils/parsing';
+import { loadingMessageStyle } from '../styles/loadingStyle';
 
 function RenderNormalPage({ match }) {
   const [userMatch, setUserMatch] = useState(false);
@@ -94,18 +97,18 @@ function RenderNormalPage({ match }) {
   }, []);
 
   if (loading) {
-    return <div>로딩중..</div>;
+    return <div css={loadingMessageStyle}>로딩중..</div>;
   }
   if (error) {
-    return <div>에러가 발생했습니다.</div>;
+    return <div css={loadingMessageStyle}>에러가 발생했습니다.</div>;
   }
   // access_token 만료의 경우
   if (data === 419) {
     window.location.assign(`/${user_seq}/auth/token/refresh`);
-    return <div> 토큰이 만료되었습니다. </div>;
+    return <div css={loadingMessageStyle}> 토큰이 만료되었습니다. </div>;
   } else if (data === 401) {
     window.location.assign(`/${user_seq}/auth/token/refresh`);
-    return <div> 로그인을 다시 하세요. </div>;
+    return <div css={loadingMessageStyle}> 로그인을 다시 하세요. </div>;
   }
   if (!data) {
     return null;

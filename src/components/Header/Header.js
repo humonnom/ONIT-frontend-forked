@@ -62,6 +62,15 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
                 페이지 수정
               </button>
             )}
+            {!userMatch && (
+              <a
+                href='#'
+                onClick={() => window.location.assign(`/${user_seq}/normal`)}
+                css={marginRight36}
+              >
+                <img alt='img' src={mypage} css={height26} />
+              </a>
+            )}
           </div>
         </div>
         <div css={[abosulteCenter, flex]}>
