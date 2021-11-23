@@ -53,22 +53,22 @@ function MainPage() {
               hoverSvg={MainPageHover01}
             />
             <ProfileCard
-              href='/4/normal'
+              href='/5/normal'
               svg={MainPage02}
               hoverSvg={MainPageHover02}
             />
             <ProfileCard
-              href='/5/normal'
+              href='/8/normal'
               svg={MainPage03}
               hoverSvg={MainPageHover03}
             />
             <ProfileCard
-              href='/5/normal'
+              href='/7/normal'
               svg={MainPage04}
               hoverSvg={MainPageHover04}
             />
             <ProfileCard
-              href='/5/normal'
+              href='/4/normal'
               svg={MainPage06}
               hoverSvg={MainPageHover06}
             />
@@ -78,17 +78,17 @@ function MainPage() {
               hoverSvg={MainPageHover07}
             />
             <ProfileCard
-              href='/5/normal'
+              href='/8/normal'
               svg={MainPage08}
               hoverSvg={MainPageHover08}
             />
             <ProfileCard
-              href='/5/normal'
+              href='/7/normal'
               svg={MainPage09}
               hoverSvg={MainPageHover09}
             />
             <ProfileCard
-              href='/5/normal'
+              href='/4/normal'
               svg={MainPage10}
               hoverSvg={MainPageHover10}
             />

@@ -1,5 +1,8 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { loadingMessageStyle } from '../../styles/loadingStyle';
 // import { useDispatch } from 'react-redux';
 
 function HandleKakaoLogin() {
@@ -45,7 +48,7 @@ function HandleKakaoLogin() {
     fetchTokens();
   }, []);
 
-  return <div>로딩중..</div>;
+  return <div css={loadingMessageStyle}>로딩중..</div>;
 }
 
 export default HandleKakaoLogin;
