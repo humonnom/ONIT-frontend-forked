@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/css';
-import { COLOR_GREY, HEADER_HEIGHT } from '../../utils/style';
+import { HEADER_HEIGHT } from '../../utils/style';
 
 const headerWrapper = ({ children }) => (
   <div

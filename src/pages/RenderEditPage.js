@@ -1,22 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
-import { css } from '@emotion/react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { EditModePage } from '.';
-import { convertForRedux, convertForServer } from '../utils/convert';
+import { convertForRedux } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
 import { getPageUser } from '../utils/parsing';
 import { loadingMessageStyle } from '../styles/loadingStyle';
 
-function RenderEditPage({ match }) {
+function RenderEditPage() {
   console.log('RenderEditPage page');
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem('access_token');
   const user_seq = localStorage.getItem('user_seq');
-  const [userMatch, setUserMatch] = useState(false);
-  const { id } = match.params;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,7 +20,6 @@ function RenderEditPage({ match }) {
 
   useEffect(() => {
     if (user_seq === page_user_seq) {
-      setUserMatch(true);
       console.log(page_user_seq);
     }
   }, []);

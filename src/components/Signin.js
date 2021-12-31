@@ -35,6 +35,7 @@ function Signin() {
     padding: 0,
     margin: 15,
   };
+
   const inputStyle = {
     width: '250px',
     height: '30px',
@@ -44,17 +45,7 @@ function Signin() {
     margin: '3px',
     textIndent: '15px',
   };
-  const circleStyle = {
-    display: 'inline-block',
-    padding: '0px',
-    margin: '10px',
-    flex: '1',
-    left: '50%',
-    width: '25px',
-    height: '25px',
-    borderRadius: '50%',
-    background: 'grey',
-  };
+
   const signupButtonStyle = {
     width: '250px',
     height: '30px',

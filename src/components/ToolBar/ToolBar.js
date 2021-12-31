@@ -1,13 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-import { css, jsx } from '@emotion/react';
+import React from 'react';
+import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { ToolBarButton, HeaderWrapper } from '..';
-import {
-  createReplacementModalAction,
-  createReplacementWidgetsAction,
-} from '../../redux/slice';
+import { createReplacementModalAction } from '../../redux/slice';
 import { convertForServer } from '../../utils/convert';
 import {
   logo,
@@ -27,7 +24,7 @@ import {
   pin_selected,
 } from '../../asset/index';
 
-function ToolBar({ setIsPop }) {
+function ToolBar() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { widgets, modal } = useSelector((state) => ({
@@ -35,25 +32,6 @@ function ToolBar({ setIsPop }) {
     modal: state.info.modal,
   }));
   const user_seq = localStorage.getItem('user_seq');
-  // dispatch
-  const updateWidgets = (newWidgetList) => {
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        // count: widgets.count,
-        list: newWidgetList,
-      })
-    );
-  };
-  function getNewWidgetList(targetItemIndex) {
-    const newList = JSON.parse(JSON.stringify(widgets.list));
-    // console.log(targetItemCode);
-    const found = newList.find((element) => element.i === targetItemIndex);
-    found.widget_action = 'D';
-    // console.log(found);
-    // TODO: 만들자마자 삭제한 위젯도 widget_action 'D'로 보내면 되는지 확인
-    return newList;
-  }
 
   const new_widget_button_list = [
     {

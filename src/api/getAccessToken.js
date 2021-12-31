@@ -1,12 +1,15 @@
 import { REFRESH_TOKEN } from '../utils/constantValue';
 
 async function getAccessToken() {
-  const res = await fetch(`${REACT_APP_SERVER_DOMAIN}/token/refresh`, {
-    method: 'GET',
-    headers: {
-      refresh_token: `Bearer ${REFRESH_TOKEN}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_DOMAIN}/token/refresh`,
+    {
+      method: 'GET',
+      headers: {
+        refresh_token: `Bearer ${REFRESH_TOKEN}`,
+      },
+    }
+  );
   const result = await res.json();
   console.log(`result: ${result}`);
   const ACCESS_TOKEN = result.data.access_token;

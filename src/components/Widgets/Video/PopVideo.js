@@ -1,14 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
-import {
-  ACTION_CREATE,
-  ACTION_NONE,
-  TYPE_VIDEO,
-} from '../../../utils/constantValue';
+import { ACTION_CREATE, TYPE_VIDEO } from '../../../utils/constantValue';
 import { popButtonsWrapper } from '../../../styles/popWindowStyle';
 
 function PopVideo(props) {
@@ -41,7 +37,7 @@ function PopVideo(props) {
     );
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     // TODO: url valid 한지 체크해야함
     makeNewWidget();
   };

@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 import SigninRight from './SigninRight';
-import LeftOnit from '../assets/LeftOnit.png';
+import LeftOnit from '../asset/LeftOnit.png';
 import { Footer } from '../components';
 
 function RenderLoginPage() {

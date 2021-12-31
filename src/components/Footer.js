@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 import { logo_gray } from '../asset';
 
-function Footer(props) {
+function Footer() {
   return (
     <div
       css={css`

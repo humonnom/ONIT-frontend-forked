@@ -2,7 +2,6 @@ import React from 'react';
 import { WidgetWrapper } from '../..';
 
 function Image(props) {
-  // const autoplay = props.autoplay || 'autoplay=1';
   if (props.src === undefined) {
     return <p>아직 위젯이 없습니다.</p>;
   }

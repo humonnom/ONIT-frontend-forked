@@ -1,14 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
-import { css } from '@emotion/react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { NormalModePage } from '.';
 import { convertForRedux } from '../utils/convert';
-import {
-  createReplacementUserAction,
-  createReplacementWidgetsAction,
-} from '../redux/slice';
+import { createReplacementWidgetsAction } from '../redux/slice';
 import { getPageUser } from '../utils/parsing';
 import { loadingMessageStyle } from '../styles/loadingStyle';
 
@@ -64,14 +60,10 @@ function RenderNormalPage({ match }) {
     setLoading(false);
   };
 
-  // TODO: data 받아온 후 redux에 넣고, grid 그리기 위한 데이터로 사용하기
   const setWidgetState = async (widget_data) => {
     setData(widget_data);
-    // console.log('==========data');
-    // console.log(widget_data);
     const convertedForRedux = await convertForRedux(widget_data);
-    // console.log(`convert for redux :`);
-    // console.log(convertedForRedux);
+
     dispatch(
       createReplacementWidgetsAction({
         count: convertedForRedux.length,
@@ -79,17 +71,6 @@ function RenderNormalPage({ match }) {
       })
     );
   };
-
-  // setUserName(response.data.user_name);
-
-  // const setUsername = async (name) => {
-  //   dispatch(
-  //     createReplacementUserAction({
-  //       ...user,
-  //       name: name,
-  //     })
-  //   );
-  // };
 
   useEffect(() => {
     getWidgetsDataFromServer();
@@ -126,22 +107,3 @@ function RenderNormalPage({ match }) {
 }
 
 export default RenderNormalPage;
-
-// 리팩토링 시에 참고할 코드. 지우지 말아주세요.
-// const dispatch = useDispatch();
-// TODO: 로그인 안되었을때 데이터 처리(로그인, 데이터 받아오는 것 순서)
-// useEffect(() => {
-//   const setWidgetState = async () => {
-//     const info = await getWidgetsInfo();
-//     const convertedForRedux = await convertForRedux(info);
-//     console.log(`convert for redux :`);
-//     console.log(convertedForRedux);
-//     dispatch(
-//       createReplacementWidgetsAction({
-//         count: info.length,
-//         list: convertedForRedux,
-//       })
-//     );
-//   };
-//   setWidgetState();
-// }, [dispatch]);

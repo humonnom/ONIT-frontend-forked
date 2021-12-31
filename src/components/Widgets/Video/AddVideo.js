@@ -8,7 +8,7 @@ function AddVideo(props) {
     setUrl(value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     try {
       const urlObj = new URL(url);
       const new_widget = urlObj.searchParams.get('v');

@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { css } from '@emotion/react';
 import { loadingMessageStyle } from '../../styles/loadingStyle';
 
 function RenderEditPage({ match }) {
@@ -20,6 +19,8 @@ function RenderEditPage({ match }) {
       setError(null);
       setData(null);
       setLoading(true);
+      // todo
+      // eslint-disable-next-line no-undef
       const response = await axios.post(postData, endPoint, {
         headers: {
           Authorization: `Bearer ${accessToken}`,

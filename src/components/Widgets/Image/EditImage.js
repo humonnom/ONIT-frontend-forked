@@ -8,7 +8,7 @@ import {
 
 import { TYPE_IMAGE } from '../../../utils/constantValue';
 
-function EditImage(props) {
+function EditImage() {
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
@@ -53,7 +53,7 @@ function EditImage(props) {
     setUrl(value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     // TODO: url valid 한지 체크해야함
     const newList = editWidgetInfo(widgets.list);
     updateWidgets(newList);

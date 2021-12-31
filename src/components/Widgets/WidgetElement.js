@@ -33,14 +33,7 @@ export function WidgetElement({ element, mode }) {
       })
     );
   };
-  const closeEditWindow = () => {
-    dispatch(
-      createReplacementModalAction({
-        ...modal,
-        imgInputWindow: false,
-      })
-    );
-  };
+
   const updateWidgets = (newWidgetList) => {
     dispatch(
       createReplacementWidgetsAction({

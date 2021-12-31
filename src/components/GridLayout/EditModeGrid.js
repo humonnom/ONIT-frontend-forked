@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
-import { css } from '@emotion/css';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
 import { createReplacementWidgetsAction } from '../../redux/slice';
 import { WidgetElement } from '../Widgets/WidgetElement';
 import { ACTION_NONE, ACTION_EDIT } from '../../utils/constantValue';
-import { HEADER_HEIGHT, REAL_HEADER_HEIGHT } from '../../utils/style';
+import { REAL_HEADER_HEIGHT } from '../../utils/style';
 
-function EditModeGrid(props) {
+function EditModeGrid() {
   const dispatch = useDispatch();
 
   const { widgets } = useSelector((state) => ({
