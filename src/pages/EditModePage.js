@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { PageWrapper, EditWrapper, ToolBar, EditModeGrid } from '../components';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 
-function EditMode(props) {
+function EditMode() {
   const { modal } = useSelector((state) => ({
     modal: state.info.modal,
   }));

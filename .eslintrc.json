@@ -38,10 +38,8 @@
 		"no-mixed-spaces-and-tabs": [
 			"error"
 		],
-		"no-unused-vars": "off",
 		"prettier/prettier": "error",
 		"quotes": "off",
-		"no-undef": "off",
 		"jsx-quotes": "off",
 		"no-alert": "off",
 		"no-unexpected-multiline": "warn",

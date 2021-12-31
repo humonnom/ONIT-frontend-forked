@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
 import { REAL_HEADER_HEIGHT } from '../../../utils/style';
@@ -11,7 +10,7 @@ function moragogiuyahalkkayo(modal) {
   else return '';
 }
 
-function PopWidgets(props) {
+function PopWidgets() {
   const dispatch = useDispatch();
 
   const { modal } = useSelector((state) => ({

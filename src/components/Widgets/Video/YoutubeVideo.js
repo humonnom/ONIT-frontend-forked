@@ -1,5 +1,4 @@
 import React from 'react';
-import { WidgetWrapper } from '../..';
 
 function YoutubeVideo({ embedId }) {
   // const autoplay = props.autoplay || 'autoplay=1';
@@ -16,16 +15,6 @@ function YoutubeVideo({ embedId }) {
   const autoplay = 'autoplay=1';
   const mute = 'mute=0';
   const options = `?${reset_style}&${autoplay}&${mute}&${loop}`;
-  // 사이즈 조절
-  let width = '640';
-  let height = '320';
-  // if (props.size === 'small') {
-  width = '320';
-  height = '160';
-  // } else if (props.size === 'large') {
-  //   width = '1280';
-  //   height = '640';
-  // }
 
   return (
     <div style={radiusStyle}>

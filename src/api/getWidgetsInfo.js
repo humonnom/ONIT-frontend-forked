@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import apiUtil from './apiUtil';
 import useFetch from './useFetch';
 
 async function getWidgetsInfo() {

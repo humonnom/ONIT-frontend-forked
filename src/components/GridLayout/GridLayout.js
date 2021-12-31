@@ -1,20 +1,6 @@
-import React, { useRef } from 'react';
-import _ from 'lodash';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import './Grid.css';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  createReplacementModalAction,
-  createReplacementWidgetsAction,
-} from '../../redux/slice';
-import {
-  ACTION_CREATE,
-  ACTION_NONE,
-  TYPE_IMAGE,
-} from '../../utils/constantValue';
-import { setNewWigetInfo } from '../Widgets/newWidgetUtils';
 import UseWindowSize from './UseWindowSize';
-import { logo_gray } from '../../asset';
 
 const ReactGridLayout = WidthProvider(RGL);
 

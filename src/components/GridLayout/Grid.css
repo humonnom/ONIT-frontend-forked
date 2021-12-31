@@ -1,11 +1,7 @@
   #content {
 	width: 100%;
   }
-  .react-grid-layout {
-	/*
-	grid css here
-	*/
- }
+
   .layoutJSON {
 	background: #ddd;
 	border: 1px solid black;

@@ -1,7 +1,6 @@
-import React from 'react';
 import { ACTION_CREATE, TYPE_IMAGE } from '../../utils/constantValue';
 
-export function addNewWidget(props) {}
+export function addNewWidget() {}
 
 export function setNewWigetInfo(newWidgetInfo, size, count) {
   // small이 디폴트

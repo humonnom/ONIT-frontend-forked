@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
@@ -13,7 +13,6 @@ function PopImage(props) {
   }));
 
   const [thumbnail, setThumbnail] = useState('');
-  const [url, setUrl] = useState('');
   const dispatch = useDispatch();
 
   function makeNewWidget() {
@@ -23,7 +22,7 @@ function PopImage(props) {
       widget_type: TYPE_IMAGE,
       widget_data: {
         thumbnail: `${thumbnail}`,
-        url: `${url}`,
+        url: '',
       },
       i: `${widgets.count + 1}`,
       x: 1,
@@ -41,15 +40,10 @@ function PopImage(props) {
     );
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     // TODO: url valid 한지 체크해야함
     makeNewWidget();
     props.endPop();
-  };
-
-  const handleUrlChange = ({ target: { value } }) => {
-    console.log(value);
-    setUrl(value);
   };
 
   const handleThumbChange = ({ target: { value } }) => {
@@ -107,29 +101,5 @@ const urlInputStyle = css`
   background-color: #fff;
   padding: 12px 20px;
 `;
-
-// const popButtonsWrapper = css`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: end;
-//   margin: 0 30px;
-//   button {
-//     display: block;
-//     height: 35px;
-//     width: 130px;
-//     border-radius: 24px;
-//     border: none;
-//     background-color: #fff;
-//     color: #bbb;
-//     font-size: 15px;
-//     margin: 0 10px;
-//     padding: 0px;
-//     &:hover {
-//       background-color: #ef6408;
-//       color: #fff;
-//     }
-//     transition: 0.2s;
-//   }
-// `;
 
 export default PopImage;

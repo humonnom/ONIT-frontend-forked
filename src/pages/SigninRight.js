@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css, jsx } from '@emotion/react';
-import Tape from '../assets/Tape.svg';
+import { css } from '@emotion/react';
+import Tape from '../asset/Tape.svg';
 
 function SigninRight() {
   const signInWithKakao = () => {

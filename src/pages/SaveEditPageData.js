@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
-import { css } from '@emotion/react';
 import axios from 'axios';
 import { useLocation } from 'react-router';
 import { loadingMessageStyle } from '../styles/loadingStyle';

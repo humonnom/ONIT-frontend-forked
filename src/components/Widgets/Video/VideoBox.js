@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { YoutubeVideo } from '../..';
 
 export default function VideoBox({ element, mode }) {

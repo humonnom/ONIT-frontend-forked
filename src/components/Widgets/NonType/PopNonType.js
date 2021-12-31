@@ -1,14 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-import { css, jsx } from '@emotion/react';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { createReplacementWidgetsAction } from '../../../redux/slice';
-import {
-  ACTION_CREATE,
-  ACTION_NONE,
-  TYPE_VIDEO,
-} from '../../../utils/constantValue';
+import React from 'react';
+import { css } from '@emotion/react';
 import { popButtonsWrapper } from '../../../styles/popWindowStyle';
 
 function PopNonType(props) {

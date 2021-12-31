@@ -30,5 +30,7 @@
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "azureFunctions.showMultiCoreToolsWarning": false
+    "azureFunctions.showMultiCoreToolsWarning": false,
+    "typescript.validate.enable": false,
+    "javascript.validate.enable": false,
 }

@@ -1,15 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
-import { css, jsx } from '@emotion/react';
+import React from 'react';
+import { css } from '@emotion/react';
 import { HeaderWrapper } from '..';
-import { getPageUser } from '../../utils/parsing';
 import { logo, mypage, search } from '../../asset';
 import { logout } from '../../utils/logout';
 
 function Header({ userMatch, pageUserId, pageUserName, pageType }) {
   if (pageType === 'main') {
     const user_seq = localStorage.getItem('user_seq');
-    const myPageUrl = `/${user_seq}/normal`;
     return (
       <HeaderWrapper>
         <div css={[flex, flexBtw]}>
@@ -45,7 +43,6 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
     );
   } else {
     const user_seq = localStorage.getItem('user_seq');
-    const page_user_seq = getPageUser();
     return (
       <HeaderWrapper>
         <div css={[flex, flexBtw]}>

@@ -1,49 +1,4 @@
-import { map, words } from 'lodash';
-import apiUtil from './apiUtil';
-import useFetch from './useFetch';
-
 async function postWidgetsInfo(widgets) {
-  // function makeActionValue(originInfos, newInfos) {
-  //   const i = 0;
-  //   while (originInfos[i]) {
-  //     if (JSON.stringify(originInfos[i]) !== JSON.stringify(newInfos[i])) {
-  //       if (newInfos[i].widget_deleted == 'Y') newInfos[i].widget_action = 'd';
-  //       else newInfos[i].widget_action = 'e';
-  //     }
-  //     i++;
-  //   }
-  //   while (newInfos[i]) {
-  //     newInfos[i].widget_action = 'c';
-  //     i++;
-  //   }
-  //   return newInfos;
-  // }
-  // const { widgets } = useAppSelector((state) => ({
-  //   widgets: state.info.widgets,
-  // }));
-
-  // const dispatch = useDispatch();
-
-  // function getNewWidetsList(origin, infos) {
-  //   return origin.map(function (widget) {
-  //     const newWidget = JSON.parse(JSON.stringify(widget));
-  //     const info = infos.find((element) => element.i === widget.i);
-  //     newWidget.x = info.x;
-  //     newWidget.y = info.y;
-  //     newWidget.w = info.w;
-  //     newWidget.h = info.h;
-  //     return newWidget;
-  //   });
-  // }
-
-  // const newWidgetsList = getNewWidetsList(widgets.list, layout);
-  // dispatch(
-  //   createReplacementWidgetsAction({
-  //     ...widgets,
-  //     list: newWidgetsList,
-  //   })
-  // );
-
   fetch(`http://localhost:3001/list`, {
     method: 'POST',
     headers: {
