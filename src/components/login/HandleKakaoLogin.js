@@ -1,7 +1,6 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { loadingMessageStyle } from '../../styles/loadingStyle';
+import LoadingMessageStyle from '../LoadingMessageStyle';
 // import { useDispatch } from 'react-redux';
 
 function HandleKakaoLogin() {
@@ -39,7 +38,7 @@ function HandleKakaoLogin() {
     fetchTokens();
   }, []);
 
-  return <div css={loadingMessageStyle}>로딩중..</div>;
+  return <LoadingMessageStyle>로딩중..</LoadingMessageStyle>;
 }
 
 export default HandleKakaoLogin;

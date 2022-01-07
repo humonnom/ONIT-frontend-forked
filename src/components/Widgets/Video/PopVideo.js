@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
 import { ACTION_CREATE, TYPE_VIDEO } from '../../../utils/constantValue';
-import { popButtonsWrapper } from '../../../styles/popWindowStyle';
+import PopButtonsWrapper from '../PopButtonsWrapper';
 
 function PopVideo(props) {
   const { widgets } = useSelector((state) => ({
@@ -64,7 +64,7 @@ function PopVideo(props) {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <div css={popButtonsWrapper}>
+      <PopButtonsWrapper>
         <button
           type='button'
           onClick={() => {
@@ -82,7 +82,7 @@ function PopVideo(props) {
         >
           확인
         </button>
-      </div>
+      </PopButtonsWrapper>
     </>
   );
 }

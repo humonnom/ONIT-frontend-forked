@@ -1,7 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-export const popButtonsWrapper = css`
+function PopButtonsWrapper(props) {
+  return <div css={style}>{props.children}</div>;
+}
+
+export const style = css`
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -24,3 +28,5 @@ export const popButtonsWrapper = css`
     transition: 0.2s;
   }
 `;
+
+export default PopButtonsWrapper;

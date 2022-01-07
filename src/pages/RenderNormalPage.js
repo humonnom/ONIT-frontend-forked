@@ -6,7 +6,7 @@ import { NormalModePage } from '.';
 import { convertForRedux } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
 import { getPageUser } from '../utils/parsing';
-import { loadingMessageStyle } from '../styles/loadingStyle';
+import LoadingMessageStyle from '../components/LoadingMessageStyle';
 
 function RenderNormalPage({ match }) {
   const [userMatch, setUserMatch] = useState(false);
@@ -78,18 +78,18 @@ function RenderNormalPage({ match }) {
   }, []);
 
   if (loading) {
-    return <div css={loadingMessageStyle}>로딩중..</div>;
+    return <LoadingMessageStyle>로딩중..</LoadingMessageStyle>;
   }
   if (error) {
-    return <div css={loadingMessageStyle}>에러가 발생했습니다.</div>;
+    return <LoadingMessageStyle>에러가 발생했습니다.</LoadingMessageStyle>;
   }
   // access_token 만료의 경우
   if (data === 419) {
     window.location.assign(`/${user_seq}/auth/token/refresh`);
-    return <div css={loadingMessageStyle}> 토큰이 만료되었습니다. </div>;
+    return <LoadingMessageStyle> 토큰이 만료되었습니다. </LoadingMessageStyle>;
   } else if (data === 401) {
     window.location.assign(`/${user_seq}/auth/token/refresh`);
-    return <div css={loadingMessageStyle}> 로그인을 다시 하세요. </div>;
+    return <LoadingMessageStyle> 로그인을 다시 하세요. </LoadingMessageStyle>;
   }
   if (!data) {
     return null;
