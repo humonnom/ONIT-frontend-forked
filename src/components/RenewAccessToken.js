@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RenderLoginPage from '../pages/RenderLoginPage';
-import { loadingMessageStyle } from '../styles/loadingStyle';
+import LoadingMessageStyle from './LoadingMessageStyle';
 
 function RenewAccessToken() {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -42,10 +42,10 @@ function RenewAccessToken() {
   }, []);
 
   if (loading) {
-    return <div css={loadingMessageStyle}>... 토큰 갱신중 ...</div>;
+    return <LoadingMessageStyle>... 토큰 갱신중 ...</LoadingMessageStyle>;
   }
   if (error) {
-    return <div css={loadingMessageStyle}> 에러가 발생했습니다. </div>;
+    return <LoadingMessageStyle> 에러가 발생했습니다. </LoadingMessageStyle>;
   }
   if (!tokens) {
     return null;
@@ -54,7 +54,7 @@ function RenewAccessToken() {
   if (tokens === 401) {
     return (
       <>
-        <div css={loadingMessageStyle}> 로그인을 다시 하세요.</div>
+        <LoadingMessageStyle> 로그인을 다시 하세요.</LoadingMessageStyle>
         <RenderLoginPage />
       </>
     );

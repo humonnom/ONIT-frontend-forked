@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
 import { ACTION_CREATE, TYPE_IMAGE } from '../../../utils/constantValue';
-import { popButtonsWrapper } from '../../../styles/popWindowStyle';
+import PopButtonsWrapper from '../PopButtonsWrapper';
 
 function PopImage(props) {
   const { widgets } = useSelector((state) => ({
@@ -68,7 +68,7 @@ function PopImage(props) {
         onChange={handleThumbChange}
         onKeyDown={handleKeyDown}
       />
-      <div css={[popButtonsWrapper]}>
+      <PopButtonsWrapper>
         <button
           type='button'
           onClick={() => {
@@ -86,7 +86,7 @@ function PopImage(props) {
         >
           확인
         </button>
-      </div>
+      </PopButtonsWrapper>
     </>
   );
 }

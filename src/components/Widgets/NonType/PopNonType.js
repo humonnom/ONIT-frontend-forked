@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { popButtonsWrapper } from '../../../styles/popWindowStyle';
+import PopButtonsWrapper from '../PopButtonsWrapper';
 
 function PopNonType(props) {
   const handleKeyDown = (event) => {
@@ -15,7 +15,7 @@ function PopNonType(props) {
       <div css={[urlInputStyle]} onKeyDown={handleKeyDown}>
         개발중인 위젯입니다
       </div>
-      <div css={popButtonsWrapper}>
+      <PopButtonsWrapper>
         <button
           type='button'
           css={[commonButtonStyle, cancelButtonStyle]}
@@ -34,7 +34,7 @@ function PopNonType(props) {
         >
           확인
         </button>
-      </div>
+      </PopButtonsWrapper>
     </>
   );
 }
