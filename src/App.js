@@ -6,9 +6,9 @@ import {
   LoginPage,
   MainPage,
   RenderNormalPage,
-  RenderEditPage,
   RenderUserName,
   SaveEditPageData,
+  EditModePage,
 } from './pages';
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
             component={RenewAccessToken}
           />
           <Route exact path='/:id/normal' component={RenderNormalPage} />
-          <Route exact path='/:id/edit' component={RenderEditPage} />
+          <Route exact path='/:id/edit' component={EditModePage} />
           <Route exact path='/:id/save' component={SaveEditPageData} />
           <Route exact path='/:id/getname' component={RenderUserName} />
           <Route path='/'>
