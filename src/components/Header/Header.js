@@ -3,7 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
-import { logout } from '../../utils/logout';
+import { logout } from '../../utils/router';
 
 function Header({ userMatch, pageUserId, pageUserName, pageType }) {
   if (pageType === 'main') {
