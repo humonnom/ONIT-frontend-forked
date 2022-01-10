@@ -2,7 +2,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import Tape from '../asset/tape.svg';
-
+// HACK: dongslee 컴포넌트 이름을 이해하기가 힘들어요.
 function SigninRight() {
   const signInWithKakao = () => {
     const endpoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;

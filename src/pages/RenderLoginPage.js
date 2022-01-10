@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import SigninRight from './SigninRight';
 import LeftOnit from '../asset/LeftOnit.png';
 import { Footer } from '../components';
-
+// HACK: dongslee 다른 파일처럼 css를 JSX 바깥으로 빼주세요.
 function RenderLoginPage() {
   return (
     <div

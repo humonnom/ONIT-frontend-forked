@@ -12,13 +12,13 @@ function EditMode() {
   const [renderState, setRenderState] = useState(false);
 
   if (renderState === false) {
-    const user_seq = localStorage.getItem('user_seq');
+    const userSeq = localStorage.getItem('user_seq');
     const loginState = getLoginState();
     if (loginState === false) {
-      window.location.assign(`/${user_seq}/normal`);
+      window.location.assign(`/${userSeq}/normal`);
       alert('잘못된 접근입니다.');
     }
-    renderData(user_seq);
+    renderData(userSeq, 'edit');
     setRenderState(true);
   }
 

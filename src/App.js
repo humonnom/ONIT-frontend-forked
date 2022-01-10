@@ -5,10 +5,9 @@ import { PageWrapper, HandleKakaoLogin, RenewAccessToken } from './components';
 import {
   LoginPage,
   MainPage,
-  RenderNormalPage,
-  RenderUserName,
   SaveEditPageData,
   EditModePage,
+  NormalModePage,
 } from './pages';
 
 function App() {
@@ -24,10 +23,9 @@ function App() {
             path='/:id/auth/token/refresh'
             component={RenewAccessToken}
           />
-          <Route exact path='/:id/normal' component={RenderNormalPage} />
+          <Route exact path='/:id/normal' component={NormalModePage} />
           <Route exact path='/:id/edit' component={EditModePage} />
           <Route exact path='/:id/save' component={SaveEditPageData} />
-          <Route exact path='/:id/getname' component={RenderUserName} />
           <Route path='/'>
             <div>error</div>
           </Route>
