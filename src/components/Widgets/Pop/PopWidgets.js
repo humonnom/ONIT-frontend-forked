@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
 import { REAL_HEADER_HEIGHT } from '../../../utils/style';
 import PopTypeComponent from './PopTypeComponent';
-
+// HACK: Eomhyunjun 함수이름 고쳐주세요
 function moragogiuyahalkkayo(modal) {
   if (modal.popUpWindowType === 'image') return '이미지';
   else if (modal.popUpWindowType === 'video') return '영상';

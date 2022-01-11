@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import RenderLoginPage from './RenderLoginPage';
 
 function LoginPage() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  if (loggedIn) {
-    window.location.assign('/main');
-  }
-
-  useEffect(() => {
-    const access_token = localStorage.getItem('access_token');
-    if (access_token) {
-      setLoggedIn(true);
-    }
-  }, []);
-
+  // TODO: login check (in server)
   return <RenderLoginPage />;
 }
 

@@ -27,6 +27,9 @@ function RenewAccessToken() {
       console.log(response);
       if (axiosData.code === 401) {
         setTokens(axiosData.code);
+        alert('로그인을 다시 하세요.');
+        localStorage.removeItem('access_token');
+        window.location.assign(`/`);
       } else {
         setTokens(axiosData.data.tokens);
         setUserInfo(axiosData.data.user_info);

@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import { PageWrapper, HandleKakaoLogin, RenewAccessToken } from './components';
 import {
   LoginPage,
   MainPage,
-  RenderNormalPage,
-  RenderEditPage,
-  RenderUserName,
   SaveEditPageData,
+  EditModePage,
+  NormalModePage,
 } from './pages';
 
 function App() {
@@ -24,10 +24,20 @@ function App() {
             path='/:id/auth/token/refresh'
             component={RenewAccessToken}
           />
-          <Route exact path='/:id/normal' component={RenderNormalPage} />
-          <Route exact path='/:id/edit' component={RenderEditPage} />
+          <Route exact path='/:id/normal' component={NormalModePage} />
+          <Route exact path='/:id/edit' component={EditModePage} />
           <Route exact path='/:id/save' component={SaveEditPageData} />
-          <Route exact path='/:id/getname' component={RenderUserName} />
+          <Route
+            exact
+            path='/testtest'
+            component={function () {
+              const history = useHistory();
+              useEffect(() => {
+                history.push('/1/normal');
+              }, []);
+              return <></>;
+            }}
+          />
           <Route path='/'>
             <div>error</div>
           </Route>

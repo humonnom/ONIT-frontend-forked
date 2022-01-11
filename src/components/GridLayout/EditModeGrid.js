@@ -12,9 +12,6 @@ function EditModeGrid() {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
-  // 위젯 배열에서, 삭제상태(widget_action === 'D')인 위젯을 제외하고 새로운 배열 생성
-  // 그림을 그리기 위한 임시 객체 배열, 원본을 수정하면 안됨
-  // idx가 -1이면 action이 'D'인 요소를 찾지 못한것이므로 아무 처리하지 않음
 
   const getVisibleWidgetsList = useMemo(
     () => () => {
@@ -27,7 +24,6 @@ function EditModeGrid() {
   );
 
   const layoutInfo = getVisibleWidgetsList(widgets.list);
-  // console.log(getVisibleWidgetsList(widgets.list));
 
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
@@ -40,7 +36,6 @@ function EditModeGrid() {
     found.y = newItem.y;
     found.w = newItem.w;
     found.h = newItem.h;
-    // 생성된 위젯일 경우 action을 edit로 바꾸지 않음
     if (found.widget_action === ACTION_NONE || found.widget_code !== '') {
       found.widget_action = ACTION_EDIT;
     }
