@@ -1,7 +1,8 @@
 import { useRequestAuth } from './useRequestAuth';
+import { getApiEndpoint } from '../utils/util';
 
 export function useWidgetData(targetUserSeq, dest) {
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${targetUserSeq}/${dest}`;
+  const endPoint = `${getApiEndpoint()}/user/${targetUserSeq}/${dest}`;
   const userSeq = localStorage.getItem('user_seq');
 
   const { res } = useRequestAuth(endPoint, {

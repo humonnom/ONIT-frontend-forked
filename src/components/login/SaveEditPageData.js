@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { loadingMessageStyle } from '../../styles/loadingStyle';
+import { getApiEndpoint } from '../../utils/util';
 
 function RenderEditPage({ match }) {
   console.log('SaveEditPageData page');
@@ -13,7 +14,7 @@ function RenderEditPage({ match }) {
   const [error, setError] = useState(null);
   const user_seq = localStorage.getItem('user_seq');
 
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${userId}/edit`;
+  const endPoint = `${getApiEndpoint()}/user/${userId}/edit`;
   const fetchTokens = async () => {
     try {
       setError(null);
