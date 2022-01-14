@@ -51,13 +51,22 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
           </a>
           <div>
             {userMatch && (
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth]}
-                onClick={() => window.location.assign(`/${pageUserId}/edit`)}
-              >
-                페이지 수정
-              </button>
+              <>
+                <button
+                  type='button'
+                  css={[commonButtonStyle, confirmButtonWidth, marginRight10]}
+                  onClick={() => logout()}
+                >
+                  로그아웃
+                </button>
+                <button
+                  type='button'
+                  css={[commonButtonStyle, confirmButtonWidth, marginRight36]}
+                  onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+                >
+                  페이지 수정
+                </button>
+              </>
             )}
             {!userMatch && (
               <a
@@ -88,8 +97,13 @@ const fontColorBlack = css`
 const marginLeft36 = css`
   margin-left: 36px;
 `;
+
 const marginRight36 = css`
   margin-right: 36px;
+`;
+
+const marginRight10 = css`
+  margin-right: 10px;
 `;
 
 const flex = css`
@@ -111,7 +125,6 @@ const abosulteCenter = css`
 
 const confirmButtonWidth = css`
   width: 99px;
-  margin-right: 36px;
 `;
 
 const commonButtonStyle = css`
