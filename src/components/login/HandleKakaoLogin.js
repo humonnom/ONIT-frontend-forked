@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import LoadingMessageStyle from '../LoadingMessageStyle';
+import { getApiEndpoint } from '../../utils/util';
 // import { useDispatch } from 'react-redux';
 
 function HandleKakaoLogin() {
@@ -8,7 +9,7 @@ function HandleKakaoLogin() {
   const code = new URL(window.location.href).searchParams.get('code');
   console.log(`code: ${code}`);
 
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/auth/login/kakao`;
+  const endPoint = `${getApiEndpoint()}/auth/login/kakao`;
 
   const fetchTokens = async () => {
     try {

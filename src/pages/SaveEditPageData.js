@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router';
 import LoadingMessageStyle from '../components/LoadingMessageStyle';
+import { getApiEndpoint } from '../utils/util';
 
 function SaveEditPageData() {
   console.log('SaveEditPageData page');
@@ -17,7 +18,7 @@ function SaveEditPageData() {
     window.location.assign('/');
   }
   const { postData } = location.state;
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/user/${user_seq}/save`;
+  const endPoint = `${getApiEndpoint()}/user/${user_seq}/save`;
   const fetchTokens = async () => {
     try {
       setError(null);

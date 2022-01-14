@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RenderLoginPage from '../pages/RenderLoginPage';
 import LoadingMessageStyle from './LoadingMessageStyle';
+import { getApiEndpoint } from '../utils/util';
 
 function RenewAccessToken() {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -11,7 +12,7 @@ function RenewAccessToken() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const endPoint = `http://${process.env.REACT_APP_SERVER_DOMAIN}/auth/token/refresh`;
+  const endPoint = `${getApiEndpoint()}/auth/token/refresh`;
   const fetchTokens = async () => {
     try {
       setError(null);
