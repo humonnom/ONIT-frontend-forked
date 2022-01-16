@@ -1,10 +1,11 @@
 import React from 'react';
+import './App.css';
 // import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { PageWrapper, HandleKakaoLogin, RenewAccessToken } from './components';
+import { HandleKakaoLogin, RenewAccessToken } from './components';
 import {
   LoginPage,
-  MainPage,
+  QnaPage,
   SaveEditPageData,
   EditModePage,
   NormalModePage,
@@ -12,26 +13,24 @@ import {
 
 function App() {
   return (
-    <PageWrapper>
-      <Router>
-        <Switch>
-          <Route exact path='/' component={LoginPage} />
-          <Route exact path='/main' component={MainPage} />
-          <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
-          <Route
-            exact
-            path='/:id/auth/token/refresh'
-            component={RenewAccessToken}
-          />
-          <Route exact path='/:id/normal' component={NormalModePage} />
-          <Route exact path='/:id/edit' component={EditModePage} />
-          <Route exact path='/:id/save' component={SaveEditPageData} />
-          <Route path='/'>
-            <div>error</div>
-          </Route>
-        </Switch>
-      </Router>
-    </PageWrapper>
+    <Router>
+      <Switch>
+        <Route exact path='/' component={LoginPage} />
+        <Route exact path='/main' component={QnaPage} />
+        <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
+        <Route
+          exact
+          path='/:id/auth/token/refresh'
+          component={RenewAccessToken}
+        />
+        <Route exact path='/:id/normal' component={NormalModePage} />
+        <Route exact path='/:id/edit' component={EditModePage} />
+        <Route exact path='/:id/save' component={SaveEditPageData} />
+        <Route path='/'>
+          <div>error</div>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
