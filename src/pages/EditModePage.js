@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PageWrapper, ToolBar, EditModeGrid, EditWrapper } from '../components';
-import getLoginState from './getLoginState';
+// import getLoginState from './getLoginState';
 import { useWidgetData } from '../hooks/useWidgetData';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 import { getPageUser } from '../utils/parsing';
@@ -14,7 +14,6 @@ function EditMode() {
     modal: state.info.modal,
   }));
   const pageUserSeq = getPageUser();
-  const loginState = getLoginState();
   const userSeq = localStorage.getItem('user_seq');
   const { res } = useWidgetData(pageUserSeq, 'edit');
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ function EditMode() {
 
   useEffect(() => {
     console.log('res', res);
-    if (loginState === false) {
+    if (res === null) {
       moveTo(`/${userSeq}/normal`);
       alert('잘못된 접근입니다.');
     }

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { useRenewAccessToken } from './useRenewAccessToken';
+// import { RenewAccessToken } from '../components';
 import { isExpiredToken, isInvalidToken, isNotOwner } from '../utils/util';
 
 // endpoint 로 Auth 헤더 설정하면서 요청을 보냄.
@@ -9,6 +11,8 @@ import { isExpiredToken, isInvalidToken, isNotOwner } from '../utils/util';
 // 해당 유저가 아니면 options.notOwnerFallback 으로 이동함.
 export function useRequestAuth(endpoint, options = {}) {
   const [resultRes, setRes] = useState(null);
+  const [retry, setRetry] = useState(false);
+  const [refreshRequired, setRefreshRequired] = useState(false);
   const [code, setCode] = useState(null);
 
   const { authFailFallback = null, notOwnerFallback = null } = options;
@@ -23,10 +27,26 @@ export function useRequestAuth(endpoint, options = {}) {
       .then((res) => {
         setRes(res);
         setCode(res.data.code);
+        console.log(res.status);
+        if (res.data.code === 'expired_token') {
+          setRefreshRequired(true);
+        }
+        setRetry(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-  }, []);
+  }, [retry]);
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (refreshRequired) {
+      useRenewAccessToken();
+      setRefreshRequired(false);
+      setRetry(true);
+    }
+  }, []);
 
   useEffect(() => {
     if ((isExpiredToken(code) || isInvalidToken(code)) && authFailFallback) {
@@ -43,3 +63,12 @@ export function useRequestAuth(endpoint, options = {}) {
 }
 
 export default useRequestAuth;
+
+// 메모
+// normal & edit
+// if code === 'expired token : acccess token 만료' => do exec function renewAccessToken
+// edit
+// if code === 'wrong token : 로그인이 안되었음' =>
+// if code === 'unauthorized : 허가되지 않은 접근' =>
+// !(normal & edit)
+// if code === 'ok : 문제없음' => do nothing
