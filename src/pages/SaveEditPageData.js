@@ -24,7 +24,7 @@ function SaveEditPageData() {
       setError(null);
       setData(null);
       setLoading(true);
-      console.log(`=> 서버로 보내지는 데이터`);
+      // console.log(`=> 서버로 보내지는 데이터`);
 
       console.log(postData);
       const response = await axios.post(endPoint, postData, {
@@ -37,7 +37,7 @@ function SaveEditPageData() {
       } else if (response.data.code === 401) {
         setData(response.data.code);
       } else {
-        console.log('response data:', response.data);
+        // console.log('response data:', response.data);
         setData(response.data);
       }
     } catch (err) {

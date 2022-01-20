@@ -10,11 +10,9 @@ function deleteKey(obj, targetKey) {
   delete obj[targetKey];
   return obj;
 }
-// 프론트에서 수정한 데이터를 다시 서버용으로 바꿔줌
+
 export function convertForServer(infos) {
   const converted = JSON.parse(JSON.stringify(infos));
-  console.log('=======infos======');
-  console.log(infos);
   converted.map(function (info) {
     changeKey(info, 'x', 'pos_x');
     changeKey(info, 'y', 'pos_y');
@@ -27,8 +25,6 @@ export function convertForServer(infos) {
     if (info.widget_action === ACTION_NONE) {
       deleteKey(info, 'widget_action');
     }
-    console.log('=========info=========');
-    console.log(info);
     return info;
   });
   return converted;
@@ -38,18 +34,9 @@ function createIdKey(obj, index) {
   obj.i = index.toString();
   return obj;
 }
-// TODO: server랑 widget_data 구조 맞추기 -> 나중에 수정하기
-//      - frontend: widget_data.url
-//      - backend: widget_data
-//      - widget_type 누락됨
-// {
-//   widget_data: "http://!~~"
-// }
-// 서버에서 받아온 데이터를 프론트에서 쓸 수 있게 수정해줌
+
 export function convertForRedux(infos) {
-  console.log('=======infos======');
-  console.log(infos);
-  // TODO: infos가 없으면 처리해야됨
+  if (!infos) return [];
   const converted = JSON.parse(JSON.stringify(infos));
   converted.map(function (info, index) {
     changeKey(info, 'pos_x', 'x');
@@ -58,12 +45,6 @@ export function convertForRedux(infos) {
     changeKey(info, 'height', 'h');
     createIdKey(info, index);
     info.widget_action = ACTION_NONE;
-    // TODO: 서버랑 맞추고 나서 지울 부분
-    // info.widget_data.url = info.widget_data.thumbnail;
-    // info.widget_type = TYPE_IMAGE;
-    //--------------------------------
-    console.log('=========info=========');
-    console.log(info);
     return info;
   });
   return converted;

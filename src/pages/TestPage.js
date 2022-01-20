@@ -2,11 +2,10 @@ import React from 'react';
 import { useRenewAccessToken } from '../hooks/useRenewAccessToken';
 
 function TestPage() {
+  const { res } = useRenewAccessToken();
   console.log('[before]');
-  localStorage.setItem('access_token', 'expired access token');
   console.log(localStorage.getItem('access_token'));
-  useRenewAccessToken();
-
+  console.log(res);
   return <div>test page</div>;
 }
 

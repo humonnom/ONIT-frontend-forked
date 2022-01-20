@@ -22,13 +22,13 @@ function SplashPage() {
 
   useEffect(() => {
     if (res) {
-      console.log('res', res);
+      // console.log('res', res);
       setLogin(res.data.code);
     }
   }, [res]);
 
   useEffect(() => {
-    console.log(login);
+    // console.log(login);
     if (login === 'ok') {
       history.push(`/${userSeq}/normal`);
     } else {
