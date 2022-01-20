@@ -1,23 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import { useHistory } from 'react-router';
 import { PageWrapper, ToolBar, EditModeGrid, EditWrapper } from '../components';
-import getLoginState from './getLoginState';
 import { useWidgetData } from '../hooks/useWidgetData';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 import { getPageUser } from '../utils/parsing';
+import { isExpiredToken, isInvalidToken, isNotOwner } from '../utils/util';
 import { convertForRedux } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
-import { moveTo } from '../utils/router';
 
 function EditMode() {
   const { modal } = useSelector((state) => ({
     modal: state.info.modal,
   }));
   const pageUserSeq = getPageUser();
-  const loginState = getLoginState();
-  const userSeq = localStorage.getItem('user_seq');
+  // const userSeq = localStorage.getItem('user_seq');
   const { res } = useWidgetData(pageUserSeq, 'edit');
+  const [storeRequired, setStoreRequired] = useState(false);
   const dispatch = useDispatch();
+  // const history = useHistory();
 
   const setWidgetState = (widget_data) => {
     const convertedForRedux = convertForRedux(widget_data);
@@ -30,13 +31,23 @@ function EditMode() {
   };
 
   useEffect(() => {
-    console.log('res', res);
-    if (loginState === false) {
-      moveTo(`/${userSeq}/normal`);
-      alert('잘못된 접근입니다.');
+    if (storeRequired) {
+      if (res.data.widget_list) {
+        setWidgetState(res.data.widget_list);
+      }
+      setStoreRequired(false);
     }
-    if (res) {
-      setWidgetState(res.data.widget_list);
+  }, [storeRequired]);
+
+  useEffect(() => {
+    if (res && res.data) {
+      const { code } = res.data;
+      if (isExpiredToken(code) || isInvalidToken(code) || isNotOwner(code)) {
+        console.log(`=> error code ${res.data.code}`);
+        // history.push(`/${userSeq}/normal`);
+      } else {
+        setStoreRequired(true);
+      }
     }
   }, [res]);
 

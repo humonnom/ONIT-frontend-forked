@@ -15,12 +15,10 @@ import { createReplacementWidgetsAction } from '../redux/slice';
 
 function NormalMode() {
   const pageUserSeq = getPageUser();
-  // TODO: get page user name
   const pageUserName = 'page user name';
   const userMatch = getLoginState();
   const { res } = useWidgetData(pageUserSeq, 'normal');
   const dispatch = useDispatch();
-
   const setWidgetState = (widget_data) => {
     const convertedForRedux = convertForRedux(widget_data);
     dispatch(
@@ -32,8 +30,7 @@ function NormalMode() {
   };
 
   useEffect(() => {
-    console.log('res', res);
-    if (res) {
+    if (res && res.data && res.data.widget_list) {
       setWidgetState(res.data.widget_list);
     }
   }, [res]);

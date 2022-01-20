@@ -8,8 +8,6 @@ export default function GridLayout(props) {
   // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
   const rowHeight = (UseWindowSize().width - 170) / 16;
 
-  console.log(props.mylayout);
-  console.log(props.children);
   return (
     <ReactGridLayout
       layout={props.mylayout}

@@ -8,13 +8,13 @@ export function getApiEndpoint() {
 }
 
 export function isInvalidToken(code) {
-  return code === 401;
+  return code === 401 || code === 'wrong_token';
 }
 
 export function isNotOwner(code) {
-  return code === 601;
+  return code === 601 || code === 'unauthorized';
 }
 
 export function isExpiredToken(code) {
-  return code === 419;
+  return code === 419 || code === 'expired_token';
 }
