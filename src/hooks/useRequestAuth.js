@@ -1,32 +1,76 @@
 import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router';
 import { isExpiredToken, isInvalidToken, getApiEndpoint } from '../utils/util';
 
-export function useRequestAuth(endpoint) {
+/**
+ * @typedef {Object} UseRequestAuthProps
+ * @property {string} endpoint 필수
+ * @property {'get'|'post'} method 필수
+ * @property {any} [data] 선택
+ */
+
+/**
+ * @param {UseRequestAuthProps} props
+ */
+export function useRequestAuth(props) {
+  const { endpoint, method, data } = props;
+
   const [resultRes, setRes] = useState(null);
+
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  /**
+   * 액세스 토큰을 갱신할 때의 상태를 저장합니다.
+   * `idle`: 초기화상태
+   * `pending`: 통신중
+   * `success`: 갱신 성공
+   * `fail`: 갱신 실패 (refreshToken 도 만료되어 로그인 필요)
+   * `error`: 통신 에러
+   */
   const [renewStatus, setRenewStatus] = useState('idle');
   const [renewRes, setRenewRes] = useState(null);
+  const history = useHistory();
 
   // 요청하는 함수를 만듭니다.
   const request = useCallback(() => {
-    axios
-      .get(endpoint, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      })
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    };
+
+    let axiosPromise;
+    if (method === 'get') {
+      axiosPromise = axios.get(endpoint, {
+        headers,
+        params: data,
+      });
+    } else if (method === 'post') {
+      axiosPromise = axios.post(endpoint, data, {
+        headers,
+      });
+    }
+
+    axiosPromise
       .then((res) => {
         setRes(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [endpoint, method, data]);
 
-  // 해당 컴포넌트가 최초 로딩됐을 때 요청합니다.
   useEffect(() => {
-    request();
-  }, []);
+    if (resultRes) {
+      if (
+        isExpiredToken(resultRes.data.code) ||
+        isInvalidToken(resultRes.data.code)
+      ) {
+        renewToken();
+      } else {
+        setIsSuccess(true);
+      }
+    }
+  }, [resultRes]);
 
   // 토큰을 갱신하는 함수를 만듭니다.
   const renewToken = useCallback(() => {
@@ -41,6 +85,7 @@ export function useRequestAuth(endpoint) {
       .then((res) => {
         if (isExpiredToken(res.data.code) || isInvalidToken(res.data.code)) {
           setRenewStatus('fail');
+          history.push('/login');
         } else {
           setRenewStatus('success');
           setRenewRes(res);
@@ -69,18 +114,7 @@ export function useRequestAuth(endpoint) {
     }
   }, [renewStatus, renewRes]);
 
-  useEffect(() => {
-    if (resultRes) {
-      if (
-        isExpiredToken(resultRes.data.code) ||
-        isInvalidToken(resultRes.data.code)
-      ) {
-        renewToken();
-      }
-    }
-  }, [resultRes]);
-
-  return { res: resultRes };
+  return { res: resultRes, request, isSuccess };
 }
 
 export default useRequestAuth;

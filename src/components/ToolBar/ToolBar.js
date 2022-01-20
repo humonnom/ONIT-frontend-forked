@@ -250,9 +250,7 @@ function ToolBar() {
             type='button'
             css={[commonButtonStyle, confirmButtonWidth]}
             onClick={() => {
-              console.log('do post :');
               const postData = convertForServer(widgets.list);
-              console.log(postData);
               history.push({
                 pathname: `/${user_seq}/save`,
                 state: { postData },
