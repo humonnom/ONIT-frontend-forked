@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-// import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { HandleKakaoLogin, RenewAccessToken } from './components';
 import {
@@ -10,7 +9,6 @@ import {
   EditModePage,
   NormalModePage,
   RenderLoginPage,
-  TestPage,
 } from './pages';
 
 function App() {
@@ -18,7 +16,6 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/' component={SplashPage} />
-        <Route exact path='/test' component={TestPage} />
         <Route exact path='/login' component={RenderLoginPage} />
         <Route exact path='/main' component={QnaPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
