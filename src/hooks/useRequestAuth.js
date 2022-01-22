@@ -17,7 +17,6 @@ export function useRequestAuth(props) {
   const { endpoint, method, data } = props;
 
   const [resultRes, setRes] = useState(null);
-
   const [isSuccess, setIsSuccess] = useState(false);
 
   /**

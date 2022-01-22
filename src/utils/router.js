@@ -5,5 +5,5 @@ export function moveTo(path) {
 export function logout() {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
-  window.location.assign('/');
+  window.location.assign('/login');
 }
