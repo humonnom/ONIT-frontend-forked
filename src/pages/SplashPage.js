@@ -8,9 +8,9 @@ import { useHistory } from 'react-router';
 function SplashPage() {
   // const [login, setLogin] = useState(null);
   // const endpoint = `${getApiEndpoint()}/me`;
+  const userSeq = localStorage.getItem('user_seq');
   // const { res } = useRequestAuth(endpoint);
   const history = useHistory();
-  const userSeq = localStorage.getItem('user_seq');
   const accessToken = localStorage.getItem('access_token');
   // const { res } = {
   //   data: {
@@ -36,6 +36,8 @@ function SplashPage() {
     if (userSeq && accessToken) {
       console.log(`userSeq:${userSeq}`);
       history.push(`/${userSeq}/normal`);
+    } else {
+      history.push(`/login`);
     }
   }, []);
 
