@@ -6,7 +6,7 @@ const mainColor = '#ef6408';
 const subColor = '#F0986C';
 const inputColor = '#fff9f6';
 
-function QuestionInputBox() {
+function FeedbackInputBox() {
   const [inputmessage, setInputmessage] = useState('');
 
   function sendQnA() {
@@ -56,7 +56,7 @@ const background = css`
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-  margin: 32px 20px;
+  margin: 43.2px 20px;
   border-radius: 10px;
   box-sizing: border-box;
 `;
@@ -97,4 +97,4 @@ const inputBox = css`
   padding: 12px 20px;
 `;
 
-export default QuestionInputBox;
+export default FeedbackInputBox;

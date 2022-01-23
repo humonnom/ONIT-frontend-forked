@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { HandleKakaoLogin, RenewAccessToken } from './components';
 import {
   SplashPage,
-  QnaPage,
+  FeedbackPage,
   SaveEditPageData,
   EditModePage,
   NormalModePage,
@@ -17,7 +17,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={SplashPage} />
         <Route exact path='/login' component={RenderLoginPage} />
-        <Route exact path='/main' component={QnaPage} />
+        <Route exact path='/main' component={FeedbackPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
         <Route
           exact

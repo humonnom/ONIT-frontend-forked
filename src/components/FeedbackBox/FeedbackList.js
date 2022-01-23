@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import QuestionListCol from './QuestionListCol';
+import FeedbackListCol from './FeedbackListCol';
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i -= 1) {
@@ -9,70 +9,79 @@ function shuffleArray(array) {
   }
 }
 
-function QuestionList() {
+function FeedbackList() {
   const listDivOne = [];
   const listDivTwo = [];
   const listDivThree = [];
 
   // fetch .. 데이터 받아오는 코드 추가 예정
-  const questions = [
+  const feedbacks = [
     { order: 1, contents: '디자이너 조직 몇명인지~ 궁금해요~' },
     { order: 2, contents: '미니멀하기위한 원칙' },
     { order: 3, contents: 'heom님 너무 멋있어요' },
     { order: 4, contents: 'maaps팀 짱짱맨 최고' },
     { order: 5, contents: '51은 구디에서 저희 집까지 가는 버스 번호입니다.' },
-    { order: 6, contents: '이것은 샘플 코드입니다. 태호킴이 손 봐줄겁니다.' },
+    {
+      order: 6,
+      contents:
+        '배가 고픈데 집에 아무것도 없어요. 내일은 그래서 양파를 볶아서 카레를 해먹어야겠다. 야채는 왜 빨리 썩어버리는 걸까? 잠깐만 한눈팔면 금방 시들해져서 또 해치워야함ㅠ',
+    },
   ];
 
-  shuffleArray(questions);
+  shuffleArray(feedbacks);
 
-  questions.forEach((question, index) => {
+  feedbacks.forEach((Feedback, index) => {
     if (index % 3 === 0) {
-      listDivOne.push(questions[index]);
+      listDivOne.push(feedbacks[index]);
     } else if (index % 3 === 1) {
-      listDivTwo.push(questions[index]);
+      listDivTwo.push(feedbacks[index]);
     } else {
-      listDivThree.push(questions[index]);
+      listDivThree.push(feedbacks[index]);
     }
   });
 
   return (
     <div css={ContentBox}>
       {[listDivOne, listDivTwo, listDivThree].map((list) => (
-        <QuestionListCol key={list[1].order}>
-          {list.map((question) => (
-            <li key={question.order} css={listItem}>
-              <div css={[QuestionBoxCss, randomColor()]}>
+        <FeedbackListCol key={list[1].order}>
+          {list.map((Feedback) => (
+            <li key={Feedback.order} css={listItem}>
+              <div css={[FeedbackBoxCss, randomColor()]}>
                 <div css={orderWrapper}>
-                  <p css={orderFont}>{question.order}번째 궁금함</p>
+                  <p css={orderFont}>{Feedback.order}번째 바람</p>
                 </div>
-                <p css={contentsWrapper}>{question.contents}</p>
+                <p css={contentsWrapper}>{Feedback.contents}</p>
               </div>
             </li>
           ))}
-        </QuestionListCol>
+        </FeedbackListCol>
       ))}
     </div>
   );
 }
 
 const blueColor = css`
-  background-color: rgb(0, 132, 255);
+  background-color: #507fe9;
+  color: black;
 `;
 const yellowColor = css`
-  background-color: rgb(255, 199, 43);
+  background-color: #ffd376;
+  color: black;
 `;
-const pinkColor = css`
-  background-color: rgb(255, 158, 148);
+const blackColor = css`
+  background-color: #2e2e2e;
+  color: white;
 `;
 const orangeColor = css`
-  background-color: rgb(254, 131, 58);
+  background-color: #ed754a;
+  color: black;
 `;
 const greenColor = css`
-  background-color: rgb(0, 160, 78);
+  background-color: #84bfa4;
+  color: black;
 `;
 
-const colors = [blueColor, yellowColor, pinkColor, orangeColor, greenColor];
+const colors = [blueColor, yellowColor, blackColor, orangeColor, greenColor];
 
 let prevColorIndex = null;
 
@@ -101,10 +110,10 @@ const listItem = css`
   padding-bottom: 20px;
 `;
 
-const QuestionBoxCss = css`
+const FeedbackBoxCss = css`
   padding: 17px 20px;
   word-break: break-all;
-  border-radius: 10px;
+  border-bottom-right-radius: 50px;
 `;
 
 const orderWrapper = css`
@@ -122,16 +131,15 @@ const orderFont = css`
   font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
-  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.6px;
 `;
 
 const contentsWrapper = css`
   display: block;
   margin: 11px 0px 0px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.4;
-  color: rgb(0, 0, 0);
 `;
 
-export default QuestionList;
+export default FeedbackList;

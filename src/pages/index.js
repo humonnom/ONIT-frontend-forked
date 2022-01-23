@@ -4,7 +4,7 @@ import SplashPage from './SplashPage';
 import MainPage from './MainPage';
 import RenderLoginPage from './RenderLoginPage';
 import SaveEditPageData from './SaveEditPageData';
-import QnaPage from './QnaPage';
+import FeedbackPage from './FeedbackPage';
 
 export {
   EditModePage,
@@ -13,5 +13,5 @@ export {
   MainPage,
   RenderLoginPage,
   SaveEditPageData,
-  QnaPage,
+  FeedbackPage,
 };
