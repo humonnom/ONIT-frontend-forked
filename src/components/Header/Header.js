@@ -79,13 +79,15 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
             )}
           </div>
         </div>
-        <div css={[abosulteCenter, flex]}>
+        <div css={[abosulteCenter, flex, height26]}>
           <h3 css={[fontColorBlack]}>{pageUserName}님의 온잇</h3>
         </div>
       </HeaderWrapper>
     );
   }
 }
+
+export default Header;
 const height26 = css`
   height: 26px;
 `;
@@ -174,5 +176,3 @@ const rightCloumn = css`
   display: flex;
   flex-direction: row;
 `;
-
-export default Header;

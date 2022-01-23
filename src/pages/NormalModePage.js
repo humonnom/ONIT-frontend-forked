@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   NormalWrapper,
@@ -15,10 +15,10 @@ import { createReplacementWidgetsAction } from '../redux/slice';
 
 function NormalMode() {
   const pageUserSeq = getPageUser();
-  const pageUserName = 'page user name';
   const userMatch = getLoginState();
   const { res } = useWidgetData(pageUserSeq, 'normal');
   const dispatch = useDispatch();
+  const [pageUserName, setPageUserName] = useState('noname');
   const setWidgetState = (widget_data) => {
     const convertedForRedux = convertForRedux(widget_data);
     dispatch(
@@ -31,6 +31,8 @@ function NormalMode() {
 
   useEffect(() => {
     if (res && res.data && res.data.widget_list) {
+      console.log(res);
+      setPageUserName(res.data.user_name);
       setWidgetState(res.data.widget_list);
     }
   }, [res]);
