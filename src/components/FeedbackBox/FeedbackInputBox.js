@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
+import { mainColor, subColor } from '../../styles/color';
 
-const mainColor = '#ef6408';
-const subColor = '#F0986C';
 const inputColor = '#fff';
 
 function FeedbackInputBox() {

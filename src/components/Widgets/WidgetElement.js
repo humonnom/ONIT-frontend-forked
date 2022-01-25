@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { close, setting } from '../../asset';
+import { closeSet, settingSet } from '../../asset';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
@@ -102,11 +102,9 @@ export function WidgetElement({ element, mode }) {
               updateWidgets(newWidgetList);
             }}
           >
-            <img
-              alt='img'
-              style={{ width: '100%', height: '100%' }}
-              src={close}
-            />
+            <div css={closeBtnImg}>
+              <img alt='img' height='50px' src={closeSet} />
+            </div>
           </button>
           <button
             type='button'
@@ -119,11 +117,9 @@ export function WidgetElement({ element, mode }) {
               updateWidgets(newWidgetList);
             }}
           >
-            <img
-              alt='img'
-              style={{ width: '100%', height: '100%' }}
-              src={setting}
-            />
+            <div css={settingBtnImg}>
+              <img alt='img' height='50px' src={settingSet} />
+            </div>
           </button>
         </>
       )}
@@ -158,10 +154,7 @@ const commonBtn = css`
   border-radius: 50%;
   border: none;
   background-color: #fff;
-  &:hover {
-    background-color: #222;
-  }
-  padding: 5px;
+  overflow: hidden;
 `;
 
 const closeBtn = css`
@@ -169,6 +162,18 @@ const closeBtn = css`
   right: 42px;
   width: 25px;
   height: 25px;
+  &:hover {
+    background-color: #222;
+  }
+`;
+
+const closeBtnImg = css`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  &:hover {
+    top: -25px;
+  }
 `;
 
 const settingBtn = css`
@@ -176,4 +181,16 @@ const settingBtn = css`
   right: 10px;
   width: 25px;
   height: 25px;
+  &:hover {
+    background-color: #222;
+  }
+`;
+
+const settingBtnImg = css`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  &:hover {
+    top: -25px;
+  }
 `;

@@ -19,8 +19,10 @@ import search from './search.svg';
 import logo_gray from './bi_grey.svg';
 import setting from './setting.svg';
 import setting_btn from './setting_btn.svg';
+import settingSet from './settingSet.svg';
 import close from './close.svg';
 import close_btn from './close_btn.svg';
+import closeSet from './closeSet.svg';
 
 export {
   arrow_left,
@@ -44,6 +46,8 @@ export {
   logo_gray,
   setting,
   setting_btn,
+  settingSet,
   close,
   close_btn,
+  closeSet,
 };
