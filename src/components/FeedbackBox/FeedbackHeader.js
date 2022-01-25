@@ -41,8 +41,7 @@ const spaceBetween = css`
 `;
 
 const headerCss = css`
-  padding-top: 71.4px;
-  padding: 20px;
+  padding: 71.4px 20px 20px;
   margin: 0 auto;
   height: 80px;
 `;
