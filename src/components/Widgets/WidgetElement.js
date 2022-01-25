@@ -17,7 +17,7 @@ import ImageBox from './Image/ImageBox';
 import VideoBox from './Video/VideoBox';
 
 export function WidgetElement({ element, mode }) {
-  const [hover, setHover] = useState(true);
+  const [hover, setHover] = useState(false);
   const layout = element;
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
@@ -86,7 +86,7 @@ export function WidgetElement({ element, mode }) {
         setHover(true);
       }}
       onMouseLeave={() => {
-        setHover(true);
+        setHover(false);
       }}
     >
       {mode === 'edit' && hover && (
