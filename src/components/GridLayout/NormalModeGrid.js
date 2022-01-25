@@ -1,5 +1,4 @@
 // @ts-check
-
 import React, { useMemo } from 'react';
 import { css } from '@emotion/css';
 import { useSelector } from 'react-redux';
