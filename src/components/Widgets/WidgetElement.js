@@ -1,6 +1,8 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { close_btn, setting_btn } from '../../asset';
+import { close, setting } from '../../asset';
 import {
   createReplacementModalAction,
   createReplacementWidgetsAction,
@@ -15,7 +17,7 @@ import ImageBox from './Image/ImageBox';
 import VideoBox from './Video/VideoBox';
 
 export function WidgetElement({ element, mode }) {
-  const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState(true);
   const layout = element;
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
@@ -79,45 +81,20 @@ export function WidgetElement({ element, mode }) {
   return (
     <div
       key={parseInt(layout.i, 10)}
-      style={{
-        backgroundColor: 'lightgray',
-        borderRadius: '10px',
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-      }}
+      css={[widgetFrame]}
       onMouseEnter={() => {
         setHover(true);
       }}
       onMouseLeave={() => {
-        setHover(false);
+        setHover(true);
       }}
     >
       {mode === 'edit' && hover && (
         <>
-          <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              borderRadius: '10px',
-              opacity: '0.2',
-              backgroundColor: '#000',
-            }}
-          />
+          <div css={[positionAbsolute, hoverBackground]} />
           <button
             type='button'
-            style={{
-              appearance: 'none',
-              position: 'absolute',
-              top: '10px',
-              right: '42px',
-              width: '25px',
-              height: '25px',
-              borderRadius: '50%',
-              border: 'none',
-              backgroundColor: 'white',
-            }}
+            css={[commonBtn, closeBtn]}
             onClick={() => {
               console.log(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'D');
@@ -128,21 +105,12 @@ export function WidgetElement({ element, mode }) {
             <img
               alt='img'
               style={{ width: '100%', height: '100%' }}
-              src={close_btn}
+              src={close}
             />
           </button>
           <button
             type='button'
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              width: '25px',
-              height: '25px',
-              borderRadius: '50%',
-              border: 'none',
-              backgroundColor: 'white',
-            }}
+            css={[commonBtn, settingBtn]}
             onClick={() => {
               console.log(layout.i);
               openEditWindow(layout.i);
@@ -154,7 +122,7 @@ export function WidgetElement({ element, mode }) {
             <img
               alt='img'
               style={{ width: '100%', height: '100%' }}
-              src={setting_btn}
+              src={setting}
             />
           </button>
         </>
@@ -163,3 +131,49 @@ export function WidgetElement({ element, mode }) {
     </div>
   );
 }
+
+const widgetFrame = css`
+  background-color: lightgray;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  position: relative%;
+`;
+
+const positionAbsolute = css`
+  position: absolute;
+`;
+
+const hoverBackground = css`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  opacity: 0.2;
+  background-color: #000;
+`;
+
+const commonBtn = css`
+  appearance: none;
+  position: absolute;
+  border-radius: 50%;
+  border: none;
+  background-color: #fff;
+  &:hover {
+    background-color: #222;
+  }
+  padding: 5px;
+`;
+
+const closeBtn = css`
+  top: 10px;
+  right: 42px;
+  width: 25px;
+  height: 25px;
+`;
+
+const settingBtn = css`
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+`;
