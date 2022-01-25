@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-function QuestionListCol(props) {
+function FeedbackListCol(props) {
   return (
     <div css={listBox}>
       <ul css={AbsolUlCss} />
@@ -32,4 +32,4 @@ const ulCss = css`
   list-style: none;
 `;
 
-export default QuestionListCol;
+export default FeedbackListCol;
