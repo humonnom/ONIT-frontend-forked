@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const mainColor = '#ef6408';
 const subColor = '#F0986C';
-const inputColor = '#fff9f6';
+const inputColor = '#fff';
 
 function FeedbackInputBox() {
   const [inputmessage, setInputmessage] = useState('');
@@ -57,7 +57,7 @@ const background = css`
   -webkit-box-pack: center;
   justify-content: center;
   margin: 43.2px 20px;
-  border-radius: 10px;
+  border-radius: 48px;
   box-sizing: border-box;
 `;
 
@@ -67,14 +67,14 @@ const removeButtonCss = css`
 `;
 
 const buttonBox = css`
-  width: 72px;
-  height: 36px;
+  width: 97.2px;
+  height: 33.6px;
   margin-right: 6px;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
   color: #ffffff;
-  border-radius: 10px;
+  border-radius: 28px;
   background-color: ${subColor};
   &:hover {
     background-color: ${mainColor};
@@ -92,7 +92,7 @@ const inputBox = css`
   display: block;
   width: 100%;
   height: 24px;
-  border-radius: 10px;
+  border-radius: 48px;
   background-color: ${inputColor};
   padding: 12px 20px;
 `;
