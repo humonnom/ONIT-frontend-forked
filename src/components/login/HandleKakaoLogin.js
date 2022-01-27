@@ -28,7 +28,7 @@ function HandleKakaoLogin() {
       // updateUserId(result.data.user_info.user_seq);
       const user_seq = localStorage.getItem('user_seq');
       window.location.assign(
-        `${process.env.REACT_APP_CLIENT_DOMAIN}/${user_seq}/normal`
+        `${process.env.REACT_APP_CLIENT_DOMAIN}/${user_seq}`
       );
     } catch (err) {
       window.location.assign('/');

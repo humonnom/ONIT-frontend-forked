@@ -44,7 +44,7 @@ function EditMode() {
       const { code } = res.data;
       if (isExpiredToken(code) || isInvalidToken(code) || isNotOwner(code)) {
         console.log(`=> error code ${res.data.code}`);
-        // history.push(`/${userSeq}/normal`);
+        // history.push(`/${userSeq}`);
       } else {
         setStoreRequired(true);
       }

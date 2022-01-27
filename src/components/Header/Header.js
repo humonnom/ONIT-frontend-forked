@@ -26,7 +26,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
 
             <a
               href='#'
-              onClick={() => window.location.assign(`/${user_seq}/normal`)}
+              onClick={() => window.location.assign(`/${user_seq}`)}
               css={marginRight36}
             >
               <img alt='img' src={mypage} css={height26} />
@@ -71,7 +71,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
             {!userMatch && (
               <a
                 href='#'
-                onClick={() => window.location.assign(`/${user_seq}/normal`)}
+                onClick={() => window.location.assign(`/${user_seq}`)}
                 css={marginRight36}
               >
                 <img alt='img' src={mypage} css={height26} />

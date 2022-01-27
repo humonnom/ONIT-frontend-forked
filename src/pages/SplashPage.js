@@ -26,7 +26,7 @@ function SplashPage() {
 
   // useEffect(() => {
   //   if (login === 'ok') {
-  //     history.push(`/${userSeq}/normal`);
+  //     history.push(`/${userSeq}`);
   //   } else {
   //     history.push(`/login`);
   //   }
@@ -35,7 +35,7 @@ function SplashPage() {
   useEffect(() => {
     if (userSeq && accessToken) {
       console.log(`userSeq:${userSeq}`);
-      history.push(`/${userSeq}/normal`);
+      history.push(`/${userSeq}`);
     } else {
       history.push(`/login`);
     }

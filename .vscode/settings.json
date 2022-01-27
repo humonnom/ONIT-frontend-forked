@@ -33,4 +33,5 @@
     "azureFunctions.showMultiCoreToolsWarning": false,
     "typescript.validate.enable": false,
     "javascript.validate.enable": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
 }

@@ -14,7 +14,7 @@ async function getAccessToken() {
   console.log(`ACCESS_TOKEN renew: ${ACCESS_TOKEN}`);
   localStorage.setItem('access_token', ACCESS_TOKEN);
   const user_seq = localStorage.getItem('user_seq');
-  window.location.assign(`/${user_seq}/normal`);
+  window.location.assign(`/${user_seq}`);
 }
 
 export default getAccessToken;
