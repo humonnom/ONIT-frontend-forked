@@ -32,7 +32,7 @@ function SaveEditPageData() {
 
   useEffect(() => {
     if (res && res.data && isSuccess) {
-      history.push(`/${user_seq}/normal`);
+      history.push(`/${user_seq}`);
     }
   }, [res, isSuccess]);
 

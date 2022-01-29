@@ -5,8 +5,10 @@ import MainPage from './MainPage';
 import RenderLoginPage from './RenderLoginPage';
 import SaveEditPageData from './SaveEditPageData';
 import FeedbackPage from './FeedbackPage';
+import JoinPage from './JoinPage';
 
 export {
+  JoinPage,
   EditModePage,
   NormalModePage,
   SplashPage,

@@ -241,7 +241,7 @@ function ToolBar() {
             type='button'
             css={[commonButtonStyle, cancelButtonWidth]}
             onClick={() => {
-              window.location.assign(`/${user_seq}/normal`);
+              window.location.assign(`/${user_seq}`);
             }}
           >
             저장하지 않고 나가기
