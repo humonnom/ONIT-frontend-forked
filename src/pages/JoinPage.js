@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
 
 import { isEmail, isURL } from 'validator';
+import { nanoid } from 'nanoid';
 import { isPassword } from '../utils/util';
 
 // [ state ]
@@ -14,9 +15,8 @@ import { isPassword } from '../utils/util';
 // invalid_len_short, invalid_len_high => 길이제한 위반
 // invalid_form => 형식위반
 // 3. valid : 제출 가능
-// * url은 필수는 아님, 안 적으면 `/user_seq`
-// 중복체크 필요한 항목: url, nickname
-// TODO: 에러 메세지 생성
+// url은 제출하지않으면 랜덤으로 생성된 string으로 적용됨
+// TODO: 중복체크 필요한 항목: url, nickname
 
 const postData = (data) => {
   console.log('[submited]');
@@ -33,6 +33,7 @@ const postData = (data) => {
   // });
 };
 
+// TODO: get field data from server
 const getFieldList = () => [
   { id: 1, label: '페인팅', name: 'painting' },
   { id: 2, label: '조각', name: 'sculpture' },
@@ -53,35 +54,32 @@ function JoinPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
+  const [submitTried, setSubmitTried] = useState(false);
 
   // TODO: 분야선택도 조건에 넣기
   const history = useHistory();
   const fieldList = getFieldList();
+  const randomUrl = useMemo(() => nanoid(), []);
 
-  const userSeq = localStorage.getItem('user_seq');
   const passwordState = useMemo(() => {
     // 영문, 숫자, 특수문자
     // 조합: 2가지 이상 혼합 사용
     // 최소 4자 이상
-    // console.log('isPassword');
-    if (!isPassword(password)) return 'invalid_form';
-    else if (password.length === 0) return 'empty';
+    if (password.length === 0) return 'empty';
+    else if (!isPassword(password)) return 'invalid_form';
     else if (password.length < 5) return 'invalid_len_short';
     else return 'valid';
   }, [password]);
 
-  const emailState = useMemo(
-    () => (isEmail(email) ? 'valid' : 'invalid'),
-    [email]
-  );
+  const emailState = useMemo(() => {
+    if (email === '') return 'empty';
+    else return isEmail(email) ? 'valid' : 'invalid';
+  }, [email]);
 
   const urlState = useMemo(() => {
-    // TODO: 중복체크 필요 => 'invalid_dup'
-    // invalid char: underscore(_), trailing dot(:), space( )
-    const domain = `http://${url}.kr`;
-    // console.log(isURL(domain));
+    const formedUrl = `http://${url}.kr`;
     if (url.length === 0) return 'empty';
-    else if (!isURL(domain)) return 'invalid_form';
+    else if (!isURL(formedUrl)) return 'invalid_form';
     else if (url.length < 4) return 'invalid_len_short';
     else if (url.length > 20) return 'invalid_len_long';
     else return 'valid';
@@ -98,11 +96,10 @@ function JoinPage() {
   }, [agreement]);
 
   const nameState = useMemo(() => {
-    // TODO: 중복체크 'invalid_dup'
     // 허용: 영문, 한글, 숫자
-    // 길이 1-15 -> 8글자 제한은 너무 짧은 것 같음
+    // 길이 1-15
     if (name.length === 0) return 'empty';
-    else if (name.length > 16) return 'invalid_len_long';
+    else if (name.length > 15) return 'invalid_len_long';
     else return 'valid';
   }, [name]);
 
@@ -110,12 +107,12 @@ function JoinPage() {
 
   const disableSubmit = useMemo(() => {
     if (
-      isValid(agreementState) &&
+      // isValid(agreementState) &&
+      // isValid(fieldState) &&
       isValid(passwordState) &&
       isValid(emailState) &&
-      isValid(urlState) &&
-      isValid(nameState) &&
-      isValid(fieldState)
+      (isValid(urlState) || urlState === 'empty') &&
+      isValid(nameState)
     ) {
       return false;
     } else return true;
@@ -128,33 +125,56 @@ function JoinPage() {
     nameState,
   ]);
 
-  // 메세지 업데이트에 사용
-  // useEffect(() => {
-  //   console.log(`email:  ${email}`);
-  // }, [email]);
-
-  // useEffect(() => {
-  //   console.log(`name:  ${name}`);
-  // }, [name]);
-
-  // useEffect(() => {
-  //   console.log(`password:  ${password}`);
-  // }, [password]);
-
-  // useEffect(() => {
-  //   console.log('field: ');
-  //   console.log(field);
-  // }, [field]);
+  const emailGuide = useMemo(() => {
+    if (emailState === 'invalid') return '잘못된 이메일 입력값';
+    else return '';
+  }, [emailState]);
+  const passwordGuide = useMemo(() => {
+    if (passwordState === 'invalid_form')
+      return '영문, 숫자, 특수문자 중 최소 2가지 조합으로 입력해주세요.';
+    else if (passwordState === 'invalid_len_short')
+      return '5글자 이상 입력해주세요.';
+    else return '';
+  }, [passwordState]);
+  const fieldGuide = useMemo(() => {
+    if (fieldState === 'invalid' && submitTried)
+      return '관심분야를 하나 이상 선택해주세요.';
+    else return '';
+  }, [fieldState, submitTried]);
+  const nameGuide = useMemo(() => {
+    if (nameState === 'invalid_dup') return '이미 사용중인 닉네임입니다.';
+    else if (nameState === 'invalid_len_long')
+      return '15자 이내로 입력해주세요.';
+    else return '';
+  }, [nameState]);
+  const urlGuide = useMemo(() => {
+    if (urlState === 'invalid_form')
+      return '언더스코어(_), 콜론(:), 공백문자( ), 슬래시(/)는 사용할 수 없습니다.';
+    else if (urlState === 'invalid_len_short')
+      return '4글자 이상 입력해주세요.';
+    else if (urlState === 'invalid_len_long')
+      return '20자 이내로 입력해주세요.';
+    else return '';
+  }, [urlState]);
+  const agreementGuide = useMemo(() => {
+    if (agreementState === 'invalid' && submitTried)
+      return '약관에 동의해주세요.';
+    else return '';
+  }, [agreementState, submitTried]);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    postData({
-      nickname: name,
-      email,
-      password,
-      url,
-      field,
-    });
+    if (agreementState === 'invalid' || fieldState === 'invalid') {
+      setSubmitTried(true);
+    } else {
+      postData({
+        nickname: name,
+        email,
+        password,
+        url,
+        field,
+      });
+    }
   };
 
   const onFieldChange = useCallback(
@@ -188,63 +208,75 @@ function JoinPage() {
       <button type='button' onClick={() => history.goBack()}>
         되돌아가기 버튼
       </button>
-      <form
-        style={{ display: 'flex', flexDirection: 'column' }}
-        onSubmit={onSubmitHandler}
-      >
-        <label css={labelStyle} htmlFor='email'>
-          이메일
-        </label>
-        <input
-          id='email'
-          type='email'
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-        />
-        <label css={labelStyle} htmlFor='password'>
-          비밀번호
-        </label>
-        <input
-          id='password'
-          type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-        />
-        <button type='button' onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
-        </button>
-        <p css={guideMessage}>비밀번호 입력 상태 : {passwordState}</p>
-        <label css={labelStyle} htmlFor='nickname'>
-          닉네임
-        </label>
-        <input
-          id='nickname'
-          type='text'
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-        />
-        <label css={labelStyle} htmlFor='url'>
-          개인 url
-        </label>
-        <div css={flexLow}>
-          <p
-            style={{
-              margin: '6px',
-            }}
-          >
-            iamonit.kr/
-          </p>
+      <form css={formStyle} onSubmit={onSubmitHandler}>
+        <div css={inputUnitStyle}>
+          <label css={labelStyle} htmlFor='email'>
+            이메일
+          </label>
           <input
-            id='url'
-            type='text'
-            value={url}
-            onChange={(event) => setUrl(event.currentTarget.value)}
-            placeholder={`${userSeq}/`}
+            id='email'
+            type='email'
+            value={email}
+            onChange={(event) => setEmail(event.currentTarget.value)}
           />
+          <p css={[guideMessageStyle]}>{emailGuide}</p>
         </div>
-        <label htmlFor='field'>분야 선택(최소 1개 분야 선택)</label>
-        <div>{fieldButtons}</div>
-        <div>
+        <div css={inputUnitStyle}>
+          <label css={labelStyle} htmlFor='password'>
+            비밀번호
+          </label>
+
+          <input
+            id='password'
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(event) => setPassword(event.currentTarget.value)}
+          />
+          <button type='button' onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
+          </button>
+          <p css={[guideMessageStyle]}>{passwordGuide}</p>
+        </div>
+        <div css={inputUnitStyle}>
+          <label css={labelStyle} htmlFor='nickname'>
+            닉네임
+          </label>
+          <input
+            id='nickname'
+            type='text'
+            value={name}
+            onChange={(event) => setName(event.currentTarget.value)}
+          />
+          <p css={[guideMessageStyle]}>{nameGuide}</p>
+        </div>
+        <div css={inputUnitStyle}>
+          <label css={labelStyle} htmlFor='url'>
+            개인 url
+          </label>
+          <div css={flexLow}>
+            <p
+              style={{
+                margin: '6px',
+              }}
+            >
+              iamonit.kr/
+            </p>
+            <input
+              id='url'
+              type='text'
+              value={url}
+              onChange={(event) => setUrl(event.currentTarget.value)}
+              placeholder={randomUrl}
+            />
+          </div>
+          <p css={[guideMessageStyle]}>{urlGuide}</p>
+        </div>
+        <div css={inputUnitStyle}>
+          <label htmlFor='field'>분야 선택 (하나 이상 선택)</label>
+          <div>{fieldButtons}</div>
+          <p css={[guideMessageStyle]}>{fieldGuide}</p>
+        </div>
+        <div css={inputUnitStyle}>
           <input
             type='checkbox'
             id='agreement'
@@ -253,6 +285,7 @@ function JoinPage() {
           <label css={labelStyle} htmlFor='agreement'>
             약관에 동의합니다.
           </label>
+          <p css={[guideMessageStyle]}>{agreementGuide}</p>
         </div>
         <br />
         <button type='submit' disabled={disableSubmit}>
@@ -308,6 +341,18 @@ const flexLow = css`
   flex-direction: row;
 `;
 
-const guideMessage = css`
+const guideMessageStyle = css`
   color: red;
+  font-size: 12px;
+  margin: 5px 0;
+`;
+
+const formStyle = css`
+  display: flex;
+  flex-direction: column;
+`;
+const inputUnitStyle = css`
+  background-color: yellow;
+  padding: 15px 0px;
+  margin: 3px 0px;
 `;
