@@ -13,7 +13,7 @@ function SigninRight() {
     textAlign: 'center',
     position: 'relative',
     width: '400px',
-    height: '400px',
+    height: '415px',
     boxSizing: 'border-box',
     verticalAlignt: 'middle',
     borderRadius: '2px',
@@ -103,8 +103,25 @@ function SigninRight() {
       >
         Kakao Login
       </button>
+      <p css={joinMessege}>아직 onit의 회원이 아니세요?</p>
+      <a href='/join' className='button' css={joinButton}>
+        회원가입
+      </a>
     </div>
   );
 }
 
 export default SigninRight;
+
+const joinMessege = css`
+  font-size: 11px;
+  margin: 20px 0 0 0;
+  font-weight: 400;
+  color: #6d6771;
+  ${'' /* font-style: italic; */}
+`;
+const joinButton = css`
+  font-size: 12px;
+  margin: 5px 0 5px 0;
+  font-weight: 600;
+`;

@@ -7,16 +7,22 @@ import { isEmail, isURL } from 'validator';
 import { isPassword } from '../utils/util';
 
 // [ state ]
-// 0. init : 아직 입력 시작하지 않음 -> 에러 띄우지 않음
-// 1. empty : 비어있는 상태 -> 에러 메세지 띄우기 시작
-// 2. invalid : 조건에 부합하지 않음
-// invalid_dup => 중복
-// invalid_len_short, invalid_len_high => 길이제한 위반
-// invalid_form => 형식위반
+// 1. empty : 비어있는 상태 -> 아직 입력 전이므로 가이드 메세지 띄우지 않음
+// 2. invalid_{detail} : 조건에 부합하지 않음 -> 가이드 메세지 띄움
+//    invalid_dup                           >> 중복
+//    invalid_len_short, invalid_len_high   >> 길이제한 위반
+//    invalid_form                          >> 형식위반
+//    invalid                               >> 그 외 위반사항
 // 3. valid : 제출 가능
-// * url은 필수는 아님, 안 적으면 `/user_seq`
+
+// [ 특이사항 ]
+// url을 제출하지않으면 랜덤 string으로 적용
+// 랜덤 string: nanoid 패키지로 생성
+
+// [ TODO ]
 // 중복체크 필요한 항목: url, nickname
-// TODO: 에러 메세지 생성
+// 태킴님께 에러메세지 뜨는 순간이 좋을지 여쭤보기, 체크박스
+// 분야선택 안해도 가입 시키기!!!
 
 const postData = (data) => {
   console.log('[submited]');
@@ -33,6 +39,7 @@ const postData = (data) => {
   // });
 };
 
+// TODO: get field data from server
 const getFieldList = () => [
   { id: 1, label: '페인팅', name: 'painting' },
   { id: 2, label: '조각', name: 'sculpture' },
@@ -53,43 +60,41 @@ function JoinPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
+  const [submitTried, setSubmitTried] = useState(false);
 
   // TODO: 분야선택도 조건에 넣기
   const history = useHistory();
   const fieldList = getFieldList();
 
-  const userSeq = localStorage.getItem('user_seq');
   const passwordState = useMemo(() => {
     // 영문, 숫자, 특수문자
     // 조합: 2가지 이상 혼합 사용
     // 최소 4자 이상
-    // console.log('isPassword');
-    if (!isPassword(password)) return 'invalid_form';
-    else if (password.length === 0) return 'empty';
+    if (password.length === 0) return 'empty';
+    else if (!isPassword(password)) return 'invalid_form';
     else if (password.length < 5) return 'invalid_len_short';
     else return 'valid';
   }, [password]);
 
-  const emailState = useMemo(
-    () => (isEmail(email) ? 'valid' : 'invalid'),
-    [email]
-  );
+  const emailState = useMemo(() => {
+    if (email === '') return 'empty';
+    else return isEmail(email) ? 'valid' : 'invalid';
+  }, [email]);
 
   const urlState = useMemo(() => {
-    // TODO: 중복체크 필요 => 'invalid_dup'
-    // invalid char: underscore(_), trailing dot(:), space( )
-    const domain = `http://${url}.kr`;
-    // console.log(isURL(domain));
+    const formedUrl = `http://${url}.kr`;
     if (url.length === 0) return 'empty';
-    else if (!isURL(domain)) return 'invalid_form';
+    // else if (중복체크state) return 'invalid_dup';
+    else if (!isURL(formedUrl)) return 'invalid_form';
     else if (url.length < 4) return 'invalid_len_short';
     else if (url.length > 20) return 'invalid_len_long';
     else return 'valid';
   }, [url]);
 
   const fieldState = useMemo(() => {
-    if (field.length >= 1) return 'valid';
-    else return 'invalid';
+    // if (field.length >= 1) return 'valid';
+    // else return 'invalid';
+    return 'valid';
   }, [field]);
 
   const agreementState = useMemo(() => {
@@ -98,11 +103,9 @@ function JoinPage() {
   }, [agreement]);
 
   const nameState = useMemo(() => {
-    // TODO: 중복체크 'invalid_dup'
-    // 허용: 영문, 한글, 숫자
-    // 길이 1-15 -> 8글자 제한은 너무 짧은 것 같음
     if (name.length === 0) return 'empty';
-    else if (name.length > 16) return 'invalid_len_long';
+    // else if (중복체크state) return 'invalid_dup';
+    else if (name.length > 15) return 'invalid_len_long';
     else return 'valid';
   }, [name]);
 
@@ -110,12 +113,12 @@ function JoinPage() {
 
   const disableSubmit = useMemo(() => {
     if (
-      isValid(agreementState) &&
+      // isValid(agreementState) &&
+      // isValid(fieldState) &&
       isValid(passwordState) &&
       isValid(emailState) &&
       isValid(urlState) &&
-      isValid(nameState) &&
-      isValid(fieldState)
+      isValid(nameState)
     ) {
       return false;
     } else return true;
@@ -128,33 +131,56 @@ function JoinPage() {
     nameState,
   ]);
 
-  // 메세지 업데이트에 사용
-  // useEffect(() => {
-  //   console.log(`email:  ${email}`);
-  // }, [email]);
-
-  // useEffect(() => {
-  //   console.log(`name:  ${name}`);
-  // }, [name]);
-
-  // useEffect(() => {
-  //   console.log(`password:  ${password}`);
-  // }, [password]);
-
-  // useEffect(() => {
-  //   console.log('field: ');
-  //   console.log(field);
-  // }, [field]);
+  const emailGuide = useMemo(() => {
+    if (emailState === 'invalid') return '잘못된 이메일 입력값';
+    else return '';
+  }, [emailState]);
+  const passwordGuide = useMemo(() => {
+    if (passwordState === 'invalid_form')
+      return '영문, 숫자, 특수문자 중 최소 2가지 조합으로 입력해주세요.';
+    else if (passwordState === 'invalid_len_short')
+      return '5글자 이상 입력해주세요.';
+    else return '';
+  }, [passwordState]);
+  const fieldGuide = useMemo(() => {
+    if (fieldState === 'invalid' && submitTried)
+      return '관심분야를 하나 이상 선택해주세요.';
+    else return '';
+  }, [fieldState, submitTried]);
+  const nameGuide = useMemo(() => {
+    if (nameState === 'invalid_dup') return '이미 사용중인 닉네임입니다.';
+    else if (nameState === 'invalid_len_long')
+      return '15자 이내로 입력해주세요.';
+    else return '';
+  }, [nameState]);
+  const urlGuide = useMemo(() => {
+    if (urlState === 'invalid_form')
+      return '언더스코어(_), 콜론(:), 공백문자( ), 슬래시(/)는 사용할 수 없습니다.';
+    else if (urlState === 'invalid_len_short')
+      return '4글자 이상 입력해주세요.';
+    else if (urlState === 'invalid_len_long')
+      return '20자 이내로 입력해주세요.';
+    else return '';
+  }, [urlState]);
+  const agreementGuide = useMemo(() => {
+    if (agreementState === 'invalid' && submitTried)
+      return '약관에 동의해주세요.';
+    else return '';
+  }, [agreementState, submitTried]);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    postData({
-      nickname: name,
-      email,
-      password,
-      url,
-      field,
-    });
+    if (agreementState === 'invalid') {
+      setSubmitTried(true);
+    } else {
+      postData({
+        nickname: name,
+        email,
+        password,
+        url,
+        field,
+      });
+    }
   };
 
   const onFieldChange = useCallback(
@@ -184,86 +210,141 @@ function JoinPage() {
   );
 
   return (
-    <div css={wrapper}>
+    <div>
       <button type='button' onClick={() => history.goBack()}>
         되돌아가기 버튼
       </button>
-      <form
-        style={{ display: 'flex', flexDirection: 'column' }}
-        onSubmit={onSubmitHandler}
-      >
-        <label css={labelStyle} htmlFor='email'>
-          이메일
-        </label>
-        <input
-          id='email'
-          type='email'
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-        />
-        <label css={labelStyle} htmlFor='password'>
-          비밀번호
-        </label>
-        <input
-          id='password'
-          type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-        />
-        <button type='button' onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
-        </button>
-        <p css={guideMessage}>비밀번호 입력 상태 : {passwordState}</p>
-        <label css={labelStyle} htmlFor='nickname'>
-          닉네임
-        </label>
-        <input
-          id='nickname'
-          type='text'
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-        />
-        <label css={labelStyle} htmlFor='url'>
-          개인 url
-        </label>
-        <div css={flexLow}>
-          <p
-            style={{
-              margin: '6px',
-            }}
-          >
-            iamonit.kr/
-          </p>
-          <input
-            id='url'
-            type='text'
-            value={url}
-            onChange={(event) => setUrl(event.currentTarget.value)}
-            placeholder={`${userSeq}/`}
-          />
-        </div>
-        <label htmlFor='field'>분야 선택(최소 1개 분야 선택)</label>
-        <div>{fieldButtons}</div>
-        <div>
-          <input
-            type='checkbox'
-            id='agreement'
-            onChange={(event) => setAgreement(event.target.checked)}
-          />
-          <label css={labelStyle} htmlFor='agreement'>
-            약관에 동의합니다.
-          </label>
-        </div>
-        <br />
-        <button type='submit' disabled={disableSubmit}>
-          생성 완료
-        </button>
-      </form>
+      <div>
+        <form css={[formStyle]} onSubmit={onSubmitHandler}>
+          <div css={[inputUnitStyle, emailWrapper]}>
+            <label css={labelStyle} htmlFor='email'>
+              이메일
+            </label>
+            <input
+              id='email'
+              type='email'
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+            />
+            <p css={[guideMessageStyle]}>{emailGuide}</p>
+          </div>
+          <div css={[inputUnitStyle, passwordWrapper]}>
+            <label css={labelStyle} htmlFor='password'>
+              비밀번호
+            </label>
+
+            <input
+              id='password'
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(event) => setPassword(event.currentTarget.value)}
+            />
+            <button
+              type='button'
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
+            </button>
+            <p css={[guideMessageStyle]}>{passwordGuide}</p>
+          </div>
+          <div css={[inputUnitStyle, nameWrapper]}>
+            <label css={labelStyle} htmlFor='nickname'>
+              닉네임
+            </label>
+            <input
+              id='nickname'
+              type='text'
+              value={name}
+              onChange={(event) => setName(event.currentTarget.value)}
+            />
+            <p css={[guideMessageStyle]}>{nameGuide}</p>
+          </div>
+          <div css={[inputUnitStyle, urlWrapper]}>
+            <label css={labelStyle} htmlFor='url'>
+              개인 url
+            </label>
+            <div css={flexLow}>
+              <p
+                style={{
+                  margin: '6px',
+                }}
+              >
+                iamonit.kr/
+              </p>
+              <input
+                id='url'
+                type='text'
+                value={url}
+                onChange={(event) => setUrl(event.currentTarget.value)}
+                // placeholder={url}
+              />
+            </div>
+            <p css={[guideMessageStyle]}>{urlGuide}</p>
+          </div>
+          <div css={[inputUnitStyle, fieldWrapper]}>
+            <label css={labelStyle} htmlFor='field'>
+              분야 선택 (회원가입 후에도 추가할 수 있습니다)
+            </label>
+            <div>{fieldButtons}</div>
+            <p css={[guideMessageStyle]}>{fieldGuide}</p>
+          </div>
+          <div css={inputUnitStyle}>
+            <input
+              type='checkbox'
+              id='agreement'
+              onChange={(event) => setAgreement(event.target.checked)}
+            />
+            <label htmlFor='agreement'>약관에 동의합니다.</label>
+            <p css={[guideMessageStyle]}>{agreementGuide}</p>
+          </div>
+          <br />
+          <button type='submit' disabled={disableSubmit}>
+            생성 완료
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default JoinPage;
+
+const formStyle = css`
+  background-color: yellow;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(50px, auto);
+`;
+
+const emailWrapper = css`
+  grid-column: 1 / 4;
+  grid-row: 1;
+`;
+const passwordWrapper = css`
+  grid-column: 1 / 4;
+  grid-row: 2;
+`;
+const nameWrapper = css`
+  grid-column: 1 / 4;
+  grid-row: 3;
+`;
+const urlWrapper = css`
+  grid-column: 1 / 4;
+  grid-row: 4;
+`;
+const fieldWrapper = css`
+  grid-column: 1 / 4;
+  grid-row: 5 / 7;
+`;
+
+const inputUnitStyle = css`
+  background-color: #e8e8e8;
+  padding: 15px 0px;
+  margin: 3px 0px;
+`;
+
 const clickedButton = css`
   background-color: gray;
   color: white;
@@ -284,6 +365,7 @@ function getColorByState(field, id) {
 const fieldButton = css`
   padding: 10px;
   margin: 10px;
+  min-width: 100px;
   background-color: white;
   &:active {
     background-color: black;
@@ -291,15 +373,8 @@ const fieldButton = css`
   }
 `;
 
-const wrapper = css`
-  margin: 30px;
-
-  input:invalid {
-    border: 2px solid red;
-  }
-`;
-
 const labelStyle = css`
+  ${'' /* background-color: red; */}
   color: gray;
 `;
 
@@ -308,6 +383,8 @@ const flexLow = css`
   flex-direction: row;
 `;
 
-const guideMessage = css`
+const guideMessageStyle = css`
   color: red;
+  font-size: 12px;
+  margin: 5px 0;
 `;
