@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
 import { createReplacementWidgetsAction } from '../../redux/slice';
@@ -23,21 +23,31 @@ function EditModeGrid() {
     [widgets]
   );
 
-  // function generateLayout() {
-  //   return {
-  //     x: 0,
-  //     y: 0,
-  //     w: 2,
-  //     h: 2,
-  //   };
-  // }
-
   const layoutInfo = getVisibleWidgetsList(widgets.list);
-  // const fullGrid = generateLayout();
+
+  useEffect(() => {
+    const newWidget = {
+      i: '100',
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      widget_action: 'N',
+    };
+    console.log(layoutInfo);
+    console.log(newWidget);
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        count: widgets.count + 1,
+        list: [...widgets.list, newWidget],
+      })
+    );
+    console.log(layoutInfo);
+  }, []);
 
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
-    console.log(newItem);
     const found = items.find((element) => element.i === newItem.i);
     console.log(items);
     console.log(found);
@@ -62,11 +72,11 @@ function EditModeGrid() {
       <GridLayout
         style={gridStyle}
         onResizeStop={(layout, oldItem, newItem) => {
-          console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
+          // console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
           renewWidgetsList(newItem);
         }}
         onDragStop={(layout, oldItem, newItem) => {
-          console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
+          // console.log('리덕스에 위젯 리스트 업데이트[EditModeGrid]');
           renewWidgetsList(newItem);
         }}
         mylayout={layoutInfo}
@@ -86,15 +96,21 @@ function EditModeGrid() {
     [layoutInfo]
   );
 
-  // const backgroundGrid = useMemo(
-  //   () => <GridLayout mylayout={fullGrid} />,
-  //   [layoutInfo]
-  // );
+  const afterClick = (e) => {
+    console.log(`${e.clientX}와 ${e.clientY}`);
+    console.log(layoutInfo);
+    const newData = { w: 1, h: 1, i: '100' };
+    newData.x = Math.floor(e.clientX / 100);
+    newData.y = Math.floor(e.clientY / 100);
+    console.log(newData);
+    renewWidgetsList(newData);
+  };
 
   return (
     <>
-      {/* <div>{backgroundGrid}</div> */}
-      <div style={{ position: 'relative' }}>{gridForm}</div>
+      <div onMouseMove={afterClick} style={{ position: 'relative' }}>
+        {gridForm}
+      </div>
     </>
   );
 }

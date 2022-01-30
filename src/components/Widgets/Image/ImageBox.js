@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 
 export default function ImageBox({ element, mode }) {
-  console.log('이미지 박스');
   const [hasLink, setHasLink] = useState(false);
   // TODO: 디자이너분과 얘기한 후 이미지 받아오기
   const defaultImg =

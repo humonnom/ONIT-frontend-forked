@@ -1,7 +1,5 @@
 import { ACTION_CREATE, TYPE_IMAGE } from '../../utils/constantValue';
 
-export function addNewWidget() {}
-
 export function setNewWigetInfo(newWidgetInfo, size, count) {
   // small이 디폴트
   let widthInitValue = 2;
