@@ -1,12 +1,13 @@
 import RGL, { WidthProvider } from 'react-grid-layout';
 import './Grid.css';
-import UseWindowSize from './UseWindowSize';
+import useWindowSize from './useWindowSize';
 
 const ReactGridLayout = WidthProvider(RGL);
 
 export default function GridLayout(props) {
   // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
-  const rowHeight = (UseWindowSize().width - 170) / 16;
+  const rowHeight = (useWindowSize().width - 170) / 16;
+  console.log(props.mylayout);
 
   return (
     <ReactGridLayout

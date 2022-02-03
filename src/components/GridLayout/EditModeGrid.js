@@ -1,12 +1,28 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
 import { createReplacementWidgetsAction } from '../../redux/slice';
 import { WidgetElement } from '../Widgets/WidgetElement';
 import { ACTION_NONE, ACTION_EDIT } from '../../utils/constantValue';
 import { REAL_HEADER_HEIGHT } from '../../utils/style';
+import useWindowSize from './useWindowSize';
+
+/* eslint no-unused-vars: 0 */
 
 function EditModeGrid() {
+  const rowWidth = useWindowSize().width;
+  const [mouseOverWidget, setMouseOverWidget] = useState([
+    {
+      i: '0',
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      widget_type: 'mouse',
+      widget_action: 'N',
+    },
+  ]);
+
   const dispatch = useDispatch();
 
   const { widgets } = useSelector((state) => ({
@@ -24,27 +40,6 @@ function EditModeGrid() {
   );
 
   const layoutInfo = getVisibleWidgetsList(widgets.list);
-
-  useEffect(() => {
-    const newWidget = {
-      i: '100',
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
-      widget_action: 'N',
-    };
-    console.log(layoutInfo);
-    console.log(newWidget);
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
-      })
-    );
-    console.log(layoutInfo);
-  }, []);
 
   function renewWidgetsList(newItem) {
     const items = JSON.parse(JSON.stringify(widgets.list));
@@ -66,6 +61,24 @@ function EditModeGrid() {
       })
     );
   }
+
+  // useEffect(() => {
+  //   console.log(mouseOverWidget);
+  // }, [mouseOverWidget]);
+
+  const mouseOverWidgetGridForm = useMemo(
+    () => (
+      <GridLayout style={mouseOverGridStyle} mylayout={mouseOverWidget}>
+        <div
+          key={Number(mouseOverWidget[0].i)}
+          style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+        >
+          <WidgetElement element={mouseOverWidget[0]} mode='normal' />
+        </div>
+      </GridLayout>
+    ),
+    [mouseOverWidget]
+  );
 
   const gridForm = useMemo(
     () => (
@@ -96,20 +109,23 @@ function EditModeGrid() {
     [layoutInfo]
   );
 
-  const afterClick = (e) => {
+  const mouseWidget = (e) => {
     console.log(`${e.clientX}와 ${e.clientY}`);
-    console.log(layoutInfo);
-    const newData = { w: 1, h: 1, i: '100' };
-    newData.x = Math.floor(e.clientX / 100);
-    newData.y = Math.floor(e.clientY / 100);
-    console.log(newData);
-    renewWidgetsList(newData);
+    const newData = { w: 1, h: 1, i: '0' };
+    newData.x = Math.floor((e.clientX * 16) / rowWidth);
+    newData.y = Math.floor(((e.clientY - 57) * 16) / rowWidth);
+    setMouseOverWidget([
+      {
+        ...newData,
+      },
+    ]);
   };
 
   return (
     <>
-      <div onMouseMove={afterClick} style={{ position: 'relative' }}>
+      <div onMouseMove={mouseWidget} style={{ position: 'relative' }}>
         {gridForm}
+        {mouseOverWidgetGridForm}
       </div>
     </>
   );
@@ -131,6 +147,17 @@ const gridStyle = {
   backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,
   backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
   linear-gradient(to bottom, #eee 2px, transparent 2px)`,
+};
+
+const mouseOverGridStyle = {
+  position: 'absolute',
+  top: '-5px',
+  left: '0px',
+  margin: '10',
+  width: '100%',
+  minWidth: '1124px',
+  minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
+  zIndex: '-100',
 };
 
 // grid공식 calc((100% - ${margin}px) / ${cols})
