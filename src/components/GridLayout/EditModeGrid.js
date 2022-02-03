@@ -62,23 +62,21 @@ function EditModeGrid() {
     );
   }
 
-  // useEffect(() => {
-  //   console.log(mouseOverWidget);
-  // }, [mouseOverWidget]);
-
-  const mouseOverWidgetGridForm = useMemo(
-    () => (
-      <GridLayout style={mouseOverGridStyle} mylayout={mouseOverWidget}>
-        <div
-          key={Number(mouseOverWidget[0].i)}
-          style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
-        >
-          <WidgetElement element={mouseOverWidget[0]} mode='normal' />
-        </div>
-      </GridLayout>
-    ),
-    [mouseOverWidget]
-  );
+  const mouseOverWidgetGridForm = useMemo(() => {
+    if (mouseOverWidget[0].i === '0') {
+      return (
+        <GridLayout style={mouseOverGridStyle} mylayout={mouseOverWidget}>
+          <div
+            key={Number(mouseOverWidget[0].i)}
+            style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+          >
+            <WidgetElement element={mouseOverWidget[0]} mode='normal' />
+          </div>
+        </GridLayout>
+      );
+    }
+    return <></>;
+  }, [mouseOverWidget]);
 
   const gridForm = useMemo(
     () => (
@@ -110,7 +108,6 @@ function EditModeGrid() {
   );
 
   const mouseWidget = (e) => {
-    console.log(`${e.clientX}와 ${e.clientY}`);
     const newData = { w: 1, h: 1, i: '0' };
     newData.x = Math.floor((e.clientX * 16) / rowWidth);
     newData.y = Math.floor(((e.clientY - 57) * 16) / rowWidth);
@@ -123,7 +120,14 @@ function EditModeGrid() {
 
   return (
     <>
-      <div onMouseMove={mouseWidget} style={{ position: 'relative' }}>
+      <div
+        onMouseMove={mouseWidget}
+        onMouseEnter={() => {}}
+        onMouseLeave={(e) => {
+          setMouseOverWidget([{ i: '-1' }]);
+        }}
+        style={{ position: 'relative' }}
+      >
         {gridForm}
         {mouseOverWidgetGridForm}
       </div>
