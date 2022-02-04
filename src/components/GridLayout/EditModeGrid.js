@@ -161,7 +161,7 @@ const gridStyle = {
   width: '100%',
   minWidth: '1124px',
   minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
-  backgroundSize: `calc((100% - ${margin}px) / ${cols}) calc((100vw - ${margin}px) / ${cols})`,
+  backgroundSize: `calc((100% - ${margin}px) / ${cols}) calc((100vw - ${margin}px - 16px) / ${cols})`,
   backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,
   backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
   linear-gradient(to bottom, #eee 2px, transparent 2px)`,
