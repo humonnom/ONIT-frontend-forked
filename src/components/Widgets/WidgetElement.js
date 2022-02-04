@@ -133,9 +133,23 @@ export function WidgetElement({ setisWidgetOverlap, element, mode }) {
         </>
       )}
       {classifyBox(layout)}
+      <div css={remmoveBtnCss} />
     </div>
   );
 }
+
+const remmoveBtnCss = css`
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: calc(100% + 11px);
+  height: calc(100% + 11px);
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: -999;
+`;
 
 const widgetFrame = css`
   background-color: white;

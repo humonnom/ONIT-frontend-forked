@@ -26,7 +26,7 @@ function HandleKakaoLogin() {
   const joinRequired = useMemo(() => {
     console.log(`🚨 res:`);
     console.log(res);
-    return true;
+    return false;
     // if (res && res.data) {
     //   if (res.data.data && res.data.data.join_required) return true;
     // }
