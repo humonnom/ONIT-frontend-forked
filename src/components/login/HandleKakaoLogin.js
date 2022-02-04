@@ -1,43 +1,51 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router';
 import LoadingMessageStyle from '../LoadingMessageStyle';
-import { getApiEndpoint } from '../../utils/util';
-// import { useDispatch } from 'react-redux';
+// import { fetchTokens, getApiEndpoint } from '../../utils/util';
+import { getApiEndpoint, setLocalStorage } from '../../utils/util';
+import useRequestJoin from '../../hooks/useRequestJoin';
 
 function HandleKakaoLogin() {
-  console.log('HandleKakaoLogin page');
   const code = new URL(window.location.href).searchParams.get('code');
-  console.log(`code: ${code}`);
+  const endpoint = `${getApiEndpoint()}/auth/login/kakao`;
+  const history = useHistory();
+  const { res, request } = useRequestJoin({
+    endpoint,
+    method: 'get',
+    headers: { 'Authorization-Code': code },
+    data: {},
+  });
 
-  const endPoint = `${getApiEndpoint()}/auth/login/kakao`;
-
-  const fetchTokens = async () => {
-    try {
-      const headers = { 'Authorization-Code': code };
-      if (process.env.NODE_ENV === 'development') {
-        headers['X-localhost'] = true;
-      }
-      const response = await axios.get(endPoint, {
-        headers,
-      });
-      const result = await response.data;
-      console.log(result);
-      localStorage.setItem('access_token', result.data.tokens.access_token);
-      localStorage.setItem('refresh_token', result.data.tokens.refresh_token);
-      localStorage.setItem('user_seq', result.data.user_info.user_seq);
-      // updateUserId(result.data.user_info.user_seq);
-      const user_seq = localStorage.getItem('user_seq');
-      window.location.assign(
-        `${process.env.REACT_APP_CLIENT_DOMAIN}/${user_seq}`
-      );
-    } catch (err) {
-      window.location.assign('/');
-    }
-  };
+  // 예상 데이터 1 (로그인)
+  // 예상 데이터 2 (회원가입)
 
   useEffect(() => {
-    fetchTokens();
+    request();
   }, []);
+
+  const joinRequired = useMemo(() => {
+    console.log(`🚨 res:`);
+    console.log(res);
+    return true;
+    // if (res && res.data) {
+    //   if (res.data.data && res.data.data.join_required) return true;
+    // }
+    // return false;
+  }, [res]);
+
+  useEffect(() => {
+    if (res && joinRequired) {
+      console.log('💎 join');
+      history.push({
+        pathname: '/join',
+        state: { type: 'kakao', userEmail: 'joso0702@naver.com' },
+      });
+    } else if (res && !joinRequired) {
+      console.log('💎 login');
+      setLocalStorage(res.data.data);
+      history.push(`/${localStorage.getItem('user_seq')}`);
+    }
+  }, [res, joinRequired]);
 
   return <LoadingMessageStyle>로딩중..</LoadingMessageStyle>;
 }
