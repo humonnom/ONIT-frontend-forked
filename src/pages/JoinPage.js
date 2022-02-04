@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import {
   COLOR_STYLE,
   FlexColCenter,
@@ -11,6 +11,8 @@ import {
   FlexSpaceBetweenStart,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
+import { getApiEndpoint } from '../utils/util';
+import useRequestJoin from '../hooks/useRequestJoin';
 
 // TODO: get field data from server
 const getFieldList = () => [
@@ -26,50 +28,62 @@ const getFieldList = () => [
 
 function JoinPage() {
   const [field, setField] = useState([]);
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
 
   // TODO: 분야선택도 조건에 넣기
   const history = useHistory();
+  const location = useLocation();
   const fieldList = getFieldList();
 
+  const { type, userEmail } = location.state || { type: null, userEmail: null };
+  const endpoint = `${getApiEndpoint()}/auth/login/kakao`;
   const email = useInput({ type: 'email' });
-  const password = useInput({ type: 'password' });
+  // const password = useInput({ type: 'password' });
   const name = useInput({ type: 'name' });
   const url = useInput({ type: 'url' });
 
-  const isValid = useCallback((inputState) => inputState === 'ok', []);
+  const { res, request } = useRequestJoin({
+    endpoint,
+    method: 'post',
+    data: {
+      email: userEmail || email.input.value,
+      nickname: name.input.value,
+      url: url.input.value,
+      field: field,
+    },
+  });
 
-  const agreementState = useMemo(() => {
-    if (!agreement) {
-      return '약관에 동의해주세요.';
+  useEffect(() => {
+    if (res) {
+      console.log(res);
     }
-    return 'ok';
-  }, [agreement]);
+  }, [res]);
+
+  const isValid = useCallback((inputState) => inputState === 'ok', []);
 
   const disableSubmit = useMemo(() => {
     if (
-      isValid(password.state) &&
-      isValid(email.state) &&
+      // isValid(password.state) &&
+      (isValid(email.state) || userEmail) &&
       isValid(url.state) &&
-      isValid(name.state) &&
-      isValid(agreementState)
+      isValid(name.state)
     ) {
       return false;
     } else return true;
-  }, [password.state, email.state, name.state, url.state, agreementState]);
+  }, [email.state, name.state, url.state]);
+
+  const agreementState = useMemo(() => {
+    if (!disableSubmit && !agreement) {
+      return '약관에 동의해주세요.';
+    }
+    return 'ok';
+  }, [disableSubmit, agreement]);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('postData');
-    console.log(name, email, password, url, field);
-    // postData({
-    //   nickname: name,
-    //   // email,
-    //   password,
-    //   url,
-    //   field,
-    // });
+    request();
   };
 
   const onFieldChange = useCallback(
@@ -120,13 +134,19 @@ function JoinPage() {
           <label htmlFor='email'>이메일</label>
           <div css={InputItemContents}>
             <div css={Content}>
-              <input id='email' type='email' {...email.input} />
+              <input
+                id='email'
+                type='email'
+                {...email.input}
+                placeholder={userEmail || ''}
+                readOnly={type === 'kakao'}
+              />
             </div>
             <p>{email.state === 'ok' ? '' : email.state}</p>
           </div>
         </div>
 
-        <div css={[InputItem]} id='narrow'>
+        {/* <div css={[InputItem]} id='narrow'>
           <label htmlFor='password'>비밀번호</label>
           <div css={InputItemContents}>
             <div css={Content}>
@@ -147,7 +167,7 @@ function JoinPage() {
             </div>
             <p>{password.state === 'ok' ? '' : password.state}</p>
           </div>
-        </div>
+        </div> */}
         <div css={[InputItem]} id='narrow'>
           <label htmlFor='nickname'>닉네임</label>
           <div css={InputItemContents}>
@@ -344,18 +364,3 @@ const InputConfirm = css`
     padding: 20px;
   }
 `;
-
-// const postData = (data) => {
-//   console.log('[submited]');
-//   console.log(data);
-//   // fetch(`http://localhost:8080/auth/join/local`, {
-//   //   method: 'POST',
-//   //   headers: {
-//   //     Accept: 'application/json',
-//   //     'Content-Type': 'application/json',
-//   //   },
-//   //   body: JSON.stringify(data),
-//   // }).then((response) => {
-//   //   console.log(response);
-//   // });
-// };
