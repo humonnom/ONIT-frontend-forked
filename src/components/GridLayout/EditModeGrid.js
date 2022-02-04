@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
@@ -61,20 +63,12 @@ function EditModeGrid() {
       })
     );
   }
-
-  function none() {
-    console.log();
-  }
   // 마우스오버 위젯 그리드(기존 그리드와 레이어 되어 있음)
   const mouseOverWidgetGridForm = useMemo(() => {
     return (
       <MouseGridLayout style={mouseOverGridStyle} mylayout={mouseOverWidget}>
         <div key='0'>
-          <WidgetElement
-            setisWidgetOverlap={none}
-            element={mouseOverWidget[0]}
-            mode='normal'
-          />
+          <WidgetElement element={mouseOverWidget[0]} mode='normal' />
         </div>
       </MouseGridLayout>
     );
@@ -116,7 +110,13 @@ function EditModeGrid() {
           onResizeStop={(layout, oldItem, newItem) => {
             renewWidgetsList(newItem);
           }}
+          onResize={() => {
+            setisWidgetOverlap(true);
+          }}
           onDragStart={() => {
+            setisWidgetOverlap(true);
+          }}
+          onDrag={() => {
             setisWidgetOverlap(true);
           }}
           onDragStop={(layout, oldItem, newItem) => {
@@ -133,12 +133,15 @@ function EditModeGrid() {
                   borderRadius: '10px',
                   width: 'calc(100% + 20px)',
                 }}
+                onMouseEnter={() => {
+                  setisWidgetOverlap(true);
+                }}
+                onMouseLeave={() => {
+                  setisWidgetOverlap(false);
+                }}
               >
-                <WidgetElement
-                  setisWidgetOverlap={setisWidgetOverlap}
-                  element={element}
-                  mode='edit'
-                />
+                <WidgetElement element={element} mode='edit' />
+                <div css={remmoveBtnCss} />
               </div>
             );
           })}
@@ -150,6 +153,19 @@ function EditModeGrid() {
 }
 
 export default EditModeGrid;
+
+const remmoveBtnCss = css`
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: calc(100% + 13px);
+  height: calc(100% + 13px);
+  background-color: rgba(0, 0, 0, 0);
+  z-index: -999;
+`;
 
 // about grid style
 const margin = 10;
@@ -178,4 +194,4 @@ const mouseOverGridStyle = {
   zIndex: '-100',
 };
 
-// grid공식 calc((100% - ${margin}px) / ${cols})
+// grid공식 가로 calc((100% - ${margin}px) / ${cols}) calc((100% - ${margin}px - X좌표 스크롤바픽셀) / ${cols})

@@ -15,8 +15,6 @@ function NormalModeGrid() {
   }));
   const layoutInfo = widgets.list;
   const staticLayout = makeGridItemStatic(layoutInfo);
-  console.log(staticLayout);
-  const setisWidgetOverlap = () => {};
   const isGrid = useMemo(() => {
     return (
       <GridLayout
@@ -33,11 +31,7 @@ function NormalModeGrid() {
             key={Number(element.i)}
             style={{ backgroundColor: 'white', borderRadius: '10px' }}
           >
-            <WidgetElement
-              element={element}
-              setisWidgetOverlap={setisWidgetOverlap}
-              mode='normal'
-            />
+            <WidgetElement element={element} mode='normal' />
           </div>
         ))}
       </GridLayout>
