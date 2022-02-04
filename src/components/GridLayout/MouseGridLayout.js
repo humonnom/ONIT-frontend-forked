@@ -7,14 +7,9 @@ const ReactGridLayout = WidthProvider(RGL);
 export default function MouseGridLayout(props) {
   // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
   const rowHeight = (useWindowSize().width - 170) / 16;
-  console.log(props.mylayout);
-  function makeGridItemStatic(layoutInfos) {
-    return layoutInfos.map((info) => ({ ...info, static: true }));
-  }
-  const staticLayout = makeGridItemStatic(props.mylayout);
   return (
     <ReactGridLayout
-      layout={staticLayout}
+      layout={props.mylayout}
       className='layout mouse-layout'
       cols={16}
       rowHeight={rowHeight}

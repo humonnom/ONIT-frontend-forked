@@ -27,8 +27,6 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "lint": "eslint .",
-    "fix": "eslint . --fix",
     "start": "cross-env NODE_PATH=src react-scripts start",
     "build": "cross-env NODE_PATH=src CI=false react-scripts build",
     "test": "react-scripts test",

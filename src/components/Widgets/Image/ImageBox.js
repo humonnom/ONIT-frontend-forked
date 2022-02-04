@@ -1,5 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/css';
 
 export default function ImageBox({ element, mode }) {
   const [hasLink, setHasLink] = useState(false);
@@ -14,6 +15,19 @@ export default function ImageBox({ element, mode }) {
       console.log('has link');
     }
   }, []);
+
+  const remmoveBtnCss = css`
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    background-color: black;
+    z-index: -999;
+  `;
 
   return (
     <>
@@ -31,7 +45,10 @@ export default function ImageBox({ element, mode }) {
           <img src={img_src} alt='profile' style={imgStyle} />
         </a>
       ) : (
-        <img src={img_src} alt='profile' style={imgStyle} />
+        <>
+          <img src={img_src} alt='profile' style={imgStyle} />
+          <div css={remmoveBtnCss} />
+        </>
       )}
     </>
   );

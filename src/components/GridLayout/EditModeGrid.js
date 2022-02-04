@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
@@ -24,6 +22,7 @@ function EditModeGrid() {
     x: 0,
     y: 0,
     widget_type: TYPE_NONEDISPLAY,
+    isResizable: false,
   };
   const [isWidgetOverlap, setisWidgetOverlap] = useState(false);
   const [mouseOverWidget, setMouseOverWidget] = useState([widgetDefaultValue]);
@@ -67,7 +66,7 @@ function EditModeGrid() {
   const mouseOverWidgetGridForm = useMemo(() => {
     return (
       <MouseGridLayout style={mouseOverGridStyle} mylayout={mouseOverWidget}>
-        <div key='0' css={mouseOverGridWidgetStyle}>
+        <div key='0'>
           <WidgetElement element={mouseOverWidget[0]} mode='normal' />
         </div>
       </MouseGridLayout>
@@ -83,7 +82,7 @@ function EditModeGrid() {
       setMouseOverWidget([
         {
           ...newData,
-          static: true,
+          isResizable: false,
         },
       ]);
     } else {
@@ -121,7 +120,11 @@ function EditModeGrid() {
             return (
               <div
                 key={Number(element.i)}
-                style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
+                style={{
+                  backgroundColor: 'lightgray',
+                  borderRadius: '10px',
+                  width: 'calc(100% + 20px)',
+                }}
               >
                 <WidgetElement
                   setisWidgetOverlap={setisWidgetOverlap}
@@ -166,9 +169,5 @@ const mouseOverGridStyle = {
   minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
   zIndex: '-100',
 };
-
-const mouseOverGridWidgetStyle = css`
-  background-color: #fff;
-`;
 
 // grid공식 calc((100% - ${margin}px) / ${cols})

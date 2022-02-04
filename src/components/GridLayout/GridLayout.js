@@ -7,7 +7,6 @@ const ReactGridLayout = WidthProvider(RGL);
 export default function GridLayout(props) {
   // rowHeight 공식 (width총길이 - margin * (col + 1)/ col)
   const rowHeight = (useWindowSize().width - 170) / 16;
-  console.log(props.mylayout);
 
   return (
     <ReactGridLayout
