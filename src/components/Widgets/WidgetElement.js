@@ -11,12 +11,15 @@ import {
   ACTION_CREATE,
   ACTION_DELETE,
   TYPE_IMAGE,
+  TYPE_MOUSE,
   TYPE_VIDEO,
+  TYPE_NONEDISPLAY,
 } from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
 import VideoBox from './Video/VideoBox';
+import MouseOverBox from './MouseOver/MouseOverBox';
 
-export function WidgetElement({ element, mode }) {
+export function WidgetElement({ setisWidgetOverlap, element, mode }) {
   const [hover, setHover] = useState(false);
   const layout = element;
   const { widgets, modal } = useSelector((state) => ({
@@ -63,6 +66,10 @@ export function WidgetElement({ element, mode }) {
       return <ImageBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_VIDEO) {
       return <VideoBox element={element} mode={mode} />;
+    } else if (curInfo.widget_type === TYPE_MOUSE) {
+      return <MouseOverBox />;
+    } else if (curInfo.widget_type === TYPE_NONEDISPLAY) {
+      return <></>;
     } else {
       return (
         <div
@@ -84,9 +91,11 @@ export function WidgetElement({ element, mode }) {
       css={[widgetFrame]}
       onMouseEnter={() => {
         setHover(true);
+        setisWidgetOverlap(true);
       }}
       onMouseLeave={() => {
         setHover(false);
+        setisWidgetOverlap(false);
       }}
     >
       {mode === 'edit' && hover && (
@@ -129,8 +138,7 @@ export function WidgetElement({ element, mode }) {
 }
 
 const widgetFrame = css`
-  background-color: lightgray;
-  border-radius: 10px;
+  background-color: white;
   width: 100%;
   height: 100%;
   position: relative%;

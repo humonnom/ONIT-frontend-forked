@@ -23,6 +23,7 @@ import settingSet from './settingSet.svg';
 import close from './close.svg';
 import close_btn from './close_btn.svg';
 import closeSet from './closeSet.svg';
+import mouseover_widget from './mouseover_widget.svg';
 
 export {
   arrow_left,
@@ -50,4 +51,5 @@ export {
   close,
   close_btn,
   closeSet,
+  mouseover_widget,
 };
