@@ -8,12 +8,9 @@ export default function VideoBox({ element, mode }) {
     return code;
   }
 
-  console.log('비디오 박스');
   const videoCode = getVideoCode(element.widget_data.thumbnail) || '';
   const thumbnail = `https://img.youtube.com/vi/${videoCode}/mqdefault.jpg`;
 
-  console.log('이거 비디오 코드임');
-  console.log(videoCode);
   return (
     <>
       {mode === 'normal' && videoCode !== '' ? (

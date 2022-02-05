@@ -15,11 +15,7 @@ function NormalModeGrid() {
   }));
   const layoutInfo = widgets.list;
   const staticLayout = makeGridItemStatic(layoutInfo);
-  console.log('static 넣어줌');
-  console.log(staticLayout);
-
   const isGrid = useMemo(() => {
-    console.log('----------render---------');
     return (
       <GridLayout
         mylayout={staticLayout}

@@ -49,7 +49,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('이미지가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
@@ -76,7 +75,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('비디오가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
@@ -102,7 +100,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('비디오가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
@@ -128,7 +125,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('비디오가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
@@ -154,7 +150,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('비디오가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
@@ -180,7 +175,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('비디오가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,
@@ -206,7 +200,6 @@ function ToolBar() {
             })
           );
         } else {
-          console.log('비디오가 클릭되엇습니다');
           dispatch(
             createReplacementModalAction({
               ...modal,

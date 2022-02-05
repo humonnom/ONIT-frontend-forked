@@ -1,0 +1,39 @@
+  .mouse-layout .react-grid-layout {
+	position: relative;
+	transition-property: none;
+  }
+  .mouse-layout .react-grid-item {
+	transition-property: none;
+  }
+  .mouse-layout .react-grid-item.cssTransforms {
+	transition-property: none;
+  }
+  
+  .mouse-layout .react-grid-item.react-draggable-dragging {
+	transition-property: none;
+	z-index: 3;
+	will-change: transform;
+  }
+  .mouse-layout .react-grid-item.react-grid-placeholder {
+	background: red;
+	opacity: 0.2;
+	transition-property: none;
+	z-index: 2;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+  }
+  
+    .mouse-layout .react-grid-item:hover.react-grid-placeholder {
+	background: blue;
+	opacity: 0.2;
+	transition-property: none;
+	z-index: 2;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+  }
