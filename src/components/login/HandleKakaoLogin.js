@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import LoadingMessageStyle from '../LoadingMessageStyle';
-// import { fetchTokens, getApiEndpoint } from '../../utils/util';
 import { getApiEndpoint, setLocalStorage } from '../../utils/util';
 import useRequestJoin from '../../hooks/useRequestJoin';
 
@@ -13,16 +12,18 @@ function HandleKakaoLogin() {
     endpoint,
     method: 'get',
     headers: { 'Authorization-Code': code },
-    data: {},
+    data: {
+      'Authorization-Code': code,
+      // localhost: true, // x 뺌
+    },
   });
 
-  // 예상 데이터 1 (로그인)
-  // 예상 데이터 2 (회원가입)
-
   useEffect(() => {
+    console.log('request');
     request();
   }, []);
 
+  // 기입 필요 유무 확인
   const joinRequired = useMemo(() => {
     console.log(`🚨 res:`);
     console.log(res);
@@ -34,11 +35,13 @@ function HandleKakaoLogin() {
   }, [res]);
 
   useEffect(() => {
-    if (res && joinRequired) {
+    if (res && res.data.code === 'error') {
+      console.log('!! error: kakao login failed');
+    } else if (res && joinRequired) {
       console.log('💎 join');
       history.push({
         pathname: '/join',
-        state: { type: 'kakao', userEmail: 'joso0702@naver.com' },
+        state: { type: 'kakao', userEmail: res.data.data.email },
       });
     } else if (res && !joinRequired) {
       console.log('💎 login');

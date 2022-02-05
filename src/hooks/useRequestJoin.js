@@ -7,10 +7,12 @@ function useRequestJoin(props) {
 
   const request = useCallback(() => {
     let axiosPromise;
+    console.log('send data');
+    console.log(data);
     if (method === 'get') {
       axiosPromise = axios.get(endpoint, {
         headers,
-        // params: data,
+        params: data,
       });
     } else if (method === 'post') {
       console.log(data);
