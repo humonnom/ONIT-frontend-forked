@@ -14,7 +14,7 @@ function HandleKakaoLogin() {
     headers: { 'Authorization-Code': code },
     data: {
       'Authorization-Code': code,
-      // localhost: true, // x 뺌
+      localhost: true,
     },
   });
 
@@ -27,11 +27,10 @@ function HandleKakaoLogin() {
   const joinRequired = useMemo(() => {
     console.log(`🚨 res:`);
     console.log(res);
-    return false;
     // if (res && res.data) {
     //   if (res.data.data && res.data.data.join_required) return true;
     // }
-    // return false;
+    return false;
   }, [res]);
 
   useEffect(() => {

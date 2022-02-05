@@ -52,7 +52,7 @@ function JoinPage() {
       email: userEmail || email.input.value,
       nickname: name.input.value,
       url: url.input.value,
-      field: 'string',
+      field: 'painting',
     },
   });
 

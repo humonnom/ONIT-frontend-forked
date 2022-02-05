@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export function getApiEndpoint() {
   const endpoint =
     process.env.REACT_APP_SERVER_DOMAIN ?? 'http://localhost:8080';
@@ -47,28 +45,6 @@ export function isPassword(word) {
   if (numberLen + alphaLen + symbolLen !== word.length) return false;
   return true;
 }
-
-export const fetchTokens = async (endpoint, code) => {
-  try {
-    const headers = { 'Authorization-Code': code };
-    if (process.env.NODE_ENV === 'development') {
-      headers['X-localhost'] = true;
-    }
-    const response = await axios.get(endpoint, {
-      headers,
-    });
-    const result = await response.data;
-    console.log('[🚨 yekim version res]');
-    console.log(result);
-    setLocalStorage(result.data);
-    const user_seq = localStorage.getItem('user_seq');
-    window.location.assign(
-      `${process.env.REACT_APP_CLIENT_DOMAIN}/${user_seq}`
-    );
-  } catch (err) {
-    window.location.assign('/');
-  }
-};
 
 export function setLocalStorage(data) {
   if (data) {
