@@ -30,7 +30,7 @@ function HandleKakaoLogin() {
     // if (res && res.data) {
     //   if (res.data.data && res.data.data.join_required) return true;
     // }
-    return true;
+    return false;
   }, [res]);
 
   useEffect(() => {
