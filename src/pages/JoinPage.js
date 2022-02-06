@@ -37,12 +37,14 @@ function JoinPage() {
   const fieldList = getFieldList();
 
   const { type, userEmail } = location.state || { type: null, userEmail: null };
-  const endpoint = `${getApiEndpoint()}/auth/login/kakao`;
+  const endpoint = `${getApiEndpoint()}/auth/join/kakao`;
   const email = useInput({ type: 'email' });
   // const password = useInput({ type: 'password' });
   const name = useInput({ type: 'name' });
   const url = useInput({ type: 'url' });
 
+  // TODO: 필드 index => string
+  // field: “design,digital_art”
   const { res, request } = useRequestJoin({
     endpoint,
     method: 'post',
@@ -50,13 +52,18 @@ function JoinPage() {
       email: userEmail || email.input.value,
       nickname: name.input.value,
       url: url.input.value,
-      field: field,
+      field: 'painting',
     },
   });
 
   useEffect(() => {
-    if (res) {
+    if (res && res.data) {
       console.log(res);
+      if (res.data.code === 'ok') {
+        history.push(`/${localStorage.getItem('user_seq')}`);
+      } else {
+        alert('로그인에 실패했습니다.');
+      }
     }
   }, [res]);
 

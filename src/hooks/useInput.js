@@ -35,29 +35,3 @@ export function useInput({ type }) {
 }
 
 export default useInput;
-
-// const { Input, state, errMessage, value } = useInput({
-// 	state: (str) => {
-// 	  if (str === '') {
-// 		return 'empty';
-// 	  }
-// 	},
-// 	errMessage: (state) => {
-// 	  if (state === 'empty') {
-// 		return '입력해주세요';
-// 	  }
-// 	},
-//   });
-
-//   function useInput(init) {
-// 	const [value, setValue] = useState(init.state);
-
-// 	const component = (
-// 	  <input
-// 		value={value}
-// 		onChange={(event) => setValue(event.currentTarget.value)}
-// 	  />
-// 	);
-
-// 	return { Input: component, value };
-//   }
