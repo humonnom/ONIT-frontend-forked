@@ -40,7 +40,11 @@ function HandleKakaoLogin() {
       console.log('💎 join');
       history.push({
         pathname: '/join',
-        state: { type: 'kakao', userEmail: res.data.data.email },
+        state: {
+          endpoint: `${getApiEndpoint()}/auth/join/kakao`,
+          joinType: 'kakao',
+          userEmail: res.data.data.email,
+        },
       });
     } else if (res && !joinRequired) {
       console.log('💎 login');
