@@ -4,57 +4,100 @@ import { css } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router';
 import {
   COLOR_STYLE,
+  DisplayNone,
+  FlexCenter,
   FlexColCenter,
   FlexColSpaceAroundStart,
-  FlexSpaceAroundCenter,
   FlexSpaceBetweenCenter,
   FlexSpaceBetweenStart,
+  InitButtonStyle,
+  SHADOW_STYLE,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
-import { getApiEndpoint } from '../utils/util';
 import useRequestJoin from '../hooks/useRequestJoin';
-
-// TODO: get field data from server
-const getFieldList = () => [
-  { id: 1, label: '페인팅', name: 'painting' },
-  // { id: 2, label: '조각', name: 'sculpture' },
-  // { id: 3, label: '비디오아트', name: 'video_art' },
-  // { id: 4, label: '디지털아트', name: 'digital_art' },
-  // { id: 5, label: '현대미술', name: 'modern_art' },
-  // { id: 6, label: '공예', name: 'crafts' },
-  // { id: 7, label: '포토그래피', name: 'photography' },
-  // { id: 8, label: '건축', name: 'architecture' },
-];
+import { logo } from '../asset/index';
+import { getFieldList } from '../utils/util';
 
 function JoinPage() {
   const [field, setField] = useState([]);
-  // const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
 
-  // TODO: 분야선택도 조건에 넣기
   const history = useHistory();
   const location = useLocation();
   const fieldList = getFieldList();
 
-  const { type, userEmail } = location.state || { type: null, userEmail: null };
-  const endpoint = `${getApiEndpoint()}/auth/join/kakao`;
-  const email = useInput({ type: 'email' });
-  // const password = useInput({ type: 'password' });
-  const name = useInput({ type: 'name' });
-  const url = useInput({ type: 'url' });
+  const { endpoint, joinType, userEmail } = location.state;
 
   // TODO: 필드 index => string
   // field: “design,digital_art”
+
+  // create inputs
+  const email = useInput({
+    inputType: 'email',
+    // label: '이메일',
+    id: 'email',
+    type: 'email',
+  });
+
+  console.log(joinType);
+
+  const password = useInput({
+    inputType: 'password',
+    // label: '비밀번호',
+    id: 'password',
+    type: showPassword ? 'text' : 'password',
+    button: (
+      <button type='button' onClick={() => setShowPassword(!showPassword)}>
+        {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
+      </button>
+    ),
+  });
+
+  const name = useInput({
+    inputType: 'name',
+    // label: '닉네임',
+    id: 'nickname',
+    type: 'text',
+  });
+  const url = useInput({
+    inputType: 'url',
+    // label: '개인 url',
+    id: 'url',
+    type: 'text',
+    prefix: <p>iamonit.kr/</p>,
+  });
+
   const { res, request } = useRequestJoin({
     endpoint,
     method: 'post',
     data: {
-      email: userEmail || email.input.value,
-      nickname: name.input.value,
-      url: url.input.value,
+      email: email.value,
+      password: password.value,
+      nickname: name.value,
+      url: url.value,
       field: 'painting',
     },
   });
+
+  console.log(userEmail);
+
+  // event handler
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log('postData');
+    request();
+  };
+  const onFieldChange = useCallback(
+    (target) => {
+      if (field.includes(target)) {
+        setField(field.filter((item) => item !== target));
+      } else {
+        setField(field.concat(target));
+      }
+    },
+    [field]
+  );
 
   useEffect(() => {
     if (res && res.data) {
@@ -67,18 +110,18 @@ function JoinPage() {
     }
   }, [res]);
 
-  const isValid = useCallback((inputState) => inputState === 'ok', []);
+  const isInvalid = useCallback((inputState) => inputState !== 'ok', []);
 
   const disableSubmit = useMemo(() => {
     if (
-      // isValid(password.state) &&
-      (isValid(email.state) || userEmail) &&
-      isValid(url.state) &&
-      isValid(name.state)
-    ) {
-      return false;
-    } else return true;
-  }, [email.state, name.state, url.state]);
+      (joinType === 'local' && isInvalid(password.state)) ||
+      (joinType === 'local' && isInvalid(email.state)) ||
+      isInvalid(url.state) ||
+      isInvalid(name.state)
+    )
+      return true;
+    else return false;
+  }, [email.state, password.state, name.state, url.state]);
 
   const agreementState = useMemo(() => {
     if (!disableSubmit && !agreement) {
@@ -87,33 +130,16 @@ function JoinPage() {
     return 'ok';
   }, [disableSubmit, agreement]);
 
-  const onSubmitHandler = (event) => {
-    event.preventDefault();
-    console.log('postData');
-    request();
-  };
-
-  const onFieldChange = useCallback(
-    (target) => {
-      if (field.includes(target)) {
-        setField(field.filter((item) => item !== target));
-      } else {
-        setField(field.concat(target));
-      }
-    },
-    [field]
-  );
-
   const fieldButtons = useMemo(
     () =>
       fieldList.map((item) => (
         <button
           type='button'
           key={item.id}
-          css={[fieldButton, getColorByState(field, item.id)]}
+          css={[FieldButtonStyle, getColorByState(field, item.id)]}
           onClick={() => onFieldChange(item.id)}
         >
-          {item.label}
+          <p css={FieldButtonLabel}>{item.label}</p>
         </button>
       )),
     [fieldList, field, onFieldChange]
@@ -123,109 +149,63 @@ function JoinPage() {
     <div css={Container}>
       <div css={PageInfos}>
         <div>
-          <button type='button' onClick={() => history.goBack()}>
-            되돌아가기 버튼
+          <button
+            type='button'
+            css={BackButton}
+            onClick={() => history.push('/')}
+          >
+            첫화면으로 돌아가기
           </button>
-          <span>
+          <span css={PageGuideMessage}>
             새 계정 생성을 위한 <wbr />
             정보를 입력해
             <wbr />
             주세요.
           </span>
         </div>
-        <h2>Onit</h2>
+        <div>
+          <img src={logo} width='100' />
+        </div>
       </div>
-      <form css={[InputList]} onSubmit={onSubmitHandler}>
-        <div css={[InputItem]} id='narrow'>
-          {' '}
-          <label htmlFor='email'>이메일</label>
-          <div css={InputItemContents}>
-            <div css={Content}>
+      <div css={InputListWrapper}>
+        <form css={[InputList]} onSubmit={onSubmitHandler}>
+          <div css={[InputItem, getDisplay(joinType)]}>
+            <label htmlFor='email'>이메일</label>
+            {email.component}
+          </div>
+          <div css={[InputItem, getDisplay(joinType)]}>
+            <label htmlFor='password'>비밀번호</label>
+            {password.component}
+          </div>
+          <div css={InputItem}>
+            <label htmlFor='nickname'>닉네임</label>
+            {name.component}
+          </div>
+          <div css={InputItem}>
+            <label htmlFor='url'>개인 url</label>
+            {url.component}
+          </div>
+          <div css={[InputItem]} id='field'>
+            <label htmlFor='field'>분야 선택</label>
+            <div css={FieldContainer}>{fieldButtons}</div>
+          </div>
+          {field.component}
+          <div css={InputConfirm}>
+            <div>
               <input
-                id='email'
-                type='email'
-                {...email.input}
-                placeholder={userEmail || ''}
-                readOnly={type === 'kakao'}
+                type='checkbox'
+                id='agreement'
+                onChange={(event) => setAgreement(event.target.checked)}
               />
+              <label htmlFor='agreement'>약관에 동의합니다.</label>
+              <p>{agreementState === 'ok' ? '' : agreementState}</p>
             </div>
-            <p>{email.state === 'ok' ? '' : email.state}</p>
+            <button type='submit' disabled={disableSubmit}>
+              생성 완료
+            </button>
           </div>
-        </div>
-
-        {/* <div css={[InputItem]} id='narrow'>
-          <label htmlFor='password'>비밀번호</label>
-          <div css={InputItemContents}>
-            <div css={Content}>
-              <div id='passwordDiv'>
-                <input
-                  id='password'
-                  type={showPassword ? 'text' : 'password'}
-                  {...password.input}
-                />
-                <button
-                  id='showPasswordBtn'
-                  type='button'
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
-                </button>
-              </div>
-            </div>
-            <p>{password.state === 'ok' ? '' : password.state}</p>
-          </div>
-        </div> */}
-        <div css={[InputItem]} id='narrow'>
-          <label htmlFor='nickname'>닉네임</label>
-          <div css={InputItemContents}>
-            <div css={Content}>
-              <input id='nickname' type='text' {...name.input} />
-            </div>
-            <p>{name.state === 'ok' ? '' : name.state}</p>
-          </div>
-        </div>
-        <div css={[InputItem]} id='narrow'>
-          <label htmlFor='url'>개인 url</label>
-          <div css={InputItemContents}>
-            <div css={Content}>
-              <div id='urlDiv'>
-                <p
-                  style={{
-                    margin: '6px',
-                  }}
-                >
-                  iamonit.kr/
-                </p>
-                <input
-                  id='url'
-                  type='text'
-                  {...url.input}
-                  // placeholder={url}
-                />
-              </div>
-            </div>
-            <p>{url.state === 'ok' ? '' : url.state}</p>
-          </div>
-        </div>
-        <div css={[InputItem]} id='wide'>
-          <label htmlFor='field'>분야 선택</label>
-          <div css={InputItemContents}>
-            <div css={Content}>{fieldButtons}</div>
-          </div>
-        </div>
-        <div css={InputConfirm}>
-          <input
-            type='checkbox'
-            id='agreement'
-            onChange={(event) => setAgreement(event.target.checked)}
-          />
-          <label htmlFor='agreement'>약관에 동의합니다.</label>
-          <p>{agreementState === 'ok' ? '' : agreementState}</p>
-          <button type='submit' disabled={disableSubmit}>
-            생성 완료
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
@@ -234,11 +214,11 @@ export default JoinPage;
 
 const FocusedButton = css`
   background-color: ${COLOR_STYLE.orange};
-  color: ${COLOR_STYLE.black};
+  color: ${COLOR_STYLE.white};
 `;
 const NormalButton = css`
   background-color: ${COLOR_STYLE.white};
-  color: ${COLOR_STYLE.grey};
+  color: ${COLOR_STYLE.brownishGrey};
 `;
 
 function getColorByState(field, id) {
@@ -249,16 +229,10 @@ function getColorByState(field, id) {
   }
 }
 
-const fieldButton = css`
-  padding: 10px;
-  margin: 10px;
-  min-width: 100px;
-  background-color: white;
-  &:active {
-    background-color: black;
-    color: white;
-  }
-`;
+function getDisplay(joinType) {
+  if (joinType === 'kakao') return DisplayNone;
+  return css``;
+}
 
 const Container = css`
   width: 100vw;
@@ -267,36 +241,45 @@ const Container = css`
 `;
 
 const PageInfos = css`
-  height: 100vh;
+  height: inherit;
   width: 35vw;
-  margin: 5vw;
+  margin: 5vh 5vw 5vh 10vw;
   ${FlexColSpaceAroundStart}
   div {
     ${FlexColSpaceAroundStart}
     height: 20vh;
-    button {
-    }
-    span {
-      width: 12vw;
-      font-size: 1.4rem;
-      word-break: keep-all;
-      margin-top: 1vh;
-    }
   }
+`;
+
+const BackButton = css`
+  ${InitButtonStyle}
+  font-size: 1.2rem;
+  color: ${COLOR_STYLE.brownishGrey};
+  margin-bottom: 3vh;
+  font-weight: bold;
+`;
+
+const PageGuideMessage = css`
+  width: 20vw;
+  font-size: 2.5rem;
+  word-break: keep-all;
+  margin-top: 1vh;
+  font-weight: bold;
+`;
+
+const InputListWrapper = css`
+  background-color: ${COLOR_STYLE.lightGrey};
+  border-radius: 100px 0px 0px 100px;
+  height: inherit;
+  width: 65vw;
+  ${FlexCenter}
 `;
 
 const InputList = css`
   ${FlexColCenter}
-  background-color: ${COLOR_STYLE.lightGrey};
-  height: 100vh;
-  width: 65vw;
-  border-radius: 70px 0px 0px 70px;
-  #narrow {
-    height: 7vh;
-  }
-  #wide {
-    height: 20vh;
-  }
+  width: 35vw;
+  height: 70vh;
+  margin: 5vh 3.5vw 2vh 2.5vw;
 `;
 
 const InputItem = css`
@@ -307,67 +290,49 @@ const InputItem = css`
   label {
     font-weight: bold;
     font-size: 1rem;
-    width: 15vw;
+    width: 7vw;
+    word-break: keep-all;
+    margin-top: 1vh;
+    margin-right: 1vw;
   }
 `;
 
-const InputItemContents = css`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
+const FieldContainer = css`
   width: 100%;
   height: 100%;
-  ${'' /* border: 0.1rem solid; */}
-
-  > p {
-    font-size: 0.8rem;
-    color: ${COLOR_STYLE.redOrange};
-  }
-
-  > div {
-    background-color: ${COLOR_STYLE.white};
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
 `;
 
-const Content = css`
-  width: 100%;
-  height: 50%;
+const FieldButtonStyle = css`
+  ${InitButtonStyle}
 
-  input {
-    background-color: inherit;
-    width: 100%;
-    border: 0;
-  }
+  width: 23%;
+  height: 4vh;
+  margin-bottom: 1.25em;
+  border-radius: 20px;
+  box-shadow: ${SHADOW_STYLE.pale};
+`;
 
-  #showPasswordBtn {
-    background-color: inherit;
-    border: 0;
-    outline: 0;
-  }
-  div {
-    display: flex;
-    align-items: center;
-  }
-  #urlDiv p {
-    color: ${COLOR_STYLE.grey};
-    font-weight: blod;
-  }
-  #passwordDiv button {
-    width: 12vw;
-    padding: 0;
-    word-break: keep-all;
-  }
+const FieldButtonLabel = css`
+  font-size: 0.8rem;
+  color: ${COLOR_STYLE.brownishGrey};
 `;
 
 const InputConfirm = css`
-  ${FlexSpaceAroundCenter}
+  ${FlexSpaceBetweenCenter}
   width: 100%;
   height: 10%;
   p {
     font-size: 0.8rem;
   }
   button {
-    padding: 20px;
+    ${InitButtonStyle}
+    padding: 1.5vh 4vw;
+    background-color: ${COLOR_STYLE.orange};
+    border-radius: 30px;
+    color: ${COLOR_STYLE.white};
   }
 `;

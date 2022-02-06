@@ -30,7 +30,7 @@ function HandleKakaoLogin() {
     // if (res && res.data) {
     //   if (res.data.data && res.data.data.join_required) return true;
     // }
-    return false;
+    return true;
   }, [res]);
 
   useEffect(() => {
@@ -40,7 +40,11 @@ function HandleKakaoLogin() {
       console.log('💎 join');
       history.push({
         pathname: '/join',
-        state: { type: 'kakao', userEmail: res.data.data.email },
+        state: {
+          endpoint: `${getApiEndpoint()}/auth/join/kakao`,
+          joinType: 'kakao',
+          userEmail: res.data.data.email,
+        },
       });
     } else if (res && !joinRequired) {
       console.log('💎 login');

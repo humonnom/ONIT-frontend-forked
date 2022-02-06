@@ -1,13 +1,18 @@
 import { css } from '@emotion/react';
 
 export const COLOR_STYLE = {
-  primary: '#efd9c1',
-  white: '#ffffff',
-  black: '#000000',
-  grey: 'grey',
-  lightGrey: '#f8f8f8',
-  redOrange: '#f00',
   orange: '#ef6408',
+  veryLightPink: '#f2f2f2',
+  paleGrey: '#f5f7f8',
+  brownishGrey: '#707070',
+  black: '#000000',
+  lightGrey: '#f8f8f8',
+  white: '#ffffff',
+  coral: '#ff4545',
+};
+
+export const SHADOW_STYLE = {
+  pale: ' 3px 0px 20px -5px rgba(0, 0, 0, 0.09)',
 };
 
 export const FlexCenter = css`
@@ -82,4 +87,21 @@ export const FlexColSpaceAroundCenter = css`
 export const FlexColSpaceAroundStart = css`
   ${FlexColSpaceAround}
   align-items: start;
+`;
+
+// display
+export const DisplayNone = css`
+  display: none;
+`;
+
+export const DisplayUnset = css`
+  display: unset;
+`;
+
+export const InitButtonStyle = css`
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background-color: inherit;
+  word-break: keep-all;
 `;

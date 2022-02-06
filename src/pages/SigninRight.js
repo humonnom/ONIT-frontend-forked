@@ -1,14 +1,28 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useHistory } from 'react-router';
 import Tape from '../asset/tape.svg';
+import { getApiEndpoint } from '../utils/util';
 // HACK: dongslee 컴포넌트 이름을 이해하기가 힘들어요.
+
 function SigninRight() {
   const signInWithKakao = () => {
     const endpoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
     window.location.assign(endpoint);
   };
+  const history = useHistory();
 
+  const handleLocalJoin = () => {
+    history.push({
+      pathname: '/join',
+      state: {
+        endpoint: `${getApiEndpoint()}/auth/join/local`,
+        joinType: 'local',
+        userEmail: null,
+      },
+    });
+  };
   const signinRightStyle = {
     textAlign: 'center',
     position: 'relative',
@@ -104,9 +118,9 @@ function SigninRight() {
         Kakao Login
       </button>
       <p css={joinMessege}>아직 onit의 회원이 아니세요?</p>
-      <a href='/join' className='button' css={joinButton}>
+      <button type='button' onClick={handleLocalJoin} css={joinButton}>
         회원가입
-      </a>
+      </button>
     </div>
   );
 }
