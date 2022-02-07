@@ -147,7 +147,7 @@ const flexCenter = css`
 const commonButtonStyle = css`
   display: inline-block;
   text-align: center;
-  height: 39px;
+  height: 35px;
   border-radius: 17px;
   border: none;
   font-size: 12px;
