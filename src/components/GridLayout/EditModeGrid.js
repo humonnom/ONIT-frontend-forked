@@ -12,7 +12,6 @@ import {
   TYPE_MOUSE,
   TYPE_NONEDISPLAY,
 } from '../../utils/constantValue';
-import { REAL_HEADER_HEIGHT } from '../../utils/style';
 import useWindowSize from './useWindowSize';
 
 function EditModeGrid() {
@@ -76,11 +75,11 @@ function EditModeGrid() {
 
   // 마우스 위치를 계산하기 위한 함수
   const mouseWidget = (e) => {
-    if (isWidgetOverlap === false) {
+    if (isWidgetOverlap === false && e.clientX > 5) {
       const newData = { w: 1, h: 1, i: '0', widget_type: TYPE_MOUSE };
       console.log(e);
       newData.x = Math.floor(((e.clientX - 5) * 16) / (windowWidth - 10));
-      newData.y = Math.floor(((e.pageY - 62) * 16) / (windowWidth - 10));
+      newData.y = Math.floor((e.pageY * 16) / (windowWidth - 10));
       setMouseOverWidget([
         {
           ...newData,
@@ -176,9 +175,9 @@ const gridStyle = {
   margin: '10',
   width: '100%',
   minWidth: '1124px',
-  minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
-  backgroundSize: `calc((100% - ${margin}px) / ${cols}) calc((100vw - ${margin}px - 16px) / ${cols})`,
-  backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,
+  minHeight: `100vh`,
+  backgroundSize: `calc((100% - ${margin}px) / ${cols} + 1px) calc((100vw - ${margin}px - 16px + 16px) / ${cols})`,
+  backgroundPosition: `${margin / 2 - 2}px ${margin / 2 - 1}px`,
   backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
   linear-gradient(to bottom, #eee 2px, transparent 2px)`,
 };
@@ -190,7 +189,7 @@ const mouseOverGridStyle = {
   margin: '10',
   width: '100%',
   minWidth: '1124px',
-  minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
+  minHeight: `100vh`,
   zIndex: '-100',
 };
 
