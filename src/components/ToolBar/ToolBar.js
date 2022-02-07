@@ -147,15 +147,16 @@ const flexCenter = css`
 const commonButtonStyle = css`
   display: inline-block;
   text-align: center;
-  height: 26px;
-  border-radius: 8px;
+  height: 39px;
+  border-radius: 17px;
   border: none;
   font-size: 12px;
+  font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
-  color: #22222;
+  color: #707070;
   background-color: #eee;
   padding: 0px;
   &:hover {
