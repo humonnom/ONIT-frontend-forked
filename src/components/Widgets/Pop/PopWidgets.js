@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
-import { REAL_HEADER_HEIGHT } from '../../../utils/style';
+import { REAL_HEADER_HEIGHT } from '../../../styles/style';
 import PopTypeComponent from './PopTypeComponent';
 // HACK: Eomhyunjun 함수이름 고쳐주세요
 function moragogiuyahalkkayo(modal) {
