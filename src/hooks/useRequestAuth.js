@@ -36,7 +36,7 @@ export function useRequestAuth(props) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     };
-
+    console.log('????????');
     let axiosPromise;
     if (method === 'get') {
       axiosPromise = axios.get(endpoint, {
@@ -74,12 +74,19 @@ export function useRequestAuth(props) {
   // 토큰을 갱신하는 함수를 만듭니다.
   const renewToken = useCallback(() => {
     const refreshToken = localStorage.getItem('refresh_token');
+    const tokenData = {
+      data: {
+        refresh_token: refreshToken,
+      },
+    };
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('refresh_token')}`,
+    };
     setRenewStatus('pending');
     axios
       .get(`${getApiEndpoint()}/auth/token/refresh`, {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-        },
+        params: tokenData,
+        headers,
       })
       .then((res) => {
         if (isExpiredToken(res.data.code) || isInvalidToken(res.data.code)) {

@@ -1,17 +1,50 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
 import Tape from '../asset/tape.svg';
-import { getApiEndpoint } from '../utils/util';
+import { getApiEndpoint, setLocalStorage } from '../utils/util';
+import useRequestJoin from '../hooks/useRequestJoin';
 // HACK: dongslee 컴포넌트 이름을 이해하기가 힘들어요.
 
 function SigninRight() {
+  // TODO: 입력받는 걸로 바꿔야함
+  const id = 'joso0702@naver.com';
+  const password = '12345^^';
+  const endpointLogin = `${getApiEndpoint()}/auth/login/local`;
+
+  const { res, request } = useRequestJoin({
+    endpoint: endpointLogin,
+    method: 'get',
+    data: {
+      email: id,
+      password,
+    },
+  });
   const signInWithKakao = () => {
     const endpoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
     window.location.assign(endpoint);
   };
   const history = useHistory();
+  const userSeq = localStorage.getItem('user_seq');
+
+  const handleLocalLogin = () => {
+    console.log('로그인 요청');
+    request();
+  };
+
+  useEffect(() => {
+    console.log('res');
+    console.log(res);
+    if (res && res.data) {
+      if (res.data.code === 'unauthorized') {
+        alert('로그인 실패');
+      } else if (res.data.code === 'ok') {
+        setLocalStorage(res.data.data);
+        history.push(`/${userSeq}`);
+      }
+    }
+  }, [res]);
 
   const handleLocalJoin = () => {
     history.push({
@@ -107,8 +140,12 @@ function SigninRight() {
           <label>비밀번호찾기</label>
         </div>
       </div>
-      <button type='button' style={signupButtonStyle}>
-        Sign up
+      <button
+        type='button'
+        style={signupButtonStyle}
+        onClick={handleLocalLogin}
+      >
+        Sign In
       </button>
       <button
         type='button'

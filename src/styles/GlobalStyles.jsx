@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import facepaint from 'facepaint';
 
 export const COLOR_STYLE = {
   orange: '#ef6408',
@@ -13,6 +14,14 @@ export const COLOR_STYLE = {
 
 export const SHADOW_STYLE = {
   pale: ' 3px 0px 20px -5px rgba(0, 0, 0, 0.09)',
+};
+
+export const FONT_SIZE = {
+  xs: '1rem',
+  s: '1.5rem',
+  m: '2.0rem',
+  l: '2.5rem',
+  xl: '3rem',
 };
 
 export const FlexCenter = css`
@@ -105,3 +114,17 @@ export const InitButtonStyle = css`
   background-color: inherit;
   word-break: keep-all;
 `;
+
+// media query
+
+const breakpoints = [576, 768, 992, 1200];
+
+export const mq = facepaint(
+  breakpoints.map((bp) => `@media (min-width: ${bp}px)`)
+);
+
+export const PageTitleMQ = () => {
+  return mq({
+    fontSize: [FONT_SIZE.s, FONT_SIZE.s, FONT_SIZE.m, FONT_SIZE.l],
+  });
+};

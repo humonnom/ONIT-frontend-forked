@@ -15,7 +15,6 @@ function useRequestJoin(props) {
         params: data,
       });
     } else if (method === 'post') {
-      console.log(data);
       axiosPromise = axios.post(endpoint, data, {
         headers,
       });
@@ -27,6 +26,12 @@ function useRequestJoin(props) {
       })
       .catch((err) => {
         console.log(err);
+        setRes({
+          data: {
+            code: 'error',
+            message: '404 not found-server connection failed',
+          },
+        });
       });
   }, [endpoint, method, headers, data]);
 

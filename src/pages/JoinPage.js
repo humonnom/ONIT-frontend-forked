@@ -11,12 +11,14 @@ import {
   FlexSpaceBetweenCenter,
   FlexSpaceBetweenStart,
   InitButtonStyle,
+  PageTitleMQ,
   SHADOW_STYLE,
+  mq,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
 import useRequestJoin from '../hooks/useRequestJoin';
 import { logo } from '../asset/index';
-import { getFieldList } from '../utils/util';
+import { getFieldList, getSelectedFieldData } from '../utils/util';
 
 function JoinPage() {
   const [field, setField] = useState([]);
@@ -35,16 +37,12 @@ function JoinPage() {
   // create inputs
   const email = useInput({
     inputType: 'email',
-    // label: '이메일',
     id: 'email',
     type: 'email',
   });
 
-  console.log(joinType);
-
   const password = useInput({
     inputType: 'password',
-    // label: '비밀번호',
     id: 'password',
     type: showPassword ? 'text' : 'password',
     button: (
@@ -56,31 +54,42 @@ function JoinPage() {
 
   const name = useInput({
     inputType: 'name',
-    // label: '닉네임',
     id: 'nickname',
     type: 'text',
   });
+
   const url = useInput({
     inputType: 'url',
-    // label: '개인 url',
     id: 'url',
     type: 'text',
     prefix: <p>iamonit.kr/</p>,
   });
 
+  const getPostData = () => {
+    console.log('post data ');
+    if (joinType === 'kakao') {
+      return {
+        email: userEmail,
+        nickname: name.value,
+        url: url.value,
+        field: getSelectedFieldData(field),
+      };
+    } else {
+      return {
+        email: email.value,
+        password: password.value,
+        nickname: name.value,
+        url: url.value,
+        field: getSelectedFieldData(field),
+      };
+    }
+  };
+
   const { res, request } = useRequestJoin({
     endpoint,
     method: 'post',
-    data: {
-      email: email.value,
-      password: password.value,
-      nickname: name.value,
-      url: url.value,
-      field: 'painting',
-    },
+    data: getPostData(),
   });
-
-  console.log(userEmail);
 
   // event handler
   const onSubmitHandler = (event) => {
@@ -100,12 +109,13 @@ function JoinPage() {
   );
 
   useEffect(() => {
+    console.dir(res);
     if (res && res.data) {
       console.log(res);
       if (res.data.code === 'ok') {
         history.push(`/${localStorage.getItem('user_seq')}`);
       } else {
-        alert('로그인에 실패했습니다.');
+        alert('전송에 실패했습니다. 다시 시도해주세요.');
       }
     }
   }, [res]);
@@ -146,9 +156,9 @@ function JoinPage() {
   );
 
   return (
-    <div css={Container}>
-      <div css={PageInfos}>
-        <div>
+    <div css={[Container, ContainerMQ()]}>
+      <div css={[PageInfos, PageInfosMQ()]}>
+        <div css={[PageInfo]}>
           <button
             type='button'
             css={BackButton}
@@ -156,7 +166,7 @@ function JoinPage() {
           >
             첫화면으로 돌아가기
           </button>
-          <span css={PageGuideMessage}>
+          <span css={[PageGuideMessage, PageTitleMQ(), PageGuideMessageMQ()]}>
             새 계정 생성을 위한 <wbr />
             정보를 입력해
             <wbr />
@@ -164,29 +174,39 @@ function JoinPage() {
           </span>
         </div>
         <div>
-          <img src={logo} width='100' />
+          <img src={logo} width='110' />
         </div>
       </div>
-      <div css={InputListWrapper}>
-        <form css={[InputList]} onSubmit={onSubmitHandler}>
-          <div css={[InputItem, getDisplay(joinType)]}>
-            <label htmlFor='email'>이메일</label>
+      <div css={[InputListWrapper, InputListWrapperMQ()]}>
+        <form css={[InputList, InputListMQ()]} onSubmit={onSubmitHandler}>
+          <div css={[InputItem, InputItemMQ(), getDisplay(joinType)]}>
+            <label css={[InputLabel, InputLabelMQ()]} htmlFor='email'>
+              이메일
+            </label>
             {email.component}
           </div>
-          <div css={[InputItem, getDisplay(joinType)]}>
-            <label htmlFor='password'>비밀번호</label>
+          <div css={[InputItem, InputItemMQ(), getDisplay(joinType)]}>
+            <label css={[InputLabel, InputLabelMQ()]} htmlFor='password'>
+              비밀번호
+            </label>
             {password.component}
           </div>
-          <div css={InputItem}>
-            <label htmlFor='nickname'>닉네임</label>
+          <div css={[InputItem, InputItemMQ()]}>
+            <label css={[InputLabel, InputLabelMQ()]} htmlFor='nickname'>
+              닉네임
+            </label>
             {name.component}
           </div>
-          <div css={InputItem}>
-            <label htmlFor='url'>개인 url</label>
+          <div css={[InputItem, InputItemMQ()]}>
+            <label css={[InputLabel, InputLabelMQ()]} htmlFor='url'>
+              개인 url
+            </label>
             {url.component}
           </div>
-          <div css={[InputItem]} id='field'>
-            <label htmlFor='field'>분야 선택</label>
+          <div css={[[InputItem, InputItemMQ()]]} id='field'>
+            <label css={[InputLabel, InputLabelMQ()]} htmlFor='field'>
+              분야 선택
+            </label>
             <div css={FieldContainer}>{fieldButtons}</div>
           </div>
           {field.component}
@@ -236,19 +256,40 @@ function getDisplay(joinType) {
 
 const Container = css`
   width: 100vw;
-  height: 100vh;
   ${FlexSpaceBetweenCenter}
 `;
 
+export const ContainerMQ = () => {
+  const narrow = 'auto';
+  const normal = '100vh';
+
+  return mq({
+    flexDirection: ['column', 'column', 'row', 'row'],
+    height: [narrow, narrow, normal, normal],
+  });
+};
+
 const PageInfos = css`
   height: inherit;
-  width: 35vw;
-  margin: 5vh 5vw 5vh 10vw;
   ${FlexColSpaceAroundStart}
-  div {
-    ${FlexColSpaceAroundStart}
-    height: 20vh;
-  }
+`;
+
+export const PageInfosMQ = () => {
+  const normal = '35vw';
+  const narrow = '35vw';
+  const normalMargin = '5vh 5vw 5vh 10vw';
+  const narrowMargin = '5vh 5vw 3vh 5vw';
+  return mq({
+    width: [narrow, narrow, normal, normal],
+    alignItems: ['center', 'center', 'start', 'start'],
+    margin: [narrowMargin, narrowMargin, normalMargin, normalMargin],
+  });
+};
+
+const PageInfo = css`
+  ${FlexColSpaceAroundStart}
+  height: 20vh;
+  width: 100%;
 `;
 
 const BackButton = css`
@@ -261,41 +302,83 @@ const BackButton = css`
 
 const PageGuideMessage = css`
   width: 20vw;
-  font-size: 2.5rem;
+  font-size: 1rem;
   word-break: keep-all;
   margin-top: 1vh;
   font-weight: bold;
 `;
 
+export const PageGuideMessageMQ = () => {
+  const normal = '20vw';
+  const narrow = '40vw';
+  return mq({
+    width: [narrow, narrow, normal, normal],
+  });
+};
+
 const InputListWrapper = css`
   background-color: ${COLOR_STYLE.lightGrey};
   border-radius: 100px 0px 0px 100px;
   height: inherit;
-  width: 65vw;
   ${FlexCenter}
 `;
 
+export const InputListWrapperMQ = () => {
+  const normal = '100px 0px 0px 100px';
+  const narrow = '100px 100px 0px 0px';
+  const normalWidth = '65vw';
+  const narrowWidth = '100vw';
+  return mq({
+    width: [narrowWidth, narrowWidth, normalWidth, normalWidth],
+    borderRadius: [narrow, narrow, normal, normal],
+  });
+};
+
 const InputList = css`
   ${FlexColCenter}
-  width: 35vw;
-  height: 70vh;
   margin: 5vh 3.5vw 2vh 2.5vw;
 `;
+
+export const InputListMQ = () => {
+  const normalHeight = '70vh';
+  const narrowHeight = 'auto';
+  const normalWidth = '35vw';
+  const narrowWidth = '70%';
+
+  return mq({
+    height: [narrowHeight, narrowHeight, normalHeight, normalHeight],
+    width: [narrowWidth, narrowWidth, normalWidth, normalWidth],
+  });
+};
 
 const InputItem = css`
   ${FlexSpaceBetweenStart}
   margin: 10px;
   width: 100%;
   height: 100%;
-  label {
-    font-weight: bold;
-    font-size: 1rem;
-    width: 7vw;
-    word-break: keep-all;
-    margin-top: 1vh;
-    margin-right: 1vw;
-  }
 `;
+
+export const InputItemMQ = () => {
+  return mq({
+    flexDirection: ['column', 'column', 'row', 'row'],
+    // alignItems: ['center', 'center', 'start', 'start'],
+  });
+};
+
+const InputLabel = css`
+  font-weight: bold;
+  font-size: 1rem;
+  word-break: keep-all;
+  margin-top: 1vh;
+  margin-right: 1vw;
+`;
+
+export const InputLabelMQ = () => {
+  return mq({
+    width: ['15vw', '15vw', '7vw', '7vw'],
+    marginBottom: ['2vh', '2vh', '0', '0'],
+  });
+};
 
 const FieldContainer = css`
   width: 100%;

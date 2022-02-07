@@ -56,6 +56,19 @@ export function setLocalStorage(data) {
 }
 // TODO: get field data from server
 
+export const getSelectedFieldData = (seletedIndexArr) => {
+  const indexArr = seletedIndexArr.sort();
+  const data = getFieldList();
+
+  const filtered = data.filter((item) => indexArr.includes(item.id));
+  const strings = filtered.reduce((acc, cur, index) => {
+    if (index === 0) return `${cur.name}`;
+    return `${acc},${cur.name}`;
+  }, '');
+  console.log(strings);
+  return strings;
+};
+
 export const getFieldList = () => [
   { id: 1, label: '페인팅', name: 'painting' },
   { id: 2, label: '조각', name: 'sculpture' },
