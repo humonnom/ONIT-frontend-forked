@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import RenderLoginPage from '../pages/RenderLoginPage';
+import RenderLoginPage from '../pages/LoginPage';
 import LoadingMessageStyle from './LoadingMessageStyle';
 import { getApiEndpoint } from '../utils/util';
 

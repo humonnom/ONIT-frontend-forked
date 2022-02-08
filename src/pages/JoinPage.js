@@ -39,6 +39,8 @@ function JoinPage() {
     inputType: 'email',
     id: 'email',
     type: 'email',
+    label: '이메일',
+    overlapCheckRequired: true,
   });
 
   const password = useInput({
@@ -53,9 +55,11 @@ function JoinPage() {
   });
 
   const name = useInput({
-    inputType: 'name',
+    inputType: 'nickname',
     id: 'nickname',
     type: 'text',
+    label: '닉네임',
+    overlapCheckRequired: true,
   });
 
   const url = useInput({
@@ -63,10 +67,11 @@ function JoinPage() {
     id: 'url',
     type: 'text',
     prefix: <p>iamonit.kr/</p>,
+    label: 'URL',
+    overlapCheckRequired: true,
   });
 
   const getPostData = () => {
-    console.log('post data ');
     if (joinType === 'kakao') {
       return {
         email: userEmail,
@@ -97,6 +102,7 @@ function JoinPage() {
     console.log('postData');
     request();
   };
+
   const onFieldChange = useCallback(
     (target) => {
       if (field.includes(target)) {
@@ -108,6 +114,7 @@ function JoinPage() {
     [field]
   );
 
+  // post result
   useEffect(() => {
     console.dir(res);
     if (res && res.data) {
@@ -361,7 +368,6 @@ const InputItem = css`
 export const InputItemMQ = () => {
   return mq({
     flexDirection: ['column', 'column', 'row', 'row'],
-    // alignItems: ['center', 'center', 'start', 'start'],
   });
 };
 
@@ -373,7 +379,7 @@ const InputLabel = css`
   margin-right: 1vw;
 `;
 
-export const InputLabelMQ = () => {
+const InputLabelMQ = () => {
   return mq({
     width: ['15vw', '15vw', '7vw', '7vw'],
     marginBottom: ['2vh', '2vh', '0', '0'],

@@ -1,3 +1,5 @@
+import { getPageUser } from './parsing';
+
 export function getApiEndpoint() {
   const endpoint =
     process.env.REACT_APP_SERVER_DOMAIN ?? 'http://localhost:8080';
@@ -5,6 +7,17 @@ export function getApiEndpoint() {
     return `http://${endpoint}`;
   }
   return endpoint;
+}
+
+export function getLoginState() {
+  const user_seq = localStorage.getItem('user_seq');
+  const page_user_seq = getPageUser();
+
+  if (user_seq === page_user_seq) {
+    console.log(`user_seq: ${user_seq} page_user_seq: ${page_user_seq}`);
+    return true;
+  }
+  return false;
 }
 
 export function isInvalidToken(code) {
@@ -65,7 +78,6 @@ export const getSelectedFieldData = (seletedIndexArr) => {
     if (index === 0) return `${cur.name}`;
     return `${acc},${cur.name}`;
   }, '');
-  console.log(strings);
   return strings;
 };
 

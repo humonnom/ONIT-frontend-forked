@@ -36,7 +36,6 @@ export function useRequestAuth(props) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     };
-    console.log('????????');
     let axiosPromise;
     if (method === 'get') {
       axiosPromise = axios.get(endpoint, {

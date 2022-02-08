@@ -7,7 +7,7 @@ import {
   Header,
 } from '../components';
 import { getPageUser } from '../utils/parsing';
-import getLoginState from './getLoginState';
+import { getLoginState } from '../utils/util';
 import { useWidgetData } from '../hooks/useWidgetData';
 
 import { convertForRedux } from '../utils/convert';
