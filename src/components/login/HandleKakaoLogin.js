@@ -27,9 +27,9 @@ function HandleKakaoLogin() {
   const joinRequired = useMemo(() => {
     console.log(`🚨 res:`);
     console.log(res);
-    // if (res && res.data) {
-    //   if (res.data.data && res.data.data.join_required) return true;
-    // }
+    if (res && res.data) {
+      if (res.data.data && res.data.data.join_required) return true;
+    }
     return false;
   }, [res]);
 
