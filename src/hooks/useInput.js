@@ -9,28 +9,17 @@ import {
   InitButtonStyle,
   SHADOW_STYLE,
 } from '../styles/GlobalStyles';
-import { isPassword } from '../utils/util';
-// import { useRequestAuth } from './useRequestAuth';
+import { isPassword, getApiEndpoint } from '../utils/util';
+import { useRequestAuth } from './useRequestAuth';
 
 export function useInput({ inputType, id, type, ...args }) {
   const [value, setValue] = useState('');
-  const [res, setRes] = useState({});
 
-  // const endpoint = `${getApiEndpoint()}/auth/validation/${inputType}/${value}`;
-  // const { res, request } = useRequestAuth({
-  //   endpoint: endpoint,
-  //   method: 'get',
-  // });
-
-  const resData = {
-    data: {
-      data: {
-        // email_overlap: true,
-        // url_overlap: false,
-        // nickname_overlap: false,
-      },
-    },
-  };
+  const endpoint = `${getApiEndpoint()}/auth/validation/${inputType}/${value}`;
+  const { res, request } = useRequestAuth({
+    endpoint: endpoint,
+    method: 'get',
+  });
 
   const onChange = (event) => setValue(event.currentTarget.value);
 
@@ -56,17 +45,17 @@ export function useInput({ inputType, id, type, ...args }) {
 
   // state가 ok이고 오버랩 체크가 필요한 경우에만 체크
   useEffect(() => {
-    // if (state === 'ok' && args.overlapCheckRequired) request();
-    if (state === 'ok' && args.overlapCheckRequired) {
-      if (inputType === 'email' && value === 'joso0702@naver.com') {
-        resData.data.data.email_overlap = true;
-      } else if (inputType === 'url' && value === 'normal') {
-        resData.data.data.url_overlap = true;
-      } else if (inputType === 'nickname' && value === '주은') {
-        resData.data.data.nickname_overlap = true;
-      } else resData.data.data = {};
-      setRes(resData);
-    }
+    if (state === 'ok' && args.overlapCheckRequired) request();
+    // if (state === 'ok' && args.overlapCheckRequired) {
+    //   if (inputType === 'email' && value === 'joso0702@naver.com') {
+    //     resData.data.data.email_overlap = true;
+    //   } else if (inputType === 'url' && value === 'normal') {
+    //     resData.data.data.url_overlap = true;
+    //   } else if (inputType === 'nickname' && value === '주은') {
+    //     resData.data.data.nickname_overlap = true;
+    //   } else resData.data.data = {};
+    //   setRes(resData);
+    // }
   }, [value, state]);
 
   const overlapState = useMemo(() => {

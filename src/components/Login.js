@@ -43,7 +43,6 @@ function Login() {
     window.location.assign(endpoint);
   };
   const history = useHistory();
-  const userSeq = localStorage.getItem('user_seq');
 
   const handleLocalLogin = () => {
     console.log('로그인 요청');
@@ -60,7 +59,7 @@ function Login() {
         alert('로그인 과정에서 오류가 발생하였습니다.');
       } else if (res.data.code === 'ok') {
         setLocalStorage(res.data.data);
-        history.push(`/${userSeq}`);
+        history.push(`/${localStorage.getItem('user_seq')}`);
       }
     }
   }, [res]);

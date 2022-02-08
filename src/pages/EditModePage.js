@@ -41,7 +41,8 @@ function EditMode() {
       const { code } = res.data;
       if (isExpiredToken(code) || isInvalidToken(code) || isNotOwner(code)) {
         console.log(`=> error code ${res.data.code}`);
-        alert('변경사항저장에 실패했습니다. 다시 시도해주세요.');
+      } else if (code === 'error') {
+        console.log(`=> error code ${res.data.code}`);
       } else {
         setStoreRequired(true);
       }
