@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { getPageUser } from './parsing';
 
 export function getApiEndpoint() {
@@ -30,6 +31,10 @@ export function isNotOwner(code) {
 
 export function isExpiredToken(code) {
   return code === 419 || code === 'expired_token';
+}
+
+export function isWrongToken(code) {
+  return code === 'wrong_token';
 }
 
 export const regexNumber = /\d/gi;
@@ -99,3 +104,8 @@ export const getFieldList = () => [
   { id: 15, label: '캐릭터디자인', name: 'character_design' },
   { id: 16, label: '순수예술', name: 'fine_art' },
 ];
+
+export function getPageUrl() {
+  const { id } = useParams();
+  return id;
+}

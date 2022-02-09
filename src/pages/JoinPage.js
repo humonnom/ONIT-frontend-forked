@@ -120,7 +120,8 @@ function JoinPage() {
     if (res && res.data) {
       console.log(res);
       if (res.data.code === 'ok') {
-        history.push(`/${localStorage.getItem('user_seq')}`);
+        // TODO: login 시키기 -> 토큰 달라고 해야되나?
+        history.push(`/${url.value}`);
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
       }

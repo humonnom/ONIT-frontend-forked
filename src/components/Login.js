@@ -7,6 +7,8 @@ import { getApiEndpoint, setLocalStorage } from '../utils/util';
 import useRequestJoin from '../hooks/useRequestJoin';
 import { useInput } from '../hooks/useInput';
 import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
+import { useRequestAuth } from '../hooks/useRequestAuth';
+// import useSaveUserInfo from '../hooks/useSaveUserInfo';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +31,6 @@ function Login() {
   });
 
   const endpointLogin = `${getApiEndpoint()}/auth/login/local`;
-
   const { res, request } = useRequestJoin({
     endpoint: endpointLogin,
     method: 'get',
@@ -38,6 +39,18 @@ function Login() {
       password: password.value,
     },
   });
+  const { res: userInfoRes, request: userInfoRequest } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/me`,
+    method: 'get',
+  });
+
+  // const { res: savedUserInfo, request: saveUserInfoToRedux } = useSaveUserInfo({
+  //   url: 'normal',
+  //   nickname: '주은',
+  //   userSeq: 73,
+  //   field: ['painting'],
+  // });
+
   const handleKakaoLogin = () => {
     const endpoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
     window.location.assign(endpoint);
@@ -50,19 +63,37 @@ function Login() {
   };
 
   useEffect(() => {
-    console.log('res');
-    console.log(res);
     if (res && res.data) {
-      if (res.data.code === 'unauthorized') {
-        alert('존재하지 않는 아이디 혹은 비밀번호입니다.');
-      } else if (res.data.code === 'error') {
-        alert('로그인 과정에서 오류가 발생하였습니다.');
+      if (
+        res.data.code === 'unauthorized' &&
+        res.data.message === 'password incorrect'
+      ) {
+        alert('비밀번호를 잘못 입력하셨습니다.');
+      } else if (res.data.code === 'unauthorized') {
+        alert('존재하지 않는 아이디입니다.');
       } else if (res.data.code === 'ok') {
         setLocalStorage(res.data.data);
-        history.push(`/${localStorage.getItem('user_seq')}`);
+        userInfoRequest();
       }
     }
-  }, [res]);
+  }, [res, userInfoRequest]);
+
+  useEffect(() => {
+    if (userInfoRes && userInfoRes.data) {
+      if (userInfoRes.data.code !== 'ok') {
+        alert('정보를 가져오는 과정에서 오류가 발생하였습니다.');
+      } else {
+        console.log(userInfoRes.data.data);
+        // TODO: save to redux
+        // saveUserInfoToRedux();
+        history.push(userInfoRes.data.data.url);
+      }
+    }
+  }, [userInfoRes]);
+
+  // useEffect(() => {
+  //   console.log(savedUserInfo);
+  // }, [savedUserInfo]);
 
   const handleLocalJoin = () => {
     history.push({

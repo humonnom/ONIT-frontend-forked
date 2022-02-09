@@ -54,6 +54,12 @@ export function useRequestAuth(props) {
       })
       .catch((err) => {
         console.log(err);
+        setRes({
+          data: {
+            code: 'error',
+            message: '404 not found-server connection failed',
+          },
+        });
       });
   }, [endpoint, method, data]);
 
@@ -69,6 +75,11 @@ export function useRequestAuth(props) {
       }
     }
   }, [resultRes]);
+
+  useEffect(() => {
+    console.log('!!!!!renewStatus');
+    console.log(renewStatus);
+  }, [renewStatus]);
 
   // 토큰을 갱신하는 함수를 만듭니다.
   const renewToken = useCallback(() => {
