@@ -20,6 +20,7 @@ import NormalWrapper from './Wrapper/NormalWrapper';
 
 import RenewAccessToken from './RenewAccessToken';
 import HandleKakaoLogin from './login/HandleKakaoLogin';
+import Login from './Login';
 
 export {
   PageWrapper,
@@ -39,4 +40,5 @@ export {
   RenewAccessToken,
   HandleKakaoLogin,
   Footer,
+  Login,
 };

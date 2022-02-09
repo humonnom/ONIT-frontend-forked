@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useHistory } from 'react-router';
 import { PageWrapper, ToolBar, EditModeGrid, EditWrapper } from '../components';
 import { useWidgetData } from '../hooks/useWidgetData';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
@@ -14,11 +13,9 @@ function EditMode() {
     modal: state.info.modal,
   }));
   const pageUserSeq = getPageUser();
-  // const userSeq = localStorage.getItem('user_seq');
   const { res } = useWidgetData(pageUserSeq, 'edit');
   const [storeRequired, setStoreRequired] = useState(false);
   const dispatch = useDispatch();
-  // const history = useHistory();
 
   const setWidgetState = (widget_data) => {
     const convertedForRedux = convertForRedux(widget_data);
@@ -44,7 +41,8 @@ function EditMode() {
       const { code } = res.data;
       if (isExpiredToken(code) || isInvalidToken(code) || isNotOwner(code)) {
         console.log(`=> error code ${res.data.code}`);
-        // history.push(`/${userSeq}`);
+      } else if (code === 'error') {
+        console.log(`=> error code ${res.data.code}`);
       } else {
         setStoreRequired(true);
       }

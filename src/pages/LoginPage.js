@@ -1,11 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import SigninRight from './SigninRight';
-import LeftOnit from '../asset/LeftOnit.png';
-import { Footer } from '../components';
+import onit_illust from '../asset/onit_illust.png';
+import { Footer, Login } from '../components';
 // HACK: dongslee 다른 파일처럼 css를 JSX 바깥으로 빼주세요.
-function RenderLoginPage() {
+function LoginPage() {
   return (
     <div
       css={css`
@@ -37,7 +36,7 @@ function RenderLoginPage() {
               display: block;
               margin: auto;
             `}
-            src={LeftOnit}
+            src={onit_illust}
           />
         </div>
 
@@ -50,7 +49,7 @@ function RenderLoginPage() {
             width: 50%;
           `}
         >
-          <SigninRight />
+          <Login />
         </div>
       </div>
 
@@ -58,4 +57,4 @@ function RenderLoginPage() {
     </div>
   );
 }
-export default RenderLoginPage;
+export default LoginPage;

@@ -6,19 +6,20 @@ import {
   SplashPage,
   JoinPage,
   FeedbackPage,
-  SaveEditPageData,
+  SavePage,
   EditModePage,
   NormalModePage,
-  RenderLoginPage,
+  LoginPage,
 } from './pages';
 
 function App() {
+  const userUrl = 'juepark';
   return (
     <Router>
       <Switch>
         <Route exact path='/' component={SplashPage} />
         <Route exact path='/join' component={JoinPage} />
-        <Route exact path='/login' component={RenderLoginPage} />
+        <Route exact path='/login' component={LoginPage} />
         <Route exact path='/main' component={FeedbackPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
         <Route
@@ -27,8 +28,9 @@ function App() {
           component={RenewAccessToken}
         />
         <Route exact path='/:id/' component={NormalModePage} />
+        <Route exact path={userUrl} component={NormalModePage} />
         <Route exact path='/:id/edit' component={EditModePage} />
-        <Route exact path='/:id/save' component={SaveEditPageData} />
+        <Route exact path='/:id/save' component={SavePage} />
         <Route path='/'>
           <div>error</div>
         </Route>
