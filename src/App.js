@@ -13,6 +13,7 @@ import {
 } from './pages';
 
 function App() {
+  const userUrl = 'juepark';
   return (
     <Router>
       <Switch>
@@ -27,6 +28,7 @@ function App() {
           component={RenewAccessToken}
         />
         <Route exact path='/:id/' component={NormalModePage} />
+        <Route exact path={userUrl} component={NormalModePage} />
         <Route exact path='/:id/edit' component={EditModePage} />
         <Route exact path='/:id/save' component={SavePage} />
         <Route path='/'>
