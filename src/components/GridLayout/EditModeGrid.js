@@ -91,6 +91,23 @@ function EditModeGrid() {
     }
   };
 
+  // about grid style
+  const margin = 10;
+  const cols = 16;
+  const gridStyle = {
+    position: 'relative',
+    top: '-5px',
+    margin: '10',
+    width: '100%',
+    minWidth: '1124px',
+    minHeight: `100vh`,
+    backgroundSize: `calc((${windowWidth}px - ${margin}px) / ${cols}) calc((${windowWidth}px - ${margin}px) / ${cols})`,
+    backgroundPosition: `${margin / 2 - 2}px ${margin / 2 - 1}px`,
+    backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
+  linear-gradient(to bottom, #eee 2px, transparent 2px)`,
+  };
+  // grid공식 가로 calc((100% - ${margin}px) / ${cols}) calc((100% - ${margin}px - X좌표 스크롤바픽셀) / ${cols})
+
   return (
     <>
       <div
@@ -166,22 +183,6 @@ const remmoveBtnCss = css`
   z-index: -999;
 `;
 
-// about grid style
-const margin = 10;
-const cols = 16;
-const gridStyle = {
-  position: 'relative',
-  top: '-5px',
-  margin: '10',
-  width: '100%',
-  minWidth: '1124px',
-  minHeight: `100vh`,
-  backgroundSize: `calc((100% - ${margin}px) / ${cols} + 1px) calc((100vw - ${margin}px - 16px + 16px) / ${cols})`,
-  backgroundPosition: `${margin / 2 - 2}px ${margin / 2 - 1}px`,
-  backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
-  linear-gradient(to bottom, #eee 2px, transparent 2px)`,
-};
-
 const mouseOverGridStyle = {
   position: 'absolute',
   top: '-5px',
@@ -192,5 +193,3 @@ const mouseOverGridStyle = {
   minHeight: `100vh`,
   zIndex: '-100',
 };
-
-// grid공식 가로 calc((100% - ${margin}px) / ${cols}) calc((100% - ${margin}px - X좌표 스크롤바픽셀) / ${cols})

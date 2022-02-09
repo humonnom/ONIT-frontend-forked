@@ -21,7 +21,7 @@ function NormalModeGrid() {
         mylayout={staticLayout}
         className={css`
           position: relative;
-          top: -6px;
+          top: -5px;
           margin: 0 auto;
           width: 100%;
         `}
