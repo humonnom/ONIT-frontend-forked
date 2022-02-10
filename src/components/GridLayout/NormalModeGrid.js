@@ -1,6 +1,7 @@
 // @ts-check
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useMemo } from 'react';
-import { css } from '@emotion/css';
 import { useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
 import { WidgetElement } from '../Widgets/WidgetElement';
@@ -17,15 +18,7 @@ function NormalModeGrid() {
   const staticLayout = makeGridItemStatic(layoutInfo);
   const isGrid = useMemo(() => {
     return (
-      <GridLayout
-        mylayout={staticLayout}
-        className={css`
-          position: relative;
-          top: -5px;
-          margin: 0 auto;
-          width: 100%;
-        `}
-      >
+      <GridLayout mylayout={staticLayout} css={gridStyle}>
         {staticLayout.map((element) => (
           <div
             key={Number(element.i)}
@@ -40,5 +33,13 @@ function NormalModeGrid() {
 
   return <div style={{ position: 'relative' }}>{isGrid}</div>;
 }
+
+const gridStyle = css`
+  position: relative;
+  top: -5px;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 1124px;
+`;
 
 export default NormalModeGrid;
