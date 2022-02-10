@@ -16,6 +16,14 @@ import useWindowSize from './useWindowSize';
 
 function EditModeGrid() {
   const windowWidth = useWindowSize().width;
+  const minWindowWidth = useMemo(() => {
+    if (windowWidth > 1124) {
+      return windowWidth;
+    } else {
+      return 1124;
+    }
+  }, [windowWidth]);
+
   const widgetDefaultValue = {
     i: '0',
     w: 1,
@@ -78,8 +86,8 @@ function EditModeGrid() {
     if (isWidgetOverlap === false && e.clientX > 5) {
       const newData = { w: 1, h: 1, i: '0', widget_type: TYPE_MOUSE };
       console.log(e);
-      newData.x = Math.floor(((e.clientX - 5) * 16) / (windowWidth - 10));
-      newData.y = Math.floor((e.pageY * 16) / (windowWidth - 10));
+      newData.x = Math.floor(((e.clientX - 5) * 16) / (minWindowWidth - 10));
+      newData.y = Math.floor((e.pageY * 16) / (minWindowWidth - 10));
       setMouseOverWidget([
         {
           ...newData,
@@ -101,7 +109,7 @@ function EditModeGrid() {
     width: '100%',
     minWidth: '1124px',
     minHeight: `100vh`,
-    backgroundSize: `calc((${windowWidth}px - ${margin}px) / ${cols}) calc((${windowWidth}px - ${margin}px) / ${cols})`,
+    backgroundSize: `calc((${minWindowWidth}px - ${margin}px) / ${cols}) calc((${minWindowWidth}px - ${margin}px) / ${cols})`,
     backgroundPosition: `${margin / 2 - 2}px ${margin / 2 - 1}px`,
     backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
   linear-gradient(to bottom, #eee 2px, transparent 2px)`,

@@ -1,11 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { mouseover_widget } from '../../../asset';
 import useWindowSize from '../../GridLayout/useWindowSize';
 
 function MouseOverBox() {
-  const widgetWidth = (useWindowSize().width - 170) / 16 + 10;
+  const windowWidth = useWindowSize().width;
+  const minRowHieght = useMemo(() => {
+    if (windowWidth > 1124) {
+      return (windowWidth - 170) / 16 + 10;
+    } else {
+      return (1124 - 170) / 16 + 10;
+    }
+  }, [windowWidth]);
+  // rowHeight 공식 (width총길이 - margin * (col + 1)/ col) + margin
 
   const remmoveBtnCss = css`
     position: relative;
@@ -14,8 +22,8 @@ function MouseOverBox() {
     margin: 0;
     padding: 0;
     border: 0;
-    width: ${widgetWidth - 1}px;
-    height: ${widgetWidth}px;
+    width: ${minRowHieght}px;
+    height: ${minRowHieght}px;
   `;
 
   return (
