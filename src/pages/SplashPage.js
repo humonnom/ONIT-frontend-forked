@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useRequestAuth } from '../hooks/useRequestAuth';
 import { getApiEndpoint } from '../utils/util';
-
+// TODO: 언마운트 해결
 function SplashPage() {
   const history = useHistory();
 

@@ -120,8 +120,9 @@ function JoinPage() {
     if (res && res.data) {
       console.log(res);
       if (res.data.code === 'ok') {
-        // TODO: login 시키기 -> 토큰 달라고 해야되나?
-        history.push(`/${url.value}`);
+        // TODO: login 시키기는 나중에
+        history.push('/login');
+        // history.push(`/${url.value}`);
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
       }
@@ -170,7 +171,7 @@ function JoinPage() {
           <button
             type='button'
             css={BackButton}
-            onClick={() => history.push('/')}
+            onClick={() => history.push('/login')}
           >
             첫화면으로 돌아가기
           </button>

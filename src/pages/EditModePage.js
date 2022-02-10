@@ -30,7 +30,8 @@ function EditMode() {
       // TODO: code로 match 하는지 받을 수 있음
       console.log(code);
       if (code === 'error' && message === 'no user information') {
-        alert('page user not found');
+        alert('없는 페이지 입니다.');
+        history.push(`${pageUrl}`);
       } else if (code === 'error') {
         alert('db error');
       }

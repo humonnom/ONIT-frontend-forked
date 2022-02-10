@@ -20,7 +20,7 @@ function SaveEditPageData() {
     }
   }, [location]);
 
-  const endpoint = `${getApiEndpoint()}/user/${userSeq}/save`;
+  const endpoint = `${getApiEndpoint()}/user/${userSeq}/widgets/save`;
 
   const { res, request } = useRequestAuth({
     endpoint,

@@ -10,6 +10,7 @@ import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
 import { useRequestAuth } from '../hooks/useRequestAuth';
 // import useSaveUserInfo from '../hooks/useSaveUserInfo';
 
+// TODO: 4차 업데이트로 보류 => github issue에 올리기
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,13 +45,6 @@ function Login() {
     method: 'get',
   });
 
-  // const { res: savedUserInfo, request: saveUserInfoToRedux } = useSaveUserInfo({
-  //   url: 'normal',
-  //   nickname: '주은',
-  //   userSeq: 73,
-  //   field: ['painting'],
-  // });
-
   const handleKakaoLogin = () => {
     const endpoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
     window.location.assign(endpoint);
@@ -58,8 +52,16 @@ function Login() {
   const history = useHistory();
 
   const handleLocalLogin = () => {
-    console.log('로그인 요청');
-    request();
+    // TODO: state 검사 해야됨('ok' 일때만 요청 하도록)
+    if (email.state !== 'ok' && password.state !== 'ok') {
+      alert('아이디와 비밀번호를 입력해주세요.');
+    } else if (email.state !== 'ok') {
+      alert('아이디를 입력해주세요.');
+    } else if (password.state !== 'ok') {
+      alert('비밀번호를 입력해주세요.');
+    } else {
+      request();
+    }
   };
 
   useEffect(() => {
@@ -72,6 +74,7 @@ function Login() {
       } else if (res.data.code === 'unauthorized') {
         alert('존재하지 않는 아이디입니다.');
       } else if (res.data.code === 'ok') {
+        console.log(res.data.data);
         setLocalStorage(res.data.data);
         userInfoRequest();
       }
@@ -80,6 +83,7 @@ function Login() {
 
   useEffect(() => {
     if (userInfoRes && userInfoRes.data) {
+      console.log(userInfoRes);
       if (userInfoRes.data.code !== 'ok') {
         alert('정보를 가져오는 과정에서 오류가 발생하였습니다.');
       } else {
