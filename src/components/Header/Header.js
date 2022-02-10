@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
 import { logout } from '../../utils/router';
 
-function Header({ userMatch, pageUserId, pageUserName, pageType }) {
+function Header({ userMatch, pageUrl, pageUserName, pageType }) {
+  const history = useHistory();
   if (pageType === 'main') {
-    const user_seq = localStorage.getItem('user_seq');
     return (
       <HeaderWrapper>
         <div css={[flex, flexBtw]}>
@@ -26,7 +27,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
 
             <a
               href='#'
-              onClick={() => window.location.assign(`/${user_seq}`)}
+              onClick={() => history.push(`/${pageUrl}`)}
               css={marginRight17}
             >
               <img alt='img' src={mypage} css={height26} />
@@ -41,8 +42,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
         </div>
       </HeaderWrapper>
     );
-  } else {
-    const user_seq = localStorage.getItem('user_seq');
+  } else if (pageType === 'normal') {
     return (
       <HeaderWrapper>
         <div css={[flex, flexBtw]}>
@@ -62,7 +62,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
                 <button
                   type='button'
                   css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
-                  onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+                  onClick={() => history.push(`/${pageUrl}/edit`)}
                 >
                   페이지 수정
                 </button>
@@ -71,7 +71,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
             {!userMatch && (
               <a
                 href='#'
-                onClick={() => window.location.assign(`/${user_seq}`)}
+                onClick={() => history.push(`/${pageUrl}`)}
                 css={marginRight17}
               >
                 <img alt='img' src={mypage} css={height26} />

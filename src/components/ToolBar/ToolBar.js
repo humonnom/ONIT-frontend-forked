@@ -31,7 +31,8 @@ function ToolBar() {
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
-  const user_seq = localStorage.getItem('user_seq');
+  // TODO: 임시
+  const pageUrl = localStorage.getItem('page_url');
 
   const widgetList = [
     { type: 'image', label: '그림', emoji: img, selected: img_selected },
@@ -102,7 +103,7 @@ function ToolBar() {
             type='button'
             css={[commonButtonStyle, cancelButtonWidth]}
             onClick={() => {
-              window.location.assign(`/${user_seq}`);
+              history.push(`/${pageUrl}`);
             }}
           >
             저장하지 않고 나가기
@@ -113,7 +114,7 @@ function ToolBar() {
             onClick={() => {
               const postData = convertForServer(widgets.list);
               history.push({
-                pathname: `/${user_seq}/save`,
+                pathname: `/${pageUrl}/save`,
                 state: { postData },
               });
             }}
