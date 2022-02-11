@@ -1,6 +1,22 @@
-<svg id="video" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <g id="video-square">
-    <path id="Vector" d="M18.92,0H7.747C2.893,0,0,2.893,0,7.747v11.16c0,4.867,2.893,7.76,7.747,7.76h11.16c4.853,0,7.747-2.893,7.747-7.747V7.747C26.667,2.893,23.773,0,18.92,0ZM16.88,15.64l-1.707.987-1.707.987c-2.2,1.267-4,.227-4-2.307V11.36c0-2.547,1.8-3.573,4-2.307l1.707.987,1.707.987C19.08,12.293,19.08,14.373,16.88,15.64Z" transform="translate(2.667 2.667)" fill="#666"/>
-    <path id="Vector-2" data-name="Vector" d="M0,0H32V32H0Z" fill="none" opacity="0"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="72" viewBox="0 0 36 72">
+    <defs>
+        <clipPath id="fnj8spti4a">
+            <path data-name="사각형 11" style="fill:none" d="M0 0h36v36H0z"/>
+        </clipPath>
+        <clipPath id="na4er6m8fb">
+            <path data-name="사각형 11" style="fill:#ef6408" d="M0 0h36v36H0z"/>
+        </clipPath>
+    </defs>
+    <g data-name="그룹 1782">
+        <g data-name="그룹 8">
+            <g data-name="그룹 7" style="clip-path:url(#fnj8spti4a)">
+                <path data-name="패스 5" d="M23.952 2.667h-12.57c-5.461 0-8.715 3.255-8.715 8.715v12.555c0 5.475 3.255 8.73 8.715 8.73h12.555c5.46 0 8.715-3.255 8.715-8.715v-12.57c.015-5.461-3.241-8.715-8.7-8.715m-2.3 17.595-1.92 1.11-1.92 1.11c-2.475 1.425-4.5.255-4.5-2.6v-4.44c0-2.865 2.025-4.02 4.5-2.6l1.92 1.11 1.92 1.11c2.475 1.424 2.475 3.764 0 5.19" transform="translate(.333 .333)" style="fill:#666"/>
+            </g>
+        </g>
+        <g data-name="그룹 1767">
+            <g data-name="그룹 7" style="clip-path:url(#na4er6m8fb)" transform="translate(0 36)">
+                <path data-name="패스 5" d="M23.952 2.667h-12.57c-5.461 0-8.715 3.255-8.715 8.715v12.555c0 5.475 3.255 8.73 8.715 8.73h12.555c5.46 0 8.715-3.255 8.715-8.715v-12.57c.015-5.461-3.241-8.715-8.7-8.715m-2.3 17.595-1.92 1.11-1.92 1.11c-2.475 1.425-4.5.255-4.5-2.6v-4.44c0-2.865 2.025-4.02 4.5-2.6l1.92 1.11 1.92 1.11c2.475 1.424 2.475 3.764 0 5.19" transform="translate(.333 .333)" style="fill:#ef6408"/>
+            </g>
+        </g>
+    </g>
 </svg>

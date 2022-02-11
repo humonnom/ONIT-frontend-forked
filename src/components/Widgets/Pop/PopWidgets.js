@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
-import { REAL_HEADER_HEIGHT } from '../../../styles/style';
 import PopTypeComponent from './PopTypeComponent';
 // HACK: Eomhyunjun 함수이름 고쳐주세요
 function moragogiuyahalkkayo(modal) {
@@ -44,11 +43,11 @@ function PopWidgets() {
 
 const backGroundPopStyle = {
   position: 'fixed',
-  zIndex: '10',
-  top: `${REAL_HEADER_HEIGHT}`,
+  zIndex: '1000',
+  top: '0px',
   backgroundColor: 'rgba( 0, 0, 0, 0.2 )',
   width: '100vw',
-  minHeight: `calc(100vh - ${REAL_HEADER_HEIGHT})`,
+  minHeight: `calc(100vh)`,
 };
 
 // 이거 Css

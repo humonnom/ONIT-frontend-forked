@@ -67,7 +67,7 @@ export function WidgetElement({ element, mode }) {
     } else if (curInfo.widget_type === TYPE_VIDEO) {
       return <VideoBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_MOUSE) {
-      return <MouseOverBox />;
+      return <MouseOverBox element={element} />;
     } else if (curInfo.widget_type === TYPE_NONEDISPLAY) {
       return <></>;
     } else {
@@ -76,8 +76,7 @@ export function WidgetElement({ element, mode }) {
           key={curInfo.i}
           style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
         >
-          <center className='text'>{curInfo.i}</center>
-          <center>
+          <center className='text'>
             {curInfo.x}, {curInfo.y}
           </center>
         </div>

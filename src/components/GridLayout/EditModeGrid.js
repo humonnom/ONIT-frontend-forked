@@ -11,6 +11,8 @@ import {
   ACTION_EDIT,
   TYPE_MOUSE,
   TYPE_NONEDISPLAY,
+  ACTION_CREATE,
+  TYPE_NEW,
 } from '../../utils/constantValue';
 import useWindowSize from './useWindowSize';
 
@@ -40,6 +42,7 @@ function EditModeGrid() {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
+
   // delete처리 된 위젯은 그리드에 띄우지 않기 위해 필터링해줌
   const getVisibleWidgetsList = useMemo(
     () => () => {
@@ -51,6 +54,39 @@ function EditModeGrid() {
     [widgets]
   );
   const layoutInfo = getVisibleWidgetsList(widgets.list);
+
+  // 빈 그리드 클릭 시 툴바 생성 기능
+  const sendToolbarInfo = () => {
+    if (isWidgetOverlap === false) {
+      makeNewWidget();
+    }
+  };
+
+  function makeNewWidget() {
+    const newWidget = {
+      widget_action: ACTION_CREATE,
+      widget_code: '',
+      widget_type: TYPE_NEW,
+      widget_data: {
+        thumbnail: ``,
+        url: '',
+      },
+      i: `${widgets.count + 1}`,
+      x: mouseOverWidget[0].x,
+      y: mouseOverWidget[0].y,
+      w: 2,
+      h: 2,
+      isResizable: false,
+    };
+
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        count: widgets.count + 1,
+        list: [...widgets.list, newWidget],
+      })
+    );
+  }
 
   // 그리드 수정 시 변경된 정보를 dispatch로 전송해줌.
   function renewWidgetsList(newItem) {
@@ -70,6 +106,7 @@ function EditModeGrid() {
       })
     );
   }
+
   // 마우스오버 위젯 그리드(기존 그리드와 레이어 되어 있음)
   const mouseOverWidgetGridForm = useMemo(() => {
     return (
@@ -85,7 +122,6 @@ function EditModeGrid() {
   const mouseWidget = (e) => {
     if (isWidgetOverlap === false && e.clientX > 5) {
       const newData = { w: 1, h: 1, i: '0', widget_type: TYPE_MOUSE };
-      console.log(e);
       newData.x = Math.floor(((e.clientX - 5) * 16) / (minWindowWidth - 10));
       newData.y = Math.floor((e.pageY * 16) / (minWindowWidth - 10));
       setMouseOverWidget([
@@ -118,13 +154,15 @@ function EditModeGrid() {
 
   return (
     <>
-      <div
+      <button
+        type='button'
         onMouseMove={mouseWidget}
         onMouseEnter={() => {}}
         onMouseLeave={() => {
           setMouseOverWidget([widgetDefaultValue]);
         }}
-        style={{ position: 'relative' }}
+        onClick={sendToolbarInfo}
+        css={removeBtnCss}
       >
         <GridLayout
           style={gridStyle}
@@ -165,20 +203,20 @@ function EditModeGrid() {
                 }}
               >
                 <WidgetElement element={element} mode='edit' />
-                <div css={remmoveBtnCss} />
+                <div css={mouseOverWidgetGard} />
               </div>
             );
           })}
         </GridLayout>
         {mouseOverWidgetGridForm}
-      </div>
+      </button>
     </>
   );
 }
 
 export default EditModeGrid;
 
-const remmoveBtnCss = css`
+const mouseOverWidgetGard = css`
   position: absolute;
   top: -6px;
   left: -6px;
@@ -189,6 +227,16 @@ const remmoveBtnCss = css`
   height: calc(100% + 13px);
   background-color: rgba(0, 0, 0, 0);
   z-index: -999;
+`;
+
+const removeBtnCss = css`
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  height: 100%;
 `;
 
 const mouseOverGridStyle = {

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PageWrapper, ToolBar, EditModeGrid, EditWrapper } from '../components';
+import { PageWrapper, EditModeGrid, EditWrapper } from '../components';
 import { useWidgetData } from '../hooks/useWidgetData';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 import { getPageUser } from '../utils/parsing';
 import { isExpiredToken, isInvalidToken, isNotOwner } from '../utils/util';
 import { convertForRedux } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
+import Header from '../components/Header/Header';
 
 function EditMode() {
   const { modal } = useSelector((state) => ({
@@ -51,7 +52,7 @@ function EditMode() {
 
   return (
     <PageWrapper>
-      <ToolBar />
+      <Header pageUserId={pageUserSeq} pageType='edit' />
       <EditWrapper>
         {modal.popUpWindow && <PopWidgets />}
         <EditModeGrid />
