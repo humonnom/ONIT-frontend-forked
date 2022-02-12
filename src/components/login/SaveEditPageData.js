@@ -1,11 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LoadingMessageStyle  from '../LoadingMessageStyle';
-
+import LoadingMessageStyle from '../LoadingMessageStyle';
 
 function RenderEditPage({ match }) {
-  console.log('SaveEditPageData page');
   const { userId } = match.params;
   const accessToken = localStorage.getItem('access_token');
 
@@ -32,7 +30,6 @@ function RenderEditPage({ match }) {
       } else if (response.data.code === 401) {
         setData(response.data.code);
       } else {
-        console.log('response data:', response.data);
         setData(response.data);
       }
     } catch (err) {

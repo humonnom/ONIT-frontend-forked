@@ -99,7 +99,6 @@ function JoinPage() {
   // event handler
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('postData');
     request();
   };
 
@@ -116,9 +115,7 @@ function JoinPage() {
 
   // post result
   useEffect(() => {
-    console.dir(res);
     if (res && res.data) {
-      console.log(res);
       if (res.data.code === 'ok') {
         // TODO: login 시키기는 나중에
         history.push('/login');
