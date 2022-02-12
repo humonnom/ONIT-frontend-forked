@@ -95,7 +95,7 @@ function JoinPage() {
   // event handler
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    request();
+    if (agreement) request();
   };
 
   const onFieldChange = useCallback(
