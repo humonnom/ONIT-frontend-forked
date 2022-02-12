@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import LoadingMessageStyle from '../LoadingMessageStyle';
 import { getApiEndpoint, setLocalStorage } from '../../utils/util';
 import useRequestJoin from '../../hooks/useRequestJoin';
+import { useRequestAuth } from '../../hooks/useRequestAuth';
 
 function HandleKakaoLogin() {
   const code = new URL(window.location.href).searchParams.get('code');
@@ -40,6 +41,21 @@ function HandleKakaoLogin() {
     return false;
   }, [res]);
 
+  const { res: userInfoRes, request: userInfoRequest } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/me`,
+    method: 'get',
+  });
+
+  useEffect(() => {
+    if (userInfoRes && userInfoRes.data) {
+      if (userInfoRes.data.code !== 'ok') {
+        alert('정보를 가져오는 과정에서 오류가 발생하였습니다.');
+      } else {
+        history.push(`/${userInfoRes.data.data.url}`);
+      }
+    }
+  }, [userInfoRes]);
+
   useEffect(() => {
     if (res && res.data.code === 'error') {
       console.error('login failed');
@@ -59,7 +75,7 @@ function HandleKakaoLogin() {
       });
     } else if (res && !joinRequired) {
       setLocalStorage(res.data.data);
-      history.push('/login');
+      userInfoRequest();
     }
   }, [res, joinRequired]);
 
