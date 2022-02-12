@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
 
 export default function ImageBox({ element, mode }) {
   const [hasLink, setHasLink] = useState(false);
@@ -29,11 +30,11 @@ export default function ImageBox({ element, mode }) {
             height: 100%;
           `}
         >
-          <img src={img_src} alt='profile' style={imgStyle} />
+          <img src={img_src} alt='profile' css={imgStyle} />
         </a>
       ) : (
         <>
-          <img src={img_src} alt='profile' style={imgStyle} />
+          <img src={img_src} alt='profile' css={imgStyle} />
         </>
       )}
     </>
@@ -41,9 +42,9 @@ export default function ImageBox({ element, mode }) {
 }
 
 // style
-const imgStyle = {
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  borderRadius: '10px',
-};
+const imgStyle = css`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: ${WIDGET_COMMON_RADIUS};
+`;

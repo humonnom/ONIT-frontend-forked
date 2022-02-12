@@ -9,7 +9,7 @@ const WidgetWrapper = ({ children }) => (
       justify-content: 'center';
       align-items: 'center';
       flex-direction: 'column';
-      border-radius: 10px;
+      border-radius: 20px;
       border: 1px grey solid;
     `}
   >

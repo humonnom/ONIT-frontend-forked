@@ -1,5 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
+import { css } from '@emotion/react';
 import { YoutubeVideo } from '../..';
+import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
 
 export default function VideoBox({ element, mode }) {
   function getVideoCode(url) {
@@ -16,17 +19,17 @@ export default function VideoBox({ element, mode }) {
       {mode === 'normal' && videoCode !== '' ? (
         videoCode !== '' && <YoutubeVideo embedId={videoCode} />
       ) : (
-        <img src={thumbnail} alt='profile' style={imgStyle} />
+        <img src={thumbnail} alt='profile' css={imgStyle} />
       )}
     </>
   );
 }
 
 // style
-const imgStyle = {
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  borderRadius: '10px',
-  background: '#000',
-};
+const imgStyle = css`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: ${WIDGET_COMMON_RADIUS};
+  background: #000;
+`;

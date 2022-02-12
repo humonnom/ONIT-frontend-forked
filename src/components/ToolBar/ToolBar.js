@@ -57,21 +57,38 @@ function ToolBar() {
   }));
 
   const NewWidgetButtons = new_widget_button_list.map((tool) => (
-    <ToolBarButton
-      key={tool.key}
-      action={tool.onClick}
-      emoji={tool.emoji}
-      type={tool.type}
-      label={tool.label}
-    />
+    <li css={deleteListStyle}>
+      <ToolBarButton
+        key={tool.key}
+        action={tool.onClick}
+        emoji={tool.emoji}
+        type={tool.type}
+        label={tool.label}
+      />
+    </li>
   ));
 
-  return <div css={toolBar}>{NewWidgetButtons}</div>;
+  return (
+    <div css={toolBar}>
+      <ul css={deleteListStyle}>{NewWidgetButtons}</ul>
+    </div>
+  );
 }
 
 export default ToolBar;
 
 const toolBar = css`
-  position: relative;
-  top: 10px;
+  position: absolute;
+  top: -${30 + 60}px;
+  left: 100px;
+  width: 150px;
+  height: 60px;
+  border-radius: 10px;
+  background-color: #eeeeee;
+`;
+
+const deleteListStyle = css`
+  list-style-type: none;
+  float: left;
+  margin: 7.5px;
 `;

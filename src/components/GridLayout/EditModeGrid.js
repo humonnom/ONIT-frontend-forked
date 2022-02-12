@@ -4,8 +4,12 @@ import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GridLayout from './GridLayout';
 import MouseGridLayout from './MouseGridLayout';
-import { createReplacementWidgetsAction } from '../../redux/slice';
+import {
+  createReplacementModalAction,
+  createReplacementWidgetsAction,
+} from '../../redux/slice';
 import { WidgetElement } from '../Widgets/WidgetElement';
+import { WIDGET_COMMON_RADIUS } from '../../styles/style';
 import {
   ACTION_NONE,
   ACTION_EDIT,
@@ -39,8 +43,9 @@ function EditModeGrid() {
   const [mouseOverWidget, setMouseOverWidget] = useState([widgetDefaultValue]);
 
   const dispatch = useDispatch();
-  const { widgets } = useSelector((state) => ({
+  const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
 
   // delete처리 된 위젯은 그리드에 띄우지 않기 위해 필터링해줌
@@ -76,7 +81,6 @@ function EditModeGrid() {
       y: mouseOverWidget[0].y,
       w: 2,
       h: 2,
-      isResizable: false,
     };
 
     dispatch(
@@ -84,6 +88,12 @@ function EditModeGrid() {
         ...widgets,
         count: widgets.count + 1,
         list: [...widgets.list, newWidget],
+      })
+    );
+    dispatch(
+      createReplacementModalAction({
+        ...modal,
+        toolbarWindow: true,
       })
     );
   }
@@ -192,7 +202,7 @@ function EditModeGrid() {
                 key={Number(element.i)}
                 style={{
                   backgroundColor: 'lightgray',
-                  borderRadius: '10px',
+                  borderRadius: WIDGET_COMMON_RADIUS,
                   width: 'calc(100% + 20px)',
                 }}
                 onMouseEnter={() => {

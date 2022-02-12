@@ -14,10 +14,12 @@ import {
   TYPE_MOUSE,
   TYPE_VIDEO,
   TYPE_NONEDISPLAY,
+  TYPE_NEW,
 } from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
 import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
+import NewBox from './New/NewBox';
 
 export function WidgetElement({ element, mode }) {
   const [hover, setHover] = useState(false);
@@ -62,7 +64,9 @@ export function WidgetElement({ element, mode }) {
   }
 
   function classifyBox(curInfo) {
-    if (curInfo.widget_type === TYPE_IMAGE) {
+    if (curInfo.widget_type === TYPE_NEW) {
+      return <NewBox />;
+    } else if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_VIDEO) {
       return <VideoBox element={element} mode={mode} />;
@@ -148,7 +152,7 @@ const positionAbsolute = css`
 const hoverBackground = css`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 20px;
   opacity: 0.2;
   background-color: #000;
 `;

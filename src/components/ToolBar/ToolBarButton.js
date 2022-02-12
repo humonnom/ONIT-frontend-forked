@@ -1,35 +1,35 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React from 'react';
-import { css } from '@emotion/css';
+
+const btnSize = 30;
 
 function ToolBarButton(props) {
   return (
-    <div
-      className={css`
-        margin: 0px 20px;
-        width: 32px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      `}
-    >
-      <button
-        onClick={props.action}
-        className={css`
-          border: none;
-          background-color: #fff;
-        `}
-        type='button'
-      >
-        <img
-          alt='img'
-          className={css`
-            height: 26px;
-          `}
-          src={props.emoji}
-        />
-      </button>
-    </div>
+    <button type='button' onClick={props.action} css={commonBtn}>
+      <div css={btnHover}>
+        <img alt='img' width={btnSize} px src={props.emoji} />
+      </div>
+    </button>
   );
 }
 
 export default ToolBarButton;
+
+const commonBtn = css`
+  position: relative;
+  width: ${btnSize}px;
+  height: ${btnSize}px;
+  appearance: none;
+  border: none;
+  overflow: hidden;
+`;
+
+const btnHover = css`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  &:hover {
+    top: -${btnSize}px;
+  }
+`;
