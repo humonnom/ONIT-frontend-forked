@@ -44,8 +44,10 @@ export function useInput({ inputType, id, type, ...args }) {
   }, [value]);
 
   useEffect(() => {
-    if (state === 'ok' && args.overlapCheckRequired) request();
-  }, [state]);
+    if (state === 'ok' && args.overlapCheckRequired) {
+      request();
+    }
+  }, [value, state]);
 
   const overlapState = useMemo(() => {
     if (res && res.data) {
