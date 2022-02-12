@@ -76,7 +76,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
           {!userMatch && (
             <a
               href='#'
-              onClick={() => window.location.assign(`/${user_seq}`)}
+              onClick={() => history.push(`/${pageUrl}`)}
               css={marginRight17}
             >
               <img alt='img' src={mypage} css={height26} />

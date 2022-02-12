@@ -1,45 +1,31 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
-// import { useRequestAuth } from '../hooks/useRequestAuth';
-// import { getApiEndpoint } from '../utils/util';
-// import NormalMode from './NormalModePage';
-// import RenderLoginPage from './RenderLoginPage';
-
+import { useRequestAuth } from '../hooks/useRequestAuth';
+import { getApiEndpoint } from '../utils/util';
+// TODO: 언마운트 해결
 function SplashPage() {
-  // const [login, setLogin] = useState(null);
-  // const endpoint = `${getApiEndpoint()}/me`;
-  const userSeq = localStorage.getItem('user_seq');
-  // const { res } = useRequestAuth(endpoint);
   const history = useHistory();
-  const accessToken = localStorage.getItem('access_token');
-  // const { res } = {
-  //   data: {
-  //     code: 'wrong_token',
-  //   },
-  // };
 
-  // useEffect(() => {
-  //   if (res) {
-  //     setLogin(res.data.code);
-  //   }
-  // }, [res]);
-
-  // useEffect(() => {
-  //   if (login === 'ok') {
-  //     history.push(`/${userSeq}`);
-  //   } else {
-  //     history.push(`/login`);
-  //   }
-  // }, [login]);
+  const { res, request } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/me`,
+    method: 'get',
+  });
 
   useEffect(() => {
-    if (userSeq && accessToken) {
-      console.log(`userSeq:${userSeq}`);
-      history.push(`/${userSeq}`);
-    } else {
-      history.push(`/login`);
+    console.log('request');
+    request();
+  }, [request]);
+
+  useEffect(() => {
+    console.log(res);
+    if (res && res.data) {
+      if (res.data.code === 'ok') {
+        history.push(`/${res.data.data.url}`);
+      } else {
+        history.push('/login');
+      }
     }
-  }, []);
+  }, [res]);
 
   return <center>onit</center>;
 }

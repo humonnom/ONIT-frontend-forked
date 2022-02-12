@@ -53,7 +53,13 @@ export function useRequestAuth(props) {
         setRes(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+        setRes({
+          data: {
+            code: 'error',
+            message: '404 not found-server connection failed',
+          },
+        });
       });
   }, [endpoint, method, data]);
 

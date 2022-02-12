@@ -4,8 +4,10 @@ const slice = createSlice({
   name: 'info',
   initialState: {
     user: {
-      name: '',
-      id: -1,
+      nickname: '',
+      user_seq: -1,
+      url: '',
+      field: [],
     },
     modal: {
       imgInputWindow: false,

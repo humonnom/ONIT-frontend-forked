@@ -19,25 +19,36 @@ function HandleKakaoLogin() {
   });
 
   useEffect(() => {
-    console.log('request');
     request();
   }, []);
 
-  // 기입 필요 유무 확인
   const joinRequired = useMemo(() => {
-    console.log(`🚨 res:`);
-    console.log(res);
     if (res && res.data) {
-      if (res.data.data && res.data.data.join_required) return true;
+      if (res.data.data && res.data.data.join_required) {
+        return true;
+      }
+    }
+    return false;
+  }, [res]);
+
+  const registered = useMemo(() => {
+    if (res && res.data) {
+      if (res.data.data && res.data.data.registered) {
+        return true;
+      }
     }
     return false;
   }, [res]);
 
   useEffect(() => {
     if (res && res.data.code === 'error') {
-      console.log('!! error: kakao login failed');
+      console.error('login failed');
+    } else if (res && registered) {
+      alert(
+        `${res.data.data.email}은 다른 방법으로 가입되어있습니다.\n아이디와 비밀번호를 이용해서 로그인해주세요.`
+      );
+      history.push('/login');
     } else if (res && joinRequired) {
-      console.log('💎 join');
       history.push({
         pathname: '/join',
         state: {
@@ -47,9 +58,8 @@ function HandleKakaoLogin() {
         },
       });
     } else if (res && !joinRequired) {
-      console.log('💎 login');
       setLocalStorage(res.data.data);
-      history.push(`/${localStorage.getItem('user_seq')}`);
+      history.push('/login');
     }
   }, [res, joinRequired]);
 

@@ -59,8 +59,6 @@ export function useInput({ inputType, id, type, ...args }) {
   }, [value, state]);
 
   const overlapState = useMemo(() => {
-    console.log(inputType);
-    console.log(res);
     if (res && res.data) {
       if (res.data.code === 'error') {
         alert('에러발생');

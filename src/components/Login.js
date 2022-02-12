@@ -7,6 +7,7 @@ import { getApiEndpoint, setLocalStorage } from '../utils/util';
 import useRequestJoin from '../hooks/useRequestJoin';
 import { useInput } from '../hooks/useInput';
 import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
+import { useRequestAuth } from '../hooks/useRequestAuth';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +30,6 @@ function Login() {
   });
 
   const endpointLogin = `${getApiEndpoint()}/auth/login/local`;
-
   const { res, request } = useRequestJoin({
     endpoint: endpointLogin,
     method: 'get',
@@ -38,6 +38,11 @@ function Login() {
       password: password.value,
     },
   });
+  const { res: userInfoRes, request: userInfoRequest } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/me`,
+    method: 'get',
+  });
+
   const handleKakaoLogin = () => {
     const endpoint = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
     window.location.assign(endpoint);
@@ -45,24 +50,42 @@ function Login() {
   const history = useHistory();
 
   const handleLocalLogin = () => {
-    console.log('로그인 요청');
-    request();
+    if (email.state !== 'ok' && password.state !== 'ok') {
+      alert('아이디와 비밀번호를 입력해주세요.');
+    } else if (email.state !== 'ok') {
+      alert('아이디를 입력해주세요.');
+    } else if (password.state !== 'ok') {
+      alert('비밀번호를 입력해주세요.');
+    } else {
+      request();
+    }
   };
 
   useEffect(() => {
-    console.log('res');
-    console.log(res);
     if (res && res.data) {
-      if (res.data.code === 'unauthorized') {
-        alert('존재하지 않는 아이디 혹은 비밀번호입니다.');
-      } else if (res.data.code === 'error') {
-        alert('로그인 과정에서 오류가 발생하였습니다.');
+      if (
+        res.data.code === 'unauthorized' &&
+        res.data.message === 'password incorrect'
+      ) {
+        alert('비밀번호를 잘못 입력하셨습니다.');
+      } else if (res.data.code === 'unauthorized') {
+        alert('존재하지 않는 아이디입니다.');
       } else if (res.data.code === 'ok') {
         setLocalStorage(res.data.data);
-        history.push(`/${localStorage.getItem('user_seq')}`);
+        userInfoRequest();
       }
     }
-  }, [res]);
+  }, [res, userInfoRequest]);
+
+  useEffect(() => {
+    if (userInfoRes && userInfoRes.data) {
+      if (userInfoRes.data.code !== 'ok') {
+        alert('정보를 가져오는 과정에서 오류가 발생하였습니다.');
+      } else {
+        history.push(userInfoRes.data.data.url);
+      }
+    }
+  }, [userInfoRes]);
 
   const handleLocalJoin = () => {
     history.push({
@@ -130,19 +153,6 @@ const Container = {
   boxShadow: '15px 15px 42px 0px rgb(190,190,190)',
   padding: '72px 24px 0',
 };
-
-// const inputStyle = {
-//   height: '50px',
-//   boxSizing: 'border-box',
-//   display: 'block',
-//   width: '100%',
-//   fontSize: '14px',
-//   color: 'rgba(187, 187, 187, 1)',
-//   borderRadius: '8px',
-//   border: '2px solid rgba(178, 178, 178, 1)',
-//   backgroundColor: 'rgba(255, 255, 255, 1)',
-//   textIndent: '15px',
-// };
 
 const LoginButtonStyle = {
   width: '352px',
