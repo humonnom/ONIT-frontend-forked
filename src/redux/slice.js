@@ -12,6 +12,7 @@ const slice = createSlice({
     modal: {
       imgInputWindow: false,
       imgChangeTargetId: -1,
+      toolbarWindow: false,
       popUpWindow: false,
       popUpWindowType: 'default',
     },

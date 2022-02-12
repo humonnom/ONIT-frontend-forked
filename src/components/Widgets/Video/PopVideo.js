@@ -43,7 +43,6 @@ function PopVideo(props) {
   };
 
   const handleChange = ({ target: { value } }) => {
-    console.log(value);
     setUrl(value);
   };
   const handleKeyDown = (event) => {

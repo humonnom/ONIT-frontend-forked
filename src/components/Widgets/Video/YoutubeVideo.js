@@ -1,4 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
+import { css } from '@emotion/react';
+import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
 
 function YoutubeVideo({ embedId }) {
   // const autoplay = props.autoplay || 'autoplay=1';
@@ -17,7 +20,7 @@ function YoutubeVideo({ embedId }) {
   const options = `?${reset_style}&${autoplay}&${mute}&${loop}`;
 
   return (
-    <div style={radiusStyle}>
+    <div css={radiusStyle}>
       <iframe
         width='100%'
         height='100%'
@@ -31,13 +34,13 @@ function YoutubeVideo({ embedId }) {
   );
 }
 
-const radiusStyle = {
-  width: '100%',
-  height: '100%',
-  background: '#000',
-  WebkitBorderRadius: '10px',
-  borderRadius: '10px',
-  overflow: 'hidden',
-};
+const radiusStyle = css`
+  width: 100%;
+  height: 100%;
+  background: #000;
+  webkit-border-radius: 10px;
+  border-radius: ${WIDGET_COMMON_RADIUS};
+  overflow: hidden;
+`;
 
 export default YoutubeVideo;

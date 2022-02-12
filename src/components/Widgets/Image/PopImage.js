@@ -47,7 +47,6 @@ function PopImage(props) {
   };
 
   const handleThumbChange = ({ target: { value } }) => {
-    console.log(value);
     setThumbnail(value);
   };
 

@@ -14,10 +14,12 @@ import {
   TYPE_MOUSE,
   TYPE_VIDEO,
   TYPE_NONEDISPLAY,
+  TYPE_NEW,
 } from '../../utils/constantValue';
 import ImageBox from './Image/ImageBox';
 import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
+import NewBox from './New/NewBox';
 
 export function WidgetElement({ element, mode }) {
   const [hover, setHover] = useState(false);
@@ -49,25 +51,24 @@ export function WidgetElement({ element, mode }) {
   };
   function getNewWidgetList(targetItemIndex, newAction) {
     const newList = JSON.parse(JSON.stringify(widgets.list));
-    // console.log(targetItemCode);
     const found = newList.find((widget) => widget.i === targetItemIndex);
     if (found.widget_action === ACTION_CREATE && newAction === ACTION_DELETE) {
       found.widget_action = newAction;
     } else if (found.widget_action !== ACTION_CREATE) {
       found.widget_action = newAction;
     }
-    // console.log(found);
-    // TODO: 만들자마자 삭제한 위젯도 widget_action 'D'로 보내면 되는지 확인
     return newList;
   }
 
   function classifyBox(curInfo) {
-    if (curInfo.widget_type === TYPE_IMAGE) {
+    if (curInfo.widget_type === TYPE_NEW) {
+      return <NewBox />;
+    } else if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_VIDEO) {
       return <VideoBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_MOUSE) {
-      return <MouseOverBox />;
+      return <MouseOverBox element={element} />;
     } else if (curInfo.widget_type === TYPE_NONEDISPLAY) {
       return <></>;
     } else {
@@ -76,8 +77,7 @@ export function WidgetElement({ element, mode }) {
           key={curInfo.i}
           style={{ backgroundColor: 'lightgray', borderRadius: '10px' }}
         >
-          <center className='text'>{curInfo.i}</center>
-          <center>
+          <center className='text'>
             {curInfo.x}, {curInfo.y}
           </center>
         </div>
@@ -103,9 +103,7 @@ export function WidgetElement({ element, mode }) {
             type='button'
             css={[commonBtn, closeBtn]}
             onClick={() => {
-              console.log(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'D');
-              console.log(newWidgetList);
               updateWidgets(newWidgetList);
             }}
           >
@@ -117,10 +115,8 @@ export function WidgetElement({ element, mode }) {
             type='button'
             css={[commonBtn, settingBtn]}
             onClick={() => {
-              console.log(layout.i);
               openEditWindow(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'E');
-              console.log(newWidgetList);
               updateWidgets(newWidgetList);
             }}
           >
@@ -149,7 +145,7 @@ const positionAbsolute = css`
 const hoverBackground = css`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 20px;
   opacity: 0.2;
   background-color: #000;
 `;

@@ -25,7 +25,6 @@ function EditImage() {
     );
   };
   const updateWidgets = (newList) => {
-    console.log(newList);
     dispatch(
       createReplacementWidgetsAction({
         ...widgets,
@@ -38,18 +37,13 @@ function EditImage() {
     const found = newList.find(
       (element) => element.i === modal.imgChangeTargetId
     );
-    console.log('edit target :');
-    console.log(found);
     if (found.widget_type === TYPE_IMAGE) {
       const src = { thumbnail: `${url}` };
       found.widget_data = src;
     }
-    console.log('new list');
-    console.log(newList);
     return newList;
   }
   const handleChange = ({ target: { value } }) => {
-    console.log(value);
     setUrl(value);
   };
 
