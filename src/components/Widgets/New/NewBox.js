@@ -12,9 +12,6 @@ function NewBox() {
 
   return (
     <div
-      onMouseEnter={() => {
-        console.log('');
-      }}
       css={newWidget}
     >
       {modal.toolbarWindow && <ToolBar />}

@@ -13,7 +13,6 @@ export default function ImageBox({ element, mode }) {
   useEffect(() => {
     if (element.widget_data.url !== '') {
       setHasLink(true);
-      console.log('has link');
     }
   }, []);
 

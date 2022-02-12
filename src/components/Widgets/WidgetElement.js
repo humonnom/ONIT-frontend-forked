@@ -51,15 +51,12 @@ export function WidgetElement({ element, mode }) {
   };
   function getNewWidgetList(targetItemIndex, newAction) {
     const newList = JSON.parse(JSON.stringify(widgets.list));
-    // console.log(targetItemCode);
     const found = newList.find((widget) => widget.i === targetItemIndex);
     if (found.widget_action === ACTION_CREATE && newAction === ACTION_DELETE) {
       found.widget_action = newAction;
     } else if (found.widget_action !== ACTION_CREATE) {
       found.widget_action = newAction;
     }
-    // console.log(found);
-    // TODO: 만들자마자 삭제한 위젯도 widget_action 'D'로 보내면 되는지 확인
     return newList;
   }
 
@@ -106,9 +103,7 @@ export function WidgetElement({ element, mode }) {
             type='button'
             css={[commonBtn, closeBtn]}
             onClick={() => {
-              console.log(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'D');
-              console.log(newWidgetList);
               updateWidgets(newWidgetList);
             }}
           >
@@ -120,10 +115,8 @@ export function WidgetElement({ element, mode }) {
             type='button'
             css={[commonBtn, settingBtn]}
             onClick={() => {
-              console.log(layout.i);
               openEditWindow(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'E');
-              console.log(newWidgetList);
               updateWidgets(newWidgetList);
             }}
           >

@@ -52,7 +52,6 @@ function ToolBar() {
           })
         );
       }
-      console.log(`add ${value.type}`);
     },
   }));
 
