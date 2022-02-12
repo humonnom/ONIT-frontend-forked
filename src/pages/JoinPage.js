@@ -31,10 +31,6 @@ function JoinPage() {
 
   const { endpoint, joinType, userEmail } = location.state;
 
-  // TODO: 필드 index => string
-  // field: “design,digital_art”
-
-  // create inputs
   const email = useInput({
     inputType: 'email',
     id: 'email',
@@ -113,13 +109,14 @@ function JoinPage() {
     [field]
   );
 
-  // post result
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
-        // TODO: login 시키기는 나중에
-        history.push('/login');
-        // history.push(`/${url.value}`);
+        if (joinType === 'local') {
+          history.push('/login');
+        } else if (joinType === 'kakao') {
+          history.push(`/${url.value}`);
+        }
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
       }
