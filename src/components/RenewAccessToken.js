@@ -25,7 +25,6 @@ function RenewAccessToken() {
       });
       // TODO: refresh 토큰도 만료가 된 경우, 로그인 절차부터 다시 진행하도록 유도하기
       const axiosData = response.data;
-      console.log(response);
       if (axiosData.code === 401) {
         setTokens(axiosData.code);
         alert('로그인을 다시 하세요.');

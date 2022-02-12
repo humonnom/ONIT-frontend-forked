@@ -25,17 +25,13 @@ function EditMode() {
 
   const pageUserInfo = useMemo(() => {
     if (pageUserRes && pageUserRes.data) {
-      console.log(pageUserRes);
       const { code, data, message } = pageUserRes.data;
-      // TODO: code로 match 하는지 받을 수 있음
-      console.log(code);
       if (code === 'error' && message === 'no user information') {
         alert('없는 페이지 입니다.');
         history.push(`${pageUrl}`);
       } else if (code === 'error') {
         alert('db error');
       }
-      console.log(data);
       if (data) return data;
     }
     return null;
@@ -78,31 +74,25 @@ function EditMode() {
   };
 
   useEffect(() => {
-    console.log('edit page');
     pageUserRequest();
   }, []);
 
   useEffect(() => {
     if (pageUserSeq) {
-      console.log(pageUserSeq);
       widgetRequest();
     }
   }, [pageUserSeq, widgetRequest]);
 
   const widgetsData = useMemo(() => {
     if (widgetRes && widgetRes.data) {
-      const { code: resCode, data } = widgetRes;
-      console.log(resCode);
-      console.log(data);
+      const { data } = widgetRes;
       return data;
     }
     return null;
   }, [widgetRes]);
 
   useEffect(() => {
-    console.log(widgetsData);
     if (widgetsData) {
-      console.log('set');
       setWidgetState(widgetsData.widget_list);
     }
   }, [widgetsData]);

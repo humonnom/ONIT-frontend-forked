@@ -29,7 +29,6 @@ function SaveEditPageData() {
   });
 
   useEffect(() => {
-    console.log('save');
     if (postData) {
       request();
     }

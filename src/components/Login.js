@@ -8,9 +8,7 @@ import useRequestJoin from '../hooks/useRequestJoin';
 import { useInput } from '../hooks/useInput';
 import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
 import { useRequestAuth } from '../hooks/useRequestAuth';
-// import useSaveUserInfo from '../hooks/useSaveUserInfo';
 
-// TODO: 4차 업데이트로 보류 => github issue에 올리기
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -52,7 +50,6 @@ function Login() {
   const history = useHistory();
 
   const handleLocalLogin = () => {
-    // TODO: state 검사 해야됨('ok' 일때만 요청 하도록)
     if (email.state !== 'ok' && password.state !== 'ok') {
       alert('아이디와 비밀번호를 입력해주세요.');
     } else if (email.state !== 'ok') {
@@ -74,7 +71,6 @@ function Login() {
       } else if (res.data.code === 'unauthorized') {
         alert('존재하지 않는 아이디입니다.');
       } else if (res.data.code === 'ok') {
-        console.log(res.data.data);
         setLocalStorage(res.data.data);
         userInfoRequest();
       }
@@ -83,21 +79,13 @@ function Login() {
 
   useEffect(() => {
     if (userInfoRes && userInfoRes.data) {
-      console.log(userInfoRes);
       if (userInfoRes.data.code !== 'ok') {
         alert('정보를 가져오는 과정에서 오류가 발생하였습니다.');
       } else {
-        console.log(userInfoRes.data.data);
-        // TODO: save to redux
-        // saveUserInfoToRedux();
         history.push(userInfoRes.data.data.url);
       }
     }
   }, [userInfoRes]);
-
-  // useEffect(() => {
-  //   console.log(savedUserInfo);
-  // }, [savedUserInfo]);
 
   const handleLocalJoin = () => {
     history.push({
@@ -165,19 +153,6 @@ const Container = {
   boxShadow: '15px 15px 42px 0px rgb(190,190,190)',
   padding: '72px 24px 0',
 };
-
-// const inputStyle = {
-//   height: '50px',
-//   boxSizing: 'border-box',
-//   display: 'block',
-//   width: '100%',
-//   fontSize: '14px',
-//   color: 'rgba(187, 187, 187, 1)',
-//   borderRadius: '8px',
-//   border: '2px solid rgba(178, 178, 178, 1)',
-//   backgroundColor: 'rgba(255, 255, 255, 1)',
-//   textIndent: '15px',
-// };
 
 const LoginButtonStyle = {
   width: '352px',

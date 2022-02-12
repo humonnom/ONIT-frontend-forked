@@ -53,7 +53,7 @@ export function useRequestAuth(props) {
         setRes(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setRes({
           data: {
             code: 'error',
@@ -75,11 +75,6 @@ export function useRequestAuth(props) {
       }
     }
   }, [resultRes]);
-
-  useEffect(() => {
-    console.log('!!!!!renewStatus');
-    console.log(renewStatus);
-  }, [renewStatus]);
 
   // 토큰을 갱신하는 함수를 만듭니다.
   const renewToken = useCallback(() => {

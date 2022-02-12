@@ -7,8 +7,6 @@ function useRequestJoin(props) {
 
   const request = useCallback(() => {
     let axiosPromise;
-    console.log('send data');
-    console.log(data);
     if (method === 'get') {
       axiosPromise = axios.get(endpoint, {
         headers,
@@ -25,7 +23,7 @@ function useRequestJoin(props) {
         setRes(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setRes({
           data: {
             code: 'error',

@@ -28,15 +28,12 @@ function NormalMode() {
 
   const pageUserInfo = useMemo(() => {
     if (pageUserRes && pageUserRes.data) {
-      console.log(pageUserRes);
       const { code, data, message } = pageUserRes.data;
-      console.log(code);
       if (code === 'error' && message === 'no user information') {
         alert('page user not found');
       } else if (code === 'error') {
         alert('db error');
       }
-      console.log(data);
       if (data) return data;
     }
     return null;
@@ -81,31 +78,25 @@ function NormalMode() {
   };
 
   useEffect(() => {
-    console.log('normal page');
     pageUserRequest();
   }, []);
 
   useEffect(() => {
     if (pageUserSeq) {
-      console.log(pageUserSeq);
       widgetRequest();
     }
   }, [pageUserSeq, widgetRequest]);
 
   const widgetsData = useMemo(() => {
     if (widgetRes && widgetRes.data) {
-      const { code: resCode, data } = widgetRes;
-      console.log(resCode);
-      console.log(data);
+      const { data } = widgetRes;
       return data;
     }
     return null;
   }, [widgetRes]);
 
   useEffect(() => {
-    console.log(widgetsData);
     if (widgetsData) {
-      console.log('set');
       setWidgetState(widgetsData.widget_list);
     }
   }, [widgetsData]);
