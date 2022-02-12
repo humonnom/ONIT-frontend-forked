@@ -43,20 +43,9 @@ export function useInput({ inputType, id, type, ...args }) {
     return 'ok';
   }, [value]);
 
-  // state가 ok이고 오버랩 체크가 필요한 경우에만 체크
   useEffect(() => {
     if (state === 'ok' && args.overlapCheckRequired) request();
-    // if (state === 'ok' && args.overlapCheckRequired) {
-    //   if (inputType === 'email' && value === 'joso0702@naver.com') {
-    //     resData.data.data.email_overlap = true;
-    //   } else if (inputType === 'url' && value === 'normal') {
-    //     resData.data.data.url_overlap = true;
-    //   } else if (inputType === 'nickname' && value === '주은') {
-    //     resData.data.data.nickname_overlap = true;
-    //   } else resData.data.data = {};
-    //   setRes(resData);
-    // }
-  }, [value, state]);
+  }, [state]);
 
   const overlapState = useMemo(() => {
     if (res && res.data) {
