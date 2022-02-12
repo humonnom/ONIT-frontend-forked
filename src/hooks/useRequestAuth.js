@@ -36,7 +36,6 @@ export function useRequestAuth(props) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     };
-
     let axiosPromise;
     if (method === 'get') {
       axiosPromise = axios.get(endpoint, {
@@ -54,7 +53,13 @@ export function useRequestAuth(props) {
         setRes(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+        setRes({
+          data: {
+            code: 'error',
+            message: '404 not found-server connection failed',
+          },
+        });
       });
   }, [endpoint, method, data]);
 
@@ -74,12 +79,19 @@ export function useRequestAuth(props) {
   // 토큰을 갱신하는 함수를 만듭니다.
   const renewToken = useCallback(() => {
     const refreshToken = localStorage.getItem('refresh_token');
+    const tokenData = {
+      data: {
+        refresh_token: refreshToken,
+      },
+    };
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('refresh_token')}`,
+    };
     setRenewStatus('pending');
     axios
       .get(`${getApiEndpoint()}/auth/token/refresh`, {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-        },
+        params: tokenData,
+        headers,
       })
       .then((res) => {
         if (isExpiredToken(res.data.code) || isInvalidToken(res.data.code)) {

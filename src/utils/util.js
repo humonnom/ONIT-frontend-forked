@@ -1,3 +1,6 @@
+import { useParams } from 'react-router-dom';
+import { getPageUser } from './parsing';
+
 export function getApiEndpoint() {
   const endpoint =
     process.env.REACT_APP_SERVER_DOMAIN ?? 'http://localhost:8080';
@@ -5,6 +8,17 @@ export function getApiEndpoint() {
     return `http://${endpoint}`;
   }
   return endpoint;
+}
+
+export function getLoginState() {
+  const user_seq = localStorage.getItem('user_seq');
+  const page_user_seq = getPageUser();
+
+  if (user_seq === page_user_seq) {
+    console.log(`user_seq: ${user_seq} page_user_seq: ${page_user_seq}`);
+    return true;
+  }
+  return false;
 }
 
 export function isInvalidToken(code) {
@@ -17,6 +31,10 @@ export function isNotOwner(code) {
 
 export function isExpiredToken(code) {
   return code === 419 || code === 'expired_token';
+}
+
+export function isWrongToken(code) {
+  return code === 'wrong_token';
 }
 
 export const regexNumber = /\d/gi;
@@ -44,4 +62,50 @@ export function isPassword(word) {
   if (!!numberLen + !!alphaLen + !!symbolLen < 2) return false;
   if (numberLen + alphaLen + symbolLen !== word.length) return false;
   return true;
+}
+
+export function setLocalStorage(data) {
+  if (data) {
+    const { tokens, user_info } = data;
+    localStorage.setItem('access_token', tokens.access_token);
+    localStorage.setItem('refresh_token', tokens.refresh_token);
+    localStorage.setItem('user_seq', user_info.user_seq);
+  }
+}
+// TODO: get field data from server
+
+export const getSelectedFieldData = (seletedIndexArr) => {
+  const indexArr = seletedIndexArr.sort();
+  const data = getFieldList();
+
+  const filtered = data.filter((item) => indexArr.includes(item.id));
+  const strings = filtered.reduce((acc, cur, index) => {
+    if (index === 0) return `${cur.name}`;
+    return `${acc},${cur.name}`;
+  }, '');
+  return strings;
+};
+
+export const getFieldList = () => [
+  { id: 1, label: '페인팅', name: 'painting' },
+  { id: 2, label: '조각', name: 'sculpture' },
+  { id: 3, label: '비디오아트', name: 'video_art' },
+  { id: 4, label: '디지털아트', name: 'digital_art' },
+  { id: 5, label: '현대미술', name: 'modern_art' },
+  { id: 6, label: '공예', name: 'crafts' },
+  { id: 7, label: '포토그래피', name: 'photography' },
+  { id: 8, label: '건축', name: 'architecture' },
+  { id: 9, label: '그래픽디자인', name: 'graphic_design' },
+  { id: 10, label: '일러스트레이션', name: 'illustration' },
+  { id: 11, label: '타이포그래피', name: 'typography' },
+  { id: 12, label: '브랜딩/편집', name: 'branding' },
+  { id: 13, label: 'UI/UX', name: 'ui_ux' },
+  { id: 14, label: '모션그래픽', name: 'motion_graphic' },
+  { id: 15, label: '캐릭터디자인', name: 'character_design' },
+  { id: 16, label: '순수예술', name: 'fine_art' },
+];
+
+export function getPageUrl() {
+  const { id } = useParams();
+  return id;
 }

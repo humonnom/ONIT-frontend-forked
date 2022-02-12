@@ -31,193 +31,55 @@ function ToolBar() {
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
-  const user_seq = localStorage.getItem('user_seq');
+  // TODO: 임시
+  const pageUrl = localStorage.getItem('page_url');
 
-  const new_widget_button_list = [
+  const widgetList = [
+    { type: 'image', label: '그림', emoji: img, selected: img_selected },
+    { type: 'video', label: '비디오', emoji: video, selected: video_selected },
+    { type: 'text', label: '텍스트', emoji: text, selected: text_selected },
     {
-      key: 0,
-      label: '그림',
-      emoji: img,
-      selected: img_selected,
-      type: 'image',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('이미지가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'image',
-            })
-          );
-        }
-        console.log('add image');
-      },
-    },
-    {
-      key: 1,
-      label: '영상',
-      emoji: video,
-      selected: video_selected,
-      type: 'video',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('비디오가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'video',
-            })
-          );
-        }
-      },
-    },
-    {
-      key: 2,
-      label: '텍스트',
-      emoji: text,
-      selected: text_selected,
-      type: 'text',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('비디오가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'text',
-            })
-          );
-        }
-      },
-    },
-    {
-      key: 3,
+      type: 'calendar',
       label: '달력',
       emoji: calendar,
       selected: calendar_selected,
-      type: 'calendar',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('비디오가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'calendar',
-            })
-          );
-        }
-      },
     },
     {
-      key: 4,
+      type: 'todo',
       label: '투두',
       emoji: todolist,
       selected: todolist_selected,
-      type: 'todo',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('비디오가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'todo',
-            })
-          );
-        }
-      },
     },
-    {
-      key: 5,
-      label: '시계',
-      emoji: clock,
-      selected: clock_selected,
-      type: 'clock',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('비디오가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'clock',
-            })
-          );
-        }
-      },
-    },
-    {
-      key: 6,
-      label: '방명록',
-      emoji: pin,
-      selected: pin_selected,
-      type: 'todo',
-      onClick: () => {
-        if (modal.popUpWindow === true) {
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: false,
-            })
-          );
-        } else {
-          console.log('비디오가 클릭되엇습니다');
-          dispatch(
-            createReplacementModalAction({
-              ...modal,
-              popUpWindow: true,
-              popUpWindowType: 'todo',
-            })
-          );
-        }
-      },
-    },
+    { type: 'clock', label: '시계', emoji: clock, selected: clock_selected },
+    { type: 'visit', label: '방명록', emoji: pin, selected: pin_selected },
   ];
+
+  const new_widget_button_list = widgetList.map((value, i) => ({
+    key: i,
+    label: value.label,
+    emoji: value.emoji,
+    selected: value.selected,
+    type: value.type,
+    onClick: () => {
+      if (modal.popUpWindow === true) {
+        dispatch(
+          createReplacementModalAction({
+            ...modal,
+            popUpWindow: false,
+          })
+        );
+      } else {
+        dispatch(
+          createReplacementModalAction({
+            ...modal,
+            popUpWindow: true,
+            popUpWindowType: 'image',
+          })
+        );
+      }
+      console.log(`add ${value.type}`);
+    },
+  }));
 
   const NewWidgetButtons = new_widget_button_list.map((tool) => (
     <ToolBarButton
@@ -241,7 +103,7 @@ function ToolBar() {
             type='button'
             css={[commonButtonStyle, cancelButtonWidth]}
             onClick={() => {
-              window.location.assign(`/${user_seq}`);
+              history.push(`/${pageUrl}`);
             }}
           >
             저장하지 않고 나가기
@@ -252,7 +114,7 @@ function ToolBar() {
             onClick={() => {
               const postData = convertForServer(widgets.list);
               history.push({
-                pathname: `/${user_seq}/save`,
+                pathname: `/${pageUrl}/save`,
                 state: { postData },
               });
             }}
@@ -286,15 +148,16 @@ const flexCenter = css`
 const commonButtonStyle = css`
   display: inline-block;
   text-align: center;
-  height: 26px;
-  border-radius: 8px;
+  height: 35px;
+  border-radius: 17px;
   border: none;
   font-size: 12px;
+  font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
-  color: #22222;
+  color: #707070;
   background-color: #eee;
   padding: 0px;
   &:hover {

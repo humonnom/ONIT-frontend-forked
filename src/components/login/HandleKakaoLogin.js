@@ -1,43 +1,67 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router';
 import LoadingMessageStyle from '../LoadingMessageStyle';
-import { getApiEndpoint } from '../../utils/util';
-// import { useDispatch } from 'react-redux';
+import { getApiEndpoint, setLocalStorage } from '../../utils/util';
+import useRequestJoin from '../../hooks/useRequestJoin';
 
 function HandleKakaoLogin() {
-  console.log('HandleKakaoLogin page');
   const code = new URL(window.location.href).searchParams.get('code');
-  console.log(`code: ${code}`);
-
-  const endPoint = `${getApiEndpoint()}/auth/login/kakao`;
-
-  const fetchTokens = async () => {
-    try {
-      const headers = { 'Authorization-Code': code };
-      if (process.env.NODE_ENV === 'development') {
-        headers['X-localhost'] = true;
-      }
-      const response = await axios.get(endPoint, {
-        headers,
-      });
-      const result = await response.data;
-      console.log(result);
-      localStorage.setItem('access_token', result.data.tokens.access_token);
-      localStorage.setItem('refresh_token', result.data.tokens.refresh_token);
-      localStorage.setItem('user_seq', result.data.user_info.user_seq);
-      // updateUserId(result.data.user_info.user_seq);
-      const user_seq = localStorage.getItem('user_seq');
-      window.location.assign(
-        `${process.env.REACT_APP_CLIENT_DOMAIN}/${user_seq}`
-      );
-    } catch (err) {
-      window.location.assign('/');
-    }
-  };
+  const endpoint = `${getApiEndpoint()}/auth/login/kakao`;
+  const history = useHistory();
+  const { res, request } = useRequestJoin({
+    endpoint,
+    method: 'get',
+    headers: { 'Authorization-Code': code },
+    data: {
+      'Authorization-Code': code,
+      localhost: true,
+    },
+  });
 
   useEffect(() => {
-    fetchTokens();
+    request();
   }, []);
+
+  const joinRequired = useMemo(() => {
+    if (res && res.data) {
+      if (res.data.data && res.data.data.join_required) {
+        return true;
+      }
+    }
+    return false;
+  }, [res]);
+
+  const registered = useMemo(() => {
+    if (res && res.data) {
+      if (res.data.data && res.data.data.registered) {
+        return true;
+      }
+    }
+    return false;
+  }, [res]);
+
+  useEffect(() => {
+    if (res && res.data.code === 'error') {
+      console.error('login failed');
+    } else if (res && registered) {
+      alert(
+        `${res.data.data.email}은 다른 방법으로 가입되어있습니다.\n아이디와 비밀번호를 이용해서 로그인해주세요.`
+      );
+      history.push('/login');
+    } else if (res && joinRequired) {
+      history.push({
+        pathname: '/join',
+        state: {
+          endpoint: `${getApiEndpoint()}/auth/join/kakao`,
+          joinType: 'kakao',
+          userEmail: res.data.data.email,
+        },
+      });
+    } else if (res && !joinRequired) {
+      setLocalStorage(res.data.data);
+      history.push('/login');
+    }
+  }, [res, joinRequired]);
 
   return <LoadingMessageStyle>로딩중..</LoadingMessageStyle>;
 }

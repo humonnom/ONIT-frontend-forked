@@ -1,17 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
 import { logout } from '../../utils/router';
 
-function Header({ userMatch, pageUserId, pageUserName, pageType }) {
+function Header({ userMatch, pageUrl, pageUserName, pageType }) {
+  const history = useHistory();
   if (pageType === 'main') {
-    const user_seq = localStorage.getItem('user_seq');
     return (
       <HeaderWrapper>
         <div css={[flex, flexBtw]}>
-          <a href='/main' css={marginLeft36}>
+          <a href='/main' css={marginLeft17}>
             <img alt='img' src={logo} css={height26} />
           </a>
           <div css={rightCloumn}>
@@ -26,8 +27,8 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
 
             <a
               href='#'
-              onClick={() => window.location.assign(`/${user_seq}`)}
-              css={marginRight36}
+              onClick={() => history.push(`/${pageUrl}`)}
+              css={marginRight17}
             >
               <img alt='img' src={mypage} css={height26} />
             </a>
@@ -41,12 +42,11 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
         </div>
       </HeaderWrapper>
     );
-  } else {
-    const user_seq = localStorage.getItem('user_seq');
+  } else if (pageType === 'normal') {
     return (
       <HeaderWrapper>
         <div css={[flex, flexBtw]}>
-          <a href='/main' css={marginLeft36}>
+          <a href='/main' css={marginLeft17}>
             <img alt='img' src={logo} css={height26} />
           </a>
           <div>
@@ -54,15 +54,15 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
               <>
                 <button
                   type='button'
-                  css={[commonButtonStyle, confirmButtonWidth, marginRight10]}
+                  css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
                   onClick={() => logout()}
                 >
                   로그아웃
                 </button>
                 <button
                   type='button'
-                  css={[commonButtonStyle, confirmButtonWidth, marginRight36]}
-                  onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+                  css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
+                  onClick={() => history.push(`/${pageUrl}/edit`)}
                 >
                   페이지 수정
                 </button>
@@ -71,8 +71,8 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
             {!userMatch && (
               <a
                 href='#'
-                onClick={() => window.location.assign(`/${user_seq}`)}
-                css={marginRight36}
+                onClick={() => history.push(`/${pageUrl}`)}
+                css={marginRight17}
               >
                 <img alt='img' src={mypage} css={height26} />
               </a>
@@ -80,7 +80,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
           </div>
         </div>
         <div css={[abosulteCenter, flex, height26]}>
-          <h3 css={[fontColorBlack]}>{pageUserName}님의 온잇</h3>
+          <p css={fontStyle}>{pageUserName}님의 온잇</p>
         </div>
       </HeaderWrapper>
     );
@@ -92,20 +92,29 @@ const height26 = css`
   height: 26px;
 `;
 
-const fontColorBlack = css`
-  color: #424242;
+const fontStyle = css`
+  font-size: 16.5px;
+  font-weight: 500;
+  line-height: 26px;
+  padding-top: 1px;
+  height: 26px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
 `;
 
-const marginLeft36 = css`
-  margin-left: 36px;
+const marginLeft17 = css`
+  margin-left: 17px;
 `;
 
-const marginRight36 = css`
-  margin-right: 36px;
+const marginRight17 = css`
+  margin-right: 17px;
 `;
 
-const marginRight10 = css`
-  margin-right: 10px;
+const marginRight12 = css`
+  margin-right: 12px;
 `;
 
 const flex = css`
@@ -126,21 +135,22 @@ const abosulteCenter = css`
 `;
 
 const confirmButtonWidth = css`
-  width: 99px;
+  width: 130px;
 `;
 
 const commonButtonStyle = css`
   display: inline-block;
   text-align: center;
-  height: 26px;
-  border-radius: 8px;
+  height: 35px;
+  border-radius: 17px;
   border: none;
   font-size: 12px;
+  font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
-  color: #22222;
+  color: #707070;
   background-color: #eee;
   padding: 0px;
   &:hover {

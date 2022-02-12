@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function UseWindowSize() {
+function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
   const [windowSize, setWindowSize] = useState({
@@ -12,8 +12,8 @@ function UseWindowSize() {
     function handleResize() {
       // Set window width/height to state
       setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight,
       });
     }
     // Add event listener
@@ -26,4 +26,4 @@ function UseWindowSize() {
   return windowSize;
 }
 
-export default UseWindowSize;
+export default useWindowSize;

@@ -1,20 +1,18 @@
-import { useEffect } from 'react';
 import { useRequestAuth } from './useRequestAuth';
 import { getApiEndpoint } from '../utils/util';
 
-export function useWidgetData(targetUserSeq, dest) {
-  const endpoint = `${getApiEndpoint()}/user/${targetUserSeq}/${dest}`;
+export function useWidgetData({ pageUserSeq }) {
+  const endpoint = `${getApiEndpoint()}/user/${pageUserSeq}/widgets`;
 
   const { res, request } = useRequestAuth({
     endpoint,
     method: 'get',
   });
 
-  useEffect(() => {
-    request();
-  }, []);
-
-  return { res };
+  return {
+    res,
+    request,
+  };
 }
 
 export default useWidgetData;

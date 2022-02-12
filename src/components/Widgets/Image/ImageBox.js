@@ -1,8 +1,8 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/css';
 
 export default function ImageBox({ element, mode }) {
-  console.log('이미지 박스');
   const [hasLink, setHasLink] = useState(false);
   // TODO: 디자이너분과 얘기한 후 이미지 받아오기
   const defaultImg =
@@ -32,7 +32,9 @@ export default function ImageBox({ element, mode }) {
           <img src={img_src} alt='profile' style={imgStyle} />
         </a>
       ) : (
-        <img src={img_src} alt='profile' style={imgStyle} />
+        <>
+          <img src={img_src} alt='profile' style={imgStyle} />
+        </>
       )}
     </>
   );
