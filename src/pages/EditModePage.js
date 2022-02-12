@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { PageWrapper, ToolBar, EditModeGrid, EditWrapper } from '../components';
+import { PageWrapper, EditModeGrid, EditWrapper, Header } from '../components';
 import { useWidgetData } from '../hooks/useWidgetData';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 import { getPageUrl, getApiEndpoint } from '../utils/util';
@@ -99,7 +99,7 @@ function EditMode() {
 
   return (
     <PageWrapper>
-      <ToolBar />
+      <Header pageUserId={pageUserSeq} pageType='edit' />
       <EditWrapper>
         {modal.popUpWindow && <PopWidgets />}
         <EditModeGrid />

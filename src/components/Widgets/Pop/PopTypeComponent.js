@@ -11,7 +11,6 @@ const PopTypeComponent = (props) => {
 
   // 모든 위젯 컴포넌트에 props.endPop() 넣어줘야함
   function classifyBox(curInfo) {
-    console.log(curInfo);
     if (curInfo.popUpWindowType === 'image') {
       return <PopImage endPop={props.endPop} />;
     } else if (curInfo.popUpWindowType === 'video') {

@@ -1,30 +1,79 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
 import { logout } from '../../utils/router';
+import { convertForServer } from '../../utils/convert';
 
 function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const history = useHistory();
-  if (pageType === 'main') {
-    return (
-      <HeaderWrapper>
-        <div css={[flex, flexBtw]}>
-          <a href='/main' css={marginLeft17}>
-            <img alt='img' src={logo} css={height26} />
-          </a>
-          <div css={rightCloumn}>
-            <button
-              type='button'
-              css={[commonButtonStyle, confirmButtonWidth]}
-              onClick={() => logout()}
-            >
-              로그아웃
-            </button>
-            <div />
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const user_seq = localStorage.getItem('user_seq');
+  const mainHeader = (
+    <>
+      <div css={[flex, flexBtw]}>
+        <a href='/main' css={marginLeft17}>
+          <img alt='img' src={logo} css={height26} />
+        </a>
+        <div css={rightCloumn}>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth]}
+            onClick={() => logout()}
+          >
+            로그아웃
+          </button>
+          <div />
 
+          <a
+            href='#'
+            onClick={() => window.location.assign(`/${user_seq}`)}
+            css={marginRight17}
+          >
+            <img alt='img' src={mypage} css={height26} />
+          </a>
+        </div>
+      </div>
+      <div css={[abosulteCenter, flex, searchBox]}>
+        <div>
+          <img alt='img' src={search} css={searchLogo} />
+        </div>
+        <span css={searchText}>Search</span>
+      </div>
+    </>
+  );
+
+  const normalHeader = (
+    <>
+      <div css={[flex, flexBtw]}>
+        <a href='/main' css={marginLeft17}>
+          <img alt='img' src={logo} css={height26} />
+        </a>
+        <div>
+          {userMatch && (
+            <>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
+                onClick={() => logout()}
+              >
+                로그아웃
+              </button>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
+                onClick={() => window.location.assign(`/${pageUrl}/edit`)}
+              >
+                페이지 수정
+              </button>
+            </>
+          )}
+          {!userMatch && (
             <a
               href='#'
               onClick={() => history.push(`/${pageUrl}`)}
@@ -32,62 +81,66 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             >
               <img alt='img' src={mypage} css={height26} />
             </a>
-          </div>
+          )}
         </div>
-        <div css={[abosulteCenter, flex, searchBox]}>
-          <div>
-            <img alt='img' src={search} css={searchLogo} />
-          </div>
-          <span css={searchText}>Search</span>
+      </div>
+      <div css={[abosulteCenter, flex, height26]}>
+        <p css={fontStyle}>{pageUserName}님의 온잇</p>
+      </div>
+    </>
+  );
+
+  const editHeader = (
+    <>
+      <div css={[flex, flexBtw]}>
+        <a href='/main' css={marginLeft17}>
+          <img alt='img' src={logo} css={height26} />
+        </a>
+        <div>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
+            onClick={() => {
+              window.location.assign(`/${user_seq}`);
+            }}
+          >
+            저장하지 않고 나가기
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
+            onClick={() => {
+              const postData = convertForServer(widgets.list);
+              history.push({
+                pathname: `/${user_seq}/save`,
+                state: { postData },
+              });
+            }}
+          >
+            저장
+          </button>
         </div>
-      </HeaderWrapper>
-    );
-  } else if (pageType === 'normal') {
-    return (
-      <HeaderWrapper>
-        <div css={[flex, flexBtw]}>
-          <a href='/main' css={marginLeft17}>
-            <img alt='img' src={logo} css={height26} />
-          </a>
-          <div>
-            {userMatch && (
-              <>
-                <button
-                  type='button'
-                  css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
-                  onClick={() => logout()}
-                >
-                  로그아웃
-                </button>
-                <button
-                  type='button'
-                  css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
-                  onClick={() => history.push(`/${pageUrl}/edit`)}
-                >
-                  페이지 수정
-                </button>
-              </>
-            )}
-            {!userMatch && (
-              <a
-                href='#'
-                onClick={() => history.push(`/${pageUrl}`)}
-                css={marginRight17}
-              >
-                <img alt='img' src={mypage} css={height26} />
-              </a>
-            )}
-          </div>
-        </div>
-        <div css={[abosulteCenter, flex, height26]}>
-          <p css={fontStyle}>{pageUserName}님의 온잇</p>
-        </div>
-      </HeaderWrapper>
-    );
+      </div>
+    </>
+  );
+
+  function chooseFitHeader() {
+    if (pageType === 'main') {
+      return mainHeader;
+    } else if (pageType === 'normal') {
+      return normalHeader;
+    } else if (pageType === 'edit') {
+      return editHeader;
+    } else {
+      return <div>정의되지 않은 타입입니다.</div>;
+    }
   }
+
+  return <HeaderWrapper>{chooseFitHeader()}</HeaderWrapper>;
 }
 
 export default Header;
+
 const height26 = css`
   height: 26px;
 `;
@@ -135,7 +188,7 @@ const abosulteCenter = css`
 `;
 
 const confirmButtonWidth = css`
-  width: 130px;
+  width: 132px;
 `;
 
 const commonButtonStyle = css`

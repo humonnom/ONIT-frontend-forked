@@ -22,14 +22,15 @@ function MouseOverBox() {
     margin: 0;
     padding: 0;
     border: 0;
-    width: ${minRowHieght}px;
+    width: ${minRowHieght - 1}px;
     height: ${minRowHieght}px;
+    background-color: rgba(0, 0, 0, 0);
   `;
 
   return (
-    <button css={[remmoveBtnCss]} type='button'>
+    <div css={[remmoveBtnCss]}>
       <img alt='img' width='100%' height='100%' src={mouseover_widget} />
-    </button>
+    </div>
   );
 }
 
