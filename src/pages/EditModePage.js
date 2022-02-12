@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PageWrapper, EditModeGrid, EditWrapper } from '../components';
+import { useHistory } from 'react-router';
+import { PageWrapper, EditModeGrid, EditWrapper, Header } from '../components';
 import { useWidgetData } from '../hooks/useWidgetData';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 import { getPageUrl, getApiEndpoint } from '../utils/util';
 import { convertForRedux } from '../utils/convert';
 import { createReplacementWidgetsAction } from '../redux/slice';
-import Header from '../components/Header/Header';
+import { useRequestAuth } from '../hooks/useRequestAuth';
 
 function EditMode() {
   const { modal } = useSelector((state) => ({

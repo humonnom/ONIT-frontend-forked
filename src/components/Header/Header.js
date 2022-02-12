@@ -8,7 +8,7 @@ import { logo, mypage, search } from '../../asset';
 import { logout } from '../../utils/router';
 import { convertForServer } from '../../utils/convert';
 
-function Header({ userMatch, pageUserId, pageUserName, pageType }) {
+function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const history = useHistory();
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
@@ -67,7 +67,7 @@ function Header({ userMatch, pageUserId, pageUserName, pageType }) {
               <button
                 type='button'
                 css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
-                onClick={() => window.location.assign(`/${pageUserId}/edit`)}
+                onClick={() => window.location.assign(`/${pageUrl}/edit`)}
               >
                 페이지 수정
               </button>

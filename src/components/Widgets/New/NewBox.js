@@ -10,13 +10,7 @@ function NewBox() {
     modal: state.info.modal,
   }));
 
-  return (
-    <div
-      css={newWidget}
-    >
-      {modal.toolbarWindow && <ToolBar />}
-    </div>
-  );
+  return <div css={newWidget}>{modal.toolbarWindow && <ToolBar />}</div>;
 }
 
 export default NewBox;
