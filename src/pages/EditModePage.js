@@ -99,7 +99,7 @@ function EditMode() {
 
   return (
     <PageWrapper>
-      <Header pageUserId={pageUserSeq} pageType='edit' />
+      <Header userMatch pageUrl={pageUrl} pageType='edit' />
       <EditWrapper>
         {modal.popUpWindow && <PopWidgets />}
         <EditModeGrid />

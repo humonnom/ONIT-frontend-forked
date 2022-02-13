@@ -32,7 +32,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
 
           <a
             href='#'
-            onClick={() => window.location.assign(`/${user_seq}`)}
+            onClick={() => history.push(`/${user_seq}`)}
             css={marginRight17}
           >
             <img alt='img' src={mypage} css={height26} />
@@ -67,7 +67,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
               <button
                 type='button'
                 css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
-                onClick={() => window.location.assign(`/${pageUrl}/edit`)}
+                onClick={() => history.push(`/${pageUrl}/edit`)}
               >
                 페이지 수정
               </button>
@@ -101,7 +101,8 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             type='button'
             css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
             onClick={() => {
-              window.location.assign(`/${user_seq}`);
+              console.log(pageUrl);
+              history.push(`/${pageUrl}`);
             }}
           >
             저장하지 않고 나가기
