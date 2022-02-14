@@ -1,7 +1,17 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementUserAction } from '../redux/slice';
 
-function useSaveUserInfo() {
+export function useGetUserInfo() {
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.info.user,
+  }));
+
+  return {
+    userInfo: userInfo,
+  };
+}
+
+export function useSaveUserInfo() {
   const dispatch = useDispatch();
 
   const updateAll = ({ nickname, url, user_seq, field }) => {
@@ -16,7 +26,6 @@ function useSaveUserInfo() {
   };
 
   const save = (data) => {
-    console.log(data);
     if (data) {
       updateAll(data);
     }
@@ -26,5 +35,3 @@ function useSaveUserInfo() {
     save,
   };
 }
-
-export default useSaveUserInfo;
