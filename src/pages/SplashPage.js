@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useRequestAuth } from '../hooks/useRequestAuth';
+import useSaveUserInfo from '../hooks/useSaveUserInfo';
 import { getApiEndpoint } from '../utils/util';
-// TODO: 언마운트 해결
+
 function SplashPage() {
   const history = useHistory();
+  const [userInfo, setUserInfo] = useState(null);
 
   const { res, request } = useRequestAuth({
     endpoint: `${getApiEndpoint()}/me`,
@@ -13,13 +15,18 @@ function SplashPage() {
 
   useEffect(() => {
     request();
-  }, [request]);
+  }, []);
+
+  const { save } = useSaveUserInfo(userInfo);
 
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
+        setUserInfo(res.data.data);
+        save(res.data.data);
         history.push(`/${res.data.data.url}`);
       } else {
+        console.log('return to login page');
         history.push('/login');
       }
     }

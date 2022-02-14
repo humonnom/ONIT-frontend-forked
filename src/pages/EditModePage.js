@@ -17,7 +17,6 @@ function EditMode() {
   const history = useHistory();
   const pageUrl = getPageUrl();
 
-  // get page user's info
   const { res: pageUserRes, request: pageUserRequest } = useRequestAuth({
     endpoint: `${getApiEndpoint()}/url/${pageUrl}/user`,
     method: 'get',
