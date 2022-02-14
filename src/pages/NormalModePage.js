@@ -5,31 +5,30 @@ import {
   PageWrapper,
   Header,
 } from '../components';
-import { getPageUrl, getApiEndpoint } from '../utils/util';
-import { useWidgetData } from '../hooks/useWidgetData';
+import { getApiEndpoint, isError, isNotFound } from '../utils/util';
 import { useRequestAuth } from '../hooks/useRequestAuth';
 import useSaveWidgetData from '../hooks/useSaveWidgetData';
+import { useGetUrl } from '../hooks/useUtil';
 
 function NormalMode() {
-  const pageUrl = getPageUrl();
-  const [widgetData, setWidgetData] = useState([]);
+  const pageUrl = useGetUrl();
   const [userSeq, setUserSeq] = useState(null);
 
-  const { res: pageUserRes, request: pageUserRequest } = useRequestAuth({
+  const { res: pageUserRes, request: requestPageUserInfo } = useRequestAuth({
     endpoint: `${getApiEndpoint()}/url/${pageUrl}/user`,
     method: 'get',
   });
 
   useEffect(() => {
-    pageUserRequest();
-  }, []);
+    requestPageUserInfo();
+  }, [pageUrl]);
 
   const pageInfo = useMemo(() => {
     if (pageUserRes && pageUserRes.data) {
       const { code, data, message } = pageUserRes.data;
-      if (code === 'error' && message === 'no user information') {
+      if (isNotFound(code, message)) {
         alert('page user not found');
-      } else if (code === 'error') {
+      } else if (isError(code)) {
         alert('db error');
       }
       if (data) {
@@ -40,25 +39,22 @@ function NormalMode() {
     return null;
   }, [pageUserRes]);
 
-  const { res: widgetRes, request: widgetRequest } = useWidgetData({
-    userSeq,
-    dest: 'normal',
+  const { res: widgetRes, request: requestWidgetData } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/user/${userSeq}/widgets`,
+    method: 'get',
   });
 
   useEffect(() => {
     if (userSeq) {
-      widgetRequest();
+      requestWidgetData();
     }
-  }, [userSeq, widgetRequest]);
+  }, [userSeq, requestWidgetData]);
 
-  const { save: saveWidgetData } = useSaveWidgetData({
-    widgetData,
-  });
+  const { save: saveWidgetData } = useSaveWidgetData();
 
   useEffect(() => {
     if (widgetRes) {
-      setWidgetData(widgetRes.data.widget_list);
-      saveWidgetData();
+      saveWidgetData(widgetRes.data.widget_list);
     }
   }, [widgetRes]);
 

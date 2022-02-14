@@ -15,7 +15,6 @@ export function getLoginState() {
   const page_user_seq = getPageUser();
 
   if (user_seq === page_user_seq) {
-    console.log(`user_seq: ${user_seq} page_user_seq: ${page_user_seq}`);
     return true;
   }
   return false;
@@ -31,6 +30,14 @@ export function isNotOwner(code) {
 
 export function isExpiredToken(code) {
   return code === 419 || code === 'expired_token';
+}
+
+export function isNotFound(code, message) {
+  return code === 'error' && message === 'no user information';
+}
+
+export function isError(code) {
+  return code === 'error';
 }
 
 export function isWrongToken(code) {

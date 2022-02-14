@@ -11,7 +11,6 @@ function SplashPage() {
     if (loggedIn === true) {
       history.push(`/${userInfo.url}`);
     } else if (loggedIn === false) {
-      console.log('return to login page');
       history.push('/login');
     }
   }, [loggedIn, userInfo]);
