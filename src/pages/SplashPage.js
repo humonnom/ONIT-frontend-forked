@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
-import useRequestMyInfo from '../hooks/useRequestMyInfo';
+import { useMyInfo } from '../hooks/myInfo';
 
 function SplashPage() {
   const history = useHistory();
 
-  const { loggedIn, userInfo } = useRequestMyInfo();
+  const { loggedIn, userInfo } = useMyInfo();
 
   useEffect(() => {
     if (loggedIn === true) {

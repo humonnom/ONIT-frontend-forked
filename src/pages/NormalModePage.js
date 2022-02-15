@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   NormalWrapper,
   NormalModeGrid,
@@ -13,7 +14,7 @@ import { useGetUrl } from '../hooks/util';
 function NormalMode() {
   const pageUrl = useGetUrl();
   const [userSeq, setUserSeq] = useState(null);
-
+  const history = useHistory();
   const { res: pageUserRes, request: requestPageUserInfo } = useRequestAuth({
     endpoint: `${getApiEndpoint()}/url/${pageUrl}/user`,
     method: 'get',
@@ -28,8 +29,9 @@ function NormalMode() {
       const { code, data, message } = pageUserRes.data;
       if (isError(code) && urlOwnerNotFound(message)) {
         alert('페이지를 찾을 수 없습니다.');
+        history.goBack();
       } else if (isError(code)) {
-        alert('데이터 베이스 에레입니다.');
+        alert('데이터 베이스 에러입니다.');
       }
       if (data) {
         setUserSeq(data.user_seq);
