@@ -5,15 +5,14 @@ import { useMyInfo } from '../hooks/myInfo';
 function SplashPage() {
   const history = useHistory();
 
-  const { loggedIn, userInfo } = useMyInfo();
-
+  const { loggedIn, myInfo } = useMyInfo();
   useEffect(() => {
     if (loggedIn === true) {
-      history.push(`/${userInfo.url}`);
+      history.push(`/${myInfo.url}`);
     } else if (loggedIn === false) {
       history.push('/login');
     }
-  }, [loggedIn, userInfo]);
+  }, [loggedIn, myInfo]);
 
   return <center>onit</center>;
 }

@@ -4,17 +4,7 @@ import { useRequestAuth } from './useRequestAuth';
 import { getApiEndpoint } from '../utils/util';
 import { createReplacementUserAction } from '../redux/slice';
 
-export function useGetUserInfo() {
-  const { userInfo } = useSelector((state) => ({
-    userInfo: state.info.user,
-  }));
-
-  return {
-    userInfo: userInfo,
-  };
-}
-
-export function useSaveUserInfo() {
+export function useSaveMyInfo() {
   const dispatch = useDispatch();
 
   const updateAll = ({ nickname, url, user_seq, field }) => {
@@ -44,27 +34,39 @@ export function useMyInfo() {
     endpoint: `${getApiEndpoint()}/me`,
     method: 'get',
   });
-  // const { userInfo: currentInfo } = useGetUserInfo();
-  const { save } = useSaveUserInfo();
-  const [userInfo, setUserInfo] = useState(null);
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.info.user,
+  }));
+
+  const { save } = useSaveMyInfo();
+  const [myInfo, setMyInfo] = useState(null);
   const [loggedIn, setLoggedIn] = useState(null);
 
   useEffect(() => {
-    request();
-  }, []);
+    if (userInfo.user_seq === -1) {
+      request();
+    } else {
+      setMyInfo(userInfo);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
-        setLoggedIn(true);
-        setUserInfo(res.data.data);
-        save(userInfo);
+        setMyInfo(res.data.data);
+        save(res.data.data);
       }
     }
-  }, [save, res]);
+  }, [res]);
+
+  useEffect(() => {
+    if (myInfo) {
+      setLoggedIn(true);
+    }
+  }, [myInfo]);
 
   return {
     loggedIn,
-    userInfo,
+    myInfo,
   };
 }

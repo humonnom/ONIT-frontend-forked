@@ -1,13 +1,12 @@
-import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { createReplacementWidgetsAction } from '../redux/slice';
 import { convertForRedux } from '../utils/convert';
 
-function useSaveWidgetData() {
+export function useSaveWidget() {
   const dispatch = useDispatch();
 
-  const setWidgetState = (widgetsData) => {
-    const convertedForRedux = convertForRedux(widgetsData);
+  const setWidgetState = (widgetList) => {
+    const convertedForRedux = convertForRedux(widgetList);
     dispatch(
       createReplacementWidgetsAction({
         count: convertedForRedux.length,
@@ -16,15 +15,11 @@ function useSaveWidgetData() {
     );
   };
 
-  const save = useCallback((widgetsData) => {
-    if (widgetsData) {
-      setWidgetState(widgetsData);
+  const save = (data) => {
+    if (data) {
+      setWidgetState(data);
     }
-  }, []);
-
-  return {
-    save,
   };
-}
 
-export default useSaveWidgetData;
+  return { save };
+}

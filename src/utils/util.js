@@ -1,5 +1,4 @@
-import { useParams } from 'react-router-dom';
-import { getPageUser } from './parsing';
+import { useGetUrl } from '../hooks/util';
 
 export function getApiEndpoint() {
   const endpoint =
@@ -12,7 +11,7 @@ export function getApiEndpoint() {
 
 export function getLoginState() {
   const user_seq = localStorage.getItem('user_seq');
-  const page_user_seq = getPageUser();
+  const page_user_seq = useGetUrl();
 
   if (user_seq === page_user_seq) {
     return true;
@@ -112,7 +111,14 @@ export const getFieldList = () => [
   { id: 16, label: '순수예술', name: 'fine_art' },
 ];
 
-export function getPageUrl() {
-  const { id } = useParams();
-  return id;
+export const urlMatched = (myUrl, pageUrl) => {
+  return myUrl === pageUrl;
+};
+
+export function logout() {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('user_seq');
+  localStorage.removeItem('page_url');
+  window.location.assign('/login');
 }
