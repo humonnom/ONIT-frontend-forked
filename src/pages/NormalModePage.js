@@ -5,10 +5,10 @@ import {
   PageWrapper,
   Header,
 } from '../components';
-import { getApiEndpoint, isError, isNotFound } from '../utils/util';
+import { getApiEndpoint, isError, urlOwnerNotFound } from '../utils/util';
 import { useRequestAuth } from '../hooks/useRequestAuth';
 import useSaveWidgetData from '../hooks/useSaveWidgetData';
-import { useGetUrl } from '../hooks/useUtil';
+import { useGetUrl } from '../hooks/util';
 
 function NormalMode() {
   const pageUrl = useGetUrl();
@@ -26,10 +26,10 @@ function NormalMode() {
   const pageInfo = useMemo(() => {
     if (pageUserRes && pageUserRes.data) {
       const { code, data, message } = pageUserRes.data;
-      if (isNotFound(code, message)) {
-        alert('page user not found');
+      if (isError(code) && urlOwnerNotFound(message)) {
+        alert('페이지를 찾을 수 없습니다.');
       } else if (isError(code)) {
-        alert('db error');
+        alert('데이터 베이스 에레입니다.');
       }
       if (data) {
         setUserSeq(data.user_seq);

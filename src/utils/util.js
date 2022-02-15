@@ -32,8 +32,8 @@ export function isExpiredToken(code) {
   return code === 419 || code === 'expired_token';
 }
 
-export function isNotFound(code, message) {
-  return code === 'error' && message === 'no user information';
+export function urlOwnerNotFound(message) {
+  return message === 'no user information';
 }
 
 export function isError(code) {
