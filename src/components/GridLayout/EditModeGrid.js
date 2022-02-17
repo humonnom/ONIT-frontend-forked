@@ -46,7 +46,7 @@ function EditModeGrid() {
   const [mouseOverWidget, setMouseOverWidget] = useState([widgetDefaultValue]);
   const [selectedWidget, setSelectedWidget] = useState(null);
   const { x, y, floating, reference, strategy, update } = useFloating({
-    placement: 'right',
+    placement: 'top-right',
     middleware: [shift()],
   });
 
@@ -140,24 +140,22 @@ function EditModeGrid() {
   }, [mouseOverWidget]);
 
   // 마우스 위치를 계산하기 위한 함수
-  const mouseWidgetPosition = useCallback(
-    (e) => {
-      if (isWidgetOverlap === false && e.clientX > 5) {
-        const newData = { w: 1, h: 1, i: '0', widget_type: TYPE_MOUSE };
-        newData.x = Math.floor(((e.clientX - 5) * 16) / (minWindowWidth - 10));
-        newData.y = Math.floor((e.pageY * 16) / (minWindowWidth - 10));
-        setMouseOverWidget([
-          {
-            ...newData,
-            isResizable: false,
-          },
-        ]);
-      } else {
-        setMouseOverWidget([widgetDefaultValue]);
-      }
-    },
-    [setMouseOverWidget, isWidgetOverlap]
-  );
+  // usecallback으로 감싸면 왜인지 값이 틀리게 나옴 -> 이유는 나중에 꼭 알아볼 것
+  const mouseWidgetPosition = (e) => {
+    if (isWidgetOverlap === false && e.clientX > 5) {
+      const newData = { w: 1, h: 1, i: '0', widget_type: TYPE_MOUSE };
+      newData.x = Math.floor(((e.clientX - 5) * 16) / (minWindowWidth - 10));
+      newData.y = Math.floor((e.pageY * 16) / (minWindowWidth - 10));
+      setMouseOverWidget([
+        {
+          ...newData,
+          isResizable: false,
+        },
+      ]);
+    } else {
+      setMouseOverWidget([widgetDefaultValue]);
+    }
+  };
 
   // about grid style
   const margin = 10;
@@ -259,7 +257,7 @@ function EditModeGrid() {
             ref={floating}
             style={{
               position: strategy,
-              top: y ?? '',
+              top: y ?? '20px',
               left: x ?? '',
             }}
           >
