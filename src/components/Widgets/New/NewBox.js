@@ -1,16 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { useSelector } from 'react-redux';
-import ToolBar from '../../ToolBar/ToolBar';
 import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
 
 function NewBox() {
-  const { modal } = useSelector((state) => ({
-    modal: state.info.modal,
-  }));
-
-  return <div css={newWidget}>{modal.toolbarWindow && <ToolBar />}</div>;
+  return <div css={newWidget} />;
 }
 
 export default NewBox;

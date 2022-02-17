@@ -56,9 +56,8 @@ function ToolBar() {
   }));
 
   const NewWidgetButtons = new_widget_button_list.map((tool) => (
-    <li css={deleteListStyle}>
+    <li key={tool.key} css={deleteListStyle}>
       <ToolBarButton
-        key={tool.key}
         action={tool.onClick}
         emoji={tool.emoji}
         type={tool.type}
@@ -77,9 +76,6 @@ function ToolBar() {
 export default ToolBar;
 
 const toolBar = css`
-  position: absolute;
-  top: -${30 + 60}px;
-  left: 100px;
   width: 150px;
   height: 60px;
   border-radius: 10px;
