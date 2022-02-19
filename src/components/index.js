@@ -18,7 +18,6 @@ import Image from './Widgets/Image/Image';
 import EditWrapper from './Wrapper/EditWrapper';
 import NormalWrapper from './Wrapper/NormalWrapper';
 
-import RenewAccessToken from './RenewAccessToken';
 import HandleKakaoLogin from './login/HandleKakaoLogin';
 import Login from './Login';
 
@@ -37,7 +36,6 @@ export {
   AddVideo,
   EditImage,
   Image,
-  RenewAccessToken,
   HandleKakaoLogin,
   Footer,
   Login,

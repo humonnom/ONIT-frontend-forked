@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
-import { logout } from '../../utils/router';
+import { logout } from '../../utils/util';
 import { convertForServer } from '../../utils/convert';
 
 function Header({ userMatch, pageUrl, pageUserName, pageType }) {
@@ -113,7 +113,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             onClick={() => {
               const postData = convertForServer(widgets.list);
               history.push({
-                pathname: `/${user_seq}/save`,
+                pathname: `/${pageUrl}/save`,
                 state: { postData },
               });
             }}

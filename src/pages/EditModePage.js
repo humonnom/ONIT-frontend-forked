@@ -1,105 +1,57 @@
-import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { PageWrapper, EditModeGrid, EditWrapper, Header } from '../components';
-import { useWidgetData } from '../hooks/useWidgetData';
+import { useSelector } from 'react-redux';
 import PopWidgets from '../components/Widgets/Pop/PopWidgets';
-import { getPageUrl, getApiEndpoint } from '../utils/util';
-import { convertForRedux } from '../utils/convert';
-import { createReplacementWidgetsAction } from '../redux/slice';
+import { PageWrapper, EditModeGrid, EditWrapper, Header } from '../components';
+import { getApiEndpoint, urlMatched } from '../utils/util';
 import { useRequestAuth } from '../hooks/useRequestAuth';
+import { useSaveWidget } from '../hooks/widget';
+import { useGetUrl } from '../hooks/util';
+import { useMyInfo } from '../hooks/myInfo';
 
 function EditMode() {
   const { modal } = useSelector((state) => ({
     modal: state.info.modal,
   }));
-
+  const pageUrl = useGetUrl();
+  const [userSeq, setUserSeq] = useState(null);
+  const [userMatched, setUserMatched] = useState(null);
   const history = useHistory();
-  const pageUrl = getPageUrl();
+  const { myInfo } = useMyInfo();
 
-  // get page user's info
-  const { res: pageUserRes, request: pageUserRequest } = useRequestAuth({
-    endpoint: `${getApiEndpoint()}/url/${pageUrl}/user`,
+  useEffect(() => {
+    if (pageUrl && myInfo) {
+      if (myInfo && urlMatched(myInfo.url, pageUrl)) {
+        setUserMatched(true);
+        setUserSeq(myInfo.user_seq);
+      } else {
+        setUserMatched(false);
+        history.push(`/${pageUrl}`);
+      }
+    }
+  }, [pageUrl, myInfo]);
+
+  const { res: widgetRes, request: requestWidgetData } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/user/${userSeq}/widgets`,
     method: 'get',
   });
 
-  const pageUserInfo = useMemo(() => {
-    if (pageUserRes && pageUserRes.data) {
-      const { code, data, message } = pageUserRes.data;
-      if (code === 'error' && message === 'no user information') {
-        alert('없는 페이지 입니다.');
-        history.push(`${pageUrl}`);
-      } else if (code === 'error') {
-        alert('db error');
-      }
-      if (data) return data;
-    }
-    return null;
-  }, [pageUserRes]);
-
   useEffect(() => {
-    if (pageUserInfo && !pageUserInfo.user_matched) {
-      history.push(`/${pageUrl}`);
+    if (userSeq) {
+      requestWidgetData();
     }
-  }, [pageUserInfo]);
+  }, [userSeq, requestWidgetData]);
 
-  const pageUserSeq = useMemo(() => {
-    if (pageUserInfo) {
-      return pageUserInfo.user_seq;
-    }
-    return null;
-  }, [pageUserInfo]);
-
+  const { save } = useSaveWidget();
   useEffect(() => {
-    if (pageUserInfo) {
-      localStorage.setItem('user_seq', pageUserInfo.user_seq);
-      localStorage.setItem('page_url', pageUserInfo.url);
+    if (widgetRes) {
+      save(widgetRes.data.widget_list);
     }
-  }, [pageUserInfo]);
-
-  const { res: widgetRes, request: widgetRequest } = useWidgetData({
-    pageUserSeq,
-    dest: 'edit',
-  });
-
-  const dispatch = useDispatch();
-  const setWidgetState = (widget_data) => {
-    const convertedForRedux = convertForRedux(widget_data);
-    dispatch(
-      createReplacementWidgetsAction({
-        count: convertedForRedux.length,
-        list: convertedForRedux,
-      })
-    );
-  };
-
-  useEffect(() => {
-    pageUserRequest();
-  }, []);
-
-  useEffect(() => {
-    if (pageUserSeq) {
-      widgetRequest();
-    }
-  }, [pageUserSeq, widgetRequest]);
-
-  const widgetsData = useMemo(() => {
-    if (widgetRes && widgetRes.data) {
-      const { data } = widgetRes;
-      return data;
-    }
-    return null;
   }, [widgetRes]);
-
-  useEffect(() => {
-    if (widgetsData) {
-      setWidgetState(widgetsData.widget_list);
-    }
-  }, [widgetsData]);
 
   return (
     <PageWrapper>
-      <Header userMatch pageUrl={pageUrl} pageType='edit' />
+      {userMatched && <Header userMatch pageUrl={pageUrl} pageType='edit' />}
       <EditWrapper>
         {modal.popUpWindow && <PopWidgets />}
         <EditModeGrid />
@@ -107,4 +59,5 @@ function EditMode() {
     </PageWrapper>
   );
 }
+
 export default EditMode;
