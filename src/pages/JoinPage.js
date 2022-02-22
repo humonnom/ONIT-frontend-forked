@@ -112,11 +112,7 @@ function JoinPage() {
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
-        if (joinType === 'local') {
-          history.push('/login');
-        } else if (joinType === 'kakao') {
-          history.push(`/${url.value}`);
-        }
+        history.push('/login');
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
       }
