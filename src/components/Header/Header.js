@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
 import { logout } from '../../utils/util';
-import { convertForServer } from '../../utils/convert';
 import { useMyInfo } from '../../hooks/myInfo';
+import { usePostData } from '../../hooks/widget';
 
 function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const history = useHistory();
@@ -15,6 +15,15 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     widgets: state.info.widgets,
   }));
   const { loggedIn, myInfo } = useMyInfo();
+  const [postData, setPostData] = useState(null);
+
+  const { post } = usePostData();
+
+  useEffect(() => {
+    if (post && postData) {
+      post(postData);
+    }
+  }, [post, postData]);
 
   const goToMyPage = useMemo(() => {
     if (myInfo) {
@@ -108,11 +117,11 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             type='button'
             css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
             onClick={() => {
-              const postData = convertForServer(widgets.list);
-              history.push({
-                pathname: `/${pageUrl}/save`,
-                state: { postData },
-              });
+              setPostData(widgets.list);
+              // history.push({
+              //   pathname: `/${pageUrl}/save`,
+              //   state: { postData },
+              // });
             }}
           >
             저장
