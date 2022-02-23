@@ -6,7 +6,6 @@ import {
   SplashPage,
   JoinPage,
   FeedbackPage,
-  SavePage,
   EditModePage,
   NormalModePage,
   LoginPage,
@@ -23,7 +22,6 @@ function App() {
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
         <Route exact path='/:id/' component={NormalModePage} />
         <Route exact path='/:id/edit' component={EditModePage} />
-        <Route exact path='/:id/save' component={SavePage} />
         <Route path='/'>
           <div> 존재하지 않는 페이지입니다. </div>
         </Route>
