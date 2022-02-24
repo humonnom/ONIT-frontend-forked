@@ -24,7 +24,6 @@ export default function GridLayout(props) {
       className='layout'
       cols={16}
       rowHeight={minRowHieght}
-      px
       margin={margin}
       compactType={null}
       preventCollision

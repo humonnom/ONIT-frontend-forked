@@ -36,22 +36,13 @@ function ToolBar() {
     emoji: value.emoji,
     type: value.type,
     onClick: () => {
-      if (modal.popUpWindow === true) {
-        dispatch(
-          createReplacementModalAction({
-            ...modal,
-            popUpWindow: false,
-          })
-        );
-      } else {
-        dispatch(
-          createReplacementModalAction({
-            ...modal,
-            popUpWindow: true,
-            popUpWindowType: value.type,
-          })
-        );
-      }
+      dispatch(
+        createReplacementModalAction({
+          ...modal,
+          popUpWindow: true,
+          popUpWindowType: value.type,
+        })
+      );
     },
   }));
 

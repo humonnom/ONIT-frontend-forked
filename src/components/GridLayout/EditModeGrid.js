@@ -1,14 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFloating, shift } from '@floating-ui/react-dom';
+import { useFloating, shift, offset } from '@floating-ui/react-dom';
+import { flip } from '@floating-ui/core';
 import GridLayout from './GridLayout';
 import MouseGridLayout from './MouseGridLayout';
-import {
-  createReplacementModalAction,
-  createReplacementWidgetsAction,
-} from '../../redux/slice';
+import { createReplacementWidgetsAction } from '../../redux/slice';
 import { WidgetElement } from '../Widgets/WidgetElement';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
 import {
@@ -46,12 +44,12 @@ function EditModeGrid() {
   const [mouseOverWidget, setMouseOverWidget] = useState([widgetDefaultValue]);
   const [selectedWidget, setSelectedWidget] = useState(null);
   const { x, y, floating, reference, strategy, update } = useFloating({
-    placement: 'top-right',
-    middleware: [shift()],
+    placement: 'top-start',
+    middleware: [shift(), flip(), offset(10)],
   });
 
   const dispatch = useDispatch();
-  const { widgets, modal } = useSelector((state) => ({
+  const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
@@ -63,10 +61,6 @@ function EditModeGrid() {
     });
     return newList;
   }, [widgets]);
-
-  useEffect(() => {
-    console.log('layoutInfo', layoutInfo);
-  }, [layoutInfo]);
 
   // 빈 그리드 클릭 시 툴바 생성 기능
   const sendToolbarInfo = () => {
@@ -80,10 +74,7 @@ function EditModeGrid() {
       widget_action: ACTION_CREATE,
       widget_code: '',
       widget_type: TYPE_NEW,
-      widget_data: {
-        thumbnail: ``,
-        url: '',
-      },
+      widget_data: {},
       i: `${widgets.count + 1}`,
       x: mouseOverWidget[0].x,
       y: mouseOverWidget[0].y,
@@ -96,12 +87,6 @@ function EditModeGrid() {
         ...widgets,
         count: widgets.count + 1,
         list: [...widgets.list, newWidget],
-      })
-    );
-    dispatch(
-      createReplacementModalAction({
-        ...modal,
-        toolbarWindow: true,
       })
     );
   }
@@ -155,6 +140,11 @@ function EditModeGrid() {
     } else {
       setMouseOverWidget([widgetDefaultValue]);
     }
+    updateFloatingUi();
+  };
+
+  const updateFloatingUi = () => {
+    update();
   };
 
   // about grid style
@@ -176,10 +166,6 @@ function EditModeGrid() {
     [minWindowWidth, margin, cols]
   );
   // grid공식 가로 calc((100% - ${margin}px) / ${cols}) calc((100% - ${margin}px - X좌표 스크롤바픽셀) / ${cols})
-
-  useEffect(() => {
-    console.log('selectedWidget', selectedWidget);
-  }, [selectedWidget]);
 
   const setOverlapTrue = useCallback(() => {
     setIsWidgetOverlap(true);
@@ -208,6 +194,8 @@ function EditModeGrid() {
           css={gridLayoutItemStyle}
           onMouseEnter={setOverlapTrue}
           onMouseLeave={setOverlapFalse}
+          onMouseOver={updateFloatingUi}
+          onFocus={updateFloatingUi}
         >
           <div
             css={widgetWrapperStyle}
@@ -255,9 +243,11 @@ function EditModeGrid() {
         {selectedWidget && (
           <div
             ref={floating}
+            onMouseEnter={setOverlapTrue}
+            onMouseLeave={setOverlapFalse}
             style={{
               position: strategy,
-              top: y ?? '20px',
+              top: y ?? '200px',
               left: x ?? '',
             }}
           >

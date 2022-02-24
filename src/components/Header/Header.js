@@ -101,7 +101,6 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             type='button'
             css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
             onClick={() => {
-              console.log(pageUrl);
               history.push(`/${pageUrl}`);
             }}
           >

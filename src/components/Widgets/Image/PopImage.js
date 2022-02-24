@@ -4,45 +4,48 @@ import { css } from '@emotion/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
-import { ACTION_CREATE, TYPE_IMAGE } from '../../../utils/constantValue';
+import {
+  ACTION_EDIT,
+  ACTION_NONE,
+  TYPE_IMAGE,
+} from '../../../utils/constantValue';
 import PopButtonsWrapper from '../PopButtonsWrapper';
 
 function PopImage(props) {
-  const { widgets } = useSelector((state) => ({
+  const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
 
   const [thumbnail, setThumbnail] = useState('');
   const dispatch = useDispatch();
 
-  function makeNewWidget() {
-    const newWidget = {
-      widget_action: ACTION_CREATE,
-      widget_code: '',
-      widget_type: TYPE_IMAGE,
-      widget_data: {
-        thumbnail: `${thumbnail}`,
-        url: '',
-      },
-      i: `${widgets.count + 1}`,
-      x: 1,
-      y: 1,
-      w: 2,
-      h: 2,
+  function editWidget() {
+    const allWidgets = JSON.parse(JSON.stringify(widgets.list));
+    const targetId = modal.imgChangeTargetId;
+    const targetItem = allWidgets.find((widget) => widget.i === targetId);
+    targetItem.widget_type = TYPE_IMAGE;
+    targetItem.widget_data = {
+      thumbnail: `${thumbnail}`,
+      url: '',
     };
-
+    if (
+      targetItem.widget_action === ACTION_NONE ||
+      targetItem.widget_code !== ''
+    ) {
+      targetItem.widget_action = ACTION_EDIT;
+    }
     dispatch(
       createReplacementWidgetsAction({
         ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
+        list: allWidgets,
       })
     );
   }
 
   const handleSubmit = () => {
     // TODO: url valid 한지 체크해야함
-    makeNewWidget();
+    editWidget();
     props.endPop();
   };
 

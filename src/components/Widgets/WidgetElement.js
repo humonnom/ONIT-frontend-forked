@@ -55,6 +55,7 @@ export function WidgetElement({
       })
     );
   };
+
   function getNewWidgetList(targetItemIndex, newAction) {
     const newList = JSON.parse(JSON.stringify(widgets.list));
     const found = newList.find((widget) => widget.i === targetItemIndex);
@@ -153,7 +154,7 @@ const positionAbsolute = css`
 const hoverBackground = css`
   width: 100%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: ${WIDGET_COMMON_RADIUS};
   opacity: 0.2;
   background-color: #000;
 `;
