@@ -1,19 +1,33 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
-import { logout } from '../../utils/router';
-import { convertForServer } from '../../utils/convert';
+import { logout } from '../../utils/util';
+import { useMyInfo } from '../../hooks/myInfo';
+import { usePostData } from '../../hooks/widget';
 
 function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const history = useHistory();
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
-  const user_seq = localStorage.getItem('user_seq');
+  const { loggedIn, myInfo } = useMyInfo();
+  const { post } = usePostData();
+
+  const goToMyPage = useMemo(() => {
+    if (myInfo) {
+      return (
+        <button type='button' onClick={() => history.push(`/${myInfo.url}`)}>
+          <img alt='img' src={mypage} css={height26} />
+        </button>
+      );
+    }
+    return null;
+  }, [myInfo]);
+
   const mainHeader = (
     <>
       <div css={[flex, flexBtw]}>
@@ -29,14 +43,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             로그아웃
           </button>
           <div />
-
-          <a
-            href='#'
-            onClick={() => history.push(`/${user_seq}`)}
-            css={marginRight17}
-          >
-            <img alt='img' src={mypage} css={height26} />
-          </a>
+          {loggedIn && goToMyPage}
         </div>
       </div>
       <div css={[abosulteCenter, flex, searchBox]}>
@@ -73,15 +80,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
               </button>
             </>
           )}
-          {!userMatch && (
-            <a
-              href='#'
-              onClick={() => history.push(`/${pageUrl}`)}
-              css={marginRight17}
-            >
-              <img alt='img' src={mypage} css={height26} />
-            </a>
-          )}
+          {!userMatch && loggedIn && goToMyPage}
         </div>
       </div>
       <div css={[abosulteCenter, flex, height26]}>
@@ -109,13 +108,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           <button
             type='button'
             css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
-            onClick={() => {
-              const postData = convertForServer(widgets.list);
-              history.push({
-                pathname: `/${user_seq}/save`,
-                state: { postData },
-              });
-            }}
+            onClick={() => post(widgets.list)}
           >
             저장
           </button>
