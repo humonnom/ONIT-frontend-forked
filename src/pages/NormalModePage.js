@@ -1,113 +1,89 @@
-import React, { useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   NormalWrapper,
   NormalModeGrid,
   PageWrapper,
   Header,
 } from '../components';
-import { getPageUrl, getApiEndpoint } from '../utils/util';
-import { useWidgetData } from '../hooks/useWidgetData';
-import { convertForRedux } from '../utils/convert';
-import { createReplacementWidgetsAction } from '../redux/slice';
+import {
+  getApiEndpoint,
+  isError,
+  urlOwnerNotFound,
+  urlMatched,
+} from '../utils/util';
 import { useRequestAuth } from '../hooks/useRequestAuth';
+import { useGetUrl } from '../hooks/util';
+import { useMyInfo } from '../hooks/myInfo';
+import { useSaveWidget } from '../hooks/widget';
 
-// edit페이지로 이동할 수 있는 권한을 체크할 방법이 필요함
-// 1. me로 요청해서 확인한다.
-// 2. 프론트에서 처음에 로그인하면 유저정보를 redux에 넣어놓고 persist를 써서 계속 가지고 있는다.
-// 3. 백엔드에서 토큰으로 처리한다.
-//
 function NormalMode() {
-  const pageUrl = getPageUrl();
-
-  // get page user's info
-  const { res: pageUserRes, request: pageUserRequest } = useRequestAuth({
+  const pageUrl = useGetUrl();
+  const [userSeq, setUserSeq] = useState(null);
+  const [userMatched, setUserMatched] = useState(null);
+  const [nickname, setNickname] = useState(null);
+  const history = useHistory();
+  const { myInfo } = useMyInfo();
+  const { res: pageUserRes, request: requestPageUserInfo } = useRequestAuth({
     endpoint: `${getApiEndpoint()}/url/${pageUrl}/user`,
     method: 'get',
   });
 
-  const pageUserInfo = useMemo(() => {
+  useEffect(() => {
+    if (pageUrl && myInfo) {
+      if (myInfo && urlMatched(myInfo.url, pageUrl)) {
+        setUserMatched(true);
+        setUserSeq(myInfo.user_seq);
+        setNickname(myInfo.nickname);
+      } else {
+        setUserMatched(false);
+        requestPageUserInfo();
+      }
+    }
+  }, [pageUrl, myInfo]);
+
+  useEffect(() => {
     if (pageUserRes && pageUserRes.data) {
       const { code, data, message } = pageUserRes.data;
-      if (code === 'error' && message === 'no user information') {
-        alert('page user not found');
-      } else if (code === 'error') {
-        alert('db error');
+      if (isError(code) && urlOwnerNotFound(message)) {
+        alert('페이지를 찾을 수 없습니다.');
+        history.goBack();
+      } else if (isError(code)) {
+        alert('데이터 베이스 에러입니다.');
       }
-      if (data) return data;
+      if (data) {
+        setUserSeq(data.user_seq);
+        setNickname(data.nickname);
+      }
     }
-    return null;
   }, [pageUserRes]);
 
-  const pageUserSeq = useMemo(() => {
-    if (pageUserInfo) {
-      return pageUserInfo.user_seq;
-    }
-    return null;
-  }, [pageUserInfo]);
-
-  const pageUserName = useMemo(() => {
-    if (pageUserInfo) {
-      return pageUserInfo.nickname;
-    }
-    return null;
-  }, [pageUserInfo]);
-
-  // TODO: code 맞추기
-  const userMatch = useMemo(() => {
-    if (pageUserInfo) {
-      return pageUserInfo.user_matched;
-    }
-    return null;
-  }, [pageUserInfo]);
-
-  const { res: widgetRes, request: widgetRequest } = useWidgetData({
-    pageUserSeq,
-    dest: 'normal',
+  const { res: widgetRes, request: requestWidgetData } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/user/${userSeq}/widgets`,
+    method: 'get',
   });
 
-  const dispatch = useDispatch();
-  const setWidgetState = (widget_data) => {
-    const convertedForRedux = convertForRedux(widget_data);
-    dispatch(
-      createReplacementWidgetsAction({
-        count: convertedForRedux.length,
-        list: convertedForRedux,
-      })
-    );
-  };
+  useEffect(() => {
+    if (userSeq) {
+      requestWidgetData();
+    }
+  }, [userSeq, requestWidgetData]);
+
+  const { save } = useSaveWidget();
 
   useEffect(() => {
-    pageUserRequest();
-  }, []);
-
-  useEffect(() => {
-    if (pageUserSeq) {
-      widgetRequest();
+    if (widgetRes) {
+      save(widgetRes.data.widget_list);
     }
-  }, [pageUserSeq, widgetRequest]);
-
-  const widgetsData = useMemo(() => {
-    if (widgetRes && widgetRes.data) {
-      const { data } = widgetRes;
-      return data;
-    }
-    return null;
   }, [widgetRes]);
-
-  useEffect(() => {
-    if (widgetsData) {
-      setWidgetState(widgetsData.widget_list);
-    }
-  }, [widgetsData]);
 
   return (
     <PageWrapper>
       <NormalWrapper>
         <Header
-          userMatch={userMatch}
+          userMatch={userMatched}
           pageUrl={pageUrl}
-          pageUserName={pageUserName}
+          pageUserName={nickname}
           pageType='normal'
         />
         <NormalModeGrid />

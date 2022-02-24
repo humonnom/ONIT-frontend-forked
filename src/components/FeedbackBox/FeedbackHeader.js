@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import React from 'react';
 import { logo } from '../../asset';
-
+// HACK: 로컬에서도 사용가능하도록 경로 수정해주세요. @Eomhyunjun
 function FeedbackHeader() {
   return (
     <header css={[headerCss, spaceBetween]}>

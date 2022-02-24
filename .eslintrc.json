@@ -53,7 +53,7 @@
 		"react/sort-comp" : "off",
 		"prefer-arrow-callback" : "off",
 		"react/jsx-props-no-spreading" : "off",
-		"no-console" : ["warn"],
+		"no-console" : ["warn", { "allow": ["error"] }],
 		"func-names" : "off",
 		"no-param-reassign": "off",
 		"operator-linebreak": "off",
