@@ -11,8 +11,6 @@ import HeaderWrapper from './Header/HeaderWrapper';
 import NormalModeGrid from './GridLayout/NormalModeGrid';
 import EditModeGrid from './GridLayout/EditModeGrid';
 import YoutubeVideo from './Widgets/Video/YoutubeVideo';
-import AddVideo from './Widgets/Video/AddVideo';
-import EditImage from './Widgets/Image/EditImage';
 import Image from './Widgets/Image/Image';
 
 import EditWrapper from './Wrapper/EditWrapper';
@@ -34,8 +32,6 @@ export {
   NormalWrapper,
   ToolBarButton,
   YoutubeVideo,
-  AddVideo,
-  EditImage,
   Image,
   RenewAccessToken,
   HandleKakaoLogin,

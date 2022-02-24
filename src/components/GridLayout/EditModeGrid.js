@@ -62,9 +62,11 @@ function EditModeGrid() {
     return newList;
   }, [widgets]);
 
-  // 빈 그리드 클릭 시 툴바 생성 기능
-  const sendToolbarInfo = () => {
-    if (isWidgetOverlap === false) {
+  // 빈 그리드 클릭 시 빈 위젯 생성 기능(이미 툴바가 있으면 툴바 내려줌)
+  const makeNewWidgetEvent = () => {
+    if (selectedWidget) {
+      setSelectedWidget(null);
+    } else if (isWidgetOverlap === false) {
       makeNewWidget();
     }
   };
@@ -225,7 +227,7 @@ function EditModeGrid() {
       <div
         onMouseMove={mouseWidgetPosition}
         onMouseLeave={initMouseOverWidget}
-        onClick={sendToolbarInfo}
+        onClick={makeNewWidgetEvent}
         css={removeBtnStyle}
       >
         <GridLayout
@@ -247,7 +249,7 @@ function EditModeGrid() {
             onMouseLeave={setOverlapFalse}
             style={{
               position: strategy,
-              top: y ?? '200px',
+              top: y ?? '',
               left: x ?? '',
             }}
           >
