@@ -52,8 +52,7 @@ export function useRequestAuth(props) {
       .then((res) => {
         setRes(res);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
         setRes({
           data: {
             code: 'error',

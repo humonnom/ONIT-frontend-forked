@@ -5,6 +5,8 @@ import useWindowSize from './useWindowSize';
 
 const ReactGridLayout = WidthProvider(RGL);
 
+const margin = [10, 10];
+
 export default function GridLayout(props) {
   const windowWidth = useWindowSize().width;
   const minRowHieght = useMemo(() => {
@@ -22,8 +24,7 @@ export default function GridLayout(props) {
       className='layout'
       cols={16}
       rowHeight={minRowHieght}
-      px
-      margin={[10, 10]}
+      margin={margin}
       compactType={null}
       preventCollision
       {...props}

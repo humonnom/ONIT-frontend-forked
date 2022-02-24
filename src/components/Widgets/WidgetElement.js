@@ -20,8 +20,14 @@ import ImageBox from './Image/ImageBox';
 import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
+import { WIDGET_COMMON_RADIUS } from '../../styles/style';
 
-export function WidgetElement({ element, mode }) {
+export function WidgetElement({
+  element,
+  mode,
+  setIsWidgetOverlap,
+  setSelectedWidget,
+}) {
   const [hover, setHover] = useState(false);
   const layout = element;
   const { widgets, modal } = useSelector((state) => ({
@@ -49,6 +55,7 @@ export function WidgetElement({ element, mode }) {
       })
     );
   };
+
   function getNewWidgetList(targetItemIndex, newAction) {
     const newList = JSON.parse(JSON.stringify(widgets.list));
     const found = newList.find((widget) => widget.i === targetItemIndex);
@@ -105,6 +112,7 @@ export function WidgetElement({ element, mode }) {
             onClick={() => {
               const newWidgetList = getNewWidgetList(layout.i, 'D');
               updateWidgets(newWidgetList);
+              setIsWidgetOverlap(false);
             }}
           >
             <div css={closeBtnImg}>
@@ -117,6 +125,7 @@ export function WidgetElement({ element, mode }) {
             onClick={() => {
               openEditWindow(layout.i);
               const newWidgetList = getNewWidgetList(layout.i, 'E');
+              setSelectedWidget(layout.i);
               updateWidgets(newWidgetList);
             }}
           >
@@ -135,7 +144,7 @@ const widgetFrame = css`
   background-color: white;
   width: 100%;
   height: 100%;
-  position: relative%;
+  border-radius: ${WIDGET_COMMON_RADIUS};
 `;
 
 const positionAbsolute = css`
@@ -145,7 +154,7 @@ const positionAbsolute = css`
 const hoverBackground = css`
   width: 100%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: ${WIDGET_COMMON_RADIUS};
   opacity: 0.2;
   background-color: #000;
 `;

@@ -22,8 +22,7 @@ function useRequestJoin(props) {
       .then((res) => {
         setRes(res);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
         setRes({
           data: {
             code: 'error',

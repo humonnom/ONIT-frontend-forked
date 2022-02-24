@@ -8,7 +8,7 @@ function ToolBarButton(props) {
   return (
     <button type='button' onClick={props.action} css={commonBtn}>
       <div css={btnHover}>
-        <img alt='img' width={btnSize} px src={props.emoji} />
+        <img alt='img' width={btnSize} src={props.emoji} />
       </div>
     </button>
   );
