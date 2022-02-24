@@ -251,6 +251,7 @@ function EditModeGrid() {
               position: strategy,
               top: y ?? '',
               left: x ?? '',
+              zIndex: 10000,
             }}
           >
             <ToolBar />
