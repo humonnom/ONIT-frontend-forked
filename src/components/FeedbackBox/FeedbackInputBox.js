@@ -1,17 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
+import { useRequestAuth } from '../../hooks/useRequestAuth';
 import { mainColor, subColor } from '../../styles/color';
+import { getApiEndpoint } from '../../utils/util';
 
 const inputColor = '#fff';
 
 function FeedbackInputBox() {
   const [inputmessage, setInputmessage] = useState('');
+  const endpoint = `${getApiEndpoint()}/feedback/register`;
+
+  const { request } = useRequestAuth({
+    endpoint,
+    method: 'post',
+    data: {
+      content: inputmessage,
+    },
+  });
 
   function sendQnA() {
-    console.log(inputmessage);
-    console.log('--- 전송이 완료되었습니다. ---');
-    // 대충 dispatch 하는 내용
+    request();
   }
 
   const handleMessageChange = ({ target: { value } }) => {
