@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRequestAuth } from '../../hooks/useRequestAuth';
 import { mainColor, subColor } from '../../styles/color';
 import { getApiEndpoint } from '../../utils/util';
@@ -11,7 +11,7 @@ function FeedbackInputBox() {
   const [inputmessage, setInputmessage] = useState('');
   const endpoint = `${getApiEndpoint()}/feedback/register`;
 
-  const { request } = useRequestAuth({
+  const { res, request } = useRequestAuth({
     endpoint,
     method: 'post',
     data: {
@@ -22,6 +22,12 @@ function FeedbackInputBox() {
   function sendQnA() {
     request();
   }
+
+  useEffect(() => {
+    if (res && res.data) {
+      window.location.reload();
+    }
+  }, [res]);
 
   const handleMessageChange = ({ target: { value } }) => {
     setInputmessage(value);
