@@ -92,6 +92,7 @@ export function useInput({ inputType, id, type, ...args }) {
   return {
     value,
     state,
+    label: args.label,
     component: (
       <div css={InputContainer}>
         <div css={InputStyle}>{input()}</div>

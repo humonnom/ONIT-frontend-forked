@@ -55,6 +55,9 @@ export function useMyInfo() {
       if (res.data.code === 'ok') {
         setMyInfo(res.data.data);
         save(res.data.data);
+      } else {
+        setMyInfo(null);
+        setLoggedIn(false);
       }
     }
   }, [res]);

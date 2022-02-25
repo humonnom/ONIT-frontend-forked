@@ -55,13 +55,11 @@ export function usePostData() {
 
   useEffect(() => {
     if (res && res.data) {
-      if (res.data) {
-        if (res.data.code === 'wrong_token') {
-          history.push(`/login`);
-          alert('로그인을 다시 해주세요.');
-        } else {
-          history.push(`/${myInfo ? myInfo.url : '/'}`);
-        }
+      if (res.data.code === 'wrong_token') {
+        history.push(`/login`);
+        alert('로그인을 다시 해주세요.');
+      } else {
+        history.push(`/${myInfo ? myInfo.url : '/'}`);
       }
     }
   }, [res]);

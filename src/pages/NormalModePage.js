@@ -12,10 +12,10 @@ import {
   urlOwnerNotFound,
   urlMatched,
 } from '../utils/util';
-import { useRequestAuth } from '../hooks/useRequestAuth';
 import { useGetUrl } from '../hooks/util';
 import { useMyInfo } from '../hooks/myInfo';
 import { useSaveWidget } from '../hooks/widget';
+import { useRequest } from '../hooks/useRequest';
 
 function NormalMode() {
   const pageUrl = useGetUrl();
@@ -24,13 +24,13 @@ function NormalMode() {
   const [nickname, setNickname] = useState(null);
   const history = useHistory();
   const { myInfo } = useMyInfo();
-  const { res: pageUserRes, request: requestPageUserInfo } = useRequestAuth({
+  const { res: pageUserRes, request: requestPageUserInfo } = useRequest({
     endpoint: `${getApiEndpoint()}/url/${pageUrl}/user`,
     method: 'get',
   });
 
   useEffect(() => {
-    if (pageUrl && myInfo) {
+    if (pageUrl) {
       if (myInfo && urlMatched(myInfo.url, pageUrl)) {
         setUserMatched(true);
         setUserSeq(myInfo.user_seq);
@@ -58,7 +58,7 @@ function NormalMode() {
     }
   }, [pageUserRes]);
 
-  const { res: widgetRes, request: requestWidgetData } = useRequestAuth({
+  const { res: widgetRes, request: requestWidgetData } = useRequest({
     endpoint: `${getApiEndpoint()}/user/${userSeq}/widgets`,
     method: 'get',
   });

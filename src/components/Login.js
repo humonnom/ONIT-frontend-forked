@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
 import Tape from '../asset/tape.svg';
 import { getApiEndpoint, setLocalStorage } from '../utils/util';
-import useRequestJoin from '../hooks/useRequestJoin';
+import { useRequest } from '../hooks/useRequest';
 import { useInput } from '../hooks/useInput';
 import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
 import { useRequestAuth } from '../hooks/useRequestAuth';
@@ -30,7 +30,7 @@ function Login() {
   });
 
   const endpointLogin = `${getApiEndpoint()}/auth/login/local`;
-  const { res, request } = useRequestJoin({
+  const { res, request } = useRequest({
     endpoint: endpointLogin,
     method: 'get',
     data: {

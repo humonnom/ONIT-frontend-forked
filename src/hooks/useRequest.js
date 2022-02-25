@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
 
-function useRequestJoin(props) {
-  const [resultRes, setRes] = useState();
+export function useRequest(props) {
+  const [resultRes, setRes] = useState(null);
   const { endpoint, method, headers, data } = props;
 
   const request = useCallback(() => {
@@ -34,5 +34,3 @@ function useRequestJoin(props) {
 
   return { res: resultRes, request };
 }
-
-export default useRequestJoin;

@@ -2,14 +2,14 @@ import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import LoadingMessageStyle from '../LoadingMessageStyle';
 import { getApiEndpoint, setLocalStorage } from '../../utils/util';
-import useRequestJoin from '../../hooks/useRequestJoin';
+import { useRequest } from '../../hooks/useRequest';
 import { useRequestAuth } from '../../hooks/useRequestAuth';
 
 function HandleKakaoLogin() {
   const code = new URL(window.location.href).searchParams.get('code');
   const endpoint = `${getApiEndpoint()}/auth/login/kakao`;
   const history = useHistory();
-  const { res, request } = useRequestJoin({
+  const { res, request } = useRequest({
     endpoint,
     method: 'get',
     headers: { 'Authorization-Code': code },
