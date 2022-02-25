@@ -131,7 +131,7 @@ function EditModeGrid() {
   const mouseWidgetPosition = (e) => {
     if (isWidgetOverlap === false && e.clientX > 5) {
       const newData = { w: 1, h: 1, i: '0', widget_type: TYPE_MOUSE };
-      newData.x = Math.floor(((e.clientX - 5) * 16) / (minWindowWidth - 10));
+      newData.x = Math.floor(((e.pageX - 5) * 16) / (minWindowWidth - 10));
       newData.y = Math.floor((e.pageY * 16) / (minWindowWidth - 10));
       setMouseOverWidget([
         {
