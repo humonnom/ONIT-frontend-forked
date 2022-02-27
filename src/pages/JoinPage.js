@@ -44,8 +44,12 @@ function JoinPage() {
     label: '비밀번호',
     type: showPassword ? 'text' : 'password',
     button: (
-      <button type='button' onClick={() => setShowPassword(!showPassword)}>
-        {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
+      <button
+        type='button'
+        css={[passwordToggleButton, passwordToggleButtonMQ()]}
+        onClick={() => setShowPassword(!showPassword)}
+      >
+        {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
       </button>
     ),
   });
@@ -152,28 +156,6 @@ function JoinPage() {
       )),
     [fieldList, field, onFieldChange]
   );
-
-  // const InputComponents = () => {
-  //   [email, password, name, url].map(
-  //     (item) => {
-  //       // if (
-  //       //   joinType === 'kakao' &&
-  //       //   (item.id === 'email' || item.id === 'password')
-  //       // ) {
-  //       //   return null;
-  //       // } else {
-  //       return (
-  //         <div key={Math.random()} css={[InputItem, InputItemMQ()]}>
-  //           <label css={[InputLabel, InputLabelMQ()]} htmlFor={item.id}>
-  //             {item.label}
-  //           </label>
-  //           {item.component}
-  //         </div>
-  //       );
-  //     }
-  //     // }
-  //   );
-  // };
 
   return (
     <div css={[Container, ContainerMQ()]}>
@@ -437,3 +419,15 @@ const InputConfirm = css`
     color: ${COLOR_STYLE.white};
   }
 `;
+
+const passwordToggleButton = css`
+  ${InitButtonStyle}
+  font-size: 0.8rem;
+  color: ${COLOR_STYLE.brownishGrey};
+`;
+
+const passwordToggleButtonMQ = () => {
+  return mq({
+    width: ['30vw', '25vw', '13vw', '10vw'],
+  });
+};

@@ -24,7 +24,7 @@ function Login() {
     type: showPassword ? 'text' : 'password',
     button: (
       <button type='button' onClick={() => setShowPassword(!showPassword)}>
-        {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
+        {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
       </button>
     ),
   });
