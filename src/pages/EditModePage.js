@@ -29,6 +29,10 @@ function EditMode() {
         history.push(`/${pageUrl}`);
       }
     }
+    return () => {
+      setUserMatched(null);
+      setUserSeq(null);
+    };
   }, [pageUrl, myInfo]);
 
   const { res: widgetRes, request: requestWidgetData } = useRequestAuth({
@@ -43,6 +47,7 @@ function EditMode() {
   }, [userSeq, requestWidgetData]);
 
   const { save } = useSaveWidget();
+
   useEffect(() => {
     if (widgetRes) {
       save(widgetRes.data.widget_list);

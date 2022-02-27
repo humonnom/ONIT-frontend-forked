@@ -72,3 +72,32 @@ export function usePostData() {
 
   return { post };
 }
+
+export function usePostImage() {
+  const [url, setUrl] = useState(null);
+  const [data, setData] = useState(null);
+
+  const { res, request: post } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/local/image`,
+    method: 'post',
+    data,
+  });
+
+  useEffect(() => {
+    if (res && res.data) {
+      setUrl(res.data.data.thumbnail);
+    }
+  }, [res]);
+
+  const request = (files) => {
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    setData(formData);
+    post();
+  };
+
+  return {
+    s3url: url,
+    request,
+  };
+}
