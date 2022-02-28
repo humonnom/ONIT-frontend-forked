@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router';
 import { isExpiredToken, isInvalidToken, getApiEndpoint } from '../utils/util';
 
 /**
@@ -29,7 +29,7 @@ export function useRequestAuth(props) {
    */
   const [renewStatus, setRenewStatus] = useState('idle');
   const [renewRes, setRenewRes] = useState(null);
-  const history = useHistory();
+  // const history = useHistory();
 
   // 요청하는 함수를 만듭니다.
   const request = useCallback(() => {
@@ -95,7 +95,7 @@ export function useRequestAuth(props) {
       .then((res) => {
         if (isExpiredToken(res.data.code) || isInvalidToken(res.data.code)) {
           setRenewStatus('fail');
-          history.push('/login');
+          // history.push('/login');
         } else {
           setRenewStatus('success');
           setRenewRes(res);

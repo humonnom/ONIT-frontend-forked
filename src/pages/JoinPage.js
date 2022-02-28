@@ -4,7 +4,6 @@ import { css } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router';
 import {
   COLOR_STYLE,
-  DisplayNone,
   FlexCenter,
   FlexColCenter,
   FlexColSpaceAroundStart,
@@ -16,7 +15,7 @@ import {
   mq,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
-import useRequestJoin from '../hooks/useRequestJoin';
+import { useRequest } from '../hooks/useRequest';
 import { logo } from '../asset/index';
 import { getFieldList, getSelectedFieldData } from '../utils/util';
 
@@ -42,10 +41,15 @@ function JoinPage() {
   const password = useInput({
     inputType: 'password',
     id: 'password',
+    label: '비밀번호',
     type: showPassword ? 'text' : 'password',
     button: (
-      <button type='button' onClick={() => setShowPassword(!showPassword)}>
-        {showPassword ? '비밀번호 숨기기' : '비밀번호 보이기'}
+      <button
+        type='button'
+        css={[passwordToggleButton, passwordToggleButtonMQ()]}
+        onClick={() => setShowPassword(!showPassword)}
+      >
+        {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
       </button>
     ),
   });
@@ -63,7 +67,7 @@ function JoinPage() {
     id: 'url',
     type: 'text',
     prefix: <p>iamonit.kr/</p>,
-    label: 'URL',
+    label: '개인 url',
     overlapCheckRequired: true,
   });
 
@@ -86,13 +90,12 @@ function JoinPage() {
     }
   };
 
-  const { res, request } = useRequestJoin({
+  const { res, request } = useRequest({
     endpoint,
     method: 'post',
     data: getPostData(),
   });
 
-  // event handler
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (agreement) request();
@@ -178,18 +181,22 @@ function JoinPage() {
       </div>
       <div css={[InputListWrapper, InputListWrapperMQ()]}>
         <form css={[InputList, InputListMQ()]} onSubmit={onSubmitHandler}>
-          <div css={[InputItem, InputItemMQ(), getDisplay(joinType)]}>
-            <label css={[InputLabel, InputLabelMQ()]} htmlFor='email'>
-              이메일
-            </label>
-            {email.component}
-          </div>
-          <div css={[InputItem, InputItemMQ(), getDisplay(joinType)]}>
-            <label css={[InputLabel, InputLabelMQ()]} htmlFor='password'>
-              비밀번호
-            </label>
-            {password.component}
-          </div>
+          {joinType === 'local' && (
+            <div css={[InputItem, InputItemMQ()]}>
+              <label css={[InputLabel, InputLabelMQ()]} htmlFor={email.id}>
+                이메일
+              </label>
+              {email.component}
+            </div>
+          )}
+          {joinType === 'local' && (
+            <div css={[InputItem, InputItemMQ()]}>
+              <label css={[InputLabel, InputLabelMQ()]} htmlFor='password'>
+                비밀번호
+              </label>
+              {password.component}
+            </div>
+          )}
           <div css={[InputItem, InputItemMQ()]}>
             <label css={[InputLabel, InputLabelMQ()]} htmlFor='nickname'>
               닉네임
@@ -246,11 +253,6 @@ function getColorByState(field, id) {
   } else {
     return NormalButton;
   }
-}
-
-function getDisplay(joinType) {
-  if (joinType === 'kakao') return DisplayNone;
-  return css``;
 }
 
 const Container = css`
@@ -417,3 +419,15 @@ const InputConfirm = css`
     color: ${COLOR_STYLE.white};
   }
 `;
+
+const passwordToggleButton = css`
+  ${InitButtonStyle}
+  font-size: 0.8rem;
+  color: ${COLOR_STYLE.brownishGrey};
+`;
+
+const passwordToggleButtonMQ = () => {
+  return mq({
+    width: ['30vw', '25vw', '13vw', '10vw'],
+  });
+};

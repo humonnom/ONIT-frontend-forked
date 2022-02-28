@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
-
 import { useDispatch, useSelector } from 'react-redux';
+import { InitButtonStyle } from '../../../styles/GlobalStyles';
 import { createReplacementWidgetsAction } from '../../../redux/slice';
 import {
   ACTION_EDIT,
@@ -10,6 +10,7 @@ import {
   TYPE_IMAGE,
 } from '../../../utils/constantValue';
 import PopButtonsWrapper from '../PopButtonsWrapper';
+import { usePostImage } from '../../../hooks/widget';
 
 function PopImage(props) {
   const { widgets, modal } = useSelector((state) => ({
@@ -17,7 +18,9 @@ function PopImage(props) {
     modal: state.info.modal,
   }));
 
+  const [isLocalUpload, setIsLocalUpload] = useState(false);
   const [thumbnail, setThumbnail] = useState('');
+  const { s3url, request } = usePostImage();
   const dispatch = useDispatch();
 
   function editWidget() {
@@ -53,6 +56,18 @@ function PopImage(props) {
     setThumbnail(value);
   };
 
+  useEffect(() => {
+    if (s3url) {
+      setThumbnail(s3url);
+    }
+  }, [s3url]);
+
+  const handleLocalUpload = ({ target: { files } }) => {
+    console.log('local upload');
+    console.log(files);
+    request(files); // post to server
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleSubmit();
@@ -61,15 +76,33 @@ function PopImage(props) {
 
   return (
     <>
-      <input
-        type='thumbnail'
-        name='thumbnail'
-        value={thumbnail}
-        css={[urlInputStyle]}
-        placeholder='링크를 입력해주세요'
-        onChange={handleThumbChange}
-        onKeyDown={handleKeyDown}
-      />
+      <button
+        type='button'
+        css={[InitButtonStyle, ToggleButtonStyle]}
+        onClick={() => setIsLocalUpload(!isLocalUpload)}
+      >
+        {isLocalUpload ? '링크로 올리기' : '파일 올리기'}
+      </button>
+      {!isLocalUpload && (
+        <input
+          type='thumbnail'
+          name='thumbnail'
+          value={thumbnail}
+          css={[urlInputStyle]}
+          placeholder='링크를 입력해주세요'
+          onChange={handleThumbChange}
+          onKeyDown={handleKeyDown}
+        />
+      )}
+      {isLocalUpload && (
+        <input
+          type='file'
+          name='file'
+          accept='image/*'
+          css={urlInputStyle}
+          onChange={handleLocalUpload}
+        />
+      )}
       <PopButtonsWrapper>
         <button
           type='button'
@@ -102,6 +135,14 @@ const urlInputStyle = css`
   border-radius: 8px;
   background-color: #fff;
   padding: 12px 20px;
+`;
+
+const ToggleButtonStyle = css`
+  border: black solid 1px;
+  padding: 5px;
+  border-radius: 8px;
+  display: block;
+  margin: 0px auto 0px 40px;
 `;
 
 export default PopImage;

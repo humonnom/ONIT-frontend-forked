@@ -55,13 +55,11 @@ export function usePostData() {
 
   useEffect(() => {
     if (res && res.data) {
-      if (res.data) {
-        if (res.data.code === 'wrong_token') {
-          history.push(`/login`);
-          alert('로그인을 다시 해주세요.');
-        } else {
-          history.push(`/${myInfo ? myInfo.url : '/'}`);
-        }
+      if (res.data.code === 'wrong_token') {
+        history.push(`/login`);
+        alert('로그인을 다시 해주세요.');
+      } else {
+        history.push(`/${myInfo ? myInfo.url : '/'}`);
       }
     }
   }, [res]);
@@ -73,4 +71,33 @@ export function usePostData() {
   };
 
   return { post };
+}
+
+export function usePostImage() {
+  const [url, setUrl] = useState(null);
+  const [data, setData] = useState(null);
+
+  const { res, request: post } = useRequestAuth({
+    endpoint: `${getApiEndpoint()}/local/image`,
+    method: 'post',
+    data,
+  });
+
+  useEffect(() => {
+    if (res && res.data) {
+      setUrl(res.data.data.thumbnail);
+    }
+  }, [res]);
+
+  const request = (files) => {
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    setData(formData);
+    post();
+  };
+
+  return {
+    s3url: url,
+    request,
+  };
 }

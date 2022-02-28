@@ -6,7 +6,6 @@ import {
   COLOR_STYLE,
   FlexColCenter,
   FlexSpaceBetweenCenter,
-  InitButtonStyle,
   SHADOW_STYLE,
 } from '../styles/GlobalStyles';
 import { isPassword, getApiEndpoint } from '../utils/util';
@@ -92,6 +91,7 @@ export function useInput({ inputType, id, type, ...args }) {
   return {
     value,
     state,
+    label: args.label,
     component: (
       <div css={InputContainer}>
         <div css={InputStyle}>{input()}</div>
@@ -147,12 +147,6 @@ const InputUrl = css`
 const InputPassword = css`
   width: 90%;
   ${FlexSpaceBetweenCenter}
-  button {
-    ${InitButtonStyle}
-    width: 7vw;
-    font-size: 0.8rem;
-    color: ${COLOR_STYLE.brownishGrey};
-  }
 `;
 
 const ErrorMessageWrapper = css`
