@@ -18,7 +18,7 @@ function PopImage(props) {
     modal: state.info.modal,
   }));
 
-  const [isLocalUpload, setIsLocalUpload] = useState(false);
+  const [isLocalUpload, setIsLocalUpload] = useState(true);
   const [thumbnail, setThumbnail] = useState('');
   const { s3url, request } = usePostImage();
   const dispatch = useDispatch();
@@ -62,8 +62,6 @@ function PopImage(props) {
   }, [s3url]);
 
   const handleLocalUpload = ({ target: { files } }) => {
-    console.log('local upload');
-    console.log(files);
     request(files); // post to server
   };
 

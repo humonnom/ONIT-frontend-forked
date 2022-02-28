@@ -90,11 +90,16 @@ export function usePostImage() {
     }
   }, [res]);
 
+  useEffect(() => {
+    if (data) {
+      post();
+    }
+  }, [data]);
+
   const request = (files) => {
     const formData = new FormData();
-    formData.append('file', files[0]);
+    formData.append('image_file', files[0]);
     setData(formData);
-    post();
   };
 
   return {
