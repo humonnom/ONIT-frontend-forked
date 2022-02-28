@@ -47,7 +47,6 @@ function PopImage(props) {
   }
 
   const handleSubmit = () => {
-    // TODO: url valid 한지 체크해야함
     editWidget();
     props.endPop();
   };
@@ -97,7 +96,7 @@ function PopImage(props) {
       {isLocalUpload && (
         <input
           type='file'
-          name='file'
+          name='imgae_file'
           accept='image/*'
           css={urlInputStyle}
           onChange={handleLocalUpload}

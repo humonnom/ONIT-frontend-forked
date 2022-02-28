@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
-// import { useHistory } from 'react-router';
 import { isExpiredToken, isInvalidToken, getApiEndpoint } from '../utils/util';
 
 /**
@@ -14,7 +13,7 @@ import { isExpiredToken, isInvalidToken, getApiEndpoint } from '../utils/util';
  * @param {UseRequestAuthProps} props
  */
 export function useRequestAuth(props) {
-  const { endpoint, method, data } = props;
+  const { endpoint, method, data, contentType } = props;
 
   const [resultRes, setRes] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -29,12 +28,12 @@ export function useRequestAuth(props) {
    */
   const [renewStatus, setRenewStatus] = useState('idle');
   const [renewRes, setRenewRes] = useState(null);
-  // const history = useHistory();
 
   // 요청하는 함수를 만듭니다.
   const request = useCallback(() => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': contentType,
     };
     let axiosPromise;
     if (method === 'get') {
@@ -95,7 +94,6 @@ export function useRequestAuth(props) {
       .then((res) => {
         if (isExpiredToken(res.data.code) || isInvalidToken(res.data.code)) {
           setRenewStatus('fail');
-          // history.push('/login');
         } else {
           setRenewStatus('success');
           setRenewRes(res);

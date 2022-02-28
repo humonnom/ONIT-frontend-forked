@@ -81,6 +81,7 @@ export function usePostImage() {
     endpoint: `${getApiEndpoint()}/local/image`,
     method: 'post',
     data,
+    contentType: 'multipart/form-data',
   });
 
   useEffect(() => {
