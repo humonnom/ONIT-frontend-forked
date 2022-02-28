@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
-import { isExpiredToken, isInvalidToken, getApiEndpoint } from '../utils/util';
+import {
+  isExpiredToken,
+  isInvalidToken,
+  getApiEndpoint,
+  setLocalStorage,
+  isOk,
+} from '../utils/util';
 
 /**
  * @typedef {Object} UseRequestAuthProps
@@ -15,21 +21,10 @@ import { isExpiredToken, isInvalidToken, getApiEndpoint } from '../utils/util';
 export function useRequestAuth(props) {
   const { endpoint, method, data, contentType } = props;
 
+  const [result, setResult] = useState(null);
+  const [renewSuccess, setRenewSuccess] = useState(false);
   const [resultRes, setRes] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(false);
 
-  /**
-   * 액세스 토큰을 갱신할 때의 상태를 저장합니다.
-   * `idle`: 초기화상태
-   * `pending`: 통신중
-   * `success`: 갱신 성공
-   * `fail`: 갱신 실패 (refreshToken 도 만료되어 로그인 필요)
-   * `error`: 통신 에러
-   */
-  const [renewStatus, setRenewStatus] = useState('idle');
-  const [renewRes, setRenewRes] = useState(null);
-
-  // 요청하는 함수를 만듭니다.
   const request = useCallback(() => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -69,15 +64,14 @@ export function useRequestAuth(props) {
       ) {
         renewToken();
       } else {
-        setIsSuccess(true);
+        setResult(resultRes);
       }
     }
   }, [resultRes]);
 
-  // 토큰을 갱신하는 함수를 만듭니다.
   const renewToken = useCallback(() => {
     const refreshToken = localStorage.getItem('refresh_token');
-    const tokenData = {
+    const params = {
       data: {
         refresh_token: refreshToken,
       },
@@ -85,44 +79,29 @@ export function useRequestAuth(props) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('refresh_token')}`,
     };
-    setRenewStatus('pending');
     axios
       .get(`${getApiEndpoint()}/auth/token/refresh`, {
-        params: tokenData,
+        params,
         headers,
       })
       .then((res) => {
-        if (isExpiredToken(res.data.code) || isInvalidToken(res.data.code)) {
-          setRenewStatus('fail');
-        } else {
-          setRenewStatus('success');
-          setRenewRes(res);
+        if (isOk(res.data.code)) {
+          setLocalStorage(res.data.data);
+          setRenewSuccess(true);
         }
       })
       .catch(() => {
-        setRenewStatus('error');
+        console.error('token renew error');
       });
   }, []);
 
-  // renew 요청이 성공했을 때 실행됩니다.
   useEffect(() => {
-    if (renewStatus === 'success' && renewRes) {
-      localStorage.setItem(
-        'access_token',
-        renewRes.data.data.tokens.access_token
-      );
-      localStorage.setItem(
-        'refresh_token',
-        renewRes.data.data.tokens.refresh_token
-      );
-      localStorage.setItem('user_seq', renewRes.data.data.user_info.user_seq);
+    if (renewSuccess) {
       request();
-      setRenewStatus('idle');
-      setRenewRes(null);
     }
-  }, [renewStatus, renewRes]);
+  }, [renewSuccess]);
 
-  return { res: resultRes, request, isSuccess };
+  return { res: result, request };
 }
 
 export default useRequestAuth;

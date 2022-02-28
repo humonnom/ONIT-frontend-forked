@@ -88,6 +88,7 @@ export function usePostData() {
 
   useEffect(() => {
     if (postData && userSeq) {
+      console.log('post 시행');
       request();
     }
   }, [postData, userSeq]);
@@ -96,7 +97,7 @@ export function usePostData() {
     if (res && res.data) {
       if (res.data.code === 'wrong_token') {
         history.push(`/login`);
-        alert('로그인을 다시 해주세요.');
+        console.log('로그인을 다시 해주세요.');
       } else {
         history.push(`/${myInfo ? myInfo.url : '/'}`);
       }
@@ -127,6 +128,9 @@ export function usePostImage() {
     if (res && res.data) {
       setUrl(res.data.data.thumbnail);
     }
+    return () => {
+      setUrl(null);
+    };
   }, [res]);
 
   useEffect(() => {
