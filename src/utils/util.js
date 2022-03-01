@@ -35,6 +35,10 @@ export function urlOwnerNotFound(message) {
   return message === 'no user information';
 }
 
+export function isOk(code) {
+  return code === 'ok';
+}
+
 export function isError(code) {
   return code === 'error';
 }
