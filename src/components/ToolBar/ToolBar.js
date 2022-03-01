@@ -70,6 +70,7 @@ const toolBar = css`
   width: 150px;
   height: 60px;
   border-radius: 10px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   background-color: #eeeeee;
 `;
 

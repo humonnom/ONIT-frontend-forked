@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
 import { createReplacementWidgetsAction } from '../redux/slice';
@@ -6,7 +6,46 @@ import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
 import { useRequestAuth } from './useRequestAuth';
 import { getApiEndpoint } from '../utils/util';
+import { ACTION_EDIT, ACTION_NONE, TYPE_IMAGE } from '../utils/constantValue';
 
+export function useEditWidget() {
+  const { widgets, modal } = useSelector((state) => ({
+    widgets: state.info.widgets,
+    modal: state.info.modal,
+  }));
+  const dispatch = useDispatch();
+
+  const editWidgetState = (data) => {
+    const changedWidgets = JSON.parse(JSON.stringify(widgets.list));
+    const targetId = modal.imgChangeTargetId;
+    const targetItem = changedWidgets.find((widget) => widget.i === targetId);
+    targetItem.widget_type = TYPE_IMAGE;
+    targetItem.widget_data = {
+      thumbnail: `${data}`,
+      url: '',
+    };
+    if (
+      targetItem.widget_action === ACTION_NONE ||
+      targetItem.widget_code !== ''
+    ) {
+      targetItem.widget_action = ACTION_EDIT;
+    }
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        list: changedWidgets,
+      })
+    );
+  };
+
+  const edit = (data) => {
+    if (data) {
+      editWidgetState(data);
+    }
+  };
+
+  return { edit };
+}
 export function useSaveWidget() {
   const dispatch = useDispatch();
 
@@ -49,6 +88,7 @@ export function usePostData() {
 
   useEffect(() => {
     if (postData && userSeq) {
+      console.log('post 시행');
       request();
     }
   }, [postData, userSeq]);
@@ -57,7 +97,7 @@ export function usePostData() {
     if (res && res.data) {
       if (res.data.code === 'wrong_token') {
         history.push(`/login`);
-        alert('로그인을 다시 해주세요.');
+        console.log('로그인을 다시 해주세요.');
       } else {
         history.push(`/${myInfo ? myInfo.url : '/'}`);
       }
@@ -81,19 +121,28 @@ export function usePostImage() {
     endpoint: `${getApiEndpoint()}/local/image`,
     method: 'post',
     data,
+    contentType: 'multipart/form-data',
   });
 
   useEffect(() => {
     if (res && res.data) {
       setUrl(res.data.data.thumbnail);
     }
+    return () => {
+      setUrl(null);
+    };
   }, [res]);
+
+  useEffect(() => {
+    if (data) {
+      post();
+    }
+  }, [data]);
 
   const request = (files) => {
     const formData = new FormData();
-    formData.append('file', files[0]);
+    formData.append('image_file', files[0]);
     setData(formData);
-    post();
   };
 
   return {

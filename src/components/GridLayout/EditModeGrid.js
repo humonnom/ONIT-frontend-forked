@@ -45,7 +45,7 @@ function EditModeGrid() {
   const [selectedWidget, setSelectedWidget] = useState(null);
   const { x, y, floating, reference, strategy, update } = useFloating({
     placement: 'top-start',
-    middleware: [shift(), flip(), offset(10)],
+    middleware: [shift(), flip(), offset(25)],
   });
 
   const dispatch = useDispatch();
