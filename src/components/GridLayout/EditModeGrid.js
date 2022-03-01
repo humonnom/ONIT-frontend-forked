@@ -45,7 +45,7 @@ function EditModeGrid() {
   const [selectedWidget, setSelectedWidget] = useState(null);
   const { x, y, floating, reference, strategy, update } = useFloating({
     placement: 'top-start',
-    middleware: [shift(), flip(), offset(10)],
+    middleware: [shift(), flip(), offset(25)],
   });
 
   const dispatch = useDispatch();
@@ -161,7 +161,7 @@ function EditModeGrid() {
       minWidth: '1124px',
       minHeight: `100vh`,
       backgroundSize: `calc((${minWindowWidth}px - ${margin}px) / ${cols}) calc((${minWindowWidth}px - ${margin}px) / ${cols})`,
-      backgroundPosition: `${margin / 2 - 2}px ${margin / 2 - 1}px`,
+      backgroundPosition: `${margin / 2 - 1}px ${margin / 2 - 1}px`,
       backgroundImage: `linear-gradient(to right, #eee 2px, transparent 2px),
   linear-gradient(to bottom, #eee 2px, transparent 2px)`,
     }),
