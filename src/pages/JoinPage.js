@@ -223,10 +223,23 @@ function JoinPage() {
                 id='agreement'
                 onChange={(event) => setAgreement(event.target.checked)}
               />
-              <label htmlFor='agreement'>약관에 동의합니다.</label>
+              <label htmlFor='agreement' css={AgreementLabel}>
+                <button
+                  type='button'
+                  css={[InitButtonStyle]}
+                  onClick={() => history.push(`/terms`)}
+                >
+                  약관
+                </button>
+                에 동의합니다.
+              </label>
               <p>{agreementState === 'ok' ? '' : agreementState}</p>
             </div>
-            <button type='submit' disabled={disableSubmit}>
+            <button
+              type='submit'
+              css={ConfirmButtonStyle}
+              disabled={disableSubmit}
+            >
               생성 완료
             </button>
           </div>
@@ -411,19 +424,24 @@ const InputConfirm = css`
   p {
     font-size: 0.8rem;
   }
-  button {
-    ${InitButtonStyle}
-    padding: 1.5vh 4vw;
-    background-color: ${COLOR_STYLE.orange};
-    border-radius: 30px;
-    color: ${COLOR_STYLE.white};
-  }
+`;
+
+const ConfirmButtonStyle = css`
+  ${InitButtonStyle}
+  padding: 1.5vh 4vw;
+  background-color: ${COLOR_STYLE.orange};
+  border-radius: 30px;
+  color: ${COLOR_STYLE.white};
 `;
 
 const passwordToggleButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   color: ${COLOR_STYLE.brownishGrey};
+`;
+
+const AgreementLabel = css`
+  font-size: 0.8rem;
 `;
 
 const passwordToggleButtonMQ = () => {
