@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import { useMyInfo } from '../hooks/myInfo';
 
 function SplashPage() {
   const history = useHistory();
   const { loggedIn, myInfo } = useMyInfo();
-  const [dest, setDest] = useState(null);
 
-  useEffect(() => {
+  const dest = useMemo(() => {
     if (loggedIn === true) {
-      setDest(`/${myInfo.url}`);
+      return `/${myInfo.url}`;
+    } else if (loggedIn === false) {
+      return 'login';
     }
-    return () => {
-      setDest('login');
-    };
-  }, [loggedIn]);
+    return null;
+  }, [loggedIn, myInfo]);
 
   useEffect(() => {
     if (dest) {
