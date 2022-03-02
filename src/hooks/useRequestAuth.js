@@ -21,7 +21,7 @@ import {
 export function useRequestAuth(props) {
   const { endpoint, method, data, contentType } = props;
 
-  const [result, setResult] = useState(null);
+  // const [result, setResult] = useState(null);
   const [renewSuccess, setRenewSuccess] = useState(false);
   const [resultRes, setRes] = useState(null);
 
@@ -64,7 +64,7 @@ export function useRequestAuth(props) {
       ) {
         renewToken();
       } else {
-        setResult(resultRes);
+        setRes(resultRes);
       }
     }
   }, [resultRes]);
@@ -101,7 +101,7 @@ export function useRequestAuth(props) {
     }
   }, [renewSuccess]);
 
-  return { res: result, request };
+  return { res: resultRes, request };
 }
 
 export default useRequestAuth;
