@@ -13,6 +13,8 @@ import {
   PageTitleMQ,
   SHADOW_STYLE,
   mq,
+  BackButton,
+  TextUnderline,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
 import { useRequest } from '../hooks/useRequest';
@@ -229,7 +231,7 @@ function JoinPage() {
                   css={[InitButtonStyle]}
                   onClick={() => history.push(`/terms`)}
                 >
-                  약관
+                  <p css={[TextUnderline]}>약관</p>
                 </button>
                 에 동의합니다.
               </label>
@@ -304,14 +306,6 @@ const PageInfo = css`
   ${FlexColSpaceAroundStart}
   height: 20vh;
   width: 100%;
-`;
-
-const BackButton = css`
-  ${InitButtonStyle}
-  font-size: 1.2rem;
-  color: ${COLOR_STYLE.brownishGrey};
-  margin-bottom: 3vh;
-  font-weight: bold;
 `;
 
 const PageGuideMessage = css`

@@ -12,6 +12,10 @@ export const COLOR_STYLE = {
   coral: '#ff4545',
 };
 
+export const TextUnderline = css`
+  text-decoration: underline;
+`;
+
 export const SHADOW_STYLE = {
   pale: ' 3px 0px 20px -5px rgba(0, 0, 0, 0.09)',
 };
@@ -128,3 +132,11 @@ export const PageTitleMQ = () => {
     fontSize: [FONT_SIZE.s, FONT_SIZE.s, FONT_SIZE.m, FONT_SIZE.l],
   });
 };
+
+export const BackButton = css`
+  ${InitButtonStyle}
+  font-size: 1.2rem;
+  color: ${COLOR_STYLE.brownishGrey};
+  margin-bottom: 3vh;
+  font-weight: bold;
+`;
