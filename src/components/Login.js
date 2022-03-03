@@ -57,9 +57,9 @@ function Login() {
     if (email.state !== 'ok' && password.state !== 'ok') {
       alert('아이디와 비밀번호를 입력해주세요.');
     } else if (email.state !== 'ok') {
-      alert('아이디를 입력해주세요.');
+      alert(email.state);
     } else if (password.state !== 'ok') {
-      alert('비밀번호를 입력해주세요.');
+      alert(password.state);
     } else {
       request();
     }
