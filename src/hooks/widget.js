@@ -159,7 +159,7 @@ export function useAddEmptyWidget() {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
-  const dispatch = useDispatch();
+  const { updateWidgets } = useUpdateWidgetsData();
 
   const addEmptyWidget = (mouseOverWidget) => {
     const newWidget = {
@@ -173,16 +173,26 @@ export function useAddEmptyWidget() {
       w: 1,
       h: 1,
     };
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
-      })
-    );
+    updateWidgets([...widgets.list, newWidget]);
+  };
+  return {
+    addEmptyWidget,
+  };
+}
+export function useRemoveEmptyWidget() {
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const removeEmptyWidget = () => {
+    const converted = widgets.list.filter(function (element) {
+      return element.widget_type !== TYPE_NEW;
+    });
+    updateWidgets(converted);
   };
 
   return {
-    addEmptyWidget,
+    removeEmptyWidget,
   };
 }
