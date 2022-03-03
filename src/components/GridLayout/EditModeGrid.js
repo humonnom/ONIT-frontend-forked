@@ -31,7 +31,6 @@ const widgetDefaultValue = {
 
 function EditModeGrid() {
   const { addEmptyWidget } = useAddEmptyWidget();
-  // const { removeEmptyWidget } = useRemoveEmptyWidget();
   const windowWidth = useWindowSize().width;
   const minWindowWidth = useMemo(() => {
     if (windowWidth > 1124) {
