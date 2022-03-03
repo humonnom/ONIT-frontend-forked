@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createReplacementWidgetsAction } from '../redux/slice';
 import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
@@ -178,7 +178,7 @@ export function useAddEmptyWidget() {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
-  const dispatch = useDispatch();
+  const { updateWidgets } = useUpdateWidgetsData();
 
   const addEmptyWidget = (mouseOverWidget) => {
     const newWidget = {
@@ -192,15 +192,8 @@ export function useAddEmptyWidget() {
       w: 1,
       h: 1,
     };
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
-      })
-    );
+    updateWidgets([...widgets.list, newWidget]);
   };
-
   return {
     addEmptyWidget,
   };
@@ -209,21 +202,14 @@ export function useRemoveEmptyWidget() {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
-  const dispatch = useDispatch();
+  const { updateWidgets } = useUpdateWidgetsData();
 
-  const removeEmptyWidget = useCallback(() => {
-    console.log('remove');
+  const removeEmptyWidget = () => {
     const converted = widgets.list.filter(function (element) {
       return element.widget_type !== TYPE_NEW;
     });
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: converted.lenth,
-        list: [converted],
-      })
-    );
-  }, [widgets]);
+    updateWidgets(converted);
+  };
 
   return {
     removeEmptyWidget,
