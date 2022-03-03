@@ -37,8 +37,8 @@ function createIdKey(obj, index) {
 
 export function convertForRedux(infos) {
   if (!infos) return [];
-  // const converted = JSON.parse(JSON.stringify(infos));
-  const converted = infos.filter(function (element) {
+  const widgets = JSON.parse(JSON.stringify(infos));
+  const converted = widgets.filter(function (element) {
     return element.widget_type !== TYPE_NEW;
   });
   converted.map(function (info, index) {

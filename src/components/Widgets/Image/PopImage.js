@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { InitButtonStyle } from '../../../styles/GlobalStyles';
 import PopButtonsWrapper from '../PopButtonsWrapper';
-import { useEditWidget, usePostImage } from '../../../hooks/widget';
+import { useInitWidget, usePostImage } from '../../../hooks/widget';
+import { TYPE_IMAGE } from '../../../utils/constantValue';
 
 function PopImage(props) {
   const [submitted, setSubmitted] = useState(false);
@@ -12,18 +13,18 @@ function PopImage(props) {
   const [localFiles, setLocalFiles] = useState(null);
   const { s3url, request } = usePostImage();
 
-  const { edit } = useEditWidget();
+  const { init } = useInitWidget();
 
   const handleSubmit = () => {
     if (isLocalUpload && localFiles) {
-      request(localFiles); // post to server
+      request(localFiles);
     }
     setSubmitted(true);
   };
 
   useEffect(() => {
     if (submitted && thumbnail) {
-      edit(thumbnail);
+      init({ type: TYPE_IMAGE, data: { thumbnail } });
       props.endPop();
     }
   }, [thumbnail, submitted]);

@@ -14,7 +14,7 @@ import {
 } from '../utils/util';
 import { useGetUrl } from '../hooks/util';
 import { useMyInfo } from '../hooks/myInfo';
-import { useSaveWidget } from '../hooks/widget';
+import { useSaveWidgetsFromServer } from '../hooks/widget';
 import { useRequest } from '../hooks/useRequest';
 
 function NormalMode() {
@@ -69,7 +69,7 @@ function NormalMode() {
     }
   }, [userSeq, requestWidgetData]);
 
-  const { save } = useSaveWidget();
+  const { save } = useSaveWidgetsFromServer();
 
   useEffect(() => {
     if (widgetRes) {

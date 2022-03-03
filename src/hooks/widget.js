@@ -14,21 +14,22 @@ import {
   TYPE_NEW,
 } from '../utils/constantValue';
 
-export function useEditWidget() {
+// init new widget
+export function useInitWidget() {
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
   const dispatch = useDispatch();
 
-  const editWidgetState = (data) => {
-    const changedWidgets = JSON.parse(JSON.stringify(widgets.list));
+  const initImageWidget = ({ thumbnail, url }) => {
+    const changed = JSON.parse(JSON.stringify(widgets.list));
     const targetId = modal.imgChangeTargetId;
-    const targetItem = changedWidgets.find((widget) => widget.i === targetId);
+    const targetItem = changed.find((widget) => widget.i === targetId);
     targetItem.widget_type = TYPE_IMAGE;
     targetItem.widget_data = {
-      thumbnail: `${data}`,
-      url: '',
+      thumbnail: `${thumbnail}`,
+      url: `${url}`,
     };
     if (
       targetItem.widget_action === ACTION_NONE ||
@@ -36,33 +37,52 @@ export function useEditWidget() {
     ) {
       targetItem.widget_action = ACTION_EDIT;
     }
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        list: changedWidgets,
-      })
-    );
+    updateRedux(changed);
   };
 
-  const edit = (data) => {
-    if (data) {
-      editWidgetState(data);
+  const updateRedux = (changed) => {
+    if (changed) {
+      dispatch(
+        createReplacementWidgetsAction({
+          ...widgets,
+          list: changed,
+        })
+      );
     }
   };
 
-  return { edit };
+  const init = ({ type, data }) => {
+    if (data) {
+      if (type === TYPE_IMAGE) {
+        initImageWidget(data);
+      }
+    }
+  };
+  return { init };
 }
-export function useSaveWidget() {
+
+// save widget data to redux (no need convert)
+export function useUpdateWidgetsData() {
   const dispatch = useDispatch();
 
-  const setWidgetState = (widgetList) => {
-    const convertedForRedux = convertForRedux(widgetList);
+  const updateWidgets = (newData) => {
     dispatch(
       createReplacementWidgetsAction({
-        count: convertedForRedux.length,
-        list: convertedForRedux,
+        count: newData.length,
+        list: newData,
       })
     );
+  };
+  return { updateWidgets };
+}
+
+// save widget data from server (need convert)
+export function useSaveWidgetsFromServer() {
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const setWidgetState = (widgetList) => {
+    const converted = convertForRedux(widgetList);
+    updateWidgets(converted);
   };
 
   const save = (data) => {
@@ -70,7 +90,6 @@ export function useSaveWidget() {
       setWidgetState(data);
     }
   };
-
   return { save };
 }
 
