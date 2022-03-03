@@ -31,6 +31,7 @@ const widgetDefaultValue = {
 
 function EditModeGrid() {
   const { addEmptyWidget } = useAddEmptyWidget();
+  // const { removeEmptyWidget } = useRemoveEmptyWidget();
   const windowWidth = useWindowSize().width;
   const minWindowWidth = useMemo(() => {
     if (windowWidth > 1124) {
@@ -54,7 +55,7 @@ function EditModeGrid() {
     modal: state.info.modal,
   }));
 
-  // delete처리 된 위젯은 필터링
+  // delete처리 된 위젯 필터링
   const layoutInfo = useMemo(() => {
     const newList = widgets.list.filter(function (element) {
       return element.widget_action !== 'D';
@@ -68,19 +69,20 @@ function EditModeGrid() {
     // setSelectedWidget(null);
     // } else
     if (isWidgetOverlap === false) {
+      // remove empty widget();
       addEmptyWidget(mouseOverWidget);
     }
   };
 
   // 그리드 수정 시 변경된 정보를 dispatch로 전송해줌.
   const renewWidgetsList = useCallback(
-    (newItem) => {
+    (target) => {
       const items = JSON.parse(JSON.stringify(widgets.list));
-      const found = items.find((element) => element.i === newItem.i);
-      found.x = newItem.x;
-      found.y = newItem.y;
-      found.w = newItem.w;
-      found.h = newItem.h;
+      const found = items.find((element) => element.i === target.i);
+      found.x = target.x;
+      found.y = target.y;
+      found.w = target.w;
+      found.h = target.h;
       if (found.widget_action === ACTION_NONE || found.widget_code !== '') {
         found.widget_action = ACTION_EDIT;
       }

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createReplacementWidgetsAction } from '../redux/slice';
 import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
@@ -14,21 +14,22 @@ import {
   TYPE_NEW,
 } from '../utils/constantValue';
 
-export function useEditWidget() {
+// init new widget
+export function useInitWidget() {
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
   const dispatch = useDispatch();
 
-  const editWidgetState = (data) => {
-    const changedWidgets = JSON.parse(JSON.stringify(widgets.list));
+  const initImageWidget = ({ thumbnail, url }) => {
+    const changed = JSON.parse(JSON.stringify(widgets.list));
     const targetId = modal.imgChangeTargetId;
-    const targetItem = changedWidgets.find((widget) => widget.i === targetId);
+    const targetItem = changed.find((widget) => widget.i === targetId);
     targetItem.widget_type = TYPE_IMAGE;
     targetItem.widget_data = {
-      thumbnail: `${data}`,
-      url: '',
+      thumbnail: `${thumbnail}`,
+      url: `${url}`,
     };
     if (
       targetItem.widget_action === ACTION_NONE ||
@@ -36,33 +37,52 @@ export function useEditWidget() {
     ) {
       targetItem.widget_action = ACTION_EDIT;
     }
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        list: changedWidgets,
-      })
-    );
+    updateRedux(changed);
   };
 
-  const edit = (data) => {
-    if (data) {
-      editWidgetState(data);
+  const updateRedux = (changed) => {
+    if (changed) {
+      dispatch(
+        createReplacementWidgetsAction({
+          ...widgets,
+          list: changed,
+        })
+      );
     }
   };
 
-  return { edit };
+  const init = ({ type, data }) => {
+    if (data) {
+      if (type === TYPE_IMAGE) {
+        initImageWidget(data);
+      }
+    }
+  };
+  return { init };
 }
-export function useSaveWidget() {
+
+// save widget data to redux (no need convert)
+export function useUpdateWidgetsData() {
   const dispatch = useDispatch();
 
-  const setWidgetState = (widgetList) => {
-    const convertedForRedux = convertForRedux(widgetList);
+  const updateWidgets = (newData) => {
     dispatch(
       createReplacementWidgetsAction({
-        count: convertedForRedux.length,
-        list: convertedForRedux,
+        count: newData.length,
+        list: newData,
       })
     );
+  };
+  return { updateWidgets };
+}
+
+// save widget data from server (need convert)
+export function useSaveWidgetsFromServer() {
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const setWidgetState = (widgetList) => {
+    const converted = convertForRedux(widgetList);
+    updateWidgets(converted);
   };
 
   const save = (data) => {
@@ -70,7 +90,6 @@ export function useSaveWidget() {
       setWidgetState(data);
     }
   };
-
   return { save };
 }
 
@@ -184,5 +203,29 @@ export function useAddEmptyWidget() {
 
   return {
     addEmptyWidget,
+  };
+}
+export function useRemoveEmptyWidget() {
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const dispatch = useDispatch();
+
+  const removeEmptyWidget = useCallback(() => {
+    console.log('remove');
+    const converted = widgets.list.filter(function (element) {
+      return element.widget_type !== TYPE_NEW;
+    });
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        count: converted.lenth,
+        list: [converted],
+      })
+    );
+  }, [widgets]);
+
+  return {
+    removeEmptyWidget,
   };
 }
