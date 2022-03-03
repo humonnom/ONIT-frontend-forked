@@ -21,9 +21,10 @@ import {
 export function useRequestAuth(props) {
   const { endpoint, method, data, contentType } = props;
 
-  // const [result, setResult] = useState(null);
+  const [firstRes, setFirstRes] = useState(null);
+  const [secondRes, setSecondRes] = useState(null);
+  const [renewRes, setRenewRes] = useState(null);
   const [renewSuccess, setRenewSuccess] = useState(false);
-  const [resultRes, setRes] = useState(null);
 
   const request = useCallback(() => {
     const headers = {
@@ -44,30 +45,39 @@ export function useRequestAuth(props) {
 
     axiosPromise
       .then((res) => {
-        setRes(res);
+        if (renewSuccess) {
+          setSecondRes(res);
+        } else {
+          setFirstRes(res);
+        }
       })
       .catch(() => {
-        setRes({
+        const errorRes = {
           data: {
             code: 'error',
             message: '404 not found-server connection failed',
           },
-        });
+        };
+        if (renewSuccess) {
+          setSecondRes(errorRes);
+        } else {
+          setFirstRes(errorRes);
+        }
       });
   }, [endpoint, method, data]);
 
   useEffect(() => {
-    if (resultRes) {
+    if (firstRes) {
       if (
-        isExpiredToken(resultRes.data.code) ||
-        isInvalidToken(resultRes.data.code)
+        isExpiredToken(firstRes.data.code) ||
+        isInvalidToken(firstRes.data.code)
       ) {
         renewToken();
       } else {
-        setRes(resultRes);
+        setSecondRes(firstRes);
       }
     }
-  }, [resultRes]);
+  }, [firstRes]);
 
   const renewToken = useCallback(() => {
     const refreshToken = localStorage.getItem('refresh_token');
@@ -76,19 +86,12 @@ export function useRequestAuth(props) {
         refresh_token: refreshToken,
       },
     };
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('refresh_token')}`,
-    };
     axios
       .get(`${getApiEndpoint()}/auth/token/refresh`, {
         params,
-        headers,
       })
       .then((res) => {
-        if (isOk(res.data.code)) {
-          setLocalStorage(res.data.data);
-          setRenewSuccess(true);
-        }
+        setRenewRes(res);
       })
       .catch(() => {
         console.error('token renew error');
@@ -96,12 +99,23 @@ export function useRequestAuth(props) {
   }, []);
 
   useEffect(() => {
+    if (renewRes && renewRes.data) {
+      if (isOk(renewRes.data.code)) {
+        setLocalStorage(renewRes.data.data);
+        setRenewSuccess(true);
+      } else {
+        setSecondRes(firstRes);
+      }
+    }
+  }, [renewRes]);
+
+  useEffect(() => {
     if (renewSuccess) {
       request();
     }
   }, [renewSuccess]);
 
-  return { res: resultRes, request };
+  return { res: secondRes, request };
 }
 
 export default useRequestAuth;

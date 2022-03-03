@@ -72,7 +72,7 @@ function PopImage(props) {
         <input
           type='file'
           name='imgae_file'
-          accept='image/*'
+          accept='image/png, image/jpeg, image/gif'
           css={urlInputStyle}
           onChange={handleLocalUpload}
         />
