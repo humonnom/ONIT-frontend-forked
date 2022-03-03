@@ -14,11 +14,10 @@ import {
   ACTION_EDIT,
   TYPE_MOUSE,
   TYPE_NONEDISPLAY,
-  ACTION_CREATE,
-  TYPE_NEW,
 } from '../../utils/constantValue';
 import useWindowSize from './useWindowSize';
 import ToolBar from '../ToolBar/ToolBar';
+import { useAddEmptyWidget } from '../../hooks/widget';
 
 const widgetDefaultValue = {
   i: '0',
@@ -31,6 +30,7 @@ const widgetDefaultValue = {
 };
 
 function EditModeGrid() {
+  const { addEmptyWidget } = useAddEmptyWidget();
   const windowWidth = useWindowSize().width;
   const minWindowWidth = useMemo(() => {
     if (windowWidth > 1124) {
@@ -54,7 +54,7 @@ function EditModeGrid() {
     modal: state.info.modal,
   }));
 
-  // delete처리 된 위젯은 그리드에 띄우지 않기 위해 필터링해줌
+  // delete처리 된 위젯은 필터링
   const layoutInfo = useMemo(() => {
     const newList = widgets.list.filter(function (element) {
       return element.widget_action !== 'D';
@@ -62,36 +62,15 @@ function EditModeGrid() {
     return newList;
   }, [widgets]);
 
-  // 빈 그리드 클릭 시 빈 위젯 생성 기능(이미 툴바가 있으면 툴바 내려줌)
+  // 빈 그리드 클릭 시 빈 위젯 생성
   const makeNewWidgetEvent = () => {
-    if (selectedWidget) {
-      setSelectedWidget(null);
-    } else if (isWidgetOverlap === false) {
-      makeNewWidget();
+    // if (selectedWidget) {
+    // setSelectedWidget(null);
+    // } else
+    if (isWidgetOverlap === false) {
+      addEmptyWidget(mouseOverWidget);
     }
   };
-
-  function makeNewWidget() {
-    const newWidget = {
-      widget_action: ACTION_CREATE,
-      widget_code: '',
-      widget_type: TYPE_NEW,
-      widget_data: {},
-      i: `${widgets.count + 1}`,
-      x: mouseOverWidget[0].x,
-      y: mouseOverWidget[0].y,
-      w: 2,
-      h: 2,
-    };
-
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        count: widgets.count + 1,
-        list: [...widgets.list, newWidget],
-      })
-    );
-  }
 
   // 그리드 수정 시 변경된 정보를 dispatch로 전송해줌.
   const renewWidgetsList = useCallback(
