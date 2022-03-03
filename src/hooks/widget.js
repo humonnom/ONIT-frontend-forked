@@ -6,7 +6,13 @@ import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
 import { useRequestAuth } from './useRequestAuth';
 import { getApiEndpoint } from '../utils/util';
-import { ACTION_EDIT, ACTION_NONE, TYPE_IMAGE } from '../utils/constantValue';
+import {
+  ACTION_CREATE,
+  ACTION_EDIT,
+  ACTION_NONE,
+  TYPE_IMAGE,
+  TYPE_NEW,
+} from '../utils/constantValue';
 
 export function useEditWidget() {
   const { widgets, modal } = useSelector((state) => ({
@@ -146,5 +152,37 @@ export function usePostImage() {
   return {
     s3url: url,
     request,
+  };
+}
+
+export function useAddEmptyWidget() {
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const dispatch = useDispatch();
+
+  const addEmptyWidget = (mouseOverWidget) => {
+    const newWidget = {
+      widget_action: ACTION_CREATE,
+      widget_code: '',
+      widget_type: TYPE_NEW,
+      widget_data: {},
+      i: `${widgets.count + 1}`,
+      x: mouseOverWidget[0].x,
+      y: mouseOverWidget[0].y,
+      w: 1,
+      h: 1,
+    };
+    dispatch(
+      createReplacementWidgetsAction({
+        ...widgets,
+        count: widgets.count + 1,
+        list: [...widgets.list, newWidget],
+      })
+    );
+  };
+
+  return {
+    addEmptyWidget,
   };
 }
