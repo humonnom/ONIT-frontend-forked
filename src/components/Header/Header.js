@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
 import { logo, mypage, search } from '../../asset';
-import { logout } from '../../utils/util';
-import { useMyInfo } from '../../hooks/myInfo';
 import { usePostData } from '../../hooks/widget';
+import { useMyInfo } from '../../hooks/myInfo';
+import { logout } from '../../utils/util';
 
 function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const history = useHistory();
