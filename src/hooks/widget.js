@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createReplacementWidgetsAction } from '../redux/slice';
 import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
@@ -14,7 +14,6 @@ import {
   TYPE_NEW,
 } from '../utils/constantValue';
 
-// init new widget
 export function useInitWidget() {
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
@@ -22,23 +21,33 @@ export function useInitWidget() {
   }));
   const dispatch = useDispatch();
 
-  const initImageWidget = ({ thumbnail, url }) => {
-    const changed = JSON.parse(JSON.stringify(widgets.list));
-    const targetId = modal.imgChangeTargetId;
-    const targetItem = changed.find((widget) => widget.i === targetId);
-    targetItem.widget_type = TYPE_IMAGE;
-    targetItem.widget_data = {
-      thumbnail: `${thumbnail}`,
-      url: `${url}`,
-    };
-    if (
-      targetItem.widget_action === ACTION_NONE ||
-      targetItem.widget_code !== ''
-    ) {
-      targetItem.widget_action = ACTION_EDIT;
-    }
-    updateRedux(changed);
-  };
+  useEffect(() => {
+    console.log('[modal change]');
+    console.log(modal.imgChangeTargetId);
+  }, [modal]);
+
+  const initImageWidget = useCallback(
+    ({ thumbnail, url }) => {
+      const changed = JSON.parse(JSON.stringify(widgets.list));
+      const targetId = modal.imgChangeTargetId;
+      console.log(targetId);
+      console.log('init image widget');
+      const targetItem = changed.find((widget) => widget.i === targetId);
+      targetItem.widget_type = TYPE_IMAGE;
+      targetItem.widget_data = {
+        thumbnail: `${thumbnail}`,
+        url: `${url}`,
+      };
+      if (
+        targetItem.widget_action === ACTION_NONE ||
+        targetItem.widget_code !== ''
+      ) {
+        targetItem.widget_action = ACTION_EDIT;
+      }
+      updateRedux(changed);
+    },
+    [modal]
+  );
 
   const updateRedux = (changed) => {
     if (changed) {
@@ -51,17 +60,22 @@ export function useInitWidget() {
     }
   };
 
-  const init = ({ type, data }) => {
-    if (data) {
-      if (type === TYPE_IMAGE) {
-        initImageWidget(data);
+  const init = useCallback(
+    ({ type, data }) => {
+      if (data) {
+        if (type === TYPE_IMAGE) {
+          console.log('init');
+          console.log(modal.imgChangeTargetId);
+          initImageWidget(data);
+        }
       }
-    }
-  };
+    },
+    [initImageWidget]
+  );
+
   return { init };
 }
 
-// save widget data to redux (no need convert)
 export function useUpdateWidgetsData() {
   const dispatch = useDispatch();
 
@@ -132,14 +146,12 @@ export function usePostData() {
       setPostData(convertForServer(data));
     }
   };
-
   return { post };
 }
 
 export function usePostImage() {
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
-
   const { res, request: post } = useRequestAuth({
     endpoint: `${getApiEndpoint()}/local/image`,
     method: 'post',
@@ -179,7 +191,6 @@ export function useAddEmptyWidget() {
     widgets: state.info.widgets,
   }));
   const { updateWidgets } = useUpdateWidgetsData();
-
   const addEmptyWidget = (mouseOverWidget) => {
     const newWidget = {
       widget_action: ACTION_CREATE,
@@ -203,7 +214,6 @@ export function useRemoveEmptyWidget() {
     widgets: state.info.widgets,
   }));
   const { updateWidgets } = useUpdateWidgetsData();
-
   const removeEmptyWidget = () => {
     const converted = widgets.list.filter(function (element) {
       return element.widget_type !== TYPE_NEW;
@@ -216,20 +226,18 @@ export function useRemoveEmptyWidget() {
   };
 }
 
-export function useDetachOutsideClick(ref, action) {
+export function useDetachOutsideClick(ref) {
+  const [detached, setDetached] = useState(null);
   useEffect(() => {
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
-        console.log('You clicked outside of me!');
-        action();
+        setDetached(true);
       }
     }
-
-    // Bind the event listener
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [ref]);
+  return { detached };
 }

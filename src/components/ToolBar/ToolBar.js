@@ -1,16 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { useDispatch, useSelector } from 'react-redux';
 import { ToolBarButton } from '..';
-import { createReplacementModalAction } from '../../redux/slice';
 import { img, video, text } from '../../asset/index';
+import { useSetPopUpModal } from '../../hooks/toolbar';
 
 function ToolBar() {
-  const dispatch = useDispatch();
-  const { modal } = useSelector((state) => ({
-    modal: state.info.modal,
-  }));
+  const { turnOn } = useSetPopUpModal();
 
   const widgetList = [
     { type: 'image', label: '그림', emoji: img },
@@ -36,13 +32,7 @@ function ToolBar() {
     emoji: value.emoji,
     type: value.type,
     onClick: () => {
-      dispatch(
-        createReplacementModalAction({
-          ...modal,
-          popUpWindow: true,
-          popUpWindowType: value.type,
-        })
-      );
+      turnOn(value.type);
     },
   }));
 

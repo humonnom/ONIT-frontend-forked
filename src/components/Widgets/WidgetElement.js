@@ -1,12 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeSet, settingSet } from '../../asset';
-import {
-  createReplacementModalAction,
-  createReplacementWidgetsAction,
-} from '../../redux/slice';
+import { createReplacementWidgetsAction } from '../../redux/slice';
 import {
   ACTION_CREATE,
   ACTION_DELETE,
@@ -21,6 +18,9 @@ import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
+import { useSetPopUpModal, useSetToolbar } from '../../hooks/toolbar';
+import { useDetachOutsideClick } from '../../hooks/widget';
+import { getTypeToString } from '../../utils/util';
 
 export function WidgetElement({
   element,
@@ -30,23 +30,10 @@ export function WidgetElement({
 }) {
   const [hover, setHover] = useState(false);
   const layout = element;
-  const { widgets, modal } = useSelector((state) => ({
+  const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
-    modal: state.info.modal,
   }));
   const dispatch = useDispatch();
-
-  // dispatch
-  const openEditWindow = (id) => {
-    console.log('open window');
-    dispatch(
-      createReplacementModalAction({
-        ...modal,
-        imgInputWindow: true,
-        imgChangeTargetId: id,
-      })
-    );
-  };
 
   const updateWidgets = (newWidgetList) => {
     dispatch(
@@ -70,7 +57,7 @@ export function WidgetElement({
 
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_NEW) {
-      return <NewBox deleteMyself={deleteButtonAction} index={curInfo.i} />;
+      return <NewBox />;
     } else if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_VIDEO) {
@@ -93,31 +80,44 @@ export function WidgetElement({
     }
   }
 
-  useEffect(() => {
-    if (mode === 'edit' && layout.widget_type === TYPE_NEW) {
-      // openEditWindow(layout.i);
-      // const newWidgetList = getNewWidgetList(layout.i, 'E');
-      // setSelectedWidget(layout.i);
-      // updateWidgets(newWidgetList);
-      console.log('open modal');
-    }
-  }, [mode, layout]);
-
   const deleteButtonAction = (index) => {
     const newWidgetList = getNewWidgetList(index, 'D');
     updateWidgets(newWidgetList);
-    setIsWidgetOverlap(false);
+    if (setIsWidgetOverlap) {
+      setIsWidgetOverlap(false);
+    }
   };
+  const { open, close } = useSetToolbar(layout.i);
+  const { turnOn } = useSetPopUpModal();
+  const settingButtonAction = useCallback(
+    (index) => {
+      alert('바로 수정 화면 나오게 변경');
+      open();
+      turnOn(getTypeToString(layout.widget_type));
+      const newWidgetList = getNewWidgetList(index, 'E');
+      // setSelectedWidget(null);
+      updateWidgets(newWidgetList);
+    },
+    [open, turnOn]
+  );
+  const wrapperRef = useRef(null);
+  const { detached } = useDetachOutsideClick(wrapperRef);
 
-  const settingButtonAction = (index) => {
-    openEditWindow(index);
-    const newWidgetList = getNewWidgetList(index, 'E');
-    setSelectedWidget(index);
-    updateWidgets(newWidgetList);
-  };
+  useEffect(() => {
+    if (detached === true) {
+      if (layout.widget_type === TYPE_NEW) {
+        close();
+        if (setSelectedWidget) {
+          setSelectedWidget(null);
+        }
+        deleteButtonAction(layout.i);
+      }
+    }
+  }, [detached, close]);
 
   return (
     <div
+      ref={wrapperRef}
       key={parseInt(layout.i, 10)}
       css={[widgetFrame]}
       onMouseEnter={() => {
@@ -127,7 +127,7 @@ export function WidgetElement({
         setHover(false);
       }}
     >
-      {mode === 'edit' && hover && (
+      {mode === 'edit' && hover && layout.widget_type !== TYPE_NEW && (
         <>
           <div css={[positionAbsolute, hoverBackground]} />
           <button

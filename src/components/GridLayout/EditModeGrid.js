@@ -51,7 +51,6 @@ function EditModeGrid() {
   const dispatch = useDispatch();
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
-    modal: state.info.modal,
   }));
 
   // delete처리 된 위젯 필터링

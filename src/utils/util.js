@@ -1,4 +1,5 @@
 import { useGetUrl } from '../hooks/util';
+import { TYPE_IMAGE, TYPE_VIDEO } from './constantValue';
 
 export function getApiEndpoint() {
   const endpoint =
@@ -125,4 +126,13 @@ export function logout() {
   localStorage.removeItem('user_seq');
   localStorage.removeItem('page_url');
   window.location.assign('/login');
+}
+export function getTypeToString(type) {
+  if (type === TYPE_VIDEO) {
+    return 'video';
+  }
+  if (type === TYPE_IMAGE) {
+    return 'image';
+  }
+  return 'none';
 }

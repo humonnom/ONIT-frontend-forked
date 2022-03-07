@@ -24,10 +24,11 @@ function PopImage(props) {
 
   useEffect(() => {
     if (submitted && thumbnail) {
-      init({ type: TYPE_IMAGE, data: { thumbnail } });
+      console.log('popimage');
+      init({ type: TYPE_IMAGE, data: { thumbnail, url: '' } });
       props.endPop();
     }
-  }, [thumbnail, submitted]);
+  }, [thumbnail, submitted, init]);
 
   const handleThumbChange = ({ target: { value } }) => {
     setThumbnail(value);
