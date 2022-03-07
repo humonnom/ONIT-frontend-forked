@@ -21,17 +21,12 @@ export function useInitWidget() {
   }));
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('[modal change]');
-    console.log(modal.imgChangeTargetId);
-  }, [modal]);
+  useEffect(() => {}, [modal]);
 
   const initImageWidget = useCallback(
     ({ thumbnail, url }) => {
       const changed = JSON.parse(JSON.stringify(widgets.list));
       const targetId = modal.imgChangeTargetId;
-      console.log(targetId);
-      console.log('init image widget');
       const targetItem = changed.find((widget) => widget.i === targetId);
       targetItem.widget_type = TYPE_IMAGE;
       targetItem.widget_data = {
@@ -64,8 +59,6 @@ export function useInitWidget() {
     ({ type, data }) => {
       if (data) {
         if (type === TYPE_IMAGE) {
-          console.log('init');
-          console.log(modal.imgChangeTargetId);
           initImageWidget(data);
         }
       }

@@ -46,7 +46,6 @@ export function useSetToolbar(id) {
   const dispatch = useDispatch();
   const useSetDispatch = useCallback(
     (newState) => {
-      console.log(id);
       dispatch(
         createReplacementModalAction({
           ...modal,

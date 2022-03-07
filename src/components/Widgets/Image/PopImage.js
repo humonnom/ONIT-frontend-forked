@@ -24,7 +24,6 @@ function PopImage(props) {
 
   useEffect(() => {
     if (submitted && thumbnail) {
-      console.log('popimage');
       init({ type: TYPE_IMAGE, data: { thumbnail, url: '' } });
       props.endPop();
     }

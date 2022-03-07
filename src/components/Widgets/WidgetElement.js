@@ -22,12 +22,7 @@ import { useSetPopUpModal, useSetToolbar } from '../../hooks/toolbar';
 import { useDetachOutsideClick } from '../../hooks/widget';
 import { getTypeToString } from '../../utils/util';
 
-export function WidgetElement({
-  element,
-  mode,
-  setIsWidgetOverlap,
-  setSelectedWidget,
-}) {
+export function WidgetElement({ element, mode, setSelectedWidget }) {
   const [hover, setHover] = useState(false);
   const layout = element;
   const { widgets } = useSelector((state) => ({
@@ -83,9 +78,6 @@ export function WidgetElement({
   const deleteButtonAction = (index) => {
     const newWidgetList = getNewWidgetList(index, 'D');
     updateWidgets(newWidgetList);
-    if (setIsWidgetOverlap) {
-      setIsWidgetOverlap(false);
-    }
   };
   const { open, close } = useSetToolbar(layout.i);
   const { turnOn } = useSetPopUpModal();
@@ -95,7 +87,6 @@ export function WidgetElement({
       open();
       turnOn(getTypeToString(layout.widget_type));
       const newWidgetList = getNewWidgetList(index, 'E');
-      // setSelectedWidget(null);
       updateWidgets(newWidgetList);
     },
     [open, turnOn]
