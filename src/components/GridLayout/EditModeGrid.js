@@ -64,11 +64,9 @@ function EditModeGrid() {
 
   // 빈 그리드 클릭 시 빈 위젯 생성
   const makeNewWidgetEvent = () => {
-    // if (selectedWidget) {
-    // setSelectedWidget(null);
-    // } else
-    if (isWidgetOverlap === false) {
-      // remove empty widget();
+    if (selectedWidget) {
+      setSelectedWidget(null);
+    } else if (isWidgetOverlap === false) {
       addEmptyWidget(mouseOverWidget);
     }
   };

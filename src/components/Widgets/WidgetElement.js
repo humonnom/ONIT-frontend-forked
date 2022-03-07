@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeSet, settingSet } from '../../asset';
 import {
@@ -38,6 +38,7 @@ export function WidgetElement({
 
   // dispatch
   const openEditWindow = (id) => {
+    console.log('open window');
     dispatch(
       createReplacementModalAction({
         ...modal,
@@ -69,7 +70,7 @@ export function WidgetElement({
 
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_NEW) {
-      return <NewBox />;
+      return <NewBox deleteMyself={deleteButtonAction} index={curInfo.i} />;
     } else if (curInfo.widget_type === TYPE_IMAGE) {
       return <ImageBox element={element} mode={mode} />;
     } else if (curInfo.widget_type === TYPE_VIDEO) {
@@ -92,6 +93,29 @@ export function WidgetElement({
     }
   }
 
+  useEffect(() => {
+    if (mode === 'edit' && layout.widget_type === TYPE_NEW) {
+      // openEditWindow(layout.i);
+      // const newWidgetList = getNewWidgetList(layout.i, 'E');
+      // setSelectedWidget(layout.i);
+      // updateWidgets(newWidgetList);
+      console.log('open modal');
+    }
+  }, [mode, layout]);
+
+  const deleteButtonAction = (index) => {
+    const newWidgetList = getNewWidgetList(index, 'D');
+    updateWidgets(newWidgetList);
+    setIsWidgetOverlap(false);
+  };
+
+  const settingButtonAction = (index) => {
+    openEditWindow(index);
+    const newWidgetList = getNewWidgetList(index, 'E');
+    setSelectedWidget(index);
+    updateWidgets(newWidgetList);
+  };
+
   return (
     <div
       key={parseInt(layout.i, 10)}
@@ -109,11 +133,7 @@ export function WidgetElement({
           <button
             type='button'
             css={[commonBtn, closeBtn]}
-            onClick={() => {
-              const newWidgetList = getNewWidgetList(layout.i, 'D');
-              updateWidgets(newWidgetList);
-              setIsWidgetOverlap(false);
-            }}
+            onClick={() => deleteButtonAction(layout.i)}
           >
             <div css={closeBtnImg}>
               <img alt='img' height='50px' src={closeSet} />
@@ -122,12 +142,7 @@ export function WidgetElement({
           <button
             type='button'
             css={[commonBtn, settingBtn]}
-            onClick={() => {
-              openEditWindow(layout.i);
-              const newWidgetList = getNewWidgetList(layout.i, 'E');
-              setSelectedWidget(layout.i);
-              updateWidgets(newWidgetList);
-            }}
+            onClick={() => settingButtonAction(layout.i)}
           >
             <div css={settingBtnImg}>
               <img alt='img' height='50px' src={settingSet} />

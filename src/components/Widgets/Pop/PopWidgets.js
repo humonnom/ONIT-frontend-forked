@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
 import PopTypeComponent from './PopTypeComponent';
-// HACK: Eomhyunjun 함수이름 고쳐주세요
-function moragogiuyahalkkayo(modal) {
+
+function getLabel(modal) {
   if (modal.popUpWindowType === 'image') return '이미지';
   else if (modal.popUpWindowType === 'video') return '영상';
   else return '';
@@ -30,8 +30,8 @@ function PopWidgets() {
   return (
     <div style={backGroundPopStyle}>
       <div style={widgetBoxPopStyle}>
-        {moragogiuyahalkkayo(modal) !== '' ? (
-          <div style={nameBoxStyle}>{moragogiuyahalkkayo(modal)} 업로드</div>
+        {getLabel(modal) !== '' ? (
+          <div style={nameBoxStyle}>{getLabel(modal)} 업로드</div>
         ) : (
           <div style={nameBoxStyle}> 안내 </div>
         )}

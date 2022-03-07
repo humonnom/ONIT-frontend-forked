@@ -1,10 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useRef } from 'react';
 import { css } from '@emotion/react';
 import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
+import { useDetachOutsideClick } from '../../../hooks/widget';
 
-function NewBox() {
-  return <div css={newWidget} />;
+function NewBox({ deleteMyself, index }) {
+  const wrapperRef = useRef(null);
+  const action = () => deleteMyself(index);
+  useDetachOutsideClick(wrapperRef, action);
+  return <div ref={wrapperRef} css={newWidget} />;
 }
 
 export default NewBox;
