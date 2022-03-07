@@ -156,7 +156,6 @@ export function WidgetElement({
 }
 
 const widgetFrame = css`
-  background-color: white;
   width: 100%;
   height: 100%;
   border-radius: ${WIDGET_COMMON_RADIUS};
