@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { closeSet, settingSet } from '../../asset';
-import { createReplacementWidgetsAction } from '../../redux/slice';
+// import { createReplacementWidgetsAction } from '../../redux/slice';
 import {
   ACTION_CREATE,
   ACTION_DELETE,
@@ -18,9 +18,11 @@ import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
-import { useSetPopUpModal, useSetToolbar } from '../../hooks/toolbar';
-import { useDetachOutsideClick } from '../../hooks/widget';
-import { getTypeToString } from '../../utils/util';
+import { useSetPopUpModal } from '../../hooks/modal';
+import {
+  useDetachOutsideClick,
+  useUpdateWidgetsData,
+} from '../../hooks/widget';
 
 export function WidgetElement({ element, mode, setSelectedWidget }) {
   const [hover, setHover] = useState(false);
@@ -28,18 +30,20 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const updateWidgets = (newWidgetList) => {
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        list: newWidgetList,
-      })
-    );
-  };
+  // const updateWidgets = useCallback((newWidgetList) => {
+  //   dispatch(
+  //     createReplacementWidgetsAction({
+  //       ...widgets,
+  //       list: newWidgetList,
+  //     })
+  //   );
+  // }, [widgets])
 
-  function getNewWidgetList(targetItemIndex, newAction) {
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const getNewWidgetList = useCallback((targetItemIndex, newAction) => {
     const newList = JSON.parse(JSON.stringify(widgets.list));
     const found = newList.find((widget) => widget.i === targetItemIndex);
     if (found.widget_action === ACTION_CREATE && newAction === ACTION_DELETE) {
@@ -48,7 +52,7 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
       found.widget_action = newAction;
     }
     return newList;
-  }
+  });
 
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_NEW) {
@@ -79,32 +83,31 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
     const newWidgetList = getNewWidgetList(index, 'D');
     updateWidgets(newWidgetList);
   };
-  const { open, close } = useSetToolbar(layout.i);
-  const { turnOn } = useSetPopUpModal();
+  const { openImageModal, closeToolbar } = useSetPopUpModal();
+
   const settingButtonAction = useCallback(
     (index) => {
-      alert('바로 수정 화면 나오게 변경');
-      open();
-      turnOn(getTypeToString(layout.widget_type));
+      openImageModal(layout.i);
       const newWidgetList = getNewWidgetList(index, 'E');
       updateWidgets(newWidgetList);
     },
-    [open, turnOn]
+    [getNewWidgetList, updateWidgets]
   );
+
   const wrapperRef = useRef(null);
   const { detached } = useDetachOutsideClick(wrapperRef);
 
   useEffect(() => {
     if (detached === true) {
       if (layout.widget_type === TYPE_NEW) {
-        close();
+        closeToolbar(); // check 필요
         if (setSelectedWidget) {
           setSelectedWidget(null);
         }
         deleteButtonAction(layout.i);
       }
     }
-  }, [detached, close]);
+  }, [detached]);
 
   return (
     <div

@@ -10,7 +10,6 @@ const slice = createSlice({
       field: [],
     },
     modal: {
-      imgInputWindow: false,
       imgChangeTargetId: '-1',
       popUpWindow: false,
       popUpWindowType: 'default',

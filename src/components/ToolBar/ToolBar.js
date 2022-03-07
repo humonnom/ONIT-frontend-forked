@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { ToolBarButton } from '..';
 import { img, video, text } from '../../asset/index';
-import { useSetPopUpModal } from '../../hooks/toolbar';
+import { useDetachOutsideClick } from '../../hooks/widget';
+import { useSetPopUpModal } from '../../hooks/modal';
 
 function ToolBar() {
   const { turnOn } = useSetPopUpModal();
@@ -47,8 +48,17 @@ function ToolBar() {
     </li>
   ));
 
+  const wrapperRef = useRef(null);
+  const { detached } = useDetachOutsideClick(wrapperRef);
+
+  useEffect(() => {
+    if (detached === true) {
+      console.log('toolbar clicked!!');
+    }
+  }, [detached]);
+
   return (
-    <div css={toolBar}>
+    <div ref={wrapperRef} css={toolBar}>
       <ul css={deleteListStyle}>{NewWidgetButtons}</ul>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
 import PopTypeComponent from './PopTypeComponent';
@@ -18,14 +18,14 @@ function PopWidgets() {
 
   // 팝업 삭제 함수
   // 모든 하위 위젯 컴포넌트에 넣어줘야함
-  const endPop = () => {
+  const endPop = useCallback(() => {
     dispatch(
       createReplacementModalAction({
         ...modal,
         popUpWindow: false,
       })
     );
-  };
+  }, [modal]);
 
   return (
     <div style={backGroundPopStyle}>
