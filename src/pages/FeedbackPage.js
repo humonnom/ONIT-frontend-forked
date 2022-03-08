@@ -3,13 +3,13 @@ import { css } from '@emotion/react';
 import FeedbackList from '../components/FeedbackBox/FeedbackList';
 import FeedbackInputBox from '../components/FeedbackBox/FeedbackInputBox';
 import MainSentence from '../components/FeedbackBox/MainSentence';
-import FeedbackHeader from '../components/FeedbackBox/FeedbackHeader';
+import { Header } from '../components';
 
 function FeedbackPage() {
   return (
     <div css={[pageBox, paddingBottom]}>
+      <Header pageType='feedback' />
       <div css={contentsBox}>
-        <FeedbackHeader />
         <MainSentence />
         <FeedbackInputBox />
         <FeedbackList />
@@ -28,6 +28,8 @@ const paddingBottom = css`
 `;
 
 const contentsBox = css`
+  position: relative;
+  top: 81px;
   min-height: 100vh;
   max-width: 1000px;
   padding: 0 20px;

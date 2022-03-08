@@ -24,13 +24,13 @@ function headerWrapper({ children }) {
         z-index: 999;
         background-color: white;
         min-width: 1124px;
-        width: 97%;
+        width: 90%;
         height: ${HEADER_HEIGHT};
         flex-direction: row;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
         padding: 0;
-        margin: 0 1.5%;
-        border-radius: 15px;
+        margin: 0 5%;
+        border-radius: 30px;
       `}
     >
       {children}

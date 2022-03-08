@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
+import { useMyInfo } from '../../hooks/myInfo';
 import { useRequestAuth } from '../../hooks/useRequestAuth';
 import { mainColor, subColor } from '../../styles/color';
 import { getApiEndpoint } from '../../utils/util';
@@ -9,6 +10,7 @@ const inputColor = '#fff';
 
 function FeedbackInputBox() {
   const [inputmessage, setInputmessage] = useState('');
+  const { loggedIn } = useMyInfo();
   const endpoint = `${getApiEndpoint()}/feedback/register`;
 
   const { res, request } = useRequestAuth({
@@ -19,8 +21,16 @@ function FeedbackInputBox() {
     },
   });
 
+  function sendAlert() {
+    alert('피드백은 회원 가입 후에 작성 가능합니다!');
+  }
+
   function sendQnA() {
-    request();
+    if (loggedIn === true) {
+      request();
+    } else {
+      sendAlert();
+    }
   }
 
   useEffect(() => {
