@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { closeSet, settingSet } from '../../asset';
 // import { createReplacementWidgetsAction } from '../../redux/slice';
 import {
@@ -23,23 +23,22 @@ import {
   useDetachOutsideClick,
   useUpdateWidgetsData,
 } from '../../hooks/widget';
+import { getTypeToString } from '../../utils/util';
+import { createReplacementModalAction } from '../../redux/slice';
 
-export function WidgetElement({ element, mode, setSelectedWidget }) {
+export function WidgetElement({
+  element,
+  mode,
+  setSelectedWidget,
+  setIsWidgetOverlap,
+}) {
   const [hover, setHover] = useState(false);
   const layout = element;
-  const { widgets } = useSelector((state) => ({
+  const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
-  // const dispatch = useDispatch();
-
-  // const updateWidgets = useCallback((newWidgetList) => {
-  //   dispatch(
-  //     createReplacementWidgetsAction({
-  //       ...widgets,
-  //       list: newWidgetList,
-  //     })
-  //   );
-  // }, [widgets])
+  const dispatch = useDispatch();
 
   const { updateWidgets } = useUpdateWidgetsData();
 
@@ -53,6 +52,18 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
     }
     return newList;
   });
+
+  useEffect(() => {
+    if (mode === 'edit' && layout.widget_type === TYPE_NEW) {
+      setSelectedWidget(layout.i);
+      dispatch(
+        createReplacementModalAction({
+          ...modal,
+          imgChangeTargetId: layout.i,
+        })
+      );
+    }
+  }, []);
 
   function classifyBox(curInfo) {
     if (curInfo.widget_type === TYPE_NEW) {
@@ -82,12 +93,13 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
   const deleteButtonAction = (index) => {
     const newWidgetList = getNewWidgetList(index, 'D');
     updateWidgets(newWidgetList);
+    setIsWidgetOverlap(false);
   };
-  const { openImageModal, closeToolbar } = useSetPopUpModal();
+  const { openWidgetEditingModal } = useSetPopUpModal();
 
   const settingButtonAction = useCallback(
     (index) => {
-      openImageModal(layout.i);
+      openWidgetEditingModal(layout.i, getTypeToString(layout.widget_type));
       const newWidgetList = getNewWidgetList(index, 'E');
       updateWidgets(newWidgetList);
     },
@@ -98,16 +110,15 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
   const { detached } = useDetachOutsideClick(wrapperRef);
 
   useEffect(() => {
-    if (detached === true) {
-      if (layout.widget_type === TYPE_NEW) {
-        closeToolbar(); // check 필요
-        if (setSelectedWidget) {
-          setSelectedWidget(null);
-        }
+    if (mode === 'edit' && detached === true) {
+      if (layout.widget_type === TYPE_NEW && modal.toolbarClicked === false) {
+        // console.log('toolbar clicked false');
+        // console.log(modal.toolbarClicked);
+        setSelectedWidget(null);
         deleteButtonAction(layout.i);
       }
     }
-  }, [detached]);
+  }, [detached, modal]);
 
   return (
     <div
@@ -144,10 +155,34 @@ export function WidgetElement({ element, mode, setSelectedWidget }) {
           </button>
         </>
       )}
+      {mode === 'edit' && hover && layout.widget_type === TYPE_NEW && (
+        <>
+          <div css={[positionAbsolute]} />
+          <button
+            type='button'
+            css={coveredButton}
+            onClick={() => setSelectedWidget(layout.i)}
+          >
+            click to edit
+          </button>
+        </>
+      )}
       {classifyBox(layout)}
     </div>
   );
 }
+
+const coveredButton = css`
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  appearance: none;
+  position: absolute;
+  border-radius: 50%;
+  border: none;
+  background-color: #fff;
+  overflow: hidden;
+`;
 
 const widgetFrame = css`
   width: 100%;

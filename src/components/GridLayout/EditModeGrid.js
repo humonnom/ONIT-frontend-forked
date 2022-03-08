@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFloating, shift, offset } from '@floating-ui/react-dom';
 import { flip } from '@floating-ui/core';
@@ -63,9 +63,14 @@ function EditModeGrid() {
 
   // 빈 그리드 클릭 시 빈 위젯 생성
   const makeNewWidgetEvent = () => {
+    console.log('make new widget');
     if (selectedWidget) {
+      console.log('=> init selected widget');
       setSelectedWidget(null);
-    } else if (isWidgetOverlap === false) {
+    }
+    console.log(isWidgetOverlap);
+    if (isWidgetOverlap === false) {
+      console.log('=> add empty widget');
       addEmptyWidget(mouseOverWidget);
     }
   };
@@ -145,6 +150,14 @@ function EditModeGrid() {
     [minWindowWidth, margin, cols]
   );
   // grid공식 가로 calc((100% - ${margin}px) / ${cols}) calc((100% - ${margin}px - X좌표 스크롤바픽셀) / ${cols})
+
+  useEffect(() => {
+    if (isWidgetOverlap === true) {
+      console.log('overlapped!');
+    } else if (isWidgetOverlap === false) {
+      console.log('empty!');
+    }
+  }, [isWidgetOverlap]);
 
   const setOverlapTrue = useCallback(() => {
     setIsWidgetOverlap(true);

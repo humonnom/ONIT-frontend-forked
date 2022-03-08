@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { createReplacementWidgetsAction } from '../redux/slice';
+import {
+  createReplacementModalAction,
+  createReplacementWidgetsAction,
+} from '../redux/slice';
 import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
 import { useRequestAuth } from './useRequestAuth';
@@ -37,23 +40,26 @@ export function useInitWidget() {
 
   const initImageWidget = useCallback(
     ({ thumbnail, url }) => {
+      console.log('init empty widget');
       const changed = JSON.parse(JSON.stringify(widgets.list));
       const targetId = modal.imgChangeTargetId;
       const targetItem = changed.find((widget) => widget.i === targetId);
       if (!targetItem) {
         console.error('해당하는 위젯을 찾지 못했습니다.');
       } else {
-        targetItem.widget_type = TYPE_IMAGE;
-        targetItem.widget_data = {
-          thumbnail: `${thumbnail}`,
-          url: `${url}`,
-        };
         if (
           targetItem.widget_action === ACTION_NONE ||
           targetItem.widget_code !== ''
         ) {
           targetItem.widget_action = ACTION_EDIT;
+        } else if (targetItem.widget_type === TYPE_NEW) {
+          targetItem.widget_action = ACTION_CREATE;
         }
+        targetItem.widget_type = TYPE_IMAGE;
+        targetItem.widget_data = {
+          thumbnail: `${thumbnail}`,
+          url: `${url}`,
+        };
         updateRedux(changed);
       }
     },
@@ -211,17 +217,17 @@ export function useAddEmptyWidget() {
     addEmptyWidget,
   };
 }
-export function useRemoveEmptyWidget() {
+export function useRemoveEmptyWidget(id) {
   const { widgets } = useSelector((state) => ({
     widgets: state.info.widgets,
   }));
   const { updateWidgets } = useUpdateWidgetsData();
-  const removeEmptyWidget = () => {
+  const removeEmptyWidget = useCallback(() => {
     const converted = widgets.list.filter(function (element) {
-      return element.widget_type !== TYPE_NEW;
+      return element.widget_type !== TYPE_NEW || element.i === id;
     });
     updateWidgets(converted);
-  };
+  }, [widgets]);
 
   return {
     removeEmptyWidget,
@@ -242,4 +248,33 @@ export function useDetachOutsideClick(ref) {
     };
   }, [ref]);
   return { detached };
+}
+export function useDetachToolbarClick(ref) {
+  const { modal } = useSelector((state) => ({
+    modal: state.info.modal,
+  }));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    function handleClickInside(event) {
+      if (ref.current && ref.current.contains(event.target)) {
+        dispatch(
+          createReplacementModalAction({
+            ...modal,
+            toolbarClicked: true,
+          })
+        );
+      } else {
+        dispatch(
+          createReplacementModalAction({
+            ...modal,
+            toolbarClicked: false,
+          })
+        );
+      }
+    }
+    document.addEventListener('mousedown', handleClickInside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickInside);
+    };
+  }, [ref, modal]);
 }

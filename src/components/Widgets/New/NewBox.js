@@ -13,5 +13,5 @@ const newWidget = css`
   height: 100%;
   border-radius: ${WIDGET_COMMON_RADIUS};
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
-  background-color: red;
+  background-color: white;
 `;

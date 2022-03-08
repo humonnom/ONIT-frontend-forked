@@ -8,31 +8,31 @@ export function useSetPopUpModal() {
     modal: state.info.modal,
   }));
 
-  const openImageModal = useCallback(
-    (id) => {
+  const openWidgetEditingModal = useCallback(
+    (id, type) => {
       dispatch(
         createReplacementModalAction({
           imgChangeTargetId: id,
           popUpWindow: true,
-          popUpWindowType: 'image',
+          popUpWindowType: type,
         })
       );
     },
     [modal]
   );
 
-  const closeToolbar = useCallback(() => {
+  const initModalInfo = useCallback(() => {
     dispatch(
       createReplacementModalAction({
         imgChangeTargetId: '-1',
         popUpWindow: false,
-        popUpWindowType: 'image',
+        popUpWindowType: 'default',
       })
     );
   }, [modal]);
 
   return {
-    openImageModal,
-    closeToolbar,
+    openWidgetEditingModal,
+    initModalInfo,
   };
 }

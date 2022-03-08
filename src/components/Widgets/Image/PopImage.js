@@ -102,7 +102,7 @@ function PopImage(props) {
 
 const urlInputStyle = css`
   display: block;
-  width: 70vw;
+  width: 70%;
   height: 24px;
   border: solid 1px #707070;
   margin: 28px auto 32px auto;

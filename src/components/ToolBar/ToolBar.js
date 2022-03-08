@@ -1,13 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { css } from '@emotion/react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToolBarButton } from '..';
 import { img, video, text } from '../../asset/index';
-import { useDetachOutsideClick } from '../../hooks/widget';
-import { useSetPopUpModal } from '../../hooks/modal';
+import { createReplacementModalAction } from '../../redux/slice';
+import { useDetachToolbarClick } from '../../hooks/widget';
 
 function ToolBar() {
-  const { turnOn } = useSetPopUpModal();
+  const dispatch = useDispatch();
+  const { modal } = useSelector((state) => ({
+    modal: state.info.modal,
+  }));
 
   const widgetList = [
     { type: 'image', label: '그림', emoji: img },
@@ -33,7 +37,13 @@ function ToolBar() {
     emoji: value.emoji,
     type: value.type,
     onClick: () => {
-      turnOn(value.type);
+      dispatch(
+        createReplacementModalAction({
+          ...modal,
+          popUpWindow: true,
+          popUpWindowType: value.type,
+        })
+      );
     },
   }));
 
@@ -47,19 +57,14 @@ function ToolBar() {
       />
     </li>
   ));
-
   const wrapperRef = useRef(null);
-  const { detached } = useDetachOutsideClick(wrapperRef);
-
-  useEffect(() => {
-    if (detached === true) {
-      console.log('toolbar clicked!!');
-    }
-  }, [detached]);
+  useDetachToolbarClick(wrapperRef);
 
   return (
-    <div ref={wrapperRef} css={toolBar}>
-      <ul css={deleteListStyle}>{NewWidgetButtons}</ul>
+    <div ref={wrapperRef}>
+      <div css={[toolBar]}>
+        <ul css={deleteListStyle}>{NewWidgetButtons}</ul>
+      </div>
     </div>
   );
 }
