@@ -15,6 +15,9 @@ import {
   mq,
   BackButton,
   TextUnderline,
+  OrangeColorButton,
+  RoundButtonSmall,
+  WhiteColorButton,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
 import { useRequest } from '../hooks/useRequest';
@@ -253,20 +256,11 @@ function JoinPage() {
 
 export default JoinPage;
 
-const FocusedButton = css`
-  background-color: ${COLOR_STYLE.orange};
-  color: ${COLOR_STYLE.white};
-`;
-const NormalButton = css`
-  background-color: ${COLOR_STYLE.white};
-  color: ${COLOR_STYLE.brownishGrey};
-`;
-
 function getColorByState(field, id) {
   if (field.includes(id)) {
-    return FocusedButton;
+    return OrangeColorButton;
   } else {
-    return NormalButton;
+    return WhiteColorButton;
   }
 }
 
@@ -408,7 +402,6 @@ const FieldButtonStyle = css`
 
 const FieldButtonLabel = css`
   font-size: 0.8rem;
-  color: ${COLOR_STYLE.brownishGrey};
 `;
 
 const InputConfirm = css`
@@ -422,10 +415,8 @@ const InputConfirm = css`
 
 const ConfirmButtonStyle = css`
   ${InitButtonStyle}
-  padding: 1.5vh 4vw;
-  background-color: ${COLOR_STYLE.orange};
-  border-radius: 30px;
-  color: ${COLOR_STYLE.white};
+  ${RoundButtonSmall}
+  ${OrangeColorButton}
 `;
 
 const passwordToggleButton = css`

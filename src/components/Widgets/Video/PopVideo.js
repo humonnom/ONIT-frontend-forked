@@ -57,6 +57,17 @@ function PopVideo(props) {
 
   return (
     <>
+      {/* <button
+        type='button'
+        css={[commonBtn, closeBtn]}
+        onClick={() => {
+          props.endPop();
+        }}
+      >
+        <div css={closeBtnImg}>
+          <img alt='img' height='50px' src={closeSet} />
+        </div>
+      </button> */}
       <input
         type='url'
         name='url'

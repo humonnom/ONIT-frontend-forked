@@ -22,6 +22,13 @@ import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
 import { convertType2String, isTmpWidget } from '../../utils/util';
+import {
+  commonBtn,
+  closeBtn,
+  closeBtnImg,
+  settingBtn,
+  settingBtnImg,
+} from '../../styles/GlobalStyles';
 
 export function WidgetElement({
   element,
@@ -36,7 +43,6 @@ export function WidgetElement({
     modal: state.info.modal,
   }));
   const dispatch = useDispatch();
-
   // dispatch
   const openEditWindow = (id) => {
     dispatch(
@@ -175,51 +181,4 @@ const hoverBackground = css`
   border-radius: ${WIDGET_COMMON_RADIUS};
   opacity: 0.2;
   background-color: #000;
-`;
-
-const commonBtn = css`
-  appearance: none;
-  position: absolute;
-  border-radius: 50%;
-  border: none;
-  background-color: #fff;
-  overflow: hidden;
-`;
-
-const closeBtn = css`
-  top: 10px;
-  right: 42px;
-  width: 25px;
-  height: 25px;
-  &:hover {
-    background-color: #222;
-  }
-`;
-
-const closeBtnImg = css`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  &:hover {
-    top: -25px;
-  }
-`;
-
-const settingBtn = css`
-  top: 10px;
-  right: 10px;
-  width: 25px;
-  height: 25px;
-  &:hover {
-    background-color: #222;
-  }
-`;
-
-const settingBtnImg = css`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  &:hover {
-    top: -25px;
-  }
 `;

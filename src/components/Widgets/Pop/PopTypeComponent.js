@@ -9,18 +9,19 @@ const PopTypeComponent = (props) => {
     modal: state.info.modal,
   }));
 
-  // 모든 위젯 컴포넌트에 props.endPop() 넣어줘야함
-  function classifyBox(curInfo) {
-    if (curInfo.popUpWindowType === 'image') {
-      return <PopImage endPop={props.endPop} />;
-    } else if (curInfo.popUpWindowType === 'video') {
-      return <PopVideo endPop={props.endPop} />;
+  const { endPop } = props;
+
+  function classifyBox() {
+    if (modal.popUpWindowType === 'image') {
+      return <PopImage endPop={endPop} label='이미지 추가' />;
+    } else if (modal.popUpWindowType === 'video') {
+      return <PopVideo endPop={endPop} label='비디오 추가' />;
     } else {
-      return <PopNonType endPop={props.endPop} />;
+      return <PopNonType endPop={endPop} label='안내' />;
     }
   }
 
-  return <>{classifyBox(modal)}</>;
+  return <>{classifyBox()}</>;
 };
 
 export default PopTypeComponent;

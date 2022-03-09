@@ -144,3 +144,9 @@ export function convertType2String(type) {
   }
   return 'none';
 }
+
+export function convertType2Label(type) {
+  if (type === 'image') return '이미지';
+  else if (type === 'video') return '영상';
+  else return '';
+}
