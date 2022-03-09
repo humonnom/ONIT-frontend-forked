@@ -11,17 +11,19 @@ const PopTypeComponent = (props) => {
 
   const { endPop } = props;
 
-  function classifyBox() {
-    if (modal.popUpWindowType === 'image') {
+  function getModalBody(type) {
+    if (type === 'image') {
       return <PopImage endPop={endPop} label='이미지 추가' />;
-    } else if (modal.popUpWindowType === 'video') {
+    } else if (type === 'video') {
       return <PopVideo endPop={endPop} label='비디오 추가' />;
     } else {
       return <PopNonType endPop={endPop} label='안내' />;
     }
   }
 
-  return <>{classifyBox()}</>;
+  const modalBody = getModalBody(modal.popUpWindowType);
+
+  return <>{modalBody}</>;
 };
 
 export default PopTypeComponent;

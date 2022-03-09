@@ -146,7 +146,7 @@ export function convertType2String(type) {
 }
 
 export function convertType2Label(type) {
-  if (type === 'image') return '이미지';
-  else if (type === 'video') return '영상';
+  if (type === 'image' || type === TYPE_IMAGE) return '이미지';
+  else if (type === 'video' || type === TYPE_VIDEO) return '영상';
   else return '';
 }

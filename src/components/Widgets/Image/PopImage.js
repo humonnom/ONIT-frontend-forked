@@ -11,6 +11,7 @@ import {
   RoundButtonSmall,
   getAbsoluteBtn,
   SHADOW_STYLE,
+  BasicInputStyle,
 } from '../../../styles/GlobalStyles';
 import { useInitWidget, usePostImage } from '../../../hooks/widget';
 import { TYPE_IMAGE } from '../../../utils/constantValue';
@@ -169,14 +170,11 @@ const PopUpBody = css`
 `;
 
 const urlInputStyle = css`
-  display: block;
+  ${BasicInputStyle}
   width: 80%;
   height: 24px;
-  border: solid 1px #707070;
-  margin: 28px auto 32px auto;
-  border-radius: 8px;
-  background-color: #fff;
-  padding: 12px 0px;
+  margin: 28px 15px 32px 0;
+  padding: 8px 17px;
 `;
 
 function textColor(selected) {

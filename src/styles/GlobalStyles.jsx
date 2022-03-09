@@ -223,3 +223,10 @@ export function getAbsoluteBtn(top, right, r) {
   `;
   return { btn, img };
 }
+
+export const BasicInputStyle = css`
+  display: block;
+  border-radius: 30px;
+  border: none;
+  background-color: ${COLOR_STYLE.veryLightPink};
+`;
