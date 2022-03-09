@@ -15,9 +15,9 @@ function shuffleArray(array) {
 function FeedbackList() {
   const [feedbacks, setFeedbacks] = useState(null);
   const [listDiv, setListdiv] = useState(<div />);
-  const listDivOne = [];
-  const listDivTwo = [];
-  const listDivThree = [];
+  const listDivOne = [{ feedback_seq: -1 }];
+  const listDivTwo = [{ feedback_seq: -2 }];
+  const listDivThree = [{ feedback_seq: -3 }];
 
   // 데이터 받아오는 코드 추가 예정
   useEffect(() => {
@@ -49,6 +49,7 @@ function FeedbackList() {
       feedbacks.forEach((Feedback, index) => {
         if (index % 3 === 0) {
           listDivOne.push(feedbacks[index]);
+          console.log(listDivOne[0].feedback_seq);
         } else if (index % 3 === 1) {
           listDivTwo.push(feedbacks[index]);
         } else {
@@ -62,20 +63,27 @@ function FeedbackList() {
   }, [feedbacks]);
 
   function divideList() {
-    return [listDivOne, listDivTwo, listDivThree].map((list) => (
-      <FeedbackListCol key={list[0].feedback_seq}>
-        {list.map((Feedback) => (
-          <li key={Feedback.feedback_seq} css={listItem}>
-            <div css={[FeedbackBoxCss, randomColor()]}>
-              <div css={orderWrapper}>
-                <p css={orderFont}>{Feedback.feedback_seq}번째 바람</p>
-              </div>
-              <p css={contentsWrapper}>{Feedback.content}</p>
-            </div>
-          </li>
-        ))}
-      </FeedbackListCol>
-    ));
+    return [listDivOne, listDivTwo, listDivThree].map((list) => {
+      return (
+        <FeedbackListCol key={list[0].feedback_seq}>
+          {list.map((Feedback) => {
+            if (Feedback.feedback_seq > 0) {
+              return (
+                <li key={Feedback.feedback_seq} css={listItem}>
+                  <div css={[FeedbackBoxCss, randomColor()]}>
+                    <div css={orderWrapper}>
+                      <p css={orderFont}>{Feedback.feedback_seq}번째 바람</p>
+                    </div>
+                    <p css={contentsWrapper}>{Feedback.content}</p>
+                  </div>
+                </li>
+              );
+            }
+            return <></>;
+          })}
+        </FeedbackListCol>
+      );
+    });
   }
 
   return <div css={ContentBox}>{listDiv}</div>;

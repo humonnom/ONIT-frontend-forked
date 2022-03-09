@@ -21,7 +21,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     if (myInfo) {
       return (
         <button type='button' onClick={() => history.push(`/${myInfo.url}`)}>
-          <img alt='img' src={mypage} css={height26} />
+          <img alt='img' src={mypage} css={height21} />
         </button>
       );
     }
@@ -31,8 +31,8 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const mainHeader = (
     <>
       <div css={[flex, flexBtw]}>
-        <a href='/main' css={marginLeft17}>
-          <img alt='img' src={logo} css={height26} />
+        <a href='/main' css={[marginLeft17, height21]}>
+          <img alt='img' src={logo} css={hieght100p} />
         </a>
         <div css={rightCloumn}>
           <button
@@ -58,22 +58,22 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const normalHeader = (
     <>
       <div css={[flex, flexBtw]}>
-        <a href='/main' css={marginLeft17}>
-          <img alt='img' src={logo} css={height26} />
+        <a href='/main' css={[marginLeft17, height21]}>
+          <img alt='img' src={logo} css={hieght100p} />
         </a>
         <div>
           {userMatch && (
             <>
               <button
                 type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
+                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
                 onClick={() => logout()}
               >
                 로그아웃
               </button>
               <button
                 type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
+                css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
                 onClick={() => history.push(`/${pageUrl}/edit`)}
               >
                 페이지 수정
@@ -83,7 +83,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           {!userMatch && loggedIn && goToMyPage}
         </div>
       </div>
-      <div css={[abosulteCenter, flex, height26]}>
+      <div css={[abosulteCenter, flex, height21]}>
         <p css={fontStyle}>{pageUserName}님의 온잇</p>
       </div>
     </>
@@ -92,13 +92,13 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const editHeader = (
     <>
       <div css={[flex, flexBtw]}>
-        <a href='/main' css={marginLeft17}>
-          <img alt='img' src={logo} css={height26} />
+        <a href='/main' css={[marginLeft17, height21]}>
+          <img alt='img' src={logo} css={hieght100p} />
         </a>
         <div>
           <button
             type='button'
-            css={[commonButtonStyle, confirmButtonWidth, marginRight12]}
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
             onClick={() => {
               history.push(`/${pageUrl}`);
             }}
@@ -107,12 +107,57 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           </button>
           <button
             type='button'
-            css={[commonButtonStyle, confirmButtonWidth, marginRight17]}
+            css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
             onClick={() => post(widgets.list)}
           >
             저장
           </button>
         </div>
+      </div>
+    </>
+  );
+
+  const feedbackHeader = (
+    <>
+      <div css={[flex, flexBtw]}>
+        <a href='/main' css={[commonButtonStyle, marginLeft17, height21]}>
+          <img alt='img' src={logo} css={hieght100p} />
+        </a>
+        {loggedIn === true ? (
+          <div>
+            <button
+              type='button'
+              css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+              onClick={() => logout()}
+            >
+              로그아웃
+            </button>
+            <button
+              type='button'
+              css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+              onClick={() => history.push(`/${myInfo.url}`)}
+            >
+              내 페이지 가기
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button
+              type='button'
+              css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+              onClick={() => history.push(`/login`)}
+            >
+              LOG IN
+            </button>
+            <button
+              type='button'
+              css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+              onClick={() => history.push(`/join`)}
+            >
+              회원가입
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
@@ -124,6 +169,8 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
       return normalHeader;
     } else if (pageType === 'edit') {
       return editHeader;
+    } else if (pageType === 'feedback') {
+      return feedbackHeader;
     } else {
       return <div>정의되지 않은 타입입니다.</div>;
     }
@@ -134,15 +181,18 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
 
 export default Header;
 
-const height26 = css`
-  height: 26px;
+const height21 = css`
+  height: 21px;
+`;
+
+const hieght100p = css`
+  height: 100%;
 `;
 
 const fontStyle = css`
   font-size: 16.5px;
   font-weight: 500;
   line-height: 26px;
-  padding-top: 1px;
   height: 26px;
   font-stretch: normal;
   font-style: normal;
@@ -152,15 +202,15 @@ const fontStyle = css`
 `;
 
 const marginLeft17 = css`
-  margin-left: 17px;
+  margin-left: 25px;
 `;
 
-const marginRight17 = css`
-  margin-right: 17px;
+const marginRight39 = css`
+  margin-right: 39px;
 `;
 
-const marginRight12 = css`
-  margin-right: 12px;
+const marginRight40 = css`
+  margin-right: 40px;
 `;
 
 const flex = css`
@@ -181,27 +231,25 @@ const abosulteCenter = css`
 `;
 
 const confirmButtonWidth = css`
-  width: 132px;
+  width: fit-content;
 `;
 
 const commonButtonStyle = css`
   display: inline-block;
-  text-align: center;
+  text-align: justify;
   height: 35px;
   border-radius: 17px;
   border: none;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
-  color: #707070;
-  background-color: #eee;
+  color: #000;
   padding: 0px;
   &:hover {
-    background-color: #ef6408;
-    color: #fff;
+    color: #ef6408;
   }
 `;
 

@@ -12,7 +12,7 @@ function MainSentence() {
 }
 
 const paddingLeft = css`
-  padding-left: 20px;
+  padding-left: 30px;
 `;
 
 const paddingTop = css`
