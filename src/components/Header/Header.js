@@ -120,13 +120,9 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const feedbackHeader = (
     <>
       <div css={[flex, flexBtw]}>
-        <button
-          type='button'
-          onClick={() => history.push(`/login`)}
-          css={[commonButtonStyle, marginLeft17, height21]}
-        >
+        <a href='/main' css={[commonButtonStyle, marginLeft17, height21]}>
           <img alt='img' src={logo} css={hieght100p} />
-        </button>
+        </a>
         {loggedIn === true ? (
           <div>
             <button
