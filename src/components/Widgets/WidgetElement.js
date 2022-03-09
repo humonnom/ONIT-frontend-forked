@@ -21,6 +21,7 @@ import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
+import { convertType2String, isTmpWidget } from '../../utils/util';
 
 export function WidgetElement({
   element,
@@ -52,6 +53,18 @@ export function WidgetElement({
       createReplacementWidgetsAction({
         ...widgets,
         list: newWidgetList,
+      })
+    );
+  };
+
+  const openEditModalByType = (id, type) => {
+    const stringType = convertType2String(type);
+    dispatch(
+      createReplacementModalAction({
+        ...modal,
+        imgChangeTargetId: id,
+        popUpWindow: true,
+        popUpWindowType: stringType,
       })
     );
   };
@@ -123,9 +136,14 @@ export function WidgetElement({
             type='button'
             css={[commonBtn, settingBtn]}
             onClick={() => {
-              openEditWindow(layout.i);
+              if (isTmpWidget(layout.widget_type)) {
+                openEditWindow(layout.i);
+                setSelectedWidget(layout.i);
+              } else {
+                openEditModalByType(layout.i, layout.widget_type);
+              }
+
               const newWidgetList = getNewWidgetList(layout.i, 'E');
-              setSelectedWidget(layout.i);
               updateWidgets(newWidgetList);
             }}
           >
