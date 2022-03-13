@@ -122,14 +122,16 @@ function NormalMode() {
 
   const thumbnailImages = useMemo(() => {
     const thumbnailData = getThumbnailData();
-
-    return thumbnailData.map((element) => {
-      return (
-        <div css={ThumbnailImage}>
-          <img src={element} />
-        </div>
-      );
-    });
+    if (thumbnailData) {
+      return thumbnailData.map((element) => {
+        return (
+          <div css={ThumbnailImage}>
+            <img src={element} />
+          </div>
+        );
+      });
+    }
+    return null;
   }, [getThumbnailData]);
 
   return (
