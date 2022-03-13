@@ -48,6 +48,9 @@ export function useMyInfo() {
     } else {
       setMyInfo(userInfo);
     }
+    return () => {
+      setMyInfo(null);
+    };
   }, [userInfo]);
 
   useEffect(() => {
@@ -61,6 +64,10 @@ export function useMyInfo() {
         setLoggedIn(false);
       }
     }
+    return () => {
+      setMyInfo(null);
+      setLoggedIn(null);
+    };
   }, [res]);
 
   return {

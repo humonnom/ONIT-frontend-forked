@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { css } from '@emotion/css';
+/** @jsxImportSource @emotion/react */
+import React, { useEffect, useMemo, useState } from 'react';
+import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
 import {
   NormalWrapper,
@@ -17,7 +18,24 @@ import { useGetUrl } from '../hooks/util';
 import { useMyInfo } from '../hooks/myInfo';
 import { useSaveWidgetsFromServer } from '../hooks/widget';
 import { useRequest } from '../hooks/useRequest';
-import { breakpoints } from '../styles/GlobalStyles';
+import { breakpoints, FlexCenter, FlexColCenter } from '../styles/GlobalStyles';
+
+function getOrderedWidgetList(origin) {
+  if (origin === null) {
+    return null;
+  }
+  const arrY = origin.map((element) => element.pos_y);
+  const maxY = Math.max(...arrY);
+  let ordered = [];
+  for (let i = 0; i <= maxY; i += 1) {
+    const arr = origin.filter((element) => element.pos_y === i) || null;
+    if (arr.length !== 0) {
+      arr.sort((a, b) => (a.pos_x > b.pos_x ? 1 : -1));
+      ordered = ordered.concat(arr);
+    }
+  }
+  return ordered;
+}
 
 function NormalMode() {
   const pageUrl = useGetUrl();
@@ -65,6 +83,8 @@ function NormalMode() {
     }
     return () => {
       setUserMatched(null);
+      setUserSeq(null);
+      setNickname(null);
     };
   }, [pageUrl, myInfo]);
 
@@ -103,53 +123,43 @@ function NormalMode() {
     }
   }, [widgetRes]);
 
-  const getThumbnailData = useCallback(() => {
+  const ThumbnailImage = useMemo(() => {
     if (widgetRes) {
       const { widget_list } = widgetRes.data;
-      if (!widget_list) {
-        return null;
+      const filtered = widget_list.filter(
+        (element) => element.widget_data !== {} && element.widget_data.thumbnail
+      );
+      const ordered = getOrderedWidgetList(filtered);
+      if (ordered) {
+        return ordered.map((element) => {
+          return (
+            <img
+              key={element.widget_code}
+              src={element.widget_data.thumbnail}
+              alt='thumbnail'
+              css={ThumbnailStyle}
+            />
+          );
+        });
       }
-      const thumbnail_list = widget_list.map((element) => {
-        if (element.widget_data && element.widget_data.thumbnail) {
-          return element.widget_data.thumbnail;
-        }
-        return null;
-      });
-      return thumbnail_list;
     }
-    return null;
+    return <div>test</div>;
   }, [widgetRes]);
-
-  const thumbnailImages = useMemo(() => {
-    const thumbnailData = getThumbnailData();
-    if (thumbnailData) {
-      return thumbnailData.map((element) => {
-        return (
-          <div css={ThumbnailImage}>
-            <img src={element} />
-          </div>
-        );
-      });
-    }
-    return null;
-  }, [getThumbnailData]);
 
   return (
     <PageWrapper>
-      <NormalWrapper>
-        {!mobileMode && (
+      {mobileMode && <div css={ThumbnailImagesContainer}>{ThumbnailImage}</div>}
+      {!mobileMode && (
+        <NormalWrapper>
           <Header
             userMatch={userMatched}
             pageUrl={pageUrl}
             pageUserName={nickname}
             pageType='normal'
           />
-        )}
-        {mobileMode && (
-          <div css={ThumbnailImagesContainer}>{thumbnailImages}</div>
-        )}
-        {!mobileMode && <NormalModeGrid />}
-      </NormalWrapper>
+          <NormalModeGrid />
+        </NormalWrapper>
+      )}
     </PageWrapper>
   );
 }
@@ -157,7 +167,16 @@ function NormalMode() {
 export default NormalMode;
 
 const ThumbnailImagesContainer = css`
-  display: flex;
-  width: 100px;
+  max-width: 100%;
+  height: 100%;
+  ${FlexColCenter}
+  padding: 48px 40px 0 40px;
 `;
-const ThumbnailImage = css``;
+const ThumbnailStyle = css`
+  ${FlexCenter}
+  max-width: 100%;
+  margin-bottom: 16px;
+  width: 348px;
+  height: 260px;
+  object-fit: cover;
+`;
