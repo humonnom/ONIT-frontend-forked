@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { css } from '@emotion/css';
 import { useHistory } from 'react-router';
 import {
   NormalWrapper,
@@ -16,6 +17,7 @@ import { useGetUrl } from '../hooks/util';
 import { useMyInfo } from '../hooks/myInfo';
 import { useSaveWidgetsFromServer } from '../hooks/widget';
 import { useRequest } from '../hooks/useRequest';
+import { breakpoints } from '../styles/GlobalStyles';
 
 function NormalMode() {
   const pageUrl = useGetUrl();
@@ -29,6 +31,27 @@ function NormalMode() {
     method: 'get',
   });
 
+  const [width, setWidth] = useState(window.innerWidth);
+  const [mobileMode, setMobileMode] = useState(false);
+  useEffect(() => {
+    if (width) {
+      if (width <= breakpoints[0]) {
+        setMobileMode(true);
+      } else if (width > breakpoints[0]) {
+        setMobileMode(false);
+      }
+    }
+    return () => setMobileMode(false);
+  }, [width]);
+  const updateWidthAndHeight = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateWidthAndHeight);
+    return () => window.removeEventListener('resize', updateWidthAndHeight);
+  });
+
   useEffect(() => {
     if (pageUrl) {
       if (myInfo && urlMatched(myInfo.url, pageUrl)) {
@@ -40,6 +63,9 @@ function NormalMode() {
         requestPageUserInfo();
       }
     }
+    return () => {
+      setUserMatched(null);
+    };
   }, [pageUrl, myInfo]);
 
   useEffect(() => {
@@ -77,19 +103,59 @@ function NormalMode() {
     }
   }, [widgetRes]);
 
+  const getThumbnailData = useCallback(() => {
+    if (widgetRes) {
+      const { widget_list } = widgetRes.data;
+      if (!widget_list) {
+        return null;
+      }
+      const thumbnail_list = widget_list.map((element) => {
+        if (element.widget_data && element.widget_data.thumbnail) {
+          return element.widget_data.thumbnail;
+        }
+        return null;
+      });
+      return thumbnail_list;
+    }
+    return null;
+  }, [widgetRes]);
+
+  const thumbnailImages = useMemo(() => {
+    const thumbnailData = getThumbnailData();
+
+    return thumbnailData.map((element) => {
+      return (
+        <div css={ThumbnailImage}>
+          <img src={element} />
+        </div>
+      );
+    });
+  }, [getThumbnailData]);
+
   return (
     <PageWrapper>
       <NormalWrapper>
-        <Header
-          userMatch={userMatched}
-          pageUrl={pageUrl}
-          pageUserName={nickname}
-          pageType='normal'
-        />
-        <NormalModeGrid />
+        {!mobileMode && (
+          <Header
+            userMatch={userMatched}
+            pageUrl={pageUrl}
+            pageUserName={nickname}
+            pageType='normal'
+          />
+        )}
+        {mobileMode && (
+          <div css={ThumbnailImagesContainer}>{thumbnailImages}</div>
+        )}
+        {!mobileMode && <NormalModeGrid />}
       </NormalWrapper>
     </PageWrapper>
   );
 }
 
 export default NormalMode;
+
+const ThumbnailImagesContainer = css`
+  display: flex;
+  width: 100px;
+`;
+const ThumbnailImage = css``;

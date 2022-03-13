@@ -9,7 +9,7 @@ import {
   EditModePage,
   LoginPage,
   TermPage,
-  NormalSplashPage,
+  NormalModePage,
 } from './pages';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Route exact path='/login' component={LoginPage} />
         <Route exact path='/main' component={FeedbackPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
-        <Route exact path='/:id/' component={NormalSplashPage} />
+        <Route exact path='/:id/' component={NormalModePage} />
         <Route exact path='/:id/edit' component={EditModePage} />
         <Route path='/'>
           <div> 존재하지 않는 페이지입니다. </div>
