@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+/** @jsxImportSource @emotion/react */
+import React, { useEffect, useMemo, useState } from 'react';
+import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
 import {
   NormalWrapper,
@@ -14,8 +16,26 @@ import {
 } from '../utils/util';
 import { useGetUrl } from '../hooks/util';
 import { useMyInfo } from '../hooks/myInfo';
-import { useSaveWidget } from '../hooks/widget';
+import { useSaveWidgetsFromServer } from '../hooks/widget';
 import { useRequest } from '../hooks/useRequest';
+import { breakpoints, FlexCenter, FlexColCenter } from '../styles/GlobalStyles';
+
+function getOrderedWidgetList(origin) {
+  if (origin === null) {
+    return null;
+  }
+  const arrY = origin.map((element) => element.pos_y);
+  const maxY = Math.max(...arrY);
+  let ordered = [];
+  for (let i = 0; i <= maxY; i += 1) {
+    const arr = origin.filter((element) => element.pos_y === i) || null;
+    if (arr.length !== 0) {
+      arr.sort((a, b) => (a.pos_x > b.pos_x ? 1 : -1));
+      ordered = ordered.concat(arr);
+    }
+  }
+  return ordered;
+}
 
 function NormalMode() {
   const pageUrl = useGetUrl();
@@ -29,6 +49,27 @@ function NormalMode() {
     method: 'get',
   });
 
+  const [width, setWidth] = useState(window.innerWidth);
+  const [mobileMode, setMobileMode] = useState(false);
+  useEffect(() => {
+    if (width) {
+      if (width <= breakpoints[0]) {
+        setMobileMode(true);
+      } else if (width > breakpoints[0]) {
+        setMobileMode(false);
+      }
+    }
+    return () => setMobileMode(false);
+  }, [width]);
+  const updateWidthAndHeight = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateWidthAndHeight);
+    return () => window.removeEventListener('resize', updateWidthAndHeight);
+  });
+
   useEffect(() => {
     if (pageUrl) {
       if (myInfo && urlMatched(myInfo.url, pageUrl)) {
@@ -40,6 +81,11 @@ function NormalMode() {
         requestPageUserInfo();
       }
     }
+    return () => {
+      setUserMatched(null);
+      setUserSeq(null);
+      setNickname(null);
+    };
   }, [pageUrl, myInfo]);
 
   useEffect(() => {
@@ -69,7 +115,7 @@ function NormalMode() {
     }
   }, [userSeq, requestWidgetData]);
 
-  const { save } = useSaveWidget();
+  const { save } = useSaveWidgetsFromServer();
 
   useEffect(() => {
     if (widgetRes) {
@@ -77,19 +123,60 @@ function NormalMode() {
     }
   }, [widgetRes]);
 
+  const ThumbnailImage = useMemo(() => {
+    if (widgetRes) {
+      const { widget_list } = widgetRes.data;
+      const filtered = widget_list.filter(
+        (element) => element.widget_data !== {} && element.widget_data.thumbnail
+      );
+      const ordered = getOrderedWidgetList(filtered);
+      if (ordered) {
+        return ordered.map((element) => {
+          return (
+            <img
+              key={element.widget_code}
+              src={element.widget_data.thumbnail}
+              alt='thumbnail'
+              css={ThumbnailStyle}
+            />
+          );
+        });
+      }
+    }
+    return <div>test</div>;
+  }, [widgetRes]);
+
   return (
     <PageWrapper>
-      <NormalWrapper>
-        <Header
-          userMatch={userMatched}
-          pageUrl={pageUrl}
-          pageUserName={nickname}
-          pageType='normal'
-        />
-        <NormalModeGrid />
-      </NormalWrapper>
+      {mobileMode && <div css={ThumbnailImagesContainer}>{ThumbnailImage}</div>}
+      {!mobileMode && (
+        <NormalWrapper>
+          <Header
+            userMatch={userMatched}
+            pageUrl={pageUrl}
+            pageUserName={nickname}
+            pageType='normal'
+          />
+          <NormalModeGrid />
+        </NormalWrapper>
+      )}
     </PageWrapper>
   );
 }
 
 export default NormalMode;
+
+const ThumbnailImagesContainer = css`
+  max-width: 100%;
+  height: 100%;
+  ${FlexColCenter}
+  padding: 48px 40px 0 40px;
+`;
+const ThumbnailStyle = css`
+  ${FlexCenter}
+  max-width: 100%;
+  margin-bottom: 16px;
+  width: 348px;
+  height: 260px;
+  object-fit: cover;
+`;

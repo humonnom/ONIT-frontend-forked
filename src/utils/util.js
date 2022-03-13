@@ -1,4 +1,5 @@
 import { useGetUrl } from '../hooks/util';
+import { TYPE_IMAGE, TYPE_NEW, TYPE_VIDEO } from './constantValue';
 
 export function getApiEndpoint() {
   const endpoint =
@@ -125,4 +126,27 @@ export function logout() {
   localStorage.removeItem('user_seq');
   localStorage.removeItem('page_url');
   window.location.assign('/login');
+}
+
+export function isTmpWidget(type) {
+  if (type === TYPE_NEW) {
+    return true;
+  }
+  return false;
+}
+
+export function convertType2String(type) {
+  if (type === TYPE_IMAGE) {
+    return 'image';
+  }
+  if (type === TYPE_VIDEO) {
+    return 'video';
+  }
+  return 'none';
+}
+
+export function convertType2Label(type) {
+  if (type === 'image' || type === TYPE_IMAGE) return '이미지';
+  else if (type === 'video' || type === TYPE_VIDEO) return '영상';
+  else return '';
 }

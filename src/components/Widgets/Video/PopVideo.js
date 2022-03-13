@@ -9,7 +9,18 @@ import {
   ACTION_NONE,
   TYPE_VIDEO,
 } from '../../../utils/constantValue';
-import PopButtonsWrapper from '../PopButtonsWrapper';
+
+import {
+  BasicInputStyle,
+  commonBtn,
+  FlexColCenter,
+  getAbsoluteBtn,
+  InitButtonStyle,
+  OrangeColorButton,
+  RoundButtonSmall,
+  SHADOW_STYLE,
+} from '../../../styles/GlobalStyles';
+import { closeSet } from '../../../asset';
 
 function PopVideo(props) {
   const { widgets, modal } = useSelector((state) => ({
@@ -17,6 +28,7 @@ function PopVideo(props) {
     modal: state.info.modal,
   }));
 
+  const { label, endPop } = props;
   const [url, setUrl] = useState('');
   const dispatch = useDispatch();
 
@@ -42,7 +54,9 @@ function PopVideo(props) {
 
   const handleSubmit = () => {
     // TODO: url valid 한지 체크해야함
-    editWidget();
+    if (url !== '') {
+      editWidget();
+    }
   };
 
   const handleChange = ({ target: { value } }) => {
@@ -51,12 +65,27 @@ function PopVideo(props) {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleSubmit();
-      props.endPop();
+      endPop();
     }
   };
 
+  const { btn, img } = getAbsoluteBtn(25, 42, 25);
   return (
-    <>
+    <div css={[Container]}>
+      <div css={PopupHeader}>
+        <p css={[PopupLabel]}>{label}</p>
+        <button
+          type='button'
+          css={[commonBtn, btn]}
+          onClick={() => {
+            endPop();
+          }}
+        >
+          <div css={img}>
+            <img alt='img' height='50px' src={closeSet} />
+          </div>
+        </button>
+      </div>
       <input
         type='url'
         name='url'
@@ -66,38 +95,44 @@ function PopVideo(props) {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <PopButtonsWrapper>
-        <button
-          type='button'
-          onClick={() => {
-            props.endPop();
-          }}
-        >
-          취소
-        </button>
-        <button
-          type='button'
-          onClick={() => {
-            handleSubmit();
-            props.endPop();
-          }}
-        >
-          확인
-        </button>
-      </PopButtonsWrapper>
-    </>
+
+      <button
+        type='button'
+        css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
+        onClick={() => {
+          handleSubmit();
+          endPop();
+        }}
+      >
+        업로드
+      </button>
+    </div>
   );
 }
+const Container = css`
+  ${FlexColCenter}
+  ${SHADOW_STYLE.pale}
+  width: 100%;
+  margin: 30px 0 20px 0;
+`;
 
 const urlInputStyle = css`
-  display: block;
+  ${BasicInputStyle}
   width: 440px;
   height: 24px;
-  border: solid 1px #707070;
-  margin: 28px auto 32px auto;
-  border-radius: 8px;
-  background-color: #fff;
+  margin: 10px auto 32px auto;
   padding: 12px 20px;
+`;
+
+const PopupHeader = css`
+  margin-bottom: 35px;
+  height: 20px;
+`;
+
+const PopupLabel = css`
+  font-family: NotoSansCJKKR;
+  font-size: 1.3rem;
+  font-weight: 800;
 `;
 
 export default PopVideo;

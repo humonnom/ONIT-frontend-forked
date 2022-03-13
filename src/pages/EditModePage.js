@@ -5,7 +5,7 @@ import PopWidgets from '../components/Widgets/Pop/PopWidgets';
 import { PageWrapper, EditModeGrid, EditWrapper, Header } from '../components';
 import { getApiEndpoint, urlMatched } from '../utils/util';
 import { useRequestAuth } from '../hooks/useRequestAuth';
-import { useSaveWidget } from '../hooks/widget';
+import { useSaveWidgetsFromServer } from '../hooks/widget';
 import { useGetUrl } from '../hooks/util';
 import { useMyInfo } from '../hooks/myInfo';
 
@@ -46,7 +46,7 @@ function EditMode() {
     }
   }, [userSeq, requestWidgetData]);
 
-  const { save } = useSaveWidget();
+  const { save } = useSaveWidgetsFromServer();
 
   useEffect(() => {
     if (widgetRes) {

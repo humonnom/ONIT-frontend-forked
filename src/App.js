@@ -7,8 +7,9 @@ import {
   JoinPage,
   FeedbackPage,
   EditModePage,
-  NormalModePage,
   LoginPage,
+  TermPage,
+  NormalModePage,
 } from './pages';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/' component={SplashPage} />
+        <Route exact path='/terms' component={TermPage} />
         <Route exact path='/join' component={JoinPage} />
         <Route exact path='/login' component={LoginPage} />
         <Route exact path='/main' component={FeedbackPage} />

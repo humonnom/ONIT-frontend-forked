@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import facepaint from 'facepaint';
 
 export const COLOR_STYLE = {
-  orange: '#ef6408',
+  orange: '#ff3d00',
   veryLightPink: '#f2f2f2',
   paleGrey: '#f5f7f8',
   brownishGrey: '#707070',
@@ -11,6 +11,10 @@ export const COLOR_STYLE = {
   white: '#ffffff',
   coral: '#ff4545',
 };
+
+export const TextUnderline = css`
+  text-decoration: underline;
+`;
 
 export const SHADOW_STYLE = {
   pale: ' 3px 0px 20px -5px rgba(0, 0, 0, 0.09)',
@@ -115,9 +119,23 @@ export const InitButtonStyle = css`
   word-break: keep-all;
 `;
 
+export const RoundButtonSmall = css`
+  padding: 1.5vh 4vw;
+  border-radius: 30px;
+`;
+
+export const WhiteColorButton = css`
+  background-color: ${COLOR_STYLE.white};
+  color: ${COLOR_STYLE.brownishGrey};
+`;
+
+export const OrangeColorButton = css`
+  background-color: ${COLOR_STYLE.orange};
+  color: ${COLOR_STYLE.white};
+`;
 // media query
 
-const breakpoints = [576, 768, 992, 1200];
+export const breakpoints = [576, 768, 992, 1200];
 
 export const mq = facepaint(
   breakpoints.map((bp) => `@media (min-width: ${bp}px)`)
@@ -128,3 +146,87 @@ export const PageTitleMQ = () => {
     fontSize: [FONT_SIZE.s, FONT_SIZE.s, FONT_SIZE.m, FONT_SIZE.l],
   });
 };
+
+export const BackButton = css`
+  ${InitButtonStyle}
+  font-size: 1.2rem;
+  color: ${COLOR_STYLE.brownishGrey};
+  margin-bottom: 3vh;
+  font-weight: bold;
+`;
+
+export const closeBtn = css`
+  top: 10px;
+  right: 42px;
+  width: 25px;
+  height: 25px;
+  &:hover {
+    background-color: #222;
+  }
+`;
+
+export const closeBtnImg = css`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  &:hover {
+    top: -25px;
+  }
+`;
+
+export const settingBtn = css`
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  &:hover {
+    background-color: #222;
+  }
+`;
+
+export const settingBtnImg = css`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  &:hover {
+    top: -25px;
+  }
+`;
+
+export const commonBtn = css`
+  appearance: none;
+  position: absolute;
+  border-radius: 50%;
+  border: none;
+  background-color: #fff;
+  overflow: hidden;
+`;
+
+export function getAbsoluteBtn(top, right, r) {
+  const btn = css`
+    top: ${top}px;
+    right: ${right}px;
+    width: ${r}px;
+    height: ${r}px;
+    &:hover {
+      background-color: #222;
+    }
+  `;
+
+  const img = css`
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    &:hover {
+      top: -25px;
+    }
+  `;
+  return { btn, img };
+}
+
+export const BasicInputStyle = css`
+  display: block;
+  border-radius: 30px;
+  border: none;
+  background-color: ${COLOR_STYLE.veryLightPink};
+`;

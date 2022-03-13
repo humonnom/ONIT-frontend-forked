@@ -13,6 +13,11 @@ import {
   PageTitleMQ,
   SHADOW_STYLE,
   mq,
+  BackButton,
+  TextUnderline,
+  OrangeColorButton,
+  RoundButtonSmall,
+  WhiteColorButton,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
 import { useRequest } from '../hooks/useRequest';
@@ -223,10 +228,23 @@ function JoinPage() {
                 id='agreement'
                 onChange={(event) => setAgreement(event.target.checked)}
               />
-              <label htmlFor='agreement'>약관에 동의합니다.</label>
+              <label htmlFor='agreement' css={AgreementLabel}>
+                <button
+                  type='button'
+                  css={[InitButtonStyle]}
+                  onClick={() => history.push(`/terms`)}
+                >
+                  <p css={[TextUnderline]}>약관</p>
+                </button>
+                에 동의합니다.
+              </label>
               <p>{agreementState === 'ok' ? '' : agreementState}</p>
             </div>
-            <button type='submit' disabled={disableSubmit}>
+            <button
+              type='submit'
+              css={ConfirmButtonStyle}
+              disabled={disableSubmit}
+            >
               생성 완료
             </button>
           </div>
@@ -238,20 +256,11 @@ function JoinPage() {
 
 export default JoinPage;
 
-const FocusedButton = css`
-  background-color: ${COLOR_STYLE.orange};
-  color: ${COLOR_STYLE.white};
-`;
-const NormalButton = css`
-  background-color: ${COLOR_STYLE.white};
-  color: ${COLOR_STYLE.brownishGrey};
-`;
-
 function getColorByState(field, id) {
   if (field.includes(id)) {
-    return FocusedButton;
+    return OrangeColorButton;
   } else {
-    return NormalButton;
+    return WhiteColorButton;
   }
 }
 
@@ -291,14 +300,6 @@ const PageInfo = css`
   ${FlexColSpaceAroundStart}
   height: 20vh;
   width: 100%;
-`;
-
-const BackButton = css`
-  ${InitButtonStyle}
-  font-size: 1.2rem;
-  color: ${COLOR_STYLE.brownishGrey};
-  margin-bottom: 3vh;
-  font-weight: bold;
 `;
 
 const PageGuideMessage = css`
@@ -401,7 +402,6 @@ const FieldButtonStyle = css`
 
 const FieldButtonLabel = css`
   font-size: 0.8rem;
-  color: ${COLOR_STYLE.brownishGrey};
 `;
 
 const InputConfirm = css`
@@ -411,19 +411,22 @@ const InputConfirm = css`
   p {
     font-size: 0.8rem;
   }
-  button {
-    ${InitButtonStyle}
-    padding: 1.5vh 4vw;
-    background-color: ${COLOR_STYLE.orange};
-    border-radius: 30px;
-    color: ${COLOR_STYLE.white};
-  }
+`;
+
+const ConfirmButtonStyle = css`
+  ${InitButtonStyle}
+  ${RoundButtonSmall}
+  ${OrangeColorButton}
 `;
 
 const passwordToggleButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   color: ${COLOR_STYLE.brownishGrey};
+`;
+
+const AgreementLabel = css`
+  font-size: 0.8rem;
 `;
 
 const passwordToggleButtonMQ = () => {

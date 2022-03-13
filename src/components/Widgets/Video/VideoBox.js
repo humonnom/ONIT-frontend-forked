@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { isURL } from 'validator';
 import { YoutubeVideo } from '../..';
 import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
 
 export default function VideoBox({ element, mode }) {
   function getVideoCode(url) {
+    if (!isURL(url)) return '';
     const urlObj = new URL(url);
     const code = urlObj.searchParams.get('v');
     return code;

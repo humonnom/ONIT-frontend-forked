@@ -5,6 +5,7 @@ import MainPage from './MainPage';
 import LoginPage from './LoginPage';
 import FeedbackPage from './FeedbackPage';
 import JoinPage from './JoinPage';
+import TermPage from './TermPage';
 
 export {
   JoinPage,
@@ -14,4 +15,5 @@ export {
   MainPage,
   LoginPage,
   FeedbackPage,
+  TermPage,
 };

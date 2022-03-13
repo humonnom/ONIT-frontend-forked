@@ -21,6 +21,14 @@ import VideoBox from './Video/VideoBox';
 import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
+import { convertType2String, isTmpWidget } from '../../utils/util';
+import {
+  commonBtn,
+  closeBtn,
+  closeBtnImg,
+  settingBtn,
+  settingBtnImg,
+} from '../../styles/GlobalStyles';
 
 export function WidgetElement({
   element,
@@ -35,7 +43,6 @@ export function WidgetElement({
     modal: state.info.modal,
   }));
   const dispatch = useDispatch();
-
   // dispatch
   const openEditWindow = (id) => {
     dispatch(
@@ -52,6 +59,18 @@ export function WidgetElement({
       createReplacementWidgetsAction({
         ...widgets,
         list: newWidgetList,
+      })
+    );
+  };
+
+  const openEditModalByType = (id, type) => {
+    const stringType = convertType2String(type);
+    dispatch(
+      createReplacementModalAction({
+        ...modal,
+        imgChangeTargetId: id,
+        popUpWindow: true,
+        popUpWindowType: stringType,
       })
     );
   };
@@ -123,9 +142,14 @@ export function WidgetElement({
             type='button'
             css={[commonBtn, settingBtn]}
             onClick={() => {
-              openEditWindow(layout.i);
+              if (isTmpWidget(layout.widget_type)) {
+                openEditWindow(layout.i);
+                setSelectedWidget(layout.i);
+              } else {
+                openEditModalByType(layout.i, layout.widget_type);
+              }
+
               const newWidgetList = getNewWidgetList(layout.i, 'E');
-              setSelectedWidget(layout.i);
               updateWidgets(newWidgetList);
             }}
           >
@@ -157,51 +181,4 @@ const hoverBackground = css`
   border-radius: ${WIDGET_COMMON_RADIUS};
   opacity: 0.2;
   background-color: #000;
-`;
-
-const commonBtn = css`
-  appearance: none;
-  position: absolute;
-  border-radius: 50%;
-  border: none;
-  background-color: #fff;
-  overflow: hidden;
-`;
-
-const closeBtn = css`
-  top: 10px;
-  right: 42px;
-  width: 25px;
-  height: 25px;
-  &:hover {
-    background-color: #222;
-  }
-`;
-
-const closeBtnImg = css`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  &:hover {
-    top: -25px;
-  }
-`;
-
-const settingBtn = css`
-  top: 10px;
-  right: 10px;
-  width: 25px;
-  height: 25px;
-  &:hover {
-    background-color: #222;
-  }
-`;
-
-const settingBtnImg = css`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  &:hover {
-    top: -25px;
-  }
 `;

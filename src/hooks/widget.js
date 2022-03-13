@@ -6,23 +6,30 @@ import { convertForRedux, convertForServer } from '../utils/convert';
 import { useMyInfo } from './myInfo';
 import { useRequestAuth } from './useRequestAuth';
 import { getApiEndpoint } from '../utils/util';
-import { ACTION_EDIT, ACTION_NONE, TYPE_IMAGE } from '../utils/constantValue';
+import {
+  ACTION_CREATE,
+  ACTION_EDIT,
+  ACTION_NONE,
+  TYPE_IMAGE,
+  TYPE_NEW,
+} from '../utils/constantValue';
 
-export function useEditWidget() {
+// init new widget
+export function useInitWidget() {
   const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
     modal: state.info.modal,
   }));
   const dispatch = useDispatch();
 
-  const editWidgetState = (data) => {
-    const changedWidgets = JSON.parse(JSON.stringify(widgets.list));
+  const initImageWidget = ({ thumbnail, url }) => {
+    const changed = JSON.parse(JSON.stringify(widgets.list));
     const targetId = modal.imgChangeTargetId;
-    const targetItem = changedWidgets.find((widget) => widget.i === targetId);
+    const targetItem = changed.find((widget) => widget.i === targetId);
     targetItem.widget_type = TYPE_IMAGE;
     targetItem.widget_data = {
-      thumbnail: `${data}`,
-      url: '',
+      thumbnail: `${thumbnail}`,
+      url: `${url}`,
     };
     if (
       targetItem.widget_action === ACTION_NONE ||
@@ -30,33 +37,52 @@ export function useEditWidget() {
     ) {
       targetItem.widget_action = ACTION_EDIT;
     }
-    dispatch(
-      createReplacementWidgetsAction({
-        ...widgets,
-        list: changedWidgets,
-      })
-    );
+    updateRedux(changed);
   };
 
-  const edit = (data) => {
-    if (data) {
-      editWidgetState(data);
+  const updateRedux = (changed) => {
+    if (changed) {
+      dispatch(
+        createReplacementWidgetsAction({
+          ...widgets,
+          list: changed,
+        })
+      );
     }
   };
 
-  return { edit };
+  const init = ({ type, data }) => {
+    if (data) {
+      if (type === TYPE_IMAGE) {
+        initImageWidget(data);
+      }
+    }
+  };
+  return { init };
 }
-export function useSaveWidget() {
+
+// save widget data to redux (no need convert)
+export function useUpdateWidgetsData() {
   const dispatch = useDispatch();
 
-  const setWidgetState = (widgetList) => {
-    const convertedForRedux = convertForRedux(widgetList);
+  const updateWidgets = (newData) => {
     dispatch(
       createReplacementWidgetsAction({
-        count: convertedForRedux.length,
-        list: convertedForRedux,
+        count: newData.length,
+        list: newData,
       })
     );
+  };
+  return { updateWidgets };
+}
+
+// save widget data from server (need convert)
+export function useSaveWidgetsFromServer() {
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const setWidgetState = (widgetList) => {
+    const converted = convertForRedux(widgetList);
+    updateWidgets(converted);
   };
 
   const save = (data) => {
@@ -64,7 +90,6 @@ export function useSaveWidget() {
       setWidgetState(data);
     }
   };
-
   return { save };
 }
 
@@ -88,7 +113,6 @@ export function usePostData() {
 
   useEffect(() => {
     if (postData && userSeq) {
-      console.log('post 시행');
       request();
     }
   }, [postData, userSeq]);
@@ -97,7 +121,6 @@ export function usePostData() {
     if (res && res.data) {
       if (res.data.code === 'wrong_token') {
         history.push(`/login`);
-        console.log('로그인을 다시 해주세요.');
       } else {
         history.push(`/${myInfo ? myInfo.url : '/'}`);
       }
@@ -148,5 +171,47 @@ export function usePostImage() {
   return {
     s3url: url,
     request,
+  };
+}
+
+export function useAddEmptyWidget() {
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const addEmptyWidget = (mouseOverWidget) => {
+    const newWidget = {
+      widget_action: ACTION_CREATE,
+      widget_code: '',
+      widget_type: TYPE_NEW,
+      widget_data: {},
+      i: `${widgets.count + 1}`,
+      x: mouseOverWidget[0].x,
+      y: mouseOverWidget[0].y,
+      w: 1,
+      h: 1,
+    };
+    updateWidgets([...widgets.list, newWidget]);
+  };
+  return {
+    addEmptyWidget,
+  };
+}
+export function useRemoveEmptyWidget() {
+  const { widgets } = useSelector((state) => ({
+    widgets: state.info.widgets,
+  }));
+  const { updateWidgets } = useUpdateWidgetsData();
+
+  const removeEmptyWidget = () => {
+    const converted = widgets.list.filter(function (element) {
+      return element.widget_type !== TYPE_NEW;
+    });
+    updateWidgets(converted);
+  };
+
+  return {
+    removeEmptyWidget,
   };
 }

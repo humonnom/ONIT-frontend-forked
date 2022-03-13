@@ -2,12 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReplacementModalAction } from '../../../redux/slice';
 import PopTypeComponent from './PopTypeComponent';
-// HACK: Eomhyunjun 함수이름 고쳐주세요
-function moragogiuyahalkkayo(modal) {
-  if (modal.popUpWindowType === 'image') return '이미지';
-  else if (modal.popUpWindowType === 'video') return '영상';
-  else return '';
-}
 
 function PopWidgets() {
   const dispatch = useDispatch();
@@ -30,11 +24,6 @@ function PopWidgets() {
   return (
     <div style={backGroundPopStyle}>
       <div style={widgetBoxPopStyle}>
-        {moragogiuyahalkkayo(modal) !== '' ? (
-          <div style={nameBoxStyle}>{moragogiuyahalkkayo(modal)} 업로드</div>
-        ) : (
-          <div style={nameBoxStyle}> 안내 </div>
-        )}
         <PopTypeComponent endPop={endPop} />
       </div>
     </div>
@@ -59,23 +48,8 @@ const widgetBoxPopStyle = {
   transform: 'translate(-50%, -50%)',
   backgroundColor: 'white',
   borderRadius: '20px',
-  width: '560px',
-  height: `280px`,
-};
-
-const nameBoxStyle = {
-  fontFamily: 'NotoSansCJKKR',
-  fontSize: '24px',
-  fontWeight: 'bold',
-  fontStretch: 'normal',
-  fontStyle: 'normal',
-  lineHeight: '36px',
-  letterSpacing: 'normal',
-  color: '#222',
-  width: '100%',
-  height: '36px',
-  marginTop: '48px',
-  textAlign: 'center',
+  width: '540px',
+  height: `250px`,
 };
 
 export default PopWidgets;

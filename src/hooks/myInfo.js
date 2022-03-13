@@ -48,25 +48,27 @@ export function useMyInfo() {
     } else {
       setMyInfo(userInfo);
     }
+    return () => {
+      setMyInfo(null);
+    };
   }, [userInfo]);
 
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
-        setMyInfo(res.data.data);
         save(res.data.data);
+        setMyInfo(res.data.data);
+        setLoggedIn(true);
       } else {
         setMyInfo(null);
         setLoggedIn(false);
       }
     }
+    return () => {
+      setMyInfo(null);
+      setLoggedIn(null);
+    };
   }, [res]);
-
-  useEffect(() => {
-    if (myInfo) {
-      setLoggedIn(true);
-    }
-  }, [myInfo]);
 
   return {
     loggedIn,

@@ -1,4 +1,4 @@
-import { ACTION_CREATE, ACTION_NONE } from './constantValue';
+import { ACTION_CREATE, ACTION_NONE, TYPE_NEW } from './constantValue';
 
 function changeKey(obj, oldKey, newKey) {
   obj[newKey] = obj[oldKey];
@@ -37,7 +37,10 @@ function createIdKey(obj, index) {
 
 export function convertForRedux(infos) {
   if (!infos) return [];
-  const converted = JSON.parse(JSON.stringify(infos));
+  const widgets = JSON.parse(JSON.stringify(infos));
+  const converted = widgets.filter(function (element) {
+    return element.widget_type !== TYPE_NEW;
+  });
   converted.map(function (info, index) {
     changeKey(info, 'pos_x', 'x');
     changeKey(info, 'pos_y', 'y');
