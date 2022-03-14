@@ -38,12 +38,6 @@ function JoinPage() {
 
   const { endpoint, joinType, userEmail } = location.state;
 
-  useEffect(() => {
-    if (certModal) {
-      console.log('clicked');
-    }
-  }, [certModal]);
-
   const certificateEmail = () => {
     setCertModal(true);
   };
@@ -70,6 +64,7 @@ function JoinPage() {
     type: 'email',
     label: '이메일',
     overlapCheckRequired: true,
+    // button: { ? emailCertButton : (<div>checked</div>)},
     button: emailCertButton,
   });
 
@@ -149,7 +144,7 @@ function JoinPage() {
 
   useEffect(() => {
     if (res && res.data) {
-      if (res.data.code === 'ok') {
+      if (isOk(res.data.code)) {
         history.push('/login');
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
