@@ -22,7 +22,7 @@ import {
 import { useInput } from '../hooks/useInput';
 import { useRequest } from '../hooks/useRequest';
 import { logo } from '../asset/index';
-import { getFieldList, getSelectedFieldData } from '../utils/util';
+import { getFieldList, getSelectedFieldData, isOk } from '../utils/util';
 import EmailCertModal from '../components/EmailCertModal';
 
 function JoinPage() {
@@ -44,7 +44,7 @@ function JoinPage() {
     }
   }, [certModal]);
 
-  const certificatEmail = () => {
+  const certificateEmail = () => {
     setCertModal(true);
   };
 
@@ -56,7 +56,7 @@ function JoinPage() {
         <button
           type='button'
           css={[passwordToggleButton, passwordToggleButtonMQ()]}
-          onClick={certificatEmail}
+          onClick={certificateEmail}
         >
           이메일 인증하기
         </button>
@@ -192,12 +192,21 @@ function JoinPage() {
     [fieldList, field, onFieldChange]
   );
 
+  const emailState = useMemo(() => {
+    if (certModal && isOk(email.state) && !email.overlapState) {
+      return true;
+    }
+    return false;
+  }, [email.state, certModal]);
+
   return (
     <div css={[Container, ContainerMQ()]}>
       {certModal && (
         <EmailCertModal
           closeModal={() => setCertModal(false)}
           certSucceed={() => setCertState(true)}
+          email={email.value}
+          state={emailState}
         />
       )}
       <div css={[PageInfos, PageInfosMQ()]}>

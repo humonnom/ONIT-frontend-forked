@@ -91,6 +91,7 @@ export function useInput({ inputType, id, type, ...args }) {
   return {
     value,
     state,
+    overlapState,
     label: args.label,
     component: (
       <div css={InputContainer}>

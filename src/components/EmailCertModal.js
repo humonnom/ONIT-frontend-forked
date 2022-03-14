@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { closeSet } from '../asset';
 import {
@@ -14,14 +14,22 @@ import {
   RoundButtonSmall,
   SHADOW_STYLE,
 } from '../styles/GlobalStyles';
+import { useRequest } from '../hooks/useRequest';
+import { getApiEndpoint } from '../utils/util';
 
-function EmailCertModal({ closeModal }) {
+function EmailCertModal({ closeModal, email, state, realstate }) {
   const label = '이메일 인증';
   const { btn, img } = getAbsoluteBtn(25, 42, 25);
   const [numbers, setNumbers] = useState('');
+  const endpoint = `${getApiEndpoint()}/auth/email/${email}`;
 
-  // const {res, request} = useAuthRequest({
-  //   });
+  const { res: sendRes, request: send } = useRequest({
+    endpoint: endpoint,
+    method: 'get',
+    data: {
+      email,
+    },
+  });
 
   const handleSubmit = () => {
     console.log('email submit');
@@ -46,10 +54,26 @@ function EmailCertModal({ closeModal }) {
     setNumbers(value);
   };
 
+  useEffect(() => {
+    console.log(state);
+    console.log(realstate);
+    if (state) {
+      send();
+    }
+  }, [state, realstate]);
+
+  useEffect(() => {
+    // if (sendRes && sendRes.data && isOk(sendRes.data.code)){
+    if (sendRes) {
+      console.log(sendRes);
+    }
+  }, [sendRes]);
+
   return (
     <div css={[Container]}>
       <div css={PopupHeader}>
         <p css={[PopupLabel]}>{label}</p>
+        {/* <p>{email}</p> */}
         <button
           type='button'
           css={[commonBtn, btn]}
@@ -62,24 +86,43 @@ function EmailCertModal({ closeModal }) {
       </div>
 
       <div css={[PopUpBody]}>
-        <input
-          type='text'
-          name='text'
-          value={numbers}
-          css={[urlInputStyle]}
-          placeholder='이메일로 송신된 숫자를 입력해주세요'
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        <button
-          type='button'
-          css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
-          인증하기
-        </button>
+        {!state && (
+          <>
+            <div css={MessageWrapper}>
+              <p css={MessageStyle}>현재 입력하신 이메일은 사용할 수 없어요!</p>
+              <p css={MessageStyle}>다른 이메일로 다시 시도해주세요.</p>
+            </div>
+            <button
+              type='button'
+              css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
+              onClick={() => closeModal()}
+            >
+              확인
+            </button>
+          </>
+        )}
+        {state && (
+          <>
+            <input
+              type='text'
+              name='text'
+              value={numbers}
+              css={[urlInputStyle]}
+              placeholder='이메일로 송신된 숫자를 입력해주세요'
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+            />
+            <button
+              type='button'
+              css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              인증하기
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
@@ -105,6 +148,7 @@ const Container = css`
   margin: 0 auto;
   padding: 10px;
   border-radius: 30px;
+  border: solid 1px black;
 `;
 
 const PopupHeader = css`
@@ -138,23 +182,14 @@ const urlInputStyle = css`
   padding: 8px 17px;
 `;
 
-// function textColor(selected) {
-//   if (selected === true) {
-//     return css`
-//       color: ${COLOR_STYLE.black};
-//       border-bottom: 2px solid;
-//     `;
-//   } else {
-//     return css`
-//       color: ${COLOR_STYLE.brownishGrey};
-//     `;
-//   }
-// }
+const MessageWrapper = css`
+  ${FlexColCenter}
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
 
-// const ChangeModeButton = css`
-//   font-weight: 600;
-//   font-size: 1rem;
-//   padding: 5px 8%;
-//   display: block;
-//   margin: 0px;
-// `;
+const MessageStyle = css`
+  font-size: 0.9rem;
+  margin: 10px 5px 0px 5px;
+  color: ${COLOR_STYLE.brownishGrey};
+`;
