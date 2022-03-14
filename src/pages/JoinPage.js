@@ -7,7 +7,6 @@ import {
   FlexCenter,
   FlexColCenter,
   FlexColSpaceAroundStart,
-  FlexSpaceBetweenCenter,
   FlexSpaceBetweenStart,
   InitButtonStyle,
   PageTitleMQ,
@@ -18,16 +17,20 @@ import {
   OrangeColorButton,
   RoundButtonSmall,
   WhiteColorButton,
+  FlexSpaceBetweenCenter,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
 import { useRequest } from '../hooks/useRequest';
 import { logo } from '../asset/index';
 import { getFieldList, getSelectedFieldData } from '../utils/util';
+import EmailCertModal from '../components/EmailCertModal';
 
 function JoinPage() {
   const [field, setField] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
+  const [certModal, setCertModal] = useState(false);
+  const [certState, setCertState] = useState(false);
 
   const history = useHistory();
   const location = useLocation();
@@ -35,12 +38,39 @@ function JoinPage() {
 
   const { endpoint, joinType, userEmail } = location.state;
 
+  useEffect(() => {
+    if (certModal) {
+      console.log('clicked');
+    }
+  }, [certModal]);
+
+  const certificatEmail = () => {
+    setCertModal(true);
+  };
+
+  const emailCertButton = useMemo(() => {
+    if (certState) {
+      return <p>인증완료!</p>;
+    } else {
+      return (
+        <button
+          type='button'
+          css={[passwordToggleButton, passwordToggleButtonMQ()]}
+          onClick={certificatEmail}
+        >
+          이메일 인증하기
+        </button>
+      );
+    }
+  }, [certState]);
+
   const email = useInput({
     inputType: 'email',
     id: 'email',
     type: 'email',
     label: '이메일',
     overlapCheckRequired: true,
+    button: emailCertButton,
   });
 
   const password = useInput({
@@ -164,6 +194,12 @@ function JoinPage() {
 
   return (
     <div css={[Container, ContainerMQ()]}>
+      {certModal && (
+        <EmailCertModal
+          closeModal={() => setCertModal(false)}
+          certSucceed={() => setCertState(true)}
+        />
+      )}
       <div css={[PageInfos, PageInfosMQ()]}>
         <div css={[PageInfo]}>
           <button

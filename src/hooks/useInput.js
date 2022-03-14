@@ -73,7 +73,7 @@ export function useInput({ inputType, id, type, ...args }) {
           <input id={id} type={type} value={value} onChange={onChange} />
         </div>
       );
-    else if (inputType === 'password')
+    else if (inputType === 'password' || inputType === 'email')
       return (
         <div css={InputPassword}>
           <input id={id} type={type} value={value} onChange={onChange} />
