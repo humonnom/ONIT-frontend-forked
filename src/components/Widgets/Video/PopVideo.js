@@ -54,7 +54,6 @@ function PopVideo(props) {
   }
 
   const handleSubmit = () => {
-    // TODO: url valid 한지 체크해야함
     if (url !== '') {
       editWidget();
     }

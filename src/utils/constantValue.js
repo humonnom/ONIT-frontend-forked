@@ -12,4 +12,3 @@ export const TYPE_MOUSE = -1;
 export const TYPE_NEW = 0;
 export const TYPE_IMAGE = 1;
 export const TYPE_VIDEO = 2;
-// TODO: 타입 여러개 만들기(image, linked image, video)

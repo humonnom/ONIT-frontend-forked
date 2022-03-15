@@ -81,6 +81,3 @@ const Title = css`
   font-size: 17px;
   margin-bottom: 25px;
 `;
-
-// TODO: 배포전까지 수정모드 위젯의 버튼 크기 및 위치 수정
-// 이메일 작동 완료 시키기

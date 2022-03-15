@@ -18,6 +18,7 @@ export const TextUnderline = css`
 
 export const SHADOW_STYLE = {
   pale: ' 3px 0px 20px -5px rgba(0, 0, 0, 0.09)',
+  lightGrey: ' 50px 0px 200px -5px rgba(0, 0, 0, 0.5)',
 };
 
 export const FONT_SIZE = {

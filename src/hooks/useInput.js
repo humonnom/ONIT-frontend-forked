@@ -76,7 +76,13 @@ export function useInput({ inputType, id, type, ...args }) {
     else if (inputType === 'password' || inputType === 'email')
       return (
         <div css={InputPassword}>
-          <input id={id} type={type} value={value} onChange={onChange} />
+          <input
+            id={id}
+            type={type}
+            value={value}
+            onChange={onChange}
+            disabled={!!args.disabled}
+          />
           {args.button}
         </div>
       );

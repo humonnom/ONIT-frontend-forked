@@ -44,7 +44,7 @@ function JoinPage() {
 
   const emailCertButton = useMemo(() => {
     if (certState) {
-      return <p>인증완료!</p>;
+      return <p css={passwordToggleButton}> 인증완료!</p>;
     } else {
       return (
         <button
@@ -63,8 +63,8 @@ function JoinPage() {
     id: 'email',
     type: 'email',
     label: '이메일',
+    disabled: certState,
     overlapCheckRequired: true,
-    // button: { ? emailCertButton : (<div>checked</div>)},
     button: emailCertButton,
   });
 
@@ -144,7 +144,7 @@ function JoinPage() {
 
   useEffect(() => {
     if (res && res.data) {
-      if (isOk(res.data.code)) {
+      if (res.data.code === 'ok') {
         history.push('/login');
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
