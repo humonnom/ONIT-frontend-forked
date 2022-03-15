@@ -79,6 +79,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     </div>
   );
 
+  // 히스토리 푸시
   const mainHeader = (
     <>
       <div css={[flex, flexBtw]}>
