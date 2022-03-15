@@ -163,7 +163,8 @@ function JoinPage() {
       (joinType === 'local' && isInvalid(password.state)) ||
       (joinType === 'local' && isInvalid(email.state)) ||
       isInvalid(url.state) ||
-      isInvalid(name.state)
+      isInvalid(name.state) ||
+      !certState
     )
       return true;
     else return false;

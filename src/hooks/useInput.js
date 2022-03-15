@@ -62,6 +62,8 @@ export function useInput({ inputType, id, type, ...args }) {
   const errorMessage = useMemo(() => {
     if (state !== 'ok') return state;
     else if (overlapState) return overlapState;
+    else if (inputType === 'email' && !args.disabled)
+      return '이메일 인증을 완료해주세요!';
     return '';
   }, [state, overlapState]);
 
