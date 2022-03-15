@@ -12,6 +12,7 @@ import {
 
 import {
   BasicInputStyle,
+  COLOR_STYLE,
   commonBtn,
   FlexColCenter,
   getAbsoluteBtn,
@@ -53,7 +54,6 @@ function PopVideo(props) {
   }
 
   const handleSubmit = () => {
-    // TODO: url valid 한지 체크해야함
     if (url !== '') {
       editWidget();
     }
@@ -85,7 +85,9 @@ function PopVideo(props) {
             <img alt='img' height='50px' src={closeSet} />
           </div>
         </button>
+        <p css={GuideMessage}>지금은 YouTube 링크로만 추가할 수 있어요.</p>
       </div>
+
       <input
         type='url'
         name='url'
@@ -109,24 +111,27 @@ function PopVideo(props) {
     </div>
   );
 }
+
+export default PopVideo;
+
 const Container = css`
   ${FlexColCenter}
   ${SHADOW_STYLE.pale}
   width: 100%;
-  margin: 30px 0 20px 0;
+  margin: 35px 0 20px 0;
 `;
 
 const urlInputStyle = css`
   ${BasicInputStyle}
-  width: 440px;
-  height: 24px;
-  margin: 10px auto 32px auto;
-  padding: 12px 20px;
+  width: 80%;
+  margin: 0px auto 25px auto;
+  padding: 13px 20px;
 `;
 
 const PopupHeader = css`
-  margin-bottom: 35px;
-  height: 20px;
+  ${FlexColCenter}
+  margin-bottom: 10px;
+  height: 70px;
 `;
 
 const PopupLabel = css`
@@ -134,5 +139,11 @@ const PopupLabel = css`
   font-size: 1.3rem;
   font-weight: 800;
 `;
-
-export default PopVideo;
+const GuideMessage = css`
+  width: 100%;
+  font-size: 0.8rem;
+  word-break: keep-all;
+  margin-top: 30px;
+  font-weight: bold;
+  color: ${COLOR_STYLE.brownishGrey};
+`;

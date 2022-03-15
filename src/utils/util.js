@@ -83,7 +83,6 @@ export function setLocalStorage(data) {
     localStorage.setItem('user_seq', user_info.user_seq);
   }
 }
-// TODO: get field data from server
 
 export const getSelectedFieldData = (seletedIndexArr) => {
   const indexArr = seletedIndexArr.sort();

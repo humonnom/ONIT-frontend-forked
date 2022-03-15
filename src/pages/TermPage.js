@@ -3,7 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
 import { BackButton } from '../styles/GlobalStyles';
-
+// p 태그 에러 알아보기
 function TermPage() {
   const history = useHistory();
   const title = '전자상거래(인터넷사이버몰) 표준약관';

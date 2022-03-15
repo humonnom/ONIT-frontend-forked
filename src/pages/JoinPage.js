@@ -7,7 +7,6 @@ import {
   FlexCenter,
   FlexColCenter,
   FlexColSpaceAroundStart,
-  FlexSpaceBetweenCenter,
   FlexSpaceBetweenStart,
   InitButtonStyle,
   PageTitleMQ,
@@ -18,16 +17,20 @@ import {
   OrangeColorButton,
   RoundButtonSmall,
   WhiteColorButton,
+  FlexSpaceBetweenCenter,
 } from '../styles/GlobalStyles';
 import { useInput } from '../hooks/useInput';
 import { useRequest } from '../hooks/useRequest';
 import { logo } from '../asset/index';
-import { getFieldList, getSelectedFieldData } from '../utils/util';
+import { getFieldList, getSelectedFieldData, isOk } from '../utils/util';
+import EmailCertModal from '../components/EmailCertModal';
 
 function JoinPage() {
   const [field, setField] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
+  const [certModal, setCertModal] = useState(false);
+  const [certState, setCertState] = useState(false);
 
   const history = useHistory();
   const location = useLocation();
@@ -35,12 +38,38 @@ function JoinPage() {
 
   const { endpoint, joinType, userEmail } = location.state;
 
+  const certificateEmail = () => {
+    setCertModal(true);
+  };
+
+  const emailCertButton = useMemo(() => {
+    if (certState) {
+      return (
+        <button type='button' css={[InputInnerButton, InputInnerButtonMQ()]}>
+          인증완료!
+        </button>
+      );
+    } else {
+      return (
+        <button
+          type='button'
+          css={[InputInnerButton, InputInnerButtonMQ()]}
+          onClick={certificateEmail}
+        >
+          이메일 인증하기
+        </button>
+      );
+    }
+  }, [certState]);
+
   const email = useInput({
     inputType: 'email',
     id: 'email',
     type: 'email',
     label: '이메일',
+    disabled: certState,
     overlapCheckRequired: true,
+    button: emailCertButton,
   });
 
   const password = useInput({
@@ -51,7 +80,7 @@ function JoinPage() {
     button: (
       <button
         type='button'
-        css={[passwordToggleButton, passwordToggleButtonMQ()]}
+        css={[InputInnerButton, InputInnerButtonMQ()]}
         onClick={() => setShowPassword(!showPassword)}
       >
         {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
@@ -134,7 +163,8 @@ function JoinPage() {
       (joinType === 'local' && isInvalid(password.state)) ||
       (joinType === 'local' && isInvalid(email.state)) ||
       isInvalid(url.state) ||
-      isInvalid(name.state)
+      isInvalid(name.state) ||
+      !certState
     )
       return true;
     else return false;
@@ -162,8 +192,23 @@ function JoinPage() {
     [fieldList, field, onFieldChange]
   );
 
+  const emailState = useMemo(() => {
+    if (certModal && isOk(email.state) && !email.overlapState) {
+      return true;
+    }
+    return false;
+  }, [email.state, certModal]);
+
   return (
     <div css={[Container, ContainerMQ()]}>
+      {certModal && (
+        <EmailCertModal
+          closeModal={() => setCertModal(false)}
+          certSucceed={() => setCertState(true)}
+          email={email.value}
+          state={emailState}
+        />
+      )}
       <div css={[PageInfos, PageInfosMQ()]}>
         <div css={[PageInfo]}>
           <button
@@ -419,7 +464,7 @@ const ConfirmButtonStyle = css`
   ${OrangeColorButton}
 `;
 
-const passwordToggleButton = css`
+const InputInnerButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   color: ${COLOR_STYLE.brownishGrey};
@@ -429,7 +474,7 @@ const AgreementLabel = css`
   font-size: 0.8rem;
 `;
 
-const passwordToggleButtonMQ = () => {
+const InputInnerButtonMQ = () => {
   return mq({
     width: ['30vw', '25vw', '13vw', '10vw'],
   });
