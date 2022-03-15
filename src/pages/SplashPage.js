@@ -10,7 +10,7 @@ function SplashPage() {
     if (loggedIn === true) {
       return `/${myInfo.url}`;
     } else if (loggedIn === false) {
-      return 'login';
+      return 'main';
     }
     return null;
   }, [loggedIn, myInfo]);
