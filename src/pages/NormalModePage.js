@@ -19,6 +19,8 @@ import { useMyInfo } from '../hooks/myInfo';
 import { useSaveWidgetsFromServer } from '../hooks/widget';
 import { useRequest } from '../hooks/useRequest';
 import { breakpoints, FlexCenter, FlexColCenter } from '../styles/GlobalStyles';
+import { TYPE_IMAGE, TYPE_VIDEO } from '../utils/constantValue';
+import VideoBox from '../components/Widgets/Video/VideoBox';
 
 function getOrderedWidgetList(origin) {
   if (origin === null) {
@@ -132,14 +134,24 @@ function NormalMode() {
       const ordered = getOrderedWidgetList(filtered);
       if (ordered) {
         return ordered.map((element) => {
-          return (
-            <img
-              key={element.widget_code}
-              src={element.widget_data.thumbnail}
-              alt='thumbnail'
-              css={ThumbnailStyle}
-            />
-          );
+          if (element.widget_type === TYPE_IMAGE) {
+            return (
+              <img
+                key={element.widget_code}
+                src={element.widget_data.thumbnail}
+                alt='thumbnail'
+                css={ThumbnailStyle}
+              />
+            );
+          } else if (element.widget_type === TYPE_VIDEO) {
+            return (
+              <div css={ThumbnailStyle}>
+                <VideoBox element={element} mode='normal' />
+              </div>
+            );
+          } else {
+            return <></>;
+          }
         });
       }
     }

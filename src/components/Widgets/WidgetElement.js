@@ -112,9 +112,9 @@ export function WidgetElement({
     }
   }
   const diameter = 44;
-  const { btn, img } = getAbsoluteBtn(10, 33, diameter / 2);
+  const { btn, img } = getAbsoluteBtn(5, 33, diameter / 2);
   const { btn: settingBtn, img: settingBtnImg } = getAbsoluteBtn(
-    10,
+    5,
     5,
     diameter / 2
   );
