@@ -6,6 +6,7 @@ import LoginPage from './LoginPage';
 import FeedbackPage from './FeedbackPage';
 import JoinPage from './JoinPage';
 import TermPage from './TermPage';
+import EmailCertPage from './EmailCertPage';
 
 export {
   JoinPage,
@@ -16,4 +17,5 @@ export {
   LoginPage,
   FeedbackPage,
   TermPage,
+  EmailCertPage,
 };

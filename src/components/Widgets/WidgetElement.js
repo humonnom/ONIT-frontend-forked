@@ -22,13 +22,7 @@ import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
 import { convertType2String, isTmpWidget } from '../../utils/util';
-import {
-  commonBtn,
-  closeBtn,
-  closeBtnImg,
-  settingBtn,
-  settingBtnImg,
-} from '../../styles/GlobalStyles';
+import { commonBtn, getAbsoluteBtn } from '../../styles/GlobalStyles';
 
 export function WidgetElement({
   element,
@@ -110,7 +104,13 @@ export function WidgetElement({
       );
     }
   }
-
+  const diameter = 44;
+  const { btn, img } = getAbsoluteBtn(5, 33, diameter / 2);
+  const { btn: settingBtn, img: settingBtnImg } = getAbsoluteBtn(
+    5,
+    5,
+    diameter / 2
+  );
   return (
     <div
       key={parseInt(layout.i, 10)}
@@ -127,15 +127,15 @@ export function WidgetElement({
           <div css={[positionAbsolute, hoverBackground]} />
           <button
             type='button'
-            css={[commonBtn, closeBtn]}
+            css={[commonBtn, btn]}
             onClick={() => {
               const newWidgetList = getNewWidgetList(layout.i, 'D');
               updateWidgets(newWidgetList);
               setIsWidgetOverlap(false);
             }}
           >
-            <div css={closeBtnImg}>
-              <img alt='img' height='50px' src={closeSet} />
+            <div css={img}>
+              <img alt='img' height={diameter} src={closeSet} />
             </div>
           </button>
           <button
@@ -148,13 +148,12 @@ export function WidgetElement({
               } else {
                 openEditModalByType(layout.i, layout.widget_type);
               }
-
               const newWidgetList = getNewWidgetList(layout.i, 'E');
               updateWidgets(newWidgetList);
             }}
           >
             <div css={settingBtnImg}>
-              <img alt='img' height='50px' src={settingSet} />
+              <img alt='img' height={diameter} src={settingSet} />
             </div>
           </button>
         </>
@@ -168,7 +167,7 @@ const widgetFrame = css`
   background-color: white;
   width: 100%;
   height: 100%;
-  border-radius: ${WIDGET_COMMON_RADIUS};
+  border-diameter: ${WIDGET_COMMON_RADIUS};
 `;
 
 const positionAbsolute = css`

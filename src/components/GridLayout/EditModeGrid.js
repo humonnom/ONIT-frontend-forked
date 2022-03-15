@@ -262,7 +262,7 @@ const mouseOverWidgetGuardStyle = css`
   border: 0;
   width: calc(100% + 13px);
   height: calc(100% + 13px);
-  background-color: rgba(0, 0, 0, 0);
+  ${'' /* background-color: rgba(0, 0, 0, 0); */}
   z-index: -999;
 `;
 

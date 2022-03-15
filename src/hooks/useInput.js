@@ -62,6 +62,8 @@ export function useInput({ inputType, id, type, ...args }) {
   const errorMessage = useMemo(() => {
     if (state !== 'ok') return state;
     else if (overlapState) return overlapState;
+    else if (inputType === 'email' && !args.disabled)
+      return '이메일 인증을 완료해주세요!';
     return '';
   }, [state, overlapState]);
 
@@ -73,10 +75,16 @@ export function useInput({ inputType, id, type, ...args }) {
           <input id={id} type={type} value={value} onChange={onChange} />
         </div>
       );
-    else if (inputType === 'password')
+    else if (inputType === 'password' || inputType === 'email')
       return (
         <div css={InputPassword}>
-          <input id={id} type={type} value={value} onChange={onChange} />
+          <input
+            id={id}
+            type={type}
+            value={value}
+            onChange={onChange}
+            disabled={!!args.disabled}
+          />
           {args.button}
         </div>
       );
@@ -91,6 +99,7 @@ export function useInput({ inputType, id, type, ...args }) {
   return {
     value,
     state,
+    overlapState,
     label: args.label,
     component: (
       <div css={InputContainer}>

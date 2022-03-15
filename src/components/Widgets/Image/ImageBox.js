@@ -5,7 +5,6 @@ import { WIDGET_COMMON_RADIUS } from '../../../styles/style';
 
 export default function ImageBox({ element, mode }) {
   const [hasLink, setHasLink] = useState(false);
-  // TODO: 디자이너분과 얘기한 후 이미지 받아오기
   const defaultImg =
     'https://www.thewindowsclub.com/wp-content/uploads/2018/06/Broken-image-icon-in-Chrome.gif';
   const img_src = element.widget_data.thumbnail || defaultImg;
