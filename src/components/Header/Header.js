@@ -241,7 +241,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             <button
               type='button'
               css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-              onClick={() => history.push(`/login`)}
+              onClick={() => history.push(`/main`)}
             >
               LOG IN
             </button>
