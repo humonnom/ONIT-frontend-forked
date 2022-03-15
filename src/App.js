@@ -8,7 +8,6 @@ import {
   JoinPage,
   FeedbackPage,
   EditModePage,
-  LoginPage,
   TermPage,
   NormalModePage,
 } from './pages';
@@ -21,7 +20,6 @@ function App() {
         <Route exact path='/main' component={MainPage} />
         <Route exact path='/terms' component={TermPage} />
         <Route exact path='/join' component={JoinPage} />
-        <Route exact path='/login' component={LoginPage} />
         <Route exact path='/feedback' component={FeedbackPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
         <Route exact path='/:id/' component={NormalModePage} />

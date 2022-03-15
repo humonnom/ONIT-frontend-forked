@@ -207,10 +207,10 @@ const contentBox = css`
 
 const commonInputBoxStyle = css`
   width: 100%;
-  height: 39px;
+  height: 45px;
   border-radius: 30px;
   border: 1px solid #707070;
-  padding: 3px 10px;
+  padding: 3px 15px;
   box-sizing: border-box;
   margin-bottom: 10px;
 `;
@@ -251,7 +251,7 @@ const KakaoLoginButtonStyle = css`
   &:hover {
     background-color: rgba(255, 235, 28, 1);
   }
-  margin-bottom: 65px;
+  margin-bottom: 25px;
 `;
 
 const joinButton = css`
