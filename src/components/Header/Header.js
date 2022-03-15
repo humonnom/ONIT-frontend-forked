@@ -97,10 +97,17 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
               </button>
               <button
                 type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
                 onClick={() => history.push(`/${myInfo.url}/`)}
               >
                 내 페이지
+              </button>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+                onClick={() => logout()}
+              >
+                로그아웃
               </button>
             </>
           ) : (

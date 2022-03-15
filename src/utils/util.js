@@ -124,7 +124,7 @@ export function logout() {
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('user_seq');
   localStorage.removeItem('page_url');
-  window.location.assign('/login');
+  window.location.assign('/main');
 }
 
 export function isTmpWidget(type) {
