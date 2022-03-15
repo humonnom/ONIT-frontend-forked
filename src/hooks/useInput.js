@@ -6,6 +6,7 @@ import {
   COLOR_STYLE,
   FlexColCenter,
   FlexSpaceBetweenCenter,
+  SHADOW_STYLE,
 } from '../styles/GlobalStyles';
 import { isPassword, getApiEndpoint } from '../utils/util';
 import { useRequestAuth } from './useRequestAuth';
@@ -112,15 +113,15 @@ const InputContainer = css`
   align-items: start;
   justify-content: start;
   width: 100%;
-  height: 70px;
+  height: 100%;
 `;
 
 const InputStyle = css`
   width: 100%;
-  height: 100%;
+  padding: 1.1vh 0vw;
   background-color: ${COLOR_STYLE.white};
-  border-radius: 25px;
-  border: 1px solid #707070;
+  border-radius: 30px;
+  box-shadow: ${SHADOW_STYLE.pale};
   ${FlexColCenter}
   input {
     background-color: inherit;
@@ -132,7 +133,6 @@ const InputStyle = css`
 const InputNormal = css`
   width: 90%;
 `;
-
 const InputUrl = css`
   ${FlexSpaceBetweenCenter}
   width: 90%;

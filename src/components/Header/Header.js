@@ -56,7 +56,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     left: 50%;
     transform: translate(-50%, -15%);
     width: 360px;
-    height: 480px;
+    height: 520px;
     background-color: #fff;
     box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.16);
     border-radius: 20px;
