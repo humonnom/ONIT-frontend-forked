@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { HandleKakaoLogin } from './components';
 import {
+  MainPage,
   SplashPage,
   JoinPage,
   FeedbackPage,
@@ -17,10 +18,11 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/' component={SplashPage} />
+        <Route exact path='/main' component={MainPage} />
         <Route exact path='/terms' component={TermPage} />
         <Route exact path='/join' component={JoinPage} />
         <Route exact path='/login' component={LoginPage} />
-        <Route exact path='/main' component={FeedbackPage} />
+        <Route exact path='/feedback' component={FeedbackPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
         <Route exact path='/:id/' component={NormalModePage} />
         <Route exact path='/:id/edit' component={EditModePage} />

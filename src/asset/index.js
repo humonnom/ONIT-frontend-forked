@@ -17,6 +17,18 @@ import close from './close.svg';
 import close_btn from './close_btn.svg';
 import closeSet from './closeSet.svg';
 import mouseover_widget from './mouseover_widget.svg';
+import mainPageUpArrow from './mainPageUpArrow.svg';
+import mainPageDownArrow from './mainPageDownArrow.svg';
+import BlackBuild from './BlackBuild.svg';
+import BlackYour from './BlackYour.svg';
+import BlackB from './BlackB.svg';
+import BlackE from './BlackE.svg';
+import BlackS from './BlackS.svg';
+import BlackW from './BlackW.svg';
+import OrangeI from './OrangeI.svg';
+import OrangeN from './OrangeN.svg';
+import OrangeO from './OrangeO.svg';
+import OrangeT from './OrangeT.svg';
 
 export {
   arrow_left,
@@ -38,4 +50,16 @@ export {
   close_btn,
   closeSet,
   mouseover_widget,
+  mainPageUpArrow,
+  mainPageDownArrow,
+  BlackBuild,
+  BlackYour,
+  BlackB,
+  BlackE,
+  BlackS,
+  BlackW,
+  OrangeI,
+  OrangeN,
+  OrangeO,
+  OrangeT,
 };

@@ -1,12 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
-import Tape from '../asset/tape.svg';
 import { getApiEndpoint, setLocalStorage } from '../utils/util';
 import { useRequest } from '../hooks/useRequest';
 import { useInput } from '../hooks/useInput';
-import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
+import {
+  COLOR_STYLE,
+  FlexColCenter,
+  InitButtonStyle,
+} from '../styles/GlobalStyles';
 import { useRequestAuth } from '../hooks/useRequestAuth';
 
 function Login() {
@@ -103,87 +106,105 @@ function Login() {
   };
 
   return (
-    <div style={Container}>
-      <img css={TapeStyle} src={Tape} />
-      <form onSubmit={handleLocalLogin}>
-        {email.component}
-        {password.component}
+    <>
+      <h1 css={[loginH1]}>로그인</h1>
+      <div css={[contentBox]}>
+        <form css={[formWidth]} onSubmit={handleLocalLogin}>
+          {email.component}
+          {password.component}
+          <button
+            type='button'
+            css={[commonLoginButtonStyle, LoginButtonColor]}
+            onClick={handleLocalLogin}
+          >
+            로그인
+          </button>
+        </form>
         <button
           type='button'
-          style={LoginButtonStyle}
-          onClick={handleLocalLogin}
+          css={[commonLoginButtonStyle, KakaoLoginButtonColor]}
+          onClick={handleKakaoLogin}
         >
-          Sign In
+          카카오 로그인
         </button>
-      </form>
-      <button
-        type='button'
-        style={KakaoLoginButtonStyle}
-        onClick={handleKakaoLogin}
-      >
-        Kakao Login
-      </button>
-      <p css={JoinMessageStyle}>아직 onit의 회원이 아니세요?</p>
-      <button type='button' onClick={handleLocalJoin} css={joinButton}>
-        회원가입
-      </button>
-    </div>
+        <p css={JoinMessageStyle}>아직 onit의 회원이 아니세요?</p>
+        <button
+          type='button'
+          onClick={handleLocalJoin}
+          css={[commonLoginButtonStyle, joinButton]}
+        >
+          회원가입
+        </button>
+      </div>
+    </>
   );
 }
 
 export default Login;
 
 const JoinMessageStyle = css`
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   margin: 20px 0 0 0;
   font-weight: bold;
   color: ${COLOR_STYLE.brownishGrey};
 `;
+
+const formWidth = css`
+  width: 100%;
+`;
+
+const loginH1 = css`
+  width: 100px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  margin: 0 auto;
+  padding: 45px 0;
+`;
+
+const contentBox = css`
+  ${FlexColCenter};
+  width: 300px;
+  margin: 0 auto;
+`;
+
+// const Container = {
+//   textAlign: 'center',
+//   position: 'relative',
+//   width: '400px',
+//   height: '415px',
+//   boxSizing: 'border-box',
+//   verticalAlignt: 'middle',
+//   borderRadius: '2px',
+//   backgroundColor: 'rgba(254, 245, 238, 1)',
+//   boxShadow: '15px 15px 42px 0px rgb(190,190,190)',
+//   padding: '72px 24px 0',
+// };
+
+const commonLoginButtonStyle = css`
+  width: 100%;
+  height: 48px;
+  border-radius: 30px;
+  border: 0;
+  margin: 3px;
+  font-weight: bold;
+  font-size: 15px;
+`;
+
+const LoginButtonColor = css`
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(239, 100, 8, 1);
+`;
+
+const KakaoLoginButtonColor = css`
+  color: rgba(55, 55, 55, 1);
+  background-color: rgba(255, 225, 28, 1);
+`;
+
 const joinButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   margin: 5px 0 5px 0;
   font-weight: 600;
-`;
-const Container = {
-  textAlign: 'center',
-  position: 'relative',
-  width: '400px',
-  height: '415px',
-  boxSizing: 'border-box',
-  verticalAlignt: 'middle',
-  borderRadius: '2px',
-  backgroundColor: 'rgba(254, 245, 238, 1)',
-  boxShadow: '15px 15px 42px 0px rgb(190,190,190)',
-  padding: '72px 24px 0',
-};
-
-const LoginButtonStyle = {
-  width: '352px',
-  height: '56px',
-  borderRadius: '8px',
-  border: '2px solid rgba(239, 100, 8, 1)',
-  backgroundColor: 'rgba(239, 100, 8, 1)',
-  margin: '3px',
-  color: 'rgba(255, 255, 255,1)',
-  fontWeight: 'bold',
-  fontSize: '15px',
-};
-const KakaoLoginButtonStyle = {
-  width: '352px',
-  height: '56px',
-  borderRadius: '8px',
-  border: '2px solid rgba(255, 225, 28, 1)',
-  backgroundColor: 'rgba(255, 225, 28, 1)',
-  margin: '3px',
-  color: 'rgba(55, 55, 55,1)',
-  fontWeight: 'bold',
-  fontSize: '15px',
-};
-const TapeStyle = css`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
+  background-color: #f2f2f2;
 `;

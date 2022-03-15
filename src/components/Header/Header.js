@@ -1,19 +1,24 @@
 /** @jsxImportSource @emotion/react */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { css } from '@emotion/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HeaderWrapper } from '..';
-import { logo, mypage, search } from '../../asset';
-import { logout } from '../../utils/util';
+import { logo, mypage } from '../../asset';
+import { getApiEndpoint, logout } from '../../utils/util';
 import { useMyInfo } from '../../hooks/myInfo';
 import { usePostData } from '../../hooks/widget';
+import { createReplacementModalAction } from '../../redux/slice';
+import Login from '../Login';
 
 function Header({ userMatch, pageUrl, pageUserName, pageType }) {
   const history = useHistory();
-  const { widgets } = useSelector((state) => ({
+  const { widgets, modal } = useSelector((state) => ({
     widgets: state.info.widgets,
+    modal: state.info.modal,
   }));
+  const dispatch = useDispatch();
+
   const { loggedIn, myInfo } = useMyInfo();
   const { post } = usePostData();
 
@@ -28,6 +33,52 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     return null;
   }, [myInfo]);
 
+  function makeLogInbar() {
+    if (modal.popUpLogin) {
+      dispatch(
+        createReplacementModalAction({
+          ...modal,
+          popUpLogin: false,
+        })
+      );
+    } else if (!modal.popUpLogin) {
+      dispatch(
+        createReplacementModalAction({
+          ...modal,
+          popUpLogin: true,
+        })
+      );
+    }
+  }
+
+  const loginWindowCSS = css`
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -15%);
+    width: 360px;
+    height: 480px;
+    background-color: #fff;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.16);
+    border-radius: 20px;
+  `;
+
+  const loginPosition = css`
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const loginPopupWindow = (
+    <div css={[loginPosition]}>
+      <div css={[loginWindowCSS]}>
+        <Login />
+      </div>
+    </div>
+  );
+
   const mainHeader = (
     <>
       <div css={[flex, flexBtw]}>
@@ -35,23 +86,61 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           <img alt='img' src={logo} css={hieght100p} />
         </a>
         <div css={rightCloumn}>
-          <button
-            type='button'
-            css={[commonButtonStyle, confirmButtonWidth]}
-            onClick={() => logout()}
-          >
-            로그아웃
-          </button>
+          {loggedIn ? (
+            <>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+                onClick={() => history.push(`/feedback`)}
+              >
+                제안하기
+              </button>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+                onClick={() => history.push(`/${myInfo.url}/`)}
+              >
+                내 페이지
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+                onClick={() => history.push(`/feedback`)}
+              >
+                제안하기
+              </button>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+                onClick={() => makeLogInbar()}
+              >
+                LOG IN
+              </button>
+              <button
+                type='button'
+                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+                onClick={() =>
+                  history.push({
+                    pathname: '/join',
+                    state: {
+                      endpoint: `${getApiEndpoint()}/auth/join/local`,
+                      joinType: 'local',
+                      userEmail: null,
+                    },
+                  })
+                }
+              >
+                회원가입
+              </button>
+            </>
+          )}
           <div />
-          {loggedIn && goToMyPage}
         </div>
       </div>
-      <div css={[abosulteCenter, flex, searchBox]}>
-        <div>
-          <img alt='img' src={search} css={searchLogo} />
-        </div>
-        <span css={searchText}>Search</span>
-      </div>
+      {modal.popUpLogin ? loginPopupWindow : <></>}
     </>
   );
 
@@ -251,29 +340,6 @@ const commonButtonStyle = css`
   &:hover {
     color: #ef6408;
   }
-`;
-
-const searchLogo = css`
-  width: 13px;
-  height: 13px;
-  margin-left: 14px;
-`;
-
-const searchBox = css`
-  display: flex;
-  width: 450px;
-  height: 30px;
-  align-items: center;
-  border-radius: 17px;
-  background-color: #fff9f6;
-`;
-
-const searchText = css`
-  margin: 0 0 0 12px;
-  font-family: NotoSansCJKKR;
-  font-size: 14px;
-  font-weight: 500;
-  color: #888;
 `;
 
 const rightCloumn = css`

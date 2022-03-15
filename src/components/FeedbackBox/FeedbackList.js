@@ -49,7 +49,6 @@ function FeedbackList() {
       feedbacks.forEach((Feedback, index) => {
         if (index % 3 === 0) {
           listDivOne.push(feedbacks[index]);
-          console.log(listDivOne[0].feedback_seq);
         } else if (index % 3 === 1) {
           listDivTwo.push(feedbacks[index]);
         } else {
