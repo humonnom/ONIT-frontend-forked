@@ -63,15 +63,15 @@ function Login() {
   const history = useHistory();
 
   const handleLocalLogin = () => {
-    if (email.state !== 'ok' && password.state !== 'ok') {
-      alert('아이디와 비밀번호를 확인해주세요.');
-    } else if (email.state !== 'ok') {
-      alert(email.state);
-    } else if (password.state !== 'ok') {
-      alert(password.state);
-    } else {
-      request();
-    }
+    // if (email.state !== 'ok' && password.state !== 'ok') {
+    //   alert('아이디와 비밀번호를 확인해주세요.');
+    // } else if (email.state !== 'ok') {
+    //   alert(email.state);
+    // } else if (password.state !== 'ok') {
+    //   alert(password.state);
+    // } else {
+    // }
+    request();
   };
 
   useEffect(() => {
