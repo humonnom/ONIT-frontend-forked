@@ -66,8 +66,9 @@ function MainContents() {
 
 const containerBox = css`
   display: flex;
+  width: 90%;
+  min-width: 1124px;
   flex-direction: column;
-  width: fit-content;
   padding-top: 180px;
   box-sizing: border-box;
 `;
