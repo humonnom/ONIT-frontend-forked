@@ -44,12 +44,16 @@ function JoinPage() {
 
   const emailCertButton = useMemo(() => {
     if (certState) {
-      return <p css={passwordToggleButton}> 인증완료!</p>;
+      return (
+        <button type='button' css={[InputInnerButton, InputInnerButtonMQ()]}>
+          인증완료!
+        </button>
+      );
     } else {
       return (
         <button
           type='button'
-          css={[passwordToggleButton, passwordToggleButtonMQ()]}
+          css={[InputInnerButton, InputInnerButtonMQ()]}
           onClick={certificateEmail}
         >
           이메일 인증하기
@@ -76,7 +80,7 @@ function JoinPage() {
     button: (
       <button
         type='button'
-        css={[passwordToggleButton, passwordToggleButtonMQ()]}
+        css={[InputInnerButton, InputInnerButtonMQ()]}
         onClick={() => setShowPassword(!showPassword)}
       >
         {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
@@ -459,7 +463,7 @@ const ConfirmButtonStyle = css`
   ${OrangeColorButton}
 `;
 
-const passwordToggleButton = css`
+const InputInnerButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   color: ${COLOR_STYLE.brownishGrey};
@@ -469,7 +473,7 @@ const AgreementLabel = css`
   font-size: 0.8rem;
 `;
 
-const passwordToggleButtonMQ = () => {
+const InputInnerButtonMQ = () => {
   return mq({
     width: ['30vw', '25vw', '13vw', '10vw'],
   });
