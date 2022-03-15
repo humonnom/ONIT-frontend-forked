@@ -218,7 +218,7 @@ export function getAbsoluteBtn(top, right, r) {
     top: 0px;
     right: 0px;
     &:hover {
-      top: -25px;
+      top: calc(-1 * ${r}px);
     }
   `;
   return { btn, img };
