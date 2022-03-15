@@ -27,10 +27,10 @@ function getOrderedWidgetList(origin) {
     return null;
   }
   const arrY = origin.map((element) => element.pos_y);
-  const maxY = Math.max(...arrY);
+  arrY.sort();
   let ordered = [];
-  for (let i = 0; i <= maxY; i += 1) {
-    const arr = origin.filter((element) => element.pos_y === i) || null;
+  for (let i = 0; i < arrY.length; i += 1) {
+    const arr = origin.filter((element) => element.pos_y === arrY[i]) || null;
     if (arr.length !== 0) {
       arr.sort((a, b) => (a.pos_x > b.pos_x ? 1 : -1));
       ordered = ordered.concat(arr);
@@ -104,6 +104,10 @@ function NormalMode() {
         setNickname(data.nickname);
       }
     }
+    return () => {
+      setUserSeq(null);
+      setNickname(null);
+    };
   }, [pageUserRes]);
 
   const { res: widgetRes, request: requestWidgetData } = useRequest({
@@ -155,7 +159,7 @@ function NormalMode() {
         });
       }
     }
-    return <div>test</div>;
+    return <></>;
   }, [widgetRes]);
 
   return (
