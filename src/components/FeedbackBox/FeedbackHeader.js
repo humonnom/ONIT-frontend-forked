@@ -10,13 +10,13 @@ function FeedbackHeader() {
       <nav>
         <ul css={[spaceBetween]}>
           <li css={liBox}>
-            <a href='https://iamonit.kr/login'>로그인</a>
+            <a href='https://iamonit.kr/main'>로그인</a>
           </li>
           <li css={liBox}>
-            <a href='https://iamonit.kr/login'>서비스 소개</a>
+            <a href='https://iamonit.kr/main'>서비스 소개</a>
           </li>
           <li css={liBox}>
-            <a href='https://iamonit.kr/login'>내 페이지로 가기</a>
+            <a href='https://iamonit.kr/main'>내 페이지로 가기</a>
           </li>
         </ul>
       </nav>
