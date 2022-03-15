@@ -255,14 +255,14 @@ const gridLayoutItemStyle = css`
 
 const mouseOverWidgetGuardStyle = css`
   position: absolute;
-  top: -5.5px;
-  left: -5px;
+  top: -6px;
+  left: -6px;
   margin: 0;
   padding: 0;
   border: 0;
-  width: calc(100% + 9.5px);
-  height: calc(100% + 10px);
-  background-color: rgba(0, 0, 0, 0);
+  width: calc(100% + 13px);
+  height: calc(100% + 13px);
+  ${'' /* background-color: rgba(0, 0, 0, 0); */}
   z-index: -999;
 `;
 

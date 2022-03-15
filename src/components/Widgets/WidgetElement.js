@@ -22,14 +22,7 @@ import MouseOverBox from './MouseOver/MouseOverBox';
 import NewBox from './New/NewBox';
 import { WIDGET_COMMON_RADIUS } from '../../styles/style';
 import { convertType2String, isTmpWidget } from '../../utils/util';
-import {
-  commonBtn,
-  getAbsoluteBtn,
-  // closeBtn,
-  // closeBtnImg,
-  // settingBtn,
-  // settingBtnImg,
-} from '../../styles/GlobalStyles';
+import { commonBtn, getAbsoluteBtn } from '../../styles/GlobalStyles';
 
 export function WidgetElement({
   element,
