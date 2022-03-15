@@ -33,7 +33,6 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
 
   const emailSend = useMemo(() => {
     if (sendRes && sendRes.data && isOk(sendRes.data.code)) {
-      console.log(sendRes);
       return true;
     }
     return false;
