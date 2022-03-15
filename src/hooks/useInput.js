@@ -65,7 +65,7 @@ export function useInput({ inputType, id, type, ...args }) {
     else if (inputType === 'email' && !args.disabled)
       return '이메일 인증을 완료해주세요!';
     return '';
-  }, [state, overlapState]);
+  }, [state, overlapState, args]);
 
   const input = () => {
     if (inputType === 'url')

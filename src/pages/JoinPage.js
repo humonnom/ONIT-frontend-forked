@@ -164,11 +164,11 @@ function JoinPage() {
       (joinType === 'local' && isInvalid(email.state)) ||
       isInvalid(url.state) ||
       isInvalid(name.state) ||
-      !certState
+      (joinType === 'local' && !certState)
     )
       return true;
     else return false;
-  }, [email.state, password.state, name.state, url.state]);
+  }, [email.state, password.state, name.state, url.state, certState]);
 
   const agreementState = useMemo(() => {
     if (!disableSubmit && !agreement) {

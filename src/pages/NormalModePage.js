@@ -29,7 +29,7 @@ function getOrderedWidgetList(origin) {
   const arrY = origin.map((element) => element.pos_y);
   const maxY = Math.max(...arrY);
   let ordered = [];
-  for (let i = arrY[0]; i <= maxY; i += 1) {
+  for (let i = 0; i <= maxY; i += 1) {
     const arr = origin.filter((element) => element.pos_y === i) || null;
     if (arr.length !== 0) {
       arr.sort((a, b) => (a.pos_x > b.pos_x ? 1 : -1));
@@ -145,7 +145,7 @@ function NormalMode() {
             );
           } else if (element.widget_type === TYPE_VIDEO) {
             return (
-              <div css={ThumbnailStyle}>
+              <div key={element.widget_code} css={ThumbnailStyle}>
                 <VideoBox element={element} mode='normal' />
               </div>
             );
