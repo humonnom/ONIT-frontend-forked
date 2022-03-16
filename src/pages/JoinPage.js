@@ -149,7 +149,7 @@ function JoinPage() {
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
-        history.push('/login');
+        history.push('/main');
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
       }
@@ -164,11 +164,11 @@ function JoinPage() {
       (joinType === 'local' && isInvalid(email.state)) ||
       isInvalid(url.state) ||
       isInvalid(name.state) ||
-      !certState
+      (joinType === 'local' && !certState)
     )
       return true;
     else return false;
-  }, [email.state, password.state, name.state, url.state]);
+  }, [email.state, password.state, name.state, url.state, certState]);
 
   const agreementState = useMemo(() => {
     if (!disableSubmit && !agreement) {
@@ -214,7 +214,7 @@ function JoinPage() {
           <button
             type='button'
             css={BackButton}
-            onClick={() => history.push('/login')}
+            onClick={() => history.push('/main')}
           >
             첫화면으로 돌아가기
           </button>

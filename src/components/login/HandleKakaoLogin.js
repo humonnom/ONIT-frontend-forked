@@ -63,7 +63,7 @@ function HandleKakaoLogin() {
       alert(
         `${res.data.data.email}은 다른 방법으로 가입되어있습니다.\n아이디와 비밀번호를 이용해서 로그인해주세요.`
       );
-      history.push('/login');
+      history.push('/main');
     } else if (res && joinRequired) {
       history.push({
         pathname: '/join',
