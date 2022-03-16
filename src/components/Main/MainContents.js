@@ -1,69 +1,71 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import {
   mainPageUpArrow,
   mainPageDownArrow,
   BlackBuild,
   BlackYour,
-  // BlackB,
-  // BlackE,
-  // BlackS,
-  // BlackW,
-  // OrangeI,
-  // OrangeN,
-  // OrangeO,
-  // OrangeT,
-  OwnWeb,
+  BlackB,
+  BlackE,
+  BlackS,
+  BlackW,
+  OrangeI,
+  OrangeN,
+  OrangeO,
+  OrangeT,
 } from '../../asset/index';
 
 function MainContents() {
   return (
     <>
       <div css={[containerBox, marginLeft]}>
-        <div css={[upArrow]}>
-          <img width='100%' src={mainPageUpArrow} />
+        <div css={[upArrow, removerotate]}>
+          <img height='100%' src={mainPageUpArrow} />
         </div>
-        <div css={[fontBlockBox, staticBoxwidth]}>
-          <img width='100%' src={BlackBuild} />
+        <div css={[fontBlockBox, boxHeight]}>
+          <img height='95px' src={BlackBuild} />
         </div>
-        <div css={[middleBox, fontBlockBox, staticBoxwidth]}>
-          <img width='100%' src={BlackYour} />
+        <div css={[middleBox, fontBlockBox, boxHeight]}>
+          <img height='95px' src={BlackYour} />
         </div>
-        <div css={[bottomBox, fontBlockBox, animationBoxwidth]}>
-          <img width='100%' src={OwnWeb} />
-          {/* <div css={[letterBlock, moveLeft]}>
-            <img width='100%' src={OrangeO} />
+        <div>
+          {/* <div css={[bottomBoxBorder, moveBorderLeft]} /> */}
+          <div css={[bottomBox, fontBlockBox, boxHeight]}>
+            <div css={[OletterBlock, moveOLeft]}>
+              <img height='95px' src={OrangeO} />
+            </div>
+            <div css={[letterBlock, disapppear]}>
+              <img height='95px' src={BlackW} />
+            </div>
+            <div css={[letterBlock, moveNLeft]}>
+              <img height='95px' src={OrangeN} />
+            </div>
+            <div css={[space]} />
+            <div css={[letterBlock, disapppear]}>
+              <img height='95px' src={BlackW} />
+            </div>
+            <div css={[letterBlock, disapppear]}>
+              <img height='95px' src={BlackE} />
+            </div>
+            <div css={[letterBlock, disapppear]}>
+              <img height='95px' src={BlackB} />
+            </div>
+            <div css={[letterBlock, disapppear]}>
+              <img height='95px' src={BlackS} />
+            </div>
+            <div css={[letterBlock, moveITLeft]}>
+              <img height='95px' src={OrangeI} />
+            </div>
+            <div css={[letterBlock, moveITLeft]}>
+              <img height='95px' src={OrangeT} />
+            </div>
+            <div css={[letterBlock, disapppear]}>
+              <img height='95px' src={BlackE} />
+            </div>
           </div>
-          <div css={[letterBlock, disapppear]}>
-            <img width='100%' src={BlackW} />
-          </div>
-          <div css={[letterBlock, moveLeft]}>
-            <img width='100%' src={OrangeN} />
-          </div>
-          <div css={[letterBlock, disapppear]}>
-            <img width='100%' src={BlackW} />
-          </div>
-          <div css={[letterBlock, disapppear]}>
-            <img width='100%' src={BlackE} />
-          </div>
-          <div css={[letterBlock, disapppear]}>
-            <img width='100%' src={BlackB} />
-          </div>
-          <div css={[letterBlock, disapppear]}>
-            <img width='100%' src={BlackS} />
-          </div>
-          <div css={[letterBlock, moveLeft]}>
-            <img width='100%' src={OrangeI} />
-          </div>
-          <div css={[letterBlock, moveLeft]}>
-            <img width='100%' src={OrangeT} />
-          </div>
-          <div css={[letterBlock, disapppear]}>
-            <img width='100%' src={BlackE} />
-          </div> */}
-          <div css={[downArrow]}>
-            <img width='100%' src={mainPageDownArrow} />
-          </div>
+        </div>
+        <div css={[downArrow, moverotate]}>
+          <img height='100%' src={mainPageDownArrow} />
         </div>
       </div>
     </>
@@ -72,102 +74,202 @@ function MainContents() {
 
 const containerBox = css`
   display: flex;
-  width: 100%;
   height: 100%;
   min-width: 1124px;
   flex-direction: column;
   padding-top: 180px;
-  box-sizing: border-box;
 `;
 
-const staticBoxwidth = css`
-  width: 30.5%;
-`;
-
-const animationBoxwidth = css`
-  width: 71.2%;
+const boxHeight = css`
+  height: 95px;
 `;
 
 const fontBlockBox = css`
-  border: 1px solid;
-  padding: 0.7% 1.4%;
+  width: fit-content;
+  padding: 7.5px 15px;
   margin-top: -1px;
   img {
     display: block;
-    margin: auto;
   }
 `;
 
+const space = css`
+  width: 40px;
+`;
+
 const upArrow = css`
-  width: 7%;
-  padding-bottom: 1%;
+  height: 100px;
+  width: 100px;
+  margin-bottom: 40px;
 `;
 
 const marginLeft = css`
-  padding-left: 6%;
+  margin-left: 86px;
 `;
 
 const middleBox = css`
-  margin-left: 28%;
+  margin-left: 297px;
 `;
+
+// const bottomBoxBorder = css`
+//   position: absolute;
+//   width: 872.79px;
+//   height: 110px;
+//   border: 1px solid;
+// `;
 
 const bottomBox = css`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-left: 9.5%;
+  margin-left: 98px;
 `;
 
-// const letterBlock = css`
-// position: 'absolute',
-// top: 0,
-// left: 0,
-// width: '100%',
-//   height: 100%;
-//   img {
-//     padding: 5px;
-//   }
-// `;
+const OletterBlock = css`
+  height: 100%;
+  margin-right: -5px;
+`;
 
-const downArrow = css`
-  position: absolute;
-  right: 0px;
-  padding: 6%;
-  width: 11.7%;
+const letterBlock = css`
+  height: 100%;
   img {
-    margin: 8%;
+    padding: 0 5px;
   }
 `;
 
-// const disapppearAnimation = keyframes`
-//   0 {
-//     opacity: 1;
-//   }
-//   100% {
-//     opacity: 0;
-//   }
-// `;
+const downArrow = css`
+  position: relative;
+  left: 1100px;
+  top: -70px;
+  height: 140px;
+  width: 140px;
+`;
 
-// animation: ${disapppearAnimation} 1s ease-in-out;
-// animation-fill-mode: both;
-// animation-iteration-count: 1;
-// const disapppear = css``;
+// 애니메이션
+const disapppearAnimation = keyframes`
+  0 {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
 
-// const moveAnimation = keyframes`
+const disapppear = css`
+  animation: ${disapppearAnimation} 1s ease-in-out;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+`;
+
+const moveOAnimation = keyframes`
+  0% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(630px);
+  }
+`;
+
+const moveOLeft = css`
+  animation: ${moveOAnimation} 1s ease;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-delay: 0.5s;
+`;
+
+const moveNAnimation = keyframes`
+  0% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(503px);
+  }
+`;
+
+const moveNLeft = css`
+  animation: ${moveNAnimation} 1s ease;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-delay: 0.5s;
+`;
+
+const moveITAnimation = keyframes`
+  0% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(83.55px);
+  }
+`;
+
+const moveITLeft = css`
+  animation: ${moveITAnimation} 1s ease;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-delay: 0.5s;
+`;
+
+// const moveBorderAnimation = keyframes`
 //   0% {
-
+//     margin-left: 98px;
+//     width: 872.79px
 //   }
 
 //   100% {
+//     margin-left: 735.79px;
+//     width: 325px;
 //   }
 // `;
 
-// const moveLeft = css`
-//   animation: ${moveAnimation} 1s ease;
+// const moveBorderLeft = css`
+//   animation: ${moveBorderAnimation} 1s ease;
 //   animation-fill-mode: both;
 //   animation-iteration-count: 1;
 //   animation-delay: 0.5s;
 // `;
+
+const rotate = keyframes`
+  0% {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+`;
+
+const moverotate = css`
+  animation: ${rotate} 1s ease;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-delay: 0.5s;
+`;
+
+const rerotate = keyframes`
+  0% {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(90deg);
+  }
+`;
+
+const removerotate = css`
+  animation: ${rerotate} 1s ease;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-delay: 0.5s;
+`;
 
 export default MainContents;
