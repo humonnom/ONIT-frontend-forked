@@ -24,6 +24,7 @@ function headerWrapper({ children }) {
         z-index: 999;
         background-color: white;
         min-width: 1124px;
+        box-sizing: border-box;
         width: 90%;
         height: ${HEADER_HEIGHT};
         flex-direction: row;
