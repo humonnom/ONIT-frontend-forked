@@ -68,7 +68,13 @@ function NormalMode() {
   useEffect(() => {
     window.addEventListener('resize', updateWidthAndHeight);
     return () => window.removeEventListener('resize', updateWidthAndHeight);
-  });
+  }, []);
+
+  useEffect(() => {
+    if (window.screen.width < window.innerWidth) {
+      setWidth(window.screen.width);
+    }
+  }, []);
 
   useEffect(() => {
     if (pageUrl) {

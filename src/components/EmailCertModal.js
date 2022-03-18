@@ -21,8 +21,8 @@ function EmailCertModal({ closeModal, email, state, realstate }) {
   const label = '이메일 인증';
   const { btn, img } = getAbsoluteBtn(25, 42, 25);
   const [numbers, setNumbers] = useState('');
-  const endpoint = `${getApiEndpoint()}/auth/email/${email}`;
 
+  const endpoint = `${getApiEndpoint()}/auth/email/${email}`;
   const { res: sendRes, request: send } = useRequest({
     endpoint: endpoint,
     method: 'get',
@@ -30,6 +30,15 @@ function EmailCertModal({ closeModal, email, state, realstate }) {
       email,
     },
   });
+
+  //   const endpoint = `${getApiEndpoint()}/auth/email/${email}`;
+  //   const { res: sendRes, request: send } = useRequest({
+  //     endpoint: endpoint,
+  //     method: 'get',
+  //     data: {
+  //       email,
+  //     },
+  //   });
 
   const handleSubmit = () => {
     console.log('email submit');
