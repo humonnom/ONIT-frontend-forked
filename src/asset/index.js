@@ -29,6 +29,7 @@ import OrangeI from './OrangeI.svg';
 import OrangeN from './OrangeN.svg';
 import OrangeO from './OrangeO.svg';
 import OrangeT from './OrangeT.svg';
+import OwnWeb from './OwnWeb.svg';
 
 export {
   arrow_left,
@@ -62,4 +63,5 @@ export {
   OrangeN,
   OrangeO,
   OrangeT,
+  OwnWeb,
 };
