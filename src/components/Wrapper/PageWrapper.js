@@ -8,7 +8,6 @@ const PageWrapper = ({ children }) => (
       width: 100%;
       margin-left: auto;
       margin-right: auto;
-      min-width: 1124px;
       background-color: rightgrey;
       justify-content: center;
       align-items: center;

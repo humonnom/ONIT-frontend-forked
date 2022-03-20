@@ -79,6 +79,8 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     </div>
   );
 
+  console.log(loggedIn);
+  console.log(myInfo);
   // 히스토리 푸시
   const mainHeader = (
     <>
@@ -87,7 +89,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           <img alt='img' src={logo} css={hieght100p} />
         </a>
         <div css={rightCloumn}>
-          {loggedIn ? (
+          {myInfo ? (
             <>
               <button
                 type='button'
@@ -220,7 +222,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
         <a href='/main' css={[commonButtonStyle, marginLeft17, height21]}>
           <img alt='img' src={logo} css={hieght100p} />
         </a>
-        {loggedIn === true ? (
+        {myInfo ? (
           <div>
             <button
               type='button'
@@ -242,7 +244,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
             <button
               type='button'
               css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-              onClick={() => history.push(`/main`)}
+              onClick={() => makeLogInbar()}
             >
               LOG IN
             </button>
@@ -256,6 +258,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           </div>
         )}
       </div>
+      {modal.popUpLogin ? loginPopupWindow : <></>}
     </>
   );
 
