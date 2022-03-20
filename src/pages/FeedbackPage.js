@@ -20,7 +20,7 @@ function FeedbackPage() {
 
 const pageBox = css`
   background-color: #f2f2f2;
-  min-width: 665px;
+  min-width: 1124px;
 `;
 
 const paddingBottom = css`

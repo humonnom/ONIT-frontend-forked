@@ -23,7 +23,7 @@ function headerWrapper({ children }) {
         left: ${left}px;
         z-index: 999;
         background-color: white;
-        min-width: 1124px;
+        min-width: calc(1124px - 10%);
         box-sizing: border-box;
         width: 90%;
         height: ${HEADER_HEIGHT};
