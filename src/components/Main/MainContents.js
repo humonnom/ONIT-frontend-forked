@@ -101,8 +101,8 @@ const animationBoxwidth = css`
   height: 0;
 `;
 
+// border: 1px solid;
 const fontBlockBox = css`
-  border: 1px solid;
   padding: 0.7% 1.4%;
   margin-top: -1px;
   img {
