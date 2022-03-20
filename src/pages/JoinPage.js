@@ -38,24 +38,22 @@ function JoinPage() {
 
   const { endpoint, joinType, userEmail } = location.state;
 
-  useEffect(() => {
-    if (certModal) {
-      console.log('clicked');
-    }
-  }, [certModal]);
-
   const certificateEmail = () => {
     setCertModal(true);
   };
 
   const emailCertButton = useMemo(() => {
     if (certState) {
-      return <p>인증완료!</p>;
+      return (
+        <button type='button' css={[InputInnerButton, InputInnerButtonMQ()]}>
+          인증완료!
+        </button>
+      );
     } else {
       return (
         <button
           type='button'
-          css={[passwordToggleButton, passwordToggleButtonMQ()]}
+          css={[InputInnerButton, InputInnerButtonMQ()]}
           onClick={certificateEmail}
         >
           이메일 인증하기
@@ -69,6 +67,7 @@ function JoinPage() {
     id: 'email',
     type: 'email',
     label: '이메일',
+    disabled: certState,
     overlapCheckRequired: true,
     button: emailCertButton,
   });
@@ -81,7 +80,7 @@ function JoinPage() {
     button: (
       <button
         type='button'
-        css={[passwordToggleButton, passwordToggleButtonMQ()]}
+        css={[InputInnerButton, InputInnerButtonMQ()]}
         onClick={() => setShowPassword(!showPassword)}
       >
         {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
@@ -150,7 +149,7 @@ function JoinPage() {
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'ok') {
-        history.push('/login');
+        history.push('/main');
       } else {
         alert('전송에 실패했습니다. 다시 시도해주세요.');
       }
@@ -164,11 +163,12 @@ function JoinPage() {
       (joinType === 'local' && isInvalid(password.state)) ||
       (joinType === 'local' && isInvalid(email.state)) ||
       isInvalid(url.state) ||
-      isInvalid(name.state)
+      isInvalid(name.state) ||
+      (joinType === 'local' && !certState)
     )
       return true;
     else return false;
-  }, [email.state, password.state, name.state, url.state]);
+  }, [email.state, password.state, name.state, url.state, certState]);
 
   const agreementState = useMemo(() => {
     if (!disableSubmit && !agreement) {
@@ -214,7 +214,7 @@ function JoinPage() {
           <button
             type='button'
             css={BackButton}
-            onClick={() => history.push('/login')}
+            onClick={() => history.push('/main')}
           >
             첫화면으로 돌아가기
           </button>
@@ -464,7 +464,7 @@ const ConfirmButtonStyle = css`
   ${OrangeColorButton}
 `;
 
-const passwordToggleButton = css`
+const InputInnerButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   color: ${COLOR_STYLE.brownishGrey};
@@ -474,7 +474,7 @@ const AgreementLabel = css`
   font-size: 0.8rem;
 `;
 
-const passwordToggleButtonMQ = () => {
+const InputInnerButtonMQ = () => {
   return mq({
     width: ['30vw', '25vw', '13vw', '10vw'],
   });

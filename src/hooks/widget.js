@@ -120,7 +120,7 @@ export function usePostData() {
   useEffect(() => {
     if (res && res.data) {
       if (res.data.code === 'wrong_token') {
-        history.push(`/login`);
+        history.push(`/main`);
       } else {
         history.push(`/${myInfo ? myInfo.url : '/'}`);
       }

@@ -83,7 +83,6 @@ export function setLocalStorage(data) {
     localStorage.setItem('user_seq', user_info.user_seq);
   }
 }
-// TODO: get field data from server
 
 export const getSelectedFieldData = (seletedIndexArr) => {
   const indexArr = seletedIndexArr.sort();
@@ -125,7 +124,7 @@ export function logout() {
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('user_seq');
   localStorage.removeItem('page_url');
-  window.location.assign('/login');
+  window.location.assign('/main');
 }
 
 export function isTmpWidget(type) {

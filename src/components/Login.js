@@ -1,45 +1,54 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useHistory } from 'react-router';
-import Tape from '../asset/tape.svg';
 import { getApiEndpoint, setLocalStorage } from '../utils/util';
 import { useRequest } from '../hooks/useRequest';
-import { useInput } from '../hooks/useInput';
-import { COLOR_STYLE, InitButtonStyle } from '../styles/GlobalStyles';
+import {
+  COLOR_STYLE,
+  FlexColCenter,
+  InitButtonStyle,
+} from '../styles/GlobalStyles';
 import { useRequestAuth } from '../hooks/useRequestAuth';
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [emailValue, setEmailValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
 
-  const email = useInput({
-    inputType: 'email',
-    id: 'email',
-    type: 'email',
-  });
+  const onPasswordChange = (event) =>
+    setPasswordValue(event.currentTarget.value);
+  const onEmailChange = (event) => setEmailValue(event.currentTarget.value);
 
-  const password = useInput({
-    inputType: 'password',
-    id: 'password',
-    type: showPassword ? 'text' : 'password',
-    button: (
-      <button
-        type='button'
-        css={InitButtonStyle}
-        onClick={() => setShowPassword(!showPassword)}
-      >
-        {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
-      </button>
-    ),
-  });
+  // const [showPassword, setShowPassword] = useState(false);
+
+  // const email = useInput({
+  //   inputType: 'email',
+  //   id: 'email',
+  //   type: 'email',
+  // });
+
+  // const password = useInput({
+  //   inputType: 'password',
+  //   id: 'password',
+  //   type: showPassword ? 'text' : 'password',
+  //   button: (
+  //     <button
+  //       type='button'
+  //       css={InitButtonStyle}
+  //       onClick={() => setShowPassword(!showPassword)}
+  //     >
+  //       {showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+  //     </button>
+  //   ),
+  // });
 
   const endpointLogin = `${getApiEndpoint()}/auth/login/local`;
   const { res, request } = useRequest({
     endpoint: endpointLogin,
     method: 'get',
     data: {
-      email: email.value,
-      password: password.value,
+      email: emailValue,
+      password: passwordValue,
     },
   });
   const { res: userInfoRes, request: userInfoRequest } = useRequestAuth({
@@ -54,15 +63,15 @@ function Login() {
   const history = useHistory();
 
   const handleLocalLogin = () => {
-    if (email.state !== 'ok' && password.state !== 'ok') {
-      alert('아이디와 비밀번호를 입력해주세요.');
-    } else if (email.state !== 'ok') {
-      alert(email.state);
-    } else if (password.state !== 'ok') {
-      alert(password.state);
-    } else {
-      request();
-    }
+    // if (email.state !== 'ok' && password.state !== 'ok') {
+    //   alert('아이디와 비밀번호를 확인해주세요.');
+    // } else if (email.state !== 'ok') {
+    //   alert(email.state);
+    // } else if (password.state !== 'ok') {
+    //   alert(password.state);
+    // } else {
+    // }
+    request();
   };
 
   useEffect(() => {
@@ -103,87 +112,154 @@ function Login() {
   };
 
   return (
-    <div style={Container}>
-      <img css={TapeStyle} src={Tape} />
-      <form onSubmit={handleLocalLogin}>
-        {email.component}
-        {password.component}
+    <>
+      <h1 css={[loginH1]}>로그인</h1>
+      <div css={[contentBox]}>
+        <form css={[formWidth]} onSubmit={handleLocalLogin}>
+          <div css={[commonInputBoxStyle, emailInputBoxStyle]}>
+            <input
+              css={[commonInputStyle]}
+              type='text'
+              value={emailValue}
+              placeholder='아이디'
+              onChange={onEmailChange}
+            />
+          </div>
+          <div css={[commonInputBoxStyle]}>
+            <input
+              css={[commonInputStyle]}
+              type='password'
+              value={passwordValue}
+              placeholder='비밀번호'
+              onChange={onPasswordChange}
+            />
+          </div>
+          <button
+            type='button'
+            css={[commonLoginButtonStyle, LoginButtonColor]}
+            onClick={handleLocalLogin}
+          >
+            로그인
+          </button>
+        </form>
         <button
           type='button'
-          style={LoginButtonStyle}
-          onClick={handleLocalLogin}
+          css={[commonLoginButtonStyle, KakaoLoginButtonStyle]}
+          onClick={handleKakaoLogin}
         >
-          Sign In
+          카카오 로그인
         </button>
-      </form>
-      <button
-        type='button'
-        style={KakaoLoginButtonStyle}
-        onClick={handleKakaoLogin}
-      >
-        Kakao Login
-      </button>
-      <p css={JoinMessageStyle}>아직 onit의 회원이 아니세요?</p>
-      <button type='button' onClick={handleLocalJoin} css={joinButton}>
-        회원가입
-      </button>
-    </div>
+        <p css={JoinMessageStyle}>아직 onit의 회원이 아니세요?</p>
+        <button
+          type='button'
+          onClick={handleLocalJoin}
+          css={[commonLoginButtonStyle, joinButton]}
+        >
+          회원가입
+        </button>
+      </div>
+    </>
   );
 }
 
 export default Login;
 
 const JoinMessageStyle = css`
-  font-size: 0.7rem;
-  margin: 20px 0 0 0;
+  font-size: 0.85rem;
+  margin: 20px 0 5px 0;
   font-weight: bold;
   color: ${COLOR_STYLE.brownishGrey};
 `;
+
+const formWidth = css`
+  width: 100%;
+`;
+
+const loginH1 = css`
+  width: 100px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  margin: 0 auto;
+  padding: 45px 0;
+`;
+
+const contentBox = css`
+  ${FlexColCenter};
+  width: 300px;
+  margin: 0 auto;
+  box-sizing: border-box;
+`;
+
+// const Container = {
+//   textAlign: 'center',
+//   position: 'relative',
+//   width: '400px',
+//   height: '415px',
+//   boxSizing: 'border-box',
+//   verticalAlignt: 'middle',
+//   borderRadius: '2px',
+//   backgroundColor: 'rgba(254, 245, 238, 1)',
+//   boxShadow: '15px 15px 42px 0px rgb(190,190,190)',
+//   padding: '72px 24px 0',
+// };
+
+const commonInputBoxStyle = css`
+  width: 100%;
+  height: 45px;
+  border-radius: 30px;
+  border: 1px solid #707070;
+  padding: 3px 15px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+`;
+
+const emailInputBoxStyle = css`
+  margin-bottom: 10px;
+`;
+
+const commonInputStyle = css`
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border-radius: 30px;
+  border: 0;
+`;
+
+const commonLoginButtonStyle = css`
+  width: 100%;
+  height: 48px;
+  border-radius: 30px;
+  border: 0;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 10px;
+`;
+
+const LoginButtonColor = css`
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(239, 100, 8, 1);
+  &:hover {
+    background-color: rgba(300, 100, 8, 1);
+  }
+`;
+
+const KakaoLoginButtonStyle = css`
+  color: rgba(55, 55, 55, 1);
+  background-color: rgba(255, 225, 28, 1);
+  &:hover {
+    background-color: rgba(255, 235, 28, 1);
+  }
+  margin-bottom: 25px;
+`;
+
 const joinButton = css`
   ${InitButtonStyle}
   font-size: 0.8rem;
   margin: 5px 0 5px 0;
   font-weight: 600;
-`;
-const Container = {
-  textAlign: 'center',
-  position: 'relative',
-  width: '400px',
-  height: '415px',
-  boxSizing: 'border-box',
-  verticalAlignt: 'middle',
-  borderRadius: '2px',
-  backgroundColor: 'rgba(254, 245, 238, 1)',
-  boxShadow: '15px 15px 42px 0px rgb(190,190,190)',
-  padding: '72px 24px 0',
-};
-
-const LoginButtonStyle = {
-  width: '352px',
-  height: '56px',
-  borderRadius: '8px',
-  border: '2px solid rgba(239, 100, 8, 1)',
-  backgroundColor: 'rgba(239, 100, 8, 1)',
-  margin: '3px',
-  color: 'rgba(255, 255, 255,1)',
-  fontWeight: 'bold',
-  fontSize: '15px',
-};
-const KakaoLoginButtonStyle = {
-  width: '352px',
-  height: '56px',
-  borderRadius: '8px',
-  border: '2px solid rgba(255, 225, 28, 1)',
-  backgroundColor: 'rgba(255, 225, 28, 1)',
-  margin: '3px',
-  color: 'rgba(55, 55, 55,1)',
-  fontWeight: 'bold',
-  fontSize: '15px',
-};
-const TapeStyle = css`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
+  background-color: #f2f2f2;
+  &:hover {
+    background-color: rgba(232, 232, 232, 10);
+  }
 `;
