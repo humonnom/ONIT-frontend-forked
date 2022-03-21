@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -21,6 +21,10 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
 
   const { loggedIn, myInfo } = useMyInfo();
   const { post } = usePostData();
+
+  useEffect(() => {
+    console.log(loggedIn);
+  }, [loggedIn]);
 
   const goToMyPage = useMemo(() => {
     if (myInfo) {
