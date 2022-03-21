@@ -9,3 +9,8 @@ export function useGetCode() {
   const { code } = useParams();
   return code;
 }
+
+export function useGetEmail() {
+  const { email } = useParams();
+  return email;
+}

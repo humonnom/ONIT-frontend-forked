@@ -8,7 +8,6 @@ import {
   JoinPage,
   FeedbackPage,
   EditModePage,
-  TermPage,
   NormalModePage,
   EmailCertPage,
 } from './pages';
@@ -19,13 +18,16 @@ function App() {
       <Switch>
         <Route exact path='/' component={SplashPage} />
         <Route exact path='/main' component={MainPage} />
-        <Route exact path='/terms' component={TermPage} />
         <Route exact path='/join' component={JoinPage} />
         <Route exact path='/feedback' component={FeedbackPage} />
         <Route exact path='/callback/kakao' component={HandleKakaoLogin} />
         <Route exact path='/:id/' component={NormalModePage} />
         <Route exact path='/:id/edit' component={EditModePage} />
-        <Route exact path='/certificate/:code' component={EmailCertPage} />
+        <Route
+          exact
+          path='/certificate/:email/:code'
+          component={EmailCertPage}
+        />
         <Route path='/'>
           <div> 존재하지 않는 페이지입니다. </div>
         </Route>

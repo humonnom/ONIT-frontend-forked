@@ -24,12 +24,14 @@ import { useRequest } from '../hooks/useRequest';
 import { logo } from '../asset/index';
 import { getFieldList, getSelectedFieldData, isOk } from '../utils/util';
 import EmailCertModal from '../components/EmailCertModal';
+import TermModal from '../components/TermModal';
 
 function JoinPage() {
   const [field, setField] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [agreement, setAgreement] = useState(false);
   const [certModal, setCertModal] = useState(false);
+  const [termModal, setTermModal] = useState(false);
   const [certState, setCertState] = useState(false);
 
   const history = useHistory();
@@ -209,6 +211,14 @@ function JoinPage() {
           state={emailState}
         />
       )}
+      {termModal && (
+        <TermModal
+          closeModal={() => setTermModal(false)}
+          setAgreementTrue={() => {
+            setAgreement(true);
+          }}
+        />
+      )}
       <div css={[PageInfos, PageInfosMQ()]}>
         <div css={[PageInfo]}>
           <button
@@ -271,13 +281,16 @@ function JoinPage() {
               <input
                 type='checkbox'
                 id='agreement'
-                onChange={(event) => setAgreement(event.target.checked)}
+                checked={agreement}
+                onChange={(event) => {
+                  setAgreement(event.target.checked);
+                }}
               />
               <label htmlFor='agreement' css={AgreementLabel}>
                 <button
                   type='button'
                   css={[InitButtonStyle]}
-                  onClick={() => history.push(`/terms`)}
+                  onClick={() => setTermModal(true)}
                 >
                   <p css={[TextUnderline]}>약관</p>
                 </button>

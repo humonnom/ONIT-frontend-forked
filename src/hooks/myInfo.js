@@ -47,6 +47,7 @@ export function useMyInfo() {
       request();
     } else {
       setMyInfo(userInfo);
+      setLoggedIn(true);
     }
     return () => {
       setMyInfo(null);
@@ -72,6 +73,6 @@ export function useMyInfo() {
 
   return {
     loggedIn,
-    myInfo
+    myInfo,
   };
 }
