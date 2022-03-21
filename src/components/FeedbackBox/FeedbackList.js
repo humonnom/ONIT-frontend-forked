@@ -63,25 +63,28 @@ function FeedbackList() {
 
   function divideList() {
     return [listDivOne, listDivTwo, listDivThree].map((list) => {
-      return (
-        <FeedbackListCol key={list[0].feedback_seq}>
-          {list.map((Feedback) => {
-            if (Feedback.feedback_seq > 0) {
-              return (
-                <li key={Feedback.feedback_seq} css={listItem}>
-                  <div css={[FeedbackBoxCss, randomColor()]}>
-                    <div css={orderWrapper}>
-                      <p css={orderFont}>{Feedback.feedback_seq}번째 바람</p>
+      if (list[0]) {
+        return (
+          <FeedbackListCol key={list[0].feedback_seq}>
+            {list.map((Feedback) => {
+              if (Feedback.feedback_seq > 0) {
+                return (
+                  <li key={Feedback.feedback_seq} css={listItem}>
+                    <div css={[FeedbackBoxCss, randomColor()]}>
+                      <div css={orderWrapper}>
+                        <p css={orderFont}>{Feedback.feedback_seq}번째 바람</p>
+                      </div>
+                      <p css={contentsWrapper}>{Feedback.content}</p>
                     </div>
-                    <p css={contentsWrapper}>{Feedback.content}</p>
-                  </div>
-                </li>
-              );
-            }
-            return <></>;
-          })}
-        </FeedbackListCol>
-      );
+                  </li>
+                );
+              }
+              return <></>;
+            })}
+          </FeedbackListCol>
+        );
+      }
+      return <></>;
     });
   }
 

@@ -26,7 +26,7 @@ function FeedbackInputBox() {
   }
 
   function sendQnA() {
-    if (loggedIn === true) {
+    if (loggedIn) {
       request();
     } else {
       sendAlert();

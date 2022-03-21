@@ -79,9 +79,71 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     </div>
   );
 
-  console.log(loggedIn);
-  console.log(myInfo);
   // 히스토리 푸시
+  const loggedInMainHeader = useMemo(() => {
+    if (loggedIn)
+      return (
+        <>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() => history.push(`/feedback`)}
+          >
+            제안하기
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() => history.push(`/${myInfo.url}/`)}
+          >
+            내 페이지
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+            onClick={() => logout()}
+          >
+            로그아웃
+          </button>
+        </>
+      );
+    else
+      return (
+        <>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() => history.push(`/feedback`)}
+          >
+            제안하기
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() => makeLogInbar()}
+          >
+            LOG IN
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() =>
+              history.push({
+                pathname: '/join',
+                state: {
+                  endpoint: `${getApiEndpoint()}/auth/join/local`,
+                  joinType: 'local',
+                  userEmail: null,
+                },
+              })
+            }
+          >
+            회원가입
+          </button>
+        </>
+      );
+  }, [loggedIn]);
+
   const mainHeader = (
     <>
       <div css={[flex, flexBtw]}>
@@ -89,64 +151,7 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
           <img alt='img' src={logo} css={hieght100p} />
         </a>
         <div css={rightCloumn}>
-          {myInfo ? (
-            <>
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-                onClick={() => history.push(`/feedback`)}
-              >
-                제안하기
-              </button>
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-                onClick={() => history.push(`/${myInfo.url}/`)}
-              >
-                내 페이지
-              </button>
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
-                onClick={() => logout()}
-              >
-                로그아웃
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-                onClick={() => history.push(`/feedback`)}
-              >
-                제안하기
-              </button>
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-                onClick={() => makeLogInbar()}
-              >
-                LOG IN
-              </button>
-              <button
-                type='button'
-                css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-                onClick={() =>
-                  history.push({
-                    pathname: '/join',
-                    state: {
-                      endpoint: `${getApiEndpoint()}/auth/join/local`,
-                      joinType: 'local',
-                      userEmail: null,
-                    },
-                  })
-                }
-              >
-                회원가입
-              </button>
-            </>
-          )}
+          {loggedInMainHeader}
           <div />
         </div>
       </div>
@@ -216,47 +221,54 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
     </>
   );
 
+  const loggedInFeedbackHeader = useMemo(() => {
+    if (loggedIn)
+      return (
+        <div>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() => logout()}
+          >
+            로그아웃
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+            onClick={() => history.push(`/${myInfo.url}`)}
+          >
+            내 페이지 가기
+          </button>
+        </div>
+      );
+    else
+      return (
+        <div>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
+            onClick={() => makeLogInbar()}
+          >
+            LOG IN
+          </button>
+          <button
+            type='button'
+            css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
+            onClick={() => history.push(`/join`)}
+          >
+            회원가입
+          </button>
+        </div>
+      );
+  }, [loggedIn]);
+
   const feedbackHeader = (
     <>
       <div css={[flex, flexBtw]}>
         <a href='/main' css={[commonButtonStyle, marginLeft17, height21]}>
           <img alt='img' src={logo} css={hieght100p} />
         </a>
-        {myInfo ? (
-          <div>
-            <button
-              type='button'
-              css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-              onClick={() => logout()}
-            >
-              로그아웃
-            </button>
-            <button
-              type='button'
-              css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
-              onClick={() => history.push(`/${myInfo.url}`)}
-            >
-              내 페이지 가기
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button
-              type='button'
-              css={[commonButtonStyle, confirmButtonWidth, marginRight40]}
-              onClick={() => makeLogInbar()}
-            >
-              LOG IN
-            </button>
-            <button
-              type='button'
-              css={[commonButtonStyle, confirmButtonWidth, marginRight39]}
-              onClick={() => history.push(`/join`)}
-            >
-              회원가입
-            </button>
-          </div>
-        )}
+        {loggedInFeedbackHeader}
       </div>
       {modal.popUpLogin ? loginPopupWindow : <></>}
     </>
@@ -278,8 +290,6 @@ function Header({ userMatch, pageUrl, pageUserName, pageType }) {
 
   return <HeaderWrapper>{chooseFitHeader()}</HeaderWrapper>;
 }
-
-export default Header;
 
 const height21 = css`
   height: 21px;
@@ -357,3 +367,5 @@ const rightCloumn = css`
   display: flex;
   flex-direction: row;
 `;
+
+export default Header;
