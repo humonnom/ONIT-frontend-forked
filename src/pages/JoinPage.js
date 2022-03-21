@@ -44,12 +44,6 @@ function JoinPage() {
     setCertModal(true);
   };
 
-  // useEffect(() => {
-  //   if (termModal === true){
-
-  //   }
-  // }, [termModal]);
-
   const emailCertButton = useMemo(() => {
     if (certState) {
       return (

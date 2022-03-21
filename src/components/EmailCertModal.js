@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { closeSet } from '../asset';
 import {
@@ -27,9 +27,14 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
     method: 'get',
   });
 
-  const handleSubmit = () => {
-    send();
-  };
+  const [hold, setHold] = useState(false);
+
+  const handleSubmit = useCallback(() => {
+    if (hold === false) {
+      send();
+      setHold(true);
+    }
+  }, [hold]);
 
   const emailSend = useMemo(() => {
     if (sendRes && sendRes.data && isOk(sendRes.data.code)) {
@@ -46,17 +51,32 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
     request();
   };
 
+  const [close, setClose] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (close) {
+      closeModal();
+    }
+  }, [close]);
+
+  useEffect(() => {
+    if (success) {
+      certSucceed();
+    }
+  }, [success]);
+
   const resultMessage = useMemo(() => {
     if (res && res.data) {
       if (isOk(res.data.code)) {
-        certSucceed();
-        closeModal();
+        setSuccess(true);
+        setClose(true);
         return null;
       }
       return '이메일에서 인증 버튼을 먼저 눌러주세요!';
     }
     return null;
-  }, [res]);
+  }, [res, certSucceed, closeModal]);
 
   return (
     <div css={[Container]}>
@@ -66,7 +86,9 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
         <button
           type='button'
           css={[commonBtn, btn]}
-          onClick={() => closeModal()}
+          onClick={() => {
+            setClose(true);
+          }}
         >
           <div css={img}>
             <img alt='img' height='50px' src={closeSet} />
@@ -84,7 +106,7 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
             <button
               type='button'
               css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
-              onClick={() => closeModal()}
+              onClick={() => setClose(true)}
             >
               확인
             </button>
@@ -117,10 +139,11 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
                 type='button'
                 css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
                 onClick={() => {
-                  handleSubmit();
+                  handleSubmit(true);
                 }}
               >
-                인증하기
+                {!hold && <p>인증하기</p>}
+                {hold && <p>이메일을 보내고 있어요!</p>}
               </button>
             )}
             {emailSend && (
@@ -128,7 +151,7 @@ function EmailCertModal({ closeModal, certSucceed, email, state }) {
                 type='button'
                 css={[InitButtonStyle, OrangeColorButton, RoundButtonSmall]}
                 onClick={() => {
-                  checkVerification();
+                  checkVerification(true);
                 }}
               >
                 인증결과 확인하기

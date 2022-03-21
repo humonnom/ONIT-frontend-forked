@@ -301,7 +301,7 @@ function TermModal({ closeModal, setAgreementTrue }) {
       <div css={[PopUpBody]}>
         <>
           <div css={MessageWrapper}>
-            <p>{text}</p>
+            {text}
 
             <button
               type='button'
