@@ -283,7 +283,6 @@ function JoinPage() {
                 id='agreement'
                 checked={agreement}
                 onChange={(event) => {
-                  console.log(event.target.checked);
                   setAgreement(event.target.checked);
                 }}
               />

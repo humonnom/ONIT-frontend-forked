@@ -47,6 +47,7 @@ export function useMyInfo() {
       request();
     } else {
       setMyInfo(userInfo);
+      setLoggedIn(true);
     }
     return () => {
       setMyInfo(null);
