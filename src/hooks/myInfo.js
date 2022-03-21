@@ -72,6 +72,6 @@ export function useMyInfo() {
 
   return {
     loggedIn,
-    myInfo,
+    myInfo
   };
 }
