@@ -9,8 +9,11 @@ export default function VideoBox({ element, mode }) {
   function getVideoCode(url) {
     if (!isURL(url)) return '';
     const urlObj = new URL(url);
-    const code = urlObj.searchParams.get('v');
-    return code;
+    if (urlObj.hostname === 'youtu.be') {
+      const pathname = urlObj.pathname.split('/');
+      return pathname[1];
+    }
+    return urlObj.searchParams.get('v');
   }
 
   const videoCode = getVideoCode(element.widget_data.thumbnail) || '';
