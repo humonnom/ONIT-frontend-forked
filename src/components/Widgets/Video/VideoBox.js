@@ -12,6 +12,9 @@ export default function VideoBox({ element, mode }) {
     if (urlObj.hostname === 'youtu.be') {
       const pathname = urlObj.pathname.split('/');
       return pathname[1];
+    } else if (urlObj.pathname.includes('shorts')) {
+      const pathname = urlObj.pathname.split('/');
+      return pathname[2];
     }
     return urlObj.searchParams.get('v');
   }
